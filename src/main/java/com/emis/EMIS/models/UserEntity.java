@@ -15,10 +15,11 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
     private String firstName;
+    private String middleName;
     private String lastName;
     private String email;
     private int nationalId;
-    private int contactNo;
+    private int phoneNo;
     private int password;
 
 }
