@@ -1,9 +1,12 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Collection;
 
 @Entity
 @Data
@@ -21,6 +24,7 @@ public class UserEntity {
     private int nationalId;
     private int phoneNo;
     private int password;
+    private Collection<Role> roles;
 
 }
 
