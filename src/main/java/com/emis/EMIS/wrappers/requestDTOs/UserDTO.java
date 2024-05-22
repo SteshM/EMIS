@@ -17,8 +17,8 @@ public class UserDTO {
     @Column(unique = true)
     private String email;
     private int nationalId;
-    private int contactNo;
-    private int password;
+    private int phoneNo;
+    private String password;
     private int role;
 
 }

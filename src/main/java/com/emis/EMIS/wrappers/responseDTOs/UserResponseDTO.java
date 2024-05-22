@@ -9,5 +9,5 @@ public class UserResponseDTO {
     private String lastName;
     private String email;
     private int nationalId;
-    private int contactNo;
+    private int phoneNo;
 }
