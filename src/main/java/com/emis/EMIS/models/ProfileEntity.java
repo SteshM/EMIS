@@ -16,7 +16,6 @@ public class ProfileEntity {
     private int profileId;
     private String username;
     private String password;
-
     @OneToOne
     @JoinColumn(name = "userId")
     private UserEntity user;
