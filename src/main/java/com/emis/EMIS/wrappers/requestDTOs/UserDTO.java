@@ -14,16 +14,11 @@ public class UserDTO {
     private String middleName;
     private String lastName;
     @Email
+    @Column(unique = true)
     private String email;
     private int nationalId;
     private int contactNo;
     private int password;
-    @Column(nullable = false, updatable = false)
-    private Date dateCreated;
-    private String createdBy;
-    @Column(nullable = false)
-    private Date dateModified;
-    private String modifiedBy;
-    private String status;
+    private int role;
 
 }

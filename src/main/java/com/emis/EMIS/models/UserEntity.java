@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.util.Collection;
 
 @Entity
@@ -25,7 +26,13 @@ public class UserEntity {
     private int phoneNo;
     private int password;
     private Collection<Role> roles;
-
+    @Column(nullable = false, updatable = false)
+    private Date dateCreated;
+    private String createdBy;
+    @Column(nullable = false)
+    private Date dateModified;
+    private String modifiedBy;
+    private String status;
 
 }
 
