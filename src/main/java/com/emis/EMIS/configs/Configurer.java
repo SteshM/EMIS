@@ -1,5 +1,6 @@
-package com.emis.EMIS.security;
+package com.emis.EMIS.configs;
 
+import com.emis.EMIS.security.CustomAuthorization;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
