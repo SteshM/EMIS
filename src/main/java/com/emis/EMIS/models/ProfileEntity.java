@@ -17,4 +17,8 @@ public class ProfileEntity {
     private String username;
     private String password;
 
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+
 }

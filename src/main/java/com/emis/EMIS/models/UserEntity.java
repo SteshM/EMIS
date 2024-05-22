@@ -26,5 +26,6 @@ public class UserEntity {
     private int password;
     private Collection<Role> roles;
 
+
 }
 
