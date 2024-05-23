@@ -22,7 +22,7 @@ public class UserEntity {
     private int nationalId;
     private int phoneNo;
     private String password;
-    private boolean otp;
+    private int otp;
     private String roles;
 //    @Column(nullable = false, updatable = false)
 //    private Date dateCreated;

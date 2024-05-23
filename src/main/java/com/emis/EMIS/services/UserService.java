@@ -3,6 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.security.CustomUserDetails;
 import com.emis.EMIS.utils.Exchanger;
+import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.ResponseManager;
 import com.emis.EMIS.wrappers.ResponseDTO;
@@ -12,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,6 +40,7 @@ public class UserService implements UserDetailsService {
     @Autowired
      Exchanger exchanger;
 
+
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
@@ -53,14 +60,16 @@ public class UserService implements UserDetailsService {
         String password = RandomGenerator.generateChars(4);
         userEntity.setPassword(passwordEncoder().encode(password));
         UserEntity user = dataService.saveUser(userEntity);
-        Map<String, Object> mailMap = new HashMap<>();
-        mailMap.put("receiverName", ""+user.getFirstName()+" "+user.getLastName());
-        mailMap.put("to", user.getEmail());
-        mailMap.put("otp", password);
-        mailMap.put("subject", "OTP password EMIS");
-        mailMap.put("templateName", "otp");
-        exchanger.postRequest(url, mailMap);
+//        Map<String, Object> mailMap = new HashMap<>();
+//        mailMap.put("receiverName", ""+user.getFirstName()+" "+user.getLastName());
+//        mailMap.put("to", user.getEmail());
+//        mailMap.put("otp", password);
+//        mailMap.put("subject", "OTP password EMIS");
+//        mailMap.put("templateName", "otp");
+//        exchanger.postRequest(url, mailMap);
         return responseManager.successResponse("Successfully registered user");
     }
+
+
 
 }

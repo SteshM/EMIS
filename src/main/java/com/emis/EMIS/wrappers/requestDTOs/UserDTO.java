@@ -15,6 +15,7 @@ public class UserDTO {
     private String email;
     private int nationalId;
     private int phoneNo;
+    private String password;
 
 
 
