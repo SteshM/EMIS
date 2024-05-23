@@ -23,6 +23,7 @@ public class UserEntity {
     private int phoneNo;
     private String password;
     private boolean otp;
+    private String roles;
 //    @Column(nullable = false, updatable = false)
 //    private Date dateCreated;
 //    private String createdBy;

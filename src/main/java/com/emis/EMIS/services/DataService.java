@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,6 +19,10 @@ public class DataService {
 
     public UserEntity saveUser(UserEntity userEntity){
         return userRepo.save(userEntity);
+    }
+
+    public Optional<UserEntity> findByEmail(String username)
+    {return userRepo.findByEmail(username);
     }
 //    public ProfileEntity getProfile(String username ){
 //        return profileRepo.findByUsername(username);
