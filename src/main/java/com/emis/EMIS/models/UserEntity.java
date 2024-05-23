@@ -1,13 +1,10 @@
 package com.emis.EMIS.models;
 
-import com.emis.EMIS.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
-import java.util.Collection;
 
 @Entity
 @Data
@@ -25,7 +22,7 @@ public class UserEntity {
     private int nationalId;
     private int phoneNo;
     private String password;
-    private Collection<Role> roles;
+    private boolean otp;
 //    @Column(nullable = false, updatable = false)
 //    private Date dateCreated;
 //    private String createdBy;

@@ -1,9 +1,12 @@
 package com.emis.EMIS.wrappers;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
 public class ResponseDTO {
     private int statusCode;
