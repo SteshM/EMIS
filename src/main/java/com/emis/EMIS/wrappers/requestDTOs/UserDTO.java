@@ -19,6 +19,6 @@ public class UserDTO {
     private int nationalId;
     private int phoneNo;
     private String password;
-    private int role;
+    private String role;
 
 }

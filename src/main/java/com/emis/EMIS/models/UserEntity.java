@@ -24,15 +24,15 @@ public class UserEntity {
     private String email;
     private int nationalId;
     private int phoneNo;
-    private int password;
+    private String password;
     private Collection<Role> roles;
-    @Column(nullable = false, updatable = false)
-    private Date dateCreated;
-    private String createdBy;
-    @Column(nullable = false)
-    private Date dateModified;
-    private String modifiedBy;
-    private String status;
+//    @Column(nullable = false, updatable = false)
+//    private Date dateCreated;
+//    private String createdBy;
+//    @Column(nullable = false)
+//    private Date dateModified;
+//    private String modifiedBy;
+//    private String status;
 
 }
 

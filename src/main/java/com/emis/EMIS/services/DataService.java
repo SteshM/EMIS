@@ -18,6 +18,9 @@ public class DataService {
     public UserEntity saveUser(UserEntity userEntity){
         return userRepo.save(userEntity);
     }
+    public UserEntity getUser(String email ){
+        return userRepo.findByEmail(email);
+    }
 
     public ProfileEntity saveProfile(ProfileEntity profileEntity){
         return profileRepo.save(profileEntity);

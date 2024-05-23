@@ -18,7 +18,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.*;
 
-import static org.springframework.security.config.Elements.JWT;
 
 @Slf4j
 
@@ -53,7 +52,7 @@ public class CustomAuthorization  extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         ArrayList<String> allowedServletPaths = new ArrayList<>();
-        allowedServletPaths.add("/vVerifier verifier = 1/user/all/");
+        allowedServletPaths.add("/v1/user/all/");
         if(this.pathMatches(allowedServletPaths, request.getServletPath())){
             log.info(request.getServletPath()+ ": has been let through");
             filterChain.doFilter(request, response);
