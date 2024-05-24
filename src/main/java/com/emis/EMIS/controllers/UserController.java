@@ -43,6 +43,7 @@ public class UserController {
         ResponseDTO responseDTO = new ResponseDTO();
         Map<String, String> objectMap = new HashMap<>();
         try {
+            log.info("userDTO:: {}", userDTO);
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
             if (authenticate.isAuthenticated()) {
                 String jwtToken =  jwtUtil.generateToken(userDTO.getEmail());

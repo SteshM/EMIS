@@ -16,6 +16,7 @@ public class UserDTO {
     private int nationalId;
     private int phoneNo;
     private String password;
+    private String roles;
 
 
 
