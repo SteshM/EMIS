@@ -13,8 +13,8 @@ public class UserDTO {
     @Email
     @Column(unique = true)
     private String email;
-    private int nationalId;
-    private int phoneNo;
+    private String nationalId;
+    private String phoneNo;
     private String password;
     private String roles;
 

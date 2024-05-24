@@ -8,6 +8,7 @@ import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.ResponseManager;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
+import com.emis.EMIS.wrappers.responseDTOs.UserProfileDTO;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -41,12 +42,10 @@ public class UserService implements UserDetailsService {
      Exchanger exchanger;
 
 
+
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
-    @Value("${email.url}")
-    private String url;
 
 
     public UserDetails loadUserByUsername(String username) {
@@ -59,7 +58,9 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
         String password = RandomGenerator.generateChars(4);
         userEntity.setPassword(passwordEncoder().encode(password));
-        UserEntity user = dataService.saveUser(userEntity);
+        UserEntity savedUser = dataService.saveUser(userEntity);
+        UserProfileDTO userProfileDTO = modelMapper.map(savedUser,UserProfileDTO.class);
+
 //        Map<String, Object> mailMap = new HashMap<>();
 //        mailMap.put("receiverName", ""+user.getFirstName()+" "+user.getLastName());
 //        mailMap.put("to", user.getEmail());
@@ -67,7 +68,7 @@ public class UserService implements UserDetailsService {
 //        mailMap.put("subject", "OTP password EMIS");
 //        mailMap.put("templateName", "otp");
 //        exchanger.postRequest(url, mailMap);
-        return responseManager.successResponse("Successfully registered user");
+        return responseManager.successResponse("Successfully registered user",userProfileDTO);
     }
 
 

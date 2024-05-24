@@ -28,18 +28,18 @@ public class ResponseManager {
 //    return responseDTO;
 //}
 private final UserConfigs userConfigs;
-public ResponseDTO successResponse(Object result){
+public ResponseDTO successResponse(String statusMessage,Object result){
     var response = new ResponseDTO();
     response.setStatusCode(userConfigs.getSuccessStatusCode());
-    response.setStatusMessage(userConfigs.getSuccessStatusMessage());
+    response.setStatusMessage(statusMessage);
     response.setResult(result);
     return response;
 }
-    public ResponseDTO failedResponse(String statusMessage,Object result){
+    public ResponseDTO failedResponse(String statusMessage,int statusCode){
         var response = new ResponseDTO();
-        response.setStatusCode(userConfigs.getFailedStatusCode());
+        response.setStatusCode(statusCode);
         response.setStatusMessage(statusMessage);
-        response.setResult(result);
+
         return response;
     }
 }

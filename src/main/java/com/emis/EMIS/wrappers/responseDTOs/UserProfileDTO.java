@@ -10,6 +10,6 @@ public class UserProfileDTO {
    private String middleName;
    private String lastName;
    private String email;
-   private int phoneNo;
-   private int nationalId;
+   private String phoneNo;
+   private String nationalId;
 }

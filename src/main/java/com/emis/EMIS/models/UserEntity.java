@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 
 @Entity
 @Data
@@ -19,18 +21,17 @@ public class UserEntity {
     private String middleName;
     private String lastName;
     private String email;
-    private int nationalId;
-    private int phoneNo;
+    private String nationalId;
+    private String phoneNo;
     private String password;
-    private int otp;
+    private String otp;
     private String roles;
-//    @Column(nullable = false, updatable = false)
-//    private Date dateCreated;
-//    private String createdBy;
-//    @Column(nullable = false)
-//    private Date dateModified;
-//    private String modifiedBy;
-//    private String status;
+    @Column(nullable = false, updatable = false)
+    private Date dateCreated = new Date();
+    private String createdBy;
+    private Date dateModified;
+    private String modifiedBy;
+    private int status = 1;
 
 }
 
