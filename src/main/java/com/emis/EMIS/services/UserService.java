@@ -56,8 +56,8 @@ public class UserService implements UserDetailsService {
     public ResponseDTO registerUser(UserDTO userDTO) {
         ModelMapper modelMapper = new ModelMapper();
         UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
-        String password = RandomGenerator.generateChars(4);
-        userEntity.setPassword(passwordEncoder().encode(password));
+//        String password = RandomGenerator.generateChars(4);
+        userEntity.setPassword(passwordEncoder().encode(userDTO.getPassword()));
         UserEntity savedUser = dataService.saveUser(userEntity);
         UserProfileDTO userProfileDTO = modelMapper.map(savedUser,UserProfileDTO.class);
 
