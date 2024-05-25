@@ -12,6 +12,7 @@ public class UserConfigs {
     private int successStatusCode;
     private int failedStatusCode;
     private String successStatusMessage;
+    private int otpLength;
     @Value("${email.url}")
     private String url;
 }

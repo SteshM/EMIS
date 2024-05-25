@@ -9,13 +9,18 @@ import com.emis.EMIS.utils.ResponseManager;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.UserProfileDTO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -32,21 +37,11 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@Data
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    @Autowired
-    DataService dataService;
-    @Autowired
-     ResponseManager responseManager;
-    @Autowired
-     Exchanger exchanger;
-
-
-
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
+    private final DataService dataService;
+    private final ResponseManager responseManager;
+    private final OTPService otpService;
 
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);
@@ -56,10 +51,25 @@ public class UserService implements UserDetailsService {
     public ResponseDTO registerUser(UserDTO userDTO) {
         ModelMapper modelMapper = new ModelMapper();
         UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
-//        String password = RandomGenerator.generateChars(4);
-        userEntity.setPassword(passwordEncoder().encode(userDTO.getPassword()));
+
         UserEntity savedUser = dataService.saveUser(userEntity);
+
+        //Call OTP Service
+        otpService.generateOTP(savedUser);
+
         UserProfileDTO userProfileDTO = modelMapper.map(savedUser,UserProfileDTO.class);
+        //try catch
+//        SimpleMailMessage msg = new SimpleMailMessage();
+//        msg.setTo(userDTO.getEmail());
+//
+//        msg.setSubject("Emis - Your One time pin");
+//        msg.setText("This is your temporary pin,  \n " +password);
+//
+//        javaMailSender.send(msg);
+
+        return responseManager.successResponse("Successfully registered user",userProfileDTO);
+    }
+
 
 //        Map<String, Object> mailMap = new HashMap<>();
 //        mailMap.put("receiverName", ""+user.getFirstName()+" "+user.getLastName());
@@ -68,9 +78,5 @@ public class UserService implements UserDetailsService {
 //        mailMap.put("subject", "OTP password EMIS");
 //        mailMap.put("templateName", "otp");
 //        exchanger.postRequest(url, mailMap);
-        return responseManager.successResponse("Successfully registered user",userProfileDTO);
-    }
-
-
 
 }

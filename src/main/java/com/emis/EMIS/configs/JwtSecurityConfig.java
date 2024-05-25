@@ -30,11 +30,13 @@ import java.util.List;
 public class JwtSecurityConfig {
     @Autowired
     private JwtAuthFilter authFilter;
+    @Autowired
+    UserService userService;
 
     @Bean
     public UserDetailsService userDetailsService()
     {
-        return new UserService();
+        return userService;
     }
 
     @Bean

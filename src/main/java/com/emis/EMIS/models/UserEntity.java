@@ -20,11 +20,11 @@ public class UserEntity {
     private String firstName;
     private String middleName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String nationalId;
     private String phoneNo;
     private String password;
-    private String otp;
     private String roles;
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
