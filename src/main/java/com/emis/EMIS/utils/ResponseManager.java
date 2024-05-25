@@ -35,10 +35,11 @@ public ResponseDTO successResponse(String statusMessage,Object result){
     response.setResult(result);
     return response;
 }
-    public ResponseDTO failedResponse(String statusMessage,int statusCode){
+    public ResponseDTO failedResponse(int statusCode, String statusMessage, Object result){
         var response = new ResponseDTO();
         response.setStatusCode(statusCode);
         response.setStatusMessage(statusMessage);
+        response.setResult(result);
 
         return response;
     }

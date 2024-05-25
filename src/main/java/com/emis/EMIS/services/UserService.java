@@ -50,26 +50,36 @@ public class UserService implements UserDetailsService {
 
     public ResponseDTO registerUser(UserDTO userDTO) {
         ModelMapper modelMapper = new ModelMapper();
-        UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
+        try {
+            UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
+            UserEntity savedUser = dataService.saveUser(userEntity);
+            //Call OTP Service
+            otpService.generateOTP(savedUser);
+            UserProfileDTO userProfileDTO = modelMapper.map(savedUser, UserProfileDTO.class);
+            return responseManager.successResponse("Successfully registered user", userProfileDTO);
+        } catch (Exception  psqlException){
+            log.error("Caught an exception",psqlException);
+            UserEntity userEntity = dataService.findByEmail(userDTO.getEmail()).get();
+            UserProfileDTO userProfileDTO = modelMapper.map(userEntity,UserProfileDTO.class);
+            return responseManager.failedResponse(205,"Email already exists",userProfileDTO);
+        }
 
-        UserEntity savedUser = dataService.saveUser(userEntity);
+    }
 
-        //Call OTP Service
-        otpService.generateOTP(savedUser);
 
-        UserProfileDTO userProfileDTO = modelMapper.map(savedUser,UserProfileDTO.class);
-        //try catch
-//        SimpleMailMessage msg = new SimpleMailMessage();
+
+
+
+
+
+
+    //SimpleMailMessage msg = new SimpleMailMessage();
 //        msg.setTo(userDTO.getEmail());
 //
 //        msg.setSubject("Emis - Your One time pin");
 //        msg.setText("This is your temporary pin,  \n " +password);
 //
 //        javaMailSender.send(msg);
-
-        return responseManager.successResponse("Successfully registered user",userProfileDTO);
-    }
-
 
 //        Map<String, Object> mailMap = new HashMap<>();
 //        mailMap.put("receiverName", ""+user.getFirstName()+" "+user.getLastName());
