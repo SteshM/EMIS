@@ -6,6 +6,7 @@ import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.Exchanger;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +97,15 @@ public class OTPService {
         Date expiryDate = calendar.getTime();
 
         // Check if the current date is after the expiry date
-        boolean isExpired = now.after(expiryDate);
-        return isExpired;
+        return now.after(expiryDate);
+    }
+
+    public ResponseDTO regenerateOtp(int userId){
+        var userEntity = dataService.findByUserId(userId);
+        var otpEntity = dataService.findOTPByUserId(userId);
+        otpEntity.setStatus(userConfigs.getInvalidStatus());
+        dataService.saveOTP(otpEntity);
+        generateOTP(userEntity);
+        return utilities.successResponse("Successfully regenerated otp",null);
     }
 }

@@ -1,5 +1,7 @@
 package com.emis.EMIS.controllers;
 
+import com.emis.EMIS.models.UserEntity;
+import com.emis.EMIS.services.OTPService;
 import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.wrappers.ResponseDTO;
@@ -25,6 +27,7 @@ import java.util.Map;
 public class UserController {
     private  final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final OTPService otpService;
 
     private final UserService userService;
 
@@ -42,6 +45,11 @@ public class UserController {
     @PostMapping("/all/verify-otp")
     public ResponseDTO verifyOtp(@RequestBody OtpDTO otpDTO){
         return userService.verifyOTP(otpDTO);
+    }
+
+    @GetMapping("/all/regenerate-otp")
+    public ResponseDTO regenerateOTP(@PathVariable int userId){
+        return otpService.regenerateOtp(userId);
     }
 
 

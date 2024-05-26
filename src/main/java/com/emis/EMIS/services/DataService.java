@@ -34,5 +34,8 @@ public class DataService {
     public OTPEntity findOTPByUserId(int userId){
         return otpRepo.findByUserEntityUserId(userId).orElseThrow();
     }
+    public UserEntity findByUserId(int userId){
+        return userRepo.findByUserId(userId);
+    }
 
 }
