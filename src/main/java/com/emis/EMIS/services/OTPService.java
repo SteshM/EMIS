@@ -3,6 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.models.OTPEntity;
 import com.emis.EMIS.models.UserEntity;
+import com.emis.EMIS.utils.Exchanger;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
@@ -12,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -24,6 +27,7 @@ public class OTPService {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+    private final Exchanger exchanger;
 
     public void generateOTP(UserEntity userEntity){
         //generate a random number
@@ -42,6 +46,14 @@ public class OTPService {
     private void sendOTP( String otp,UserEntity userEntity){
         log.info("OTP:{}", otp);
         //Send via Email
+        Map<String, Object> mailMap = new HashMap<>();
+        mailMap.put("receiverName", ""+userEntity.getFirstName()+" "+userEntity.getLastName());
+        mailMap.put("to", userEntity.getEmail());
+        mailMap.put("otp",otp);
+        mailMap.put("subject", "OTP password EMIS");
+        mailMap.put("templateName", "otp");
+        exchanger.postRequest(userConfigs.getUrl(), mailMap);
+
         //Send via SMS
     }
 
