@@ -3,6 +3,7 @@ package com.emis.EMIS.controllers;
 import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,11 @@ public class UserController {
         return userService.registerUser(userDTO);
     }
 
+    @PostMapping("/all/verify-otp")
+    public ResponseDTO verifyOtp(@RequestBody OtpDTO otpDTO){
+        return userService.verifyOTP(otpDTO);
+    }
+
 
     @PostMapping("/all/login")
     public ResponseEntity<ResponseDTO> login(@RequestBody UserDTO userDTO){
@@ -61,6 +67,7 @@ public class UserController {
             responseDTO.setStatusMessage(ex.getMessage());
             return new ResponseEntity<>(responseDTO, HttpStatus.FORBIDDEN);
         }
+
 
     }
 }

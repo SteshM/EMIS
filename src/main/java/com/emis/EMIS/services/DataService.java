@@ -28,8 +28,11 @@ public class DataService {
     public Optional<UserEntity> findByEmail(String username) {
         return userRepo.findByEmail(username);
     }
-    public OTPEntity saveOTP(OTPEntity otpEntity){
-        return otpRepo.save(otpEntity);
+    public void saveOTP(OTPEntity otpEntity){
+        otpRepo.save(otpEntity);
+    }
+    public OTPEntity findOTPByUserId(int userId){
+        return otpRepo.findByUserEntityUserId(userId).orElseThrow();
     }
 
 }
