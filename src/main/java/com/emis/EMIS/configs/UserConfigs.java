@@ -15,4 +15,6 @@ public class UserConfigs {
     private int otpLength;
     @Value("${email.url}")
     private String url;
+    private int otpExpiryDurationInMinutes;
+    private  int invalidStatus;
 }

@@ -13,9 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +26,8 @@ public class OTPService {
         return new BCryptPasswordEncoder();
     }
     private final Exchanger exchanger;
+    private final RandomGenerator randomGenerator;
+
 
     public void generateOTP(UserEntity userEntity){
         //generate a random number
@@ -37,12 +37,10 @@ public class OTPService {
         otpEntity.setOtp(utilities.encoder(otp));
         otpEntity.setUserEntity(userEntity);
         dataService.saveOTP(otpEntity);
-
         //send out the otp
         this.sendOTP(otp,userEntity);
-
-
     }
+
     private void sendOTP( String otp,UserEntity userEntity){
         log.info("OTP:{}", otp);
         //Send via Email
@@ -62,13 +60,43 @@ public class OTPService {
             var otpEntity = dataService.findOTPByUserId(otpDTO.getUserId());
             log.info("OTP Entity Returned:{}", otpEntity);
             String encodedOtp = utilities.encoder(otpDTO.getOtp());
-            log.info("Encoded OTP:{}", encodedOtp);
-            return Objects.equals(encodedOtp, otpEntity.getOtp());
+            log.info("Encoded OTP is:{}. Proceed to compare it with the OTP fetched from the DB", encodedOtp);
+            if(encodedOtp.equals(otpEntity.getOtp())){
+                log.info("OTP matches. Proceed to check if it is expired");
+                  boolean isOtpExpired= isOtpExpired(otpEntity.getDateCreated());
+                if(isOtpExpired){
+                    log.info("The otp is expired");
+                    return false;
+                } else {
+                    log.info("The otp is not expired proceed to invalidate and return true");
+                    otpEntity.setStatus(userConfigs.getInvalidStatus());
+                    dataService.saveOTP(otpEntity);
+                    return true;
+                }
+            }
+            return false;
         } catch (Exception e){
             log.error("Caught an exception:",e);
             return false;
         }
-
     }
 
+    private boolean isOtpExpired(Date dateCreated){
+        Date now = new Date();
+        int duration = userConfigs.getOtpExpiryDurationInMinutes();
+        log.info("About to check if date is expired given: Duration {} minutes. Date Created:{}. Current Date:{}",duration, dateCreated, now);
+        // Create a Calendar instance and set it to the creation date
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(dateCreated);
+
+        // Add the expiry duration in minutes to the creation date
+        calendar.add(Calendar.MINUTE, duration);
+
+        // Get the expiry date from the calendar
+        Date expiryDate = calendar.getTime();
+
+        // Check if the current date is after the expiry date
+        boolean isExpired = now.after(expiryDate);
+        return isExpired;
+    }
 }

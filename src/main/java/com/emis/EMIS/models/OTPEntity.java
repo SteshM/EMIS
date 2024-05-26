@@ -3,6 +3,9 @@ package com.emis.EMIS.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DialectOverride;
+import org.hibernate.annotations.SQLRestriction;
+import org.hibernate.annotations.Where;
 
 import java.util.Date;
 
@@ -10,6 +13,7 @@ import java.util.Date;
 @Setter
 @Getter
 @Table(name = "otp")
+@SQLRestriction("status = '1'")
 public class OTPEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
