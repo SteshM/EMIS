@@ -1,10 +1,8 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.models.OTPEntity;
-import com.emis.EMIS.models.ProfileEntity;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.repositories.OTPRepo;
-import com.emis.EMIS.repositories.ProfileRepo;
 import com.emis.EMIS.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
