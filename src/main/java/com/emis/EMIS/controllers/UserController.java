@@ -47,7 +47,7 @@ public class UserController {
         return userService.verifyOTP(otpDTO);
     }
 
-    @GetMapping("/all/regenerate-otp")
+    @GetMapping("/all/regenerate-otp/{userId}")
     public ResponseDTO regenerateOTP(@PathVariable int userId){
         return otpService.regenerateOtp(userId);
     }
