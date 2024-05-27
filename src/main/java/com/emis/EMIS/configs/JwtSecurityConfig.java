@@ -44,7 +44,10 @@ public class JwtSecurityConfig {
         return http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers("/v1/user/all").permitAll()
-//                        .requestMatchers("/v1/user/all").hasAuthority("ADMIN")
+                        .requestMatchers("/v1/sdm").hasAuthority("SUPER ADMIN")
+                        .requestMatchers("/v1/adm").hasAuthority("ADMIN")
+                        .requestMatchers("/v1/ag").hasAuthority("AGENT")
+                        .requestMatchers("/v1/pn").hasAuthority("PARTNER")
                         .anyRequest().permitAll()
                 )
                 .sessionManagement((sessionManagement) -> sessionManagement
