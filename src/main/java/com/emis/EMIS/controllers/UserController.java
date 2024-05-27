@@ -6,6 +6,7 @@ import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
+import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,10 @@ public class UserController {
     @GetMapping("/all/regenerate-otp/{userId}")
     public ResponseDTO regenerateOTP(@PathVariable int userId){
         return otpService.regenerateOtp(userId);
+    }
+    @PostMapping("/all/change-password")
+    public ResponseDTO changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO){
+        return otpService.changePassword(passwordChangeDTO);
     }
 
 

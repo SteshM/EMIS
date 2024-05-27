@@ -37,5 +37,8 @@ public class DataService {
     public UserEntity findByUserId(int userId){
         return userRepo.findByUserId(userId);
     }
+    public UserEntity savePassword(UserEntity userEntity){
+        return userRepo.save(userEntity);
+    }
 
 }

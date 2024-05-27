@@ -8,6 +8,7 @@ import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
+import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +24,8 @@ public class OTPService {
     private final DataService dataService;
     private final UserConfigs userConfigs;
     private final Utilities utilities;
+
+
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
@@ -107,5 +110,13 @@ public class OTPService {
         dataService.saveOTP(otpEntity);
         generateOTP(userEntity);
         return utilities.successResponse("Successfully regenerated otp",null);
+    }
+
+    public ResponseDTO changePassword(PasswordChangeDTO passwordChangeDTO) {
+        UserEntity userEntity = dataService.findByEmail(passwordChangeDTO.getEmail()).get();
+       userEntity.setPassword(passwordEncoder().encode(passwordChangeDTO.getPassword()));
+       dataService.savePassword(userEntity);
+        return utilities.successResponse("password changed successfully",null);
+
     }
 }
