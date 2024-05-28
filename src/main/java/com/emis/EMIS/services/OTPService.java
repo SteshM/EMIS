@@ -7,13 +7,17 @@ import com.emis.EMIS.utils.Exchanger;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.requestDTOs.ForgotPasswordDTO;
 import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
 import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 
@@ -120,4 +124,17 @@ public class OTPService {
 
     }
 
+    public ResponseDTO forgotPassword(ForgotPasswordDTO forgotPasswordDTO, int id) {
+        {
+            ModelMapper modelMapper = new ModelMapper();
+            UserEntity userEntity = dataService.findByUserId(id);
+            UserEntity user = modelMapper.map(forgotPasswordDTO, UserEntity.class);
+            user.setPassword(passwordEncoder().encode(userEntity.getPassword()));
+            log.info("send a request to reset password");
+            dataService.savePassword(userEntity);
+            return utilities.successResponse("password reset successfully", null);
+
+        }
+    }
 }
+

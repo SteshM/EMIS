@@ -5,6 +5,7 @@ import com.emis.EMIS.services.OTPService;
 import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.requestDTOs.ForgotPasswordDTO;
 import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
 import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
@@ -82,6 +83,10 @@ public class UserController {
         }
 
 
+    }
+    @PutMapping("/all/forgot-password/{id}")
+    public ResponseDTO forgotPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO,@PathVariable int id){
+        return otpService.forgotPassword(forgotPasswordDTO,id);
     }
 }
 

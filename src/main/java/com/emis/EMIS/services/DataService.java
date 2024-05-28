@@ -15,7 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DataService {
     private final UserRepo userRepo;
-    private final ProfileRepo profileRepo;
     private final OTPRepo otpRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
