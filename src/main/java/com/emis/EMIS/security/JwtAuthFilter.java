@@ -21,8 +21,6 @@ import java.io.IOException;
 @Getter
 @Setter
 @Slf4j
-
-@Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtil jwtUtil;

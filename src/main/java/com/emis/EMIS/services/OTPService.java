@@ -8,7 +8,7 @@ import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.ForgotPasswordDTO;
-import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
+import com.emis.EMIS.wrappers.requestDTOs.ActivateAccDTO;
 import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.*;
 
@@ -28,11 +26,10 @@ public class OTPService {
     private final DataService dataService;
     private final UserConfigs userConfigs;
     private final Utilities utilities;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
     private final Exchanger exchanger;
     private final RandomGenerator randomGenerator;
 
@@ -46,28 +43,24 @@ public class OTPService {
         otpEntity.setUserEntity(userEntity);
         dataService.saveOTP(otpEntity);
         //send out the otp
+        emailService.send(userEntity, "Your OTP is "+otp);
         this.sendOTP(otp,userEntity);
     }
 
     private void sendOTP( String otp,UserEntity userEntity){
         log.info("OTP:{}", otp);
+
         //Send via Email
-        Map<String, Object> mailMap = new HashMap<>();
-        mailMap.put("receiverName", ""+userEntity.getFirstName()+" "+userEntity.getLastName());
-        mailMap.put("to", userEntity.getEmail());
-        mailMap.put("otp",otp);
-        mailMap.put("subject", "OTP password EMIS");
-        mailMap.put("templateName", "otp");
-        exchanger.postRequest(userConfigs.getUrl(), mailMap);
+       emailService.send(userEntity, "Your OTP is ");
 
         //Send via SMS
     }
 
-    public boolean verifyOtp(OtpDTO otpDTO) {
+    public boolean verifyOtp(int userId, String otp) {
         try {
-            var otpEntity = dataService.findOTPByUserId(otpDTO.getUserId());
+            var otpEntity = dataService.findOTPByUserId(userId);
             log.info("OTP Entity Returned:{}", otpEntity);
-            String encodedOtp = utilities.encoder(otpDTO.getOtp());
+            String encodedOtp = utilities.encoder(otp);
             log.info("Encoded OTP is:{}. Proceed to compare it with the OTP fetched from the DB", encodedOtp);
             if(encodedOtp.equals(otpEntity.getOtp())){
                 log.info("OTP matches. Proceed to check if it is expired");
@@ -96,13 +89,10 @@ public class OTPService {
         // Create a Calendar instance and set it to the creation date
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(dateCreated);
-
         // Add the expiry duration in minutes to the creation date
         calendar.add(Calendar.MINUTE, duration);
-
         // Get the expiry date from the calendar
         Date expiryDate = calendar.getTime();
-
         // Check if the current date is after the expiry date
         return now.after(expiryDate);
     }
@@ -116,23 +106,26 @@ public class OTPService {
         return utilities.successResponse("Successfully regenerated otp",null);
     }
 
-    public ResponseDTO changePassword(PasswordChangeDTO passwordChangeDTO) {
-        UserEntity userEntity = dataService.findByEmail(passwordChangeDTO.getEmail()).get();
-       userEntity.setPassword(passwordEncoder().encode(passwordChangeDTO.getPassword()));
-       dataService.savePassword(userEntity);
-        return utilities.successResponse("password changed successfully",null);
+//    public ResponseDTO changePassword(PasswordChangeDTO passwordChangeDTO) {
+//        UserEntity userEntity = dataService.findByEmail(passwordChangeDTO.getEmail()).get();
+//       userEntity.setPassword(passwordEncoder.encode(passwordChangeDTO.getPassword()));
+//       dataService.savePassword(userEntity);
+//        return utilities.successResponse("password changed successfully",null);
+//
+//    }
 
-    }
-
-    public ResponseDTO forgotPassword(ForgotPasswordDTO forgotPasswordDTO, int id) {
+    public ResponseDTO forgotPassword(String email) {
         {
-            ModelMapper modelMapper = new ModelMapper();
-            UserEntity userEntity = dataService.findByUserId(id);
-            UserEntity user = modelMapper.map(forgotPasswordDTO, UserEntity.class);
-            user.setPassword(passwordEncoder().encode(userEntity.getPassword()));
-            log.info("send a request to reset password");
-            dataService.savePassword(userEntity);
-            return utilities.successResponse("password reset successfully", null);
+            UserEntity userEntity = dataService.findByEmail(email).get();
+            if(userEntity != null){
+                userEntity.setStatus(false);
+                userEntity.setPassword(null);
+                dataService.saveUser(userEntity);
+                generateOTP(userEntity);
+                //generate otp and send
+                return utilities.successResponse("password reset successfully", null);
+            }
+            return utilities.failedResponse(400, "User not exist", null);
 
         }
     }
