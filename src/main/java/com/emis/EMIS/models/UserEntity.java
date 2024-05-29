@@ -34,7 +34,7 @@ public class UserEntity {
     private String createdBy;
     private Date dateModified;
     private String modifiedBy;
-    private int status = 1;
+    private boolean status;
 
     private Collection<UserType> roles = new ArrayList<>();
 

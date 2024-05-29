@@ -1,18 +1,12 @@
 package com.emis.EMIS.controllers;
 
-import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.services.OTPService;
 import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.wrappers.ResponseDTO;
-import com.emis.EMIS.wrappers.requestDTOs.ForgotPasswordDTO;
-import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
-import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
-import lombok.Data;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,19 +38,19 @@ public class UserController {
         return userService.registerUser(userDTO);
     }
 
-    @PostMapping("/all/verify-otp")
-    public ResponseDTO verifyOtp(@RequestBody OtpDTO otpDTO){
-        return userService.verifyOTP(otpDTO);
+    @PostMapping("/all/activateAcc")
+    public ResponseDTO verifyOtp(@RequestBody ActivateAccDTO activateAccDTO){
+        return userService.activateAccount(activateAccDTO);
     }
 
     @GetMapping("/all/regenerate-otp/{userId}")
     public ResponseDTO regenerateOTP(@PathVariable int userId){
         return otpService.regenerateOtp(userId);
     }
-    @PostMapping("/all/change-password")
-    public ResponseDTO changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO){
-        return otpService.changePassword(passwordChangeDTO);
-    }
+//    @PostMapping("/all/change-password")
+//    public ResponseDTO changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO){
+//        return otpService.changePassword(passwordChangeDTO);
+//    }
 
 
     @PostMapping("/all/login")
@@ -84,9 +78,14 @@ public class UserController {
 
 
     }
-    @PutMapping("/all/forgot-password/{id}")
-    public ResponseDTO forgotPassword(@RequestBody ForgotPasswordDTO forgotPasswordDTO,@PathVariable int id){
-        return otpService.forgotPassword(forgotPasswordDTO,id);
+    @PostMapping("/all/forgot-password/{email}")
+    public ResponseDTO forgotPassword(@PathVariable String email){
+        return otpService.forgotPassword(email);
+    }
+
+    @PostMapping("/v1/admsdm/add-authority")
+    public ResponseDTO addAuthority(@RequestBody AddAuthDto addAuthDto){
+        return userService.addAuthority(addAuthDto);
     }
 }
 

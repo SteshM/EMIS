@@ -5,15 +5,18 @@ import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.security.CustomUserDetails;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
-import com.emis.EMIS.wrappers.requestDTOs.OtpDTO;
+import com.emis.EMIS.wrappers.requestDTOs.ActivateAccDTO;
+import com.emis.EMIS.wrappers.requestDTOs.AddAuthDto;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.UserProfileDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,6 +30,8 @@ public class UserService implements UserDetailsService {
     private final DataService dataService;
     private final Utilities utilities;
     private final OTPService otpService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);
@@ -40,7 +45,7 @@ public class UserService implements UserDetailsService {
             Collection<UserType> userTypes=new ArrayList<>();
             userTypes.add(UserType.valueOf(userDTO.getRoles()));
             userEntity.setRoles(userTypes);
-
+            userEntity.setStatus(false);
             UserEntity savedUser = dataService.saveUser(userEntity);
             //Call OTP Service
             otpService.generateOTP(savedUser);
@@ -56,30 +61,32 @@ public class UserService implements UserDetailsService {
 
     }
 
-    public ResponseDTO verifyOTP(OtpDTO otpDTO) {
-        boolean isOtpVerified = otpService.verifyOtp(otpDTO);
-        if (isOtpVerified){
-            return utilities.successResponse("Correct Otp",null);
+    public ResponseDTO activateAccount(ActivateAccDTO activateAccDTO) {
+
+        UserEntity userEntity = dataService.findByEmail(activateAccDTO.getEmail()).get();
+        if(userEntity != null){
+            boolean isOtpVerified = otpService.verifyOtp(userEntity.getUserId(), activateAccDTO.getOtp());
+            if(isOtpVerified){
+                userEntity.setStatus(true);
+                userEntity.setPassword(passwordEncoder.encode(activateAccDTO.getPassword()));
+                dataService.saveUser(userEntity);
+            }
         }
         return utilities.failedResponse(401,"Incorrect otp",null);
 
     }
 
 
-    //SimpleMailMessage msg = new SimpleMailMessage();
-//        msg.setTo(userDTO.getEmail());
-//
-//        msg.setSubject("Emis - Your One time pin");
-//        msg.setText("This is your temporary pin,  \n " +password);
-//
-//        javaMailSender.send(msg);
+    public ResponseDTO addAuthority(AddAuthDto addAuthDto){
+        UserEntity userEntity = dataService.findByEmail(addAuthDto.getEmail()).get();
+        if(userEntity != null){
+            Collection<UserType> userTypes = userEntity.getRoles();
+            userTypes.add(UserType.valueOf(addAuthDto.getAuthority()));
+            userEntity.setRoles(userTypes);
+            dataService.saveUser(userEntity);
+            return utilities.successResponse("Successfully added authority",null);
+        }
+        return utilities.failedResponse(400,"cant add authority",null);
 
-//        Map<String, Object> mailMap = new HashMap<>();
-//        mailMap.put("receiverName", ""+user.getFirstName()+" "+user.getLastName());
-//        mailMap.put("to", user.getEmail());
-//        mailMap.put("otp", password);
-//        mailMap.put("subject", "OTP password EMIS");
-//        mailMap.put("templateName", "otp");
-//        exchanger.postRequest(url, mailMap);
-
+    }
 }

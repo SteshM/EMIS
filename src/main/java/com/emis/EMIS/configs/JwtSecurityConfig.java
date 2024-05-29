@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,15 +29,18 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class JwtSecurityConfig {
+//    @Autowired
+//    UserService userService;
+//
     @Autowired
-    private JwtAuthFilter authFilter;
-    @Autowired
-    UserService userService;
+    PasswordEncoder passwordEncoder;
 
-    @Bean
-    public UserDetailsService userDetailsService()
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    public void userDetailsService(AuthenticationManagerBuilder authenticationManagerBuilder)throws Exception
     {
-        return userService;
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(this.passwordEncoder);
     }
 
     @Bean
@@ -44,8 +48,9 @@ public class JwtSecurityConfig {
         return http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers("/v1/user/all").permitAll()
-                        .requestMatchers("/v1/sdm/**").hasAuthority("SUPER ADMIN")
+                        .requestMatchers("/v1/sdm/**").hasAuthority("SUPERADMIN")
                         .requestMatchers("/v1/adm/**").hasAuthority("ADMIN")
+                        .requestMatchers("/v1/admsdm/**").hasAnyAuthority("ADMIN","SUPERADMIN")
                         .requestMatchers("/v1/ag/**").hasAuthority("AGENT")
                         .requestMatchers("/v1/pn/**").hasAuthority("PARTNER")
                         .anyRequest().permitAll()
@@ -54,7 +59,7 @@ public class JwtSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .cors((cors) -> cors
                         .configurationSource(request-> {
                             CorsConfiguration configuration = new CorsConfiguration();
@@ -68,16 +73,13 @@ public class JwtSecurityConfig {
     }
 
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
         return authenticationProvider;
     }
 

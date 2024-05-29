@@ -6,7 +6,8 @@ import lombok.Setter;
 @Setter
 @Getter
 
-public class OtpDTO {
+public class ActivateAccDTO {
     private String otp;
-    private int userId;
+    private String email;
+    private String password;
 }
