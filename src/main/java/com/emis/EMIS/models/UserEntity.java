@@ -1,10 +1,13 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 
@@ -25,13 +28,15 @@ public class UserEntity {
     private String nationalId;
     private String phoneNo;
     private String password;
-    private String roles;
+//    private String roles;
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
     private String createdBy;
     private Date dateModified;
     private String modifiedBy;
     private int status = 1;
+
+    private Collection<UserType> roles = new ArrayList<>();
 
 }
 

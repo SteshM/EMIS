@@ -1,5 +1,6 @@
 package com.emis.EMIS.security;
 
+import com.emis.EMIS.enums.UserType;
 import com.emis.EMIS.models.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,14 +21,14 @@ public class CustomUserDetails implements UserDetails {
 
         private final String username;
         private final String password;
-        private final List<GrantedAuthority> authorities;
+        private Collection<SimpleGrantedAuthority> authorities;
 
         public CustomUserDetails(UserEntity user) {
             this.username = user.getEmail();
             this.password = user.getPassword();
-            this.authorities = Arrays.stream(user.getRoles().split(","))
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
+            for (UserType userType: user.getRoles()){
+                authorities.add(new SimpleGrantedAuthority(userType.toString()));
+            }
         }
 
         @Override

@@ -1,5 +1,6 @@
 package com.emis.EMIS.services;
 
+import com.emis.EMIS.enums.UserType;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.security.CustomUserDetails;
 import com.emis.EMIS.utils.Utilities;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -34,6 +37,10 @@ public class UserService implements UserDetailsService {
         ModelMapper modelMapper = new ModelMapper();
         try {
             UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
+            Collection<UserType> userTypes=new ArrayList<>();
+            userTypes.add(UserType.valueOf(userDTO.getRoles()));
+            userEntity.setRoles(userTypes);
+
             UserEntity savedUser = dataService.saveUser(userEntity);
             //Call OTP Service
             otpService.generateOTP(savedUser);
