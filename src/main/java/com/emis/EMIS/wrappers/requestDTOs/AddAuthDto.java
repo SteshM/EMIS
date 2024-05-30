@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class AddAuthDto {
     private String email;
-    private String authority;
+    private int roleId;
 }

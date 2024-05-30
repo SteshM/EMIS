@@ -1,6 +1,7 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.UserType;
+import com.emis.EMIS.models.RolesEntity;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.security.CustomUserDetails;
 import com.emis.EMIS.utils.Utilities;
@@ -37,10 +38,10 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        Collection<UserType> userTypes = credential.get().getRoles();
+        Collection<RolesEntity> roles = credential.get().getRoles();
 
-        for(UserType userType: userTypes){
-            authorities.add(new SimpleGrantedAuthority(userType.toString()));
+        for(RolesEntity rolesEntity: roles){
+            authorities.add(new SimpleGrantedAuthority(rolesEntity.getRole()));
         }
 
         return new User(credential.get().getEmail(), credential.get().getPassword(), authorities);
@@ -50,9 +51,7 @@ public class UserService implements UserDetailsService {
         ModelMapper modelMapper = new ModelMapper();
         try {
             UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
-            Collection<UserType> userTypes=new ArrayList<>();
-            userTypes.add(UserType.valueOf(userDTO.getRoles()));
-            userEntity.setRoles(userTypes);
+            Collection<RolesEntity> roles=new ArrayList<>();
             userEntity.setStatus(false);
             UserEntity savedUser = dataService.saveUser(userEntity);
             //Call OTP Service
@@ -90,9 +89,8 @@ public class UserService implements UserDetailsService {
     public ResponseDTO addAuthority(AddAuthDto addAuthDto){
         UserEntity userEntity = dataService.findByEmail(addAuthDto.getEmail()).get();
         if(userEntity != null){
-            Collection<UserType> userTypes = userEntity.getRoles();
-            userTypes.add(UserType.valueOf(addAuthDto.getAuthority()));
-            userEntity.setRoles(userTypes);
+            Collection<RolesEntity> roles = userEntity.getRoles();
+            RolesEntity role = dataService.findRoleById(addAuthDto.getRoleId());
             dataService.saveUser(userEntity);
             return utilities.successResponse("Successfully added authority",null);
         }

@@ -1,8 +1,10 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.models.OTPEntity;
+import com.emis.EMIS.models.RolesEntity;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.repositories.OTPRepo;
+import com.emis.EMIS.repositories.RolesRepo;
 import com.emis.EMIS.repositories.UserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class DataService {
     private final UserRepo userRepo;
     private final OTPRepo otpRepo;
+    private final RolesRepo rolesRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -37,6 +40,9 @@ public class DataService {
     }
     public UserEntity savePassword(UserEntity userEntity){
         return userRepo.save(userEntity);
+    }
+    public RolesEntity findRoleById(int roleId){
+        return rolesRepo.findByRoleId(roleId);
     }
 
 }

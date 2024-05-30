@@ -28,6 +28,9 @@ public class UserEntity {
     private String nationalId;
     private String phoneNo;
     private String password;
+
+    //Add other fields
+
 //    private String roles;
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
@@ -35,8 +38,11 @@ public class UserEntity {
     private Date dateModified;
     private String modifiedBy;
     private boolean status;
+    private int profileId;
 
-    private Collection<UserType> roles = new ArrayList<>();
+    @ManyToMany
+    private Collection<RolesEntity> roles;
+
 
 }
 
