@@ -27,6 +27,4 @@ public class UserConfigs {
     private String otpChangePasswordTextMessage;
     private String passwordResetSubjectMessage;
     private String passwordResetTextMessage;
-
-
 }

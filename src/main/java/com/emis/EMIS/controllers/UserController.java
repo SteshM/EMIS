@@ -47,6 +47,7 @@ public class UserController {
     public ResponseDTO regenerateOTP(@PathVariable int userId){
         return otpService.regenerateOtp(userId);
     }
+//
 //    @PostMapping("/all/change-password")
 //    public ResponseDTO changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO){
 //        return otpService.changePassword(passwordChangeDTO);
@@ -59,7 +60,9 @@ public class UserController {
         Map<String, String> objectMap = new HashMap<>();
         try {
             log.info("userDTO:: {}", userDTO);
+            userService.loadUserByUsername(userDTO.getEmail());
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+
             if (authenticate.isAuthenticated()) {
                 String jwtToken =  jwtUtil.generateToken(userDTO.getEmail());
                 objectMap.put("jwtToken", jwtToken);

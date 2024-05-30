@@ -7,13 +7,8 @@ import com.emis.EMIS.utils.Exchanger;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
-import com.emis.EMIS.wrappers.requestDTOs.ForgotPasswordDTO;
-import com.emis.EMIS.wrappers.requestDTOs.ActivateAccDTO;
-import com.emis.EMIS.wrappers.requestDTOs.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

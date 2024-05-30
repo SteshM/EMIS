@@ -12,6 +12,7 @@ import com.emis.EMIS.wrappers.responseDTOs.UserProfileDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,11 +32,18 @@ public class UserService implements UserDetailsService {
     private final Utilities utilities;
     private final OTPService otpService;
     private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
+
 
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);
-        return credential.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("User not found with name :" + username));
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        Collection<UserType> userTypes = credential.get().getRoles();
+
+        for(UserType userType: userTypes){
+            authorities.add(new SimpleGrantedAuthority(userType.toString()));
+        }
+
+        return new User(credential.get().getEmail(), credential.get().getPassword(), authorities);
     }
 
     public ResponseDTO registerUser(UserDTO userDTO) {
@@ -66,10 +74,12 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = dataService.findByEmail(activateAccDTO.getEmail()).get();
         if(userEntity != null){
             boolean isOtpVerified = otpService.verifyOtp(userEntity.getUserId(), activateAccDTO.getOtp());
+            log.info("Check if otp is verified: {}",isOtpVerified);
             if(isOtpVerified){
                 userEntity.setStatus(true);
                 userEntity.setPassword(passwordEncoder.encode(activateAccDTO.getPassword()));
                 dataService.saveUser(userEntity);
+                return utilities.successResponse("Your account has been activated successfully, proceed to login",null);
             }
         }
         return utilities.failedResponse(401,"Incorrect otp",null);
