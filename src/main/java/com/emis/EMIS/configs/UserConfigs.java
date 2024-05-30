@@ -17,14 +17,10 @@ public class UserConfigs {
     private int failedStatusCode;
     private String successStatusMessage;
     private int otpLength;
-//    @Value("${email.url}")
-//    private String url;
     private int otpExpiryDurationInMinutes;
     private  int invalidStatus;
     private String otpSubjectMessage;
     private String otpTextMessage;
-    private String otpChangePasswordSubjectMessage;
-    private String otpChangePasswordTextMessage;
     private String passwordResetSubjectMessage;
     private String passwordResetTextMessage;
 

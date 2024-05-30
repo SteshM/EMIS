@@ -26,9 +26,7 @@ public class CustomUserDetails implements UserDetails {
         public CustomUserDetails(UserEntity user) {
             this.username = user.getEmail();
             this.password = user.getPassword();
-            for (UserType userType: user.getRoles()){
-                authorities.add(new SimpleGrantedAuthority(userType.toString()));
-            }
+
         }
 
         @Override

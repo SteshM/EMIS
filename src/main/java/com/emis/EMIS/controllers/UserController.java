@@ -32,6 +32,11 @@ public class UserController {
         return "welcome";
     }
 
+    @PostMapping("/all/create-profile")
+    public ResponseDTO createProfile(ProfileDto profileDto){
+        return userService.createProfile(profileDto);
+    }
+
     @PostMapping("/all/register")
     public ResponseDTO register(@RequestBody UserDTO userDTO){
         log.info("Register request received from the customer::{}",userDTO);
@@ -47,12 +52,6 @@ public class UserController {
     public ResponseDTO regenerateOTP(@PathVariable int userId){
         return otpService.regenerateOtp(userId);
     }
-//
-//    @PostMapping("/all/change-password")
-//    public ResponseDTO changePassword(@RequestBody PasswordChangeDTO passwordChangeDTO){
-//        return otpService.changePassword(passwordChangeDTO);
-//    }
-
 
     @PostMapping("/all/login")
     public ResponseEntity<ResponseDTO> login(@RequestBody UserDTO userDTO){
@@ -90,5 +89,7 @@ public class UserController {
     public ResponseDTO addAuthority(@RequestBody AddAuthDto addAuthDto){
         return userService.addAuthority(addAuthDto);
     }
+
+
 }
 

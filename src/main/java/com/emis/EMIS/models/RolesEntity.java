@@ -1,12 +1,14 @@
 package com.emis.EMIS.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
+@Builder
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "roles")
 public class RolesEntity {
     @Id
