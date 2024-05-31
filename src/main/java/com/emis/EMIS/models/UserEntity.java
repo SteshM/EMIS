@@ -28,10 +28,6 @@ public class UserEntity {
     private String nationalId;
     private String phoneNo;
     private String password;
-
-    //Add other fields
-
-//    private String roles;
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
     private String createdBy;

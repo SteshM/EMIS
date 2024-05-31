@@ -22,7 +22,7 @@ public class DataService {
     private final UserRepo userRepo;
     private final OTPRepo otpRepo;
     private final RolesRepo rolesRepo;
-    private ProfileRepo profileRepo;
+    private final ProfileRepo profileRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);

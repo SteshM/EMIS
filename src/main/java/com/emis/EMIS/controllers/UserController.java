@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @PostMapping("/all/create-profile")
-    public ResponseDTO createProfile(ProfileDto profileDto){
+    public ResponseDTO createProfile(@RequestBody ProfileDto profileDto){
         return userService.createProfile(profileDto);
     }
 
