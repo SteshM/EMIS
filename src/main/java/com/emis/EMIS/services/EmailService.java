@@ -20,7 +20,6 @@ public class EmailService {
     public void send(UserEntity userEntity, String text){
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo(userEntity.getEmail());
-        msg.setSubject(userConfigs.getOtpSubjectMessage());
         msg.setText(text);
         javaMailSender.send(msg);
     }

@@ -19,10 +19,6 @@ public class UserConfigs {
     private int otpLength;
     private int otpExpiryDurationInMinutes;
     private  int invalidStatus;
-    private String otpSubjectMessage;
-    private String otpTextMessage;
-    private String passwordResetSubjectMessage;
-    private String passwordResetTextMessage;
 
     private String CANCREATEADMIN;
 }

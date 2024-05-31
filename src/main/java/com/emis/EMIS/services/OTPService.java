@@ -101,14 +101,6 @@ public class OTPService {
         return utilities.successResponse("Successfully regenerated otp",null);
     }
 
-//    public ResponseDTO changePassword(PasswordChangeDTO passwordChangeDTO) {
-//        UserEntity userEntity = dataService.findByEmail(passwordChangeDTO.getEmail()).get();
-//       userEntity.setPassword(passwordEncoder.encode(passwordChangeDTO.getPassword()));
-//       dataService.savePassword(userEntity);
-//        return utilities.successResponse("password changed successfully",null);
-//
-//    }
-
     public ResponseDTO forgotPassword(String email) {
         {
             UserEntity userEntity = dataService.findByEmail(email).get();
