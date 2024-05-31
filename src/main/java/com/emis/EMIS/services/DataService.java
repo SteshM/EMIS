@@ -1,13 +1,7 @@
 package com.emis.EMIS.services;
 
-import com.emis.EMIS.models.OTPEntity;
-import com.emis.EMIS.models.ProfileEntity;
-import com.emis.EMIS.models.RolesEntity;
-import com.emis.EMIS.models.UserEntity;
-import com.emis.EMIS.repositories.OTPRepo;
-import com.emis.EMIS.repositories.ProfileRepo;
-import com.emis.EMIS.repositories.RolesRepo;
-import com.emis.EMIS.repositories.UserRepo;
+import com.emis.EMIS.models.*;
+import com.emis.EMIS.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -23,6 +17,7 @@ public class DataService {
     private final OTPRepo otpRepo;
     private final RolesRepo rolesRepo;
     private final ProfileRepo profileRepo;
+    private final AgentRepo agentRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -52,4 +47,8 @@ public class DataService {
     }
     public ProfileEntity saveProfile(ProfileEntity profileEntity){
         return profileRepo.save(profileEntity);}
+
+    public AgentInfoEntity saveAgent(AgentInfoEntity agentInfo){
+        return agentRepo.save(agentInfo);
+    }
 }

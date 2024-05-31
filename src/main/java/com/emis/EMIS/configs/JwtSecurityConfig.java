@@ -29,9 +29,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class JwtSecurityConfig {
-//    @Autowired
-//    UserService userService;
-//
     @Autowired
     PasswordEncoder passwordEncoder;
 

@@ -19,6 +19,13 @@ public class UserConfigs {
     private int otpLength;
     private int otpExpiryDurationInMinutes;
     private  int invalidStatus;
+    private int activeStatus;
+    private int inactiveStatus;
+    private int pendingStatus;
 
     private String CANCREATEADMIN;
+    private String CANENROLAGENT;
+    private String CANUPDATELAGENT;
+    private String CANVIEWAGENTS;
+    private String CANDELETEAGENTS;
 }

@@ -2,11 +2,12 @@ package com.emis.EMIS.wrappers.requestDTOs;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-
-@Data
-public class UserDTO {
+@Setter
+@Getter
+public class AgentRequestDTO {
     private String firstName;
     private String middleName;
     private String lastName;
@@ -18,6 +19,7 @@ public class UserDTO {
     private String password;
     private String roles;
     private String username;
-
-
+    private String agencyName;
+    private String jobTitle;
+    private String emergencyContact;
 }
