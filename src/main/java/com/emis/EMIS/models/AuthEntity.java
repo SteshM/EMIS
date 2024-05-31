@@ -20,4 +20,8 @@ public class AuthEntity {
     private Timestamp lastLogin;
     private int  failedLoginAttempts;
     private String status;
+
+    @ManyToOne
+    @JoinColumn(name = "userId",nullable = false)
+    UserEntity userEntity;
 }

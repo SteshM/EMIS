@@ -29,7 +29,7 @@ public class UserEntity {
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
     private String createdBy;
-    private Date dateModified;
+    private Date dateModified =new Date();
     private String modifiedBy;
     private boolean status;
     private int profileId;
