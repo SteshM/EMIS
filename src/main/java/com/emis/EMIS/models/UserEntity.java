@@ -1,12 +1,10 @@
 package com.emis.EMIS.models;
 
-import com.emis.EMIS.enums.UserType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 

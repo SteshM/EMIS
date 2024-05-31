@@ -1,10 +1,8 @@
 package com.emis.EMIS.services;
 
-import com.emis.EMIS.enums.UserType;
 import com.emis.EMIS.models.ProfileEntity;
 import com.emis.EMIS.models.RolesEntity;
 import com.emis.EMIS.models.UserEntity;
-import com.emis.EMIS.security.CustomUserDetails;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.ActivateAccDTO;
@@ -19,7 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

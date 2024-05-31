@@ -1,18 +1,14 @@
 package com.emis.EMIS.security;
 
-import com.emis.EMIS.enums.UserType;
 import com.emis.EMIS.models.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+
 @Setter
 @Getter
 
