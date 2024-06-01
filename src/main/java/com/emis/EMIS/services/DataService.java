@@ -19,6 +19,7 @@ public class DataService {
     private final ProfileRepo profileRepo;
     private final AgentRepo agentRepo;
     private final PartnerRepo partnerRepo;
+    private final SchoolRepo schoolRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
