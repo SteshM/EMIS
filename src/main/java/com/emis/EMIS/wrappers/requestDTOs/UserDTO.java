@@ -31,6 +31,17 @@ public class UserDTO {
     private Date agreementStartDate;
     private Date agreementEndDate;
     private String contractDetails;
+    private String schoolName;
+    private String schoolType;
+    private String emailAddress;
+    private String postalAddress;
+    private String postalCode;
+    private String contact;
+    private String moeRegistrationNo;
+    private String county;
+    private String subCounty;
+    private String location;
+
 
 
 }
