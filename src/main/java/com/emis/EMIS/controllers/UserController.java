@@ -36,6 +36,14 @@ public class UserController {
     public ResponseDTO createProfile(@RequestBody ProfileDto profileDto){
         return userService.createProfile(profileDto);
     }
+    @GetMapping("/all/profiles")
+    public ResponseDTO fetchProfiles(){
+        return userService.fetchAll();
+    }
+    @GetMapping("/all/profile/{id}")
+    public ResponseDTO fetchOne(@PathVariable int id){
+        return userService.fetchByProfileId(id);
+    }
 
     @PostMapping("/all/register")
     public ResponseDTO register(@RequestBody UserDTO userDTO){

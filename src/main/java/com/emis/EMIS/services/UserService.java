@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -144,4 +145,12 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public ResponseDTO fetchAll() {
+        List<ProfileEntity>profiles = dataService.fetchAll();
+        return utilities.successResponse("fetched all profiles",profiles);
+    }
+
+    public ResponseDTO fetchByProfileId(int id) {
+        ProfileEntity profile =
+    }
 }
