@@ -18,6 +18,7 @@ public class DataService {
     private final RolesRepo rolesRepo;
     private final ProfileRepo profileRepo;
     private final AgentRepo agentRepo;
+    private final PartnerRepo partnerRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -50,6 +51,8 @@ public class DataService {
 
     public AgentInfoEntity saveAgent(AgentInfoEntity agentInfo){
         return agentRepo.save(agentInfo);
-
+    }
+    public PartnerInfoEntity savePartner(PartnerInfoEntity partnerInfo){
+        return partnerRepo.save(partnerInfo);
     }
 }

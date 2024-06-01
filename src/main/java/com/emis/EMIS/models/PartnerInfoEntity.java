@@ -23,11 +23,6 @@ public class PartnerInfoEntity {
     private Date agreementStartDate;
     private Date agreementEndDate;
     private String contractDetails;
-    @Column(nullable = false, updatable = false)
-    private Date dateCreated = new Date();
-    private String createdBy;
-    private Date dateModified = new Date();
-    private String modifiedBy;
 
     @ManyToOne
     @JoinColumn(name = "userId")

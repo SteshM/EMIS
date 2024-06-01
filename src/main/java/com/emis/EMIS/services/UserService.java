@@ -45,38 +45,43 @@ public class UserService implements UserDetailsService {
 
     ModelMapper modelMapper = new ModelMapper();
 
-    public ResponseDTO registerAgent(AgentRequestDTO agentRequestDTO) {
+    public ResponseDTO register(UserDTO userDTO) {
 
         try {
-
-            UserEntity userEntity = modelMapper.map(agentRequestDTO, UserEntity.class);
+            UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
             userEntity.setStatus(userConfigs.getInactiveStatus());
             int profileId = dataService.findByProfile("agent").getProfileId();
             if (profileId == 0) {
                 return utilities.failedResponse(400, "Profile does not exist", null);
+            }else if (profileId == 1){
+                AgentInfoEntity agentInfo = modelMapper.map(userDTO, AgentInfoEntity.class);
+                dataService.saveAgent(agentInfo);
+                return utilities.successResponse("Registered agent",null);
+            }else if(profileId ==2){
+                PartnerInfoEntity partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
+                dataService.savePartner(partnerInfo);
+                return utilities.successResponse("Created a partner",null);
+            }else  if (profileId == 3){
+
             }
+
             Collection<RolesEntity> roles = new ArrayList<>();
             //adding basic role-->standard
             RolesEntity role = dataService.findRoleById(1);
             roles.add(role);
-            //if super admin -> super role
-//            if (userDTO.getWho().equalsIgnoreCase("superadmin")) {
-//                RolesEntity role2 = dataService.findRoleById(2);
-//                roles.add(role2);
-//            }
+
             //Adds privilege to user
             userEntity.setRoles(roles);
             userEntity.setProfileId(profileId);
             UserEntity savedUser = dataService.saveUser(userEntity);
             //Call OTP Service
             otpService.generateOTP(savedUser);
-            AgentInfoEntity agentInfoEntity = modelMapper.map(agentRequestDTO,AgentInfoEntity.class);
-            dataService.saveAgent(agentInfoEntity);
+
             UserProfileDTO userProfileDTO = modelMapper.map(savedUser, UserProfileDTO.class);
             return utilities.successResponse("Successfully registered user", userProfileDTO);
         } catch (Exception psqlException) {
             log.error("Caught an exception", psqlException);
-            UserEntity userEntity = dataService.findByEmail(agentRequestDTO.getEmail()).get();
+            UserEntity userEntity = dataService.findByEmail(userDTO.getEmail()).get();
             UserProfileDTO userProfileDTO = modelMapper.map(userEntity, UserProfileDTO.class);
             return utilities.failedResponse(205, "Email already exists", userProfileDTO);
         }

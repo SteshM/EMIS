@@ -38,9 +38,10 @@ public class UserController {
     }
 
     @PostMapping("/all/register")
-    public ResponseDTO register(@RequestBody AgentRequestDTO agentRequestDTO){
-        log.info("Register request received from the customer::{}",agentRequestDTO);
-        return userService.registerAgent(agentRequestDTO);
+    public ResponseDTO register(@RequestBody UserDTO userDTO){
+
+        log.info("Register request received from the customer::{}",userDTO);
+        return userService.register(userDTO);
     }
 
     @PostMapping("/all/activateAcc")
