@@ -66,7 +66,5 @@ public class DataService {
     public List<ProfileEntity> fetchAll(){
         return profileRepo.findAll();
     }
-    public ProfileEntity findOne(int id){
-        return profileRepo.fetchByProfileId(id);
-    }
+
 }

@@ -40,9 +40,9 @@ public class UserController {
     public ResponseDTO fetchProfiles(){
         return userService.fetchAll();
     }
-    @GetMapping("/all/profile/{id}")
-    public ResponseDTO fetchOne(@PathVariable int id){
-        return userService.fetchByProfileId(id);
+    @GetMapping("/all/profile/{profile}")
+    public ResponseDTO fetchOne(String profile){
+        return userService.fetchByProfile(profile);
     }
 
     @PostMapping("/all/register")

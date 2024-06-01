@@ -150,7 +150,8 @@ public class UserService implements UserDetailsService {
         return utilities.successResponse("fetched all profiles",profiles);
     }
 
-    public ResponseDTO fetchByProfileId(int id) {
-        ProfileEntity profile =
+    public ResponseDTO fetchByProfile(String profile) {
+        ProfileEntity profileEntity = dataService.findByProfile(profile);
+        return utilities.successResponse("fetched profile",profile);
     }
 }
