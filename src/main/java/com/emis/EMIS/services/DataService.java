@@ -57,4 +57,10 @@ public class DataService {
     public PartnerInfoEntity savePartner(PartnerInfoEntity partnerInfo){
         return partnerRepo.save(partnerInfo);
     }
+    public SchoolsEntity saveSchool(SchoolsEntity schools){
+        return schoolRepo.save(schools);
+    }
+    public SchoolAdminInfoEntity SaveSchoolAdmin(SchoolAdminInfoEntity schoolAdminInfo){
+        return schoolAdminRepo.save(schoolAdminInfo);
+    }
 }
