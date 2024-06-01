@@ -16,9 +16,9 @@ public class SchoolAdminInfoEntity {
     private String department;
     private String officePhone;
     private String tscNumber;
-    private int schoolId;
+
 
     @ManyToOne
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "schoolId")
     private UserEntity userEntity;
 }

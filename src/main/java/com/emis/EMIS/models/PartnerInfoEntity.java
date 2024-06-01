@@ -23,7 +23,6 @@ public class PartnerInfoEntity {
     private Date agreementStartDate;
     private Date agreementEndDate;
     private String contractDetails;
-    private int userId;
 
     @ManyToOne
     @JoinColumn(name = "userId")
