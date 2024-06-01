@@ -41,6 +41,10 @@ public class UserDTO {
     private String county;
     private String subCounty;
     private String location;
+    private String adminRole;
+    private String department;
+    private String officePhone;
+    private String tscNumber;
 
 
 

@@ -17,6 +17,7 @@ public class AgentInfoEntity {
     private String agentType;
     private String jobTitle;
     private String emergencyContact;
+    private int userId;
 
     @ManyToOne
     @JoinColumn(name = "userId")
