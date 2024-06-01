@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
@@ -25,13 +26,18 @@ public class UserEntity {
     private String email;
     private String nationalId;
     private String phoneNo;
-    private String password;
+    private  String password;
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
     private String createdBy;
     private Date dateModified =new Date();
     private String modifiedBy;
-    private boolean status;
+    private int status;
+    private Date lastActivity = new Date();
+    private Timestamp firstLogin;
+    private Timestamp lastLogin;
+    private int failedLoginAttempts;
+
     private int profileId;
 
     @ManyToMany

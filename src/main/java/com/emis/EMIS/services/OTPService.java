@@ -3,7 +3,6 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.models.OTPEntity;
 import com.emis.EMIS.models.UserEntity;
-import com.emis.EMIS.utils.Exchanger;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
@@ -25,8 +24,8 @@ public class OTPService {
     private final PasswordEncoder passwordEncoder;
 
 
-    private final Exchanger exchanger;
-    private final RandomGenerator randomGenerator;
+//    private final Exchanger exchanger;
+//    private final RandomGenerator randomGenerator;
 
 
     public void generateOTP(UserEntity userEntity){
@@ -105,7 +104,7 @@ public class OTPService {
         {
             UserEntity userEntity = dataService.findByEmail(email).get();
             if(userEntity != null){
-                userEntity.setStatus(false);
+                userEntity.setStatus(userConfigs.getInactiveStatus());
                 userEntity.setPassword(null);
                 dataService.saveUser(userEntity);
                 generateOTP(userEntity);

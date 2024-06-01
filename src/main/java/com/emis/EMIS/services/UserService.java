@@ -1,9 +1,7 @@
 package com.emis.EMIS.services;
 
-import com.emis.EMIS.models.AgentInfoEntity;
-import com.emis.EMIS.models.ProfileEntity;
-import com.emis.EMIS.models.RolesEntity;
-import com.emis.EMIS.models.UserEntity;
+import com.emis.EMIS.configs.UserConfigs;
+import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.*;
@@ -30,6 +28,7 @@ public class UserService implements UserDetailsService {
     private final Utilities utilities;
     private final OTPService otpService;
     private final PasswordEncoder passwordEncoder;
+    private final UserConfigs userConfigs;
 
 
     public UserDetails loadUserByUsername(String username) {
@@ -51,7 +50,7 @@ public class UserService implements UserDetailsService {
         try {
 
             UserEntity userEntity = modelMapper.map(agentRequestDTO, UserEntity.class);
-            userEntity.setStatus(false);
+            userEntity.setStatus(userConfigs.getInactiveStatus());
             int profileId = dataService.findByProfile("agent").getProfileId();
             if (profileId == 0) {
                 return utilities.failedResponse(400, "Profile does not exist", null);
@@ -93,7 +92,7 @@ public class UserService implements UserDetailsService {
             boolean isOtpVerified = otpService.verifyOtp(userEntity.getUserId(), activateAccDTO.getOtp());
             log.info("Check if otp is verified: {}", isOtpVerified);
             if (isOtpVerified) {
-                userEntity.setStatus(true);
+                userEntity.setStatus(userConfigs.getActiveStatus());
                 userEntity.setPassword(passwordEncoder.encode(activateAccDTO.getPassword()));
                 dataService.saveUser(userEntity);
                 return utilities.successResponse("Your account has been activated successfully, proceed to login", null);

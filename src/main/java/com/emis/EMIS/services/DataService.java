@@ -50,5 +50,6 @@ public class DataService {
 
     public AgentInfoEntity saveAgent(AgentInfoEntity agentInfo){
         return agentRepo.save(agentInfo);
+
     }
 }
