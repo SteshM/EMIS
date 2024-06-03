@@ -1,12 +1,11 @@
 package com.emis.EMIS.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
-import java.util.Collection;
 import java.util.Date;
 
 
@@ -38,6 +37,11 @@ public class UserEntity {
     private Date lastLogin;
     private int failedLoginAttempts;
     private int profileId;
+
+    @JsonBackReference
+    @OneToOne
+    @JoinColumn(name="agentId")
+    private AgentInfoEntity agentInfo;
 
 
 

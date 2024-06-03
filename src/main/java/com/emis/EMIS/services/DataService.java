@@ -73,4 +73,9 @@ public class DataService {
     public List <UserRoleEntity>findByUserId2(int userId){
         return userRoleRepo.findByUserId(userId);
     }
+
+    public List <AgentInfoEntity> fetchAgents(){
+        return agentRepo.findAll();
+    }
+
 }

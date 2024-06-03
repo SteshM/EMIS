@@ -1,12 +1,10 @@
 package com.emis.EMIS.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 
-@Setter
-@Getter
+@Data
 @Entity
 @Table(name = "agentInfo")
 public class AgentInfoEntity {
@@ -17,7 +15,7 @@ public class AgentInfoEntity {
     private String agentType;
     private String emergencyContact;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "userId")
     UserEntity userEntity;
 
