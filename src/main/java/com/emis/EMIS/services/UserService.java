@@ -50,6 +50,8 @@ public class UserService implements UserDetailsService {
 
         try {
             UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
+            UserEntity savedUser = dataService.saveUser(userEntity);
+            otpService.generateOTP(savedUser);
             userEntity.setStatus(userConfigs.getInactiveStatus());
             int profileId = userDTO.getProfileId();
 
@@ -85,7 +87,7 @@ public class UserService implements UserDetailsService {
                return utilities.failedResponse(205,"This role does not exist ",null);
            }
             userEntity.setProfileId(profileId);
-            UserEntity savedUser = dataService.saveUser(userEntity);
+            savedUser = dataService.saveUser(userEntity);
             userRoleEntity.setUserId(savedUser.getUserId());
             userRoleEntity.setRoleId(1);
             dataService.saveUserRole(userRoleEntity);

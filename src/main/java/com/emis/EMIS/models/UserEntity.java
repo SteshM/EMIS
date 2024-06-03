@@ -30,12 +30,12 @@ public class UserEntity {
     @Column(nullable = false, updatable = false)
     private Date dateCreated = new Date();
     private String createdBy;
-    private Date dateModified =new Date();
+    private Date dateModified;
     private String modifiedBy;
     private int status;
     private Date lastActivity = new Date();
-    private Timestamp firstLogin;
-    private Timestamp lastLogin;
+    private Date firstLogin;
+    private Date lastLogin;
     private int failedLoginAttempts;
     private int profileId;
 
