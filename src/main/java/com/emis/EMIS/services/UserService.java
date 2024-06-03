@@ -9,6 +9,7 @@ import com.emis.EMIS.wrappers.responseDTOs.UserProfileDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,28 +31,27 @@ public class UserService implements UserDetailsService {
     private final OTPService otpService;
     private final PasswordEncoder passwordEncoder;
     private final UserConfigs userConfigs;
-
+    private final ModelMapper modelMapper;
 
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        Collection<RolesEntity> roles = credential.get().getRoles();
+        List<UserRoleEntity> userRoles = dataService.findByUserId2(credential.get().getUserId());
 
-        for (RolesEntity rolesEntity : roles) {
-            authorities.add(new SimpleGrantedAuthority(rolesEntity.getRole()));
+        for (UserRoleEntity userRole : userRoles) {
+            authorities.add(new SimpleGrantedAuthority(dataService.findRoleById(userRole.getRoleId()).getRole()));
         }
 
         return new User(credential.get().getEmail(), credential.get().getPassword(), authorities);
     }
 
-    ModelMapper modelMapper = new ModelMapper();
 
     public ResponseDTO register(UserDTO userDTO) {
 
         try {
             UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
             userEntity.setStatus(userConfigs.getInactiveStatus());
-            int profileId = dataService.findByProfile("agent").getProfileId();
+            int profileId = userDTO.getProfileId();
 
             if (profileId == 0) {
                 return utilities.failedResponse(400, "Profile does not exist", null);
@@ -77,15 +77,18 @@ public class UserService implements UserDetailsService {
                 return utilities.successResponse("Created a partner",null);
 
             }
-            Collection<RolesEntity> roles = new ArrayList<>();
+
             //adding basic role-->standard
             RolesEntity role = dataService.findRoleById(1);
-            roles.add(role);
-
-            //Adds privilege to user
-            userEntity.setRoles(roles);
+           UserRoleEntity userRoleEntity  = new UserRoleEntity();
+           if(role == null){
+               return utilities.failedResponse(205,"This role does not exist ",null);
+           }
             userEntity.setProfileId(profileId);
             UserEntity savedUser = dataService.saveUser(userEntity);
+            userRoleEntity.setUserId(savedUser.getUserId());
+            userRoleEntity.setRoleId(1);
+            dataService.saveUserRole(userRoleEntity);
             //Call OTP Service
             otpService.generateOTP(savedUser);
 
@@ -120,20 +123,20 @@ public class UserService implements UserDetailsService {
     }
 
 
-    public ResponseDTO addAuthority(AddAuthDto addAuthDto) {
-        UserEntity userEntity = dataService.findByEmail(addAuthDto.getEmail()).get();
-        if (userEntity != null) {
-            Collection<RolesEntity> roles = userEntity.getRoles();
-            RolesEntity role = dataService.findRoleById(addAuthDto.getRoleId());
-            roles.add(role);
-            userEntity.setRoles(roles);
-            dataService.saveUser(userEntity);
-            return utilities.successResponse("Successfully added authority", null);
-
-    }
-        return utilities.failedResponse(400,"cant add authority",null);
-
-    }
+//    public ResponseDTO addAuthority(AddAuthDto addAuthDto) {
+//        UserEntity userEntity = dataService.findByEmail(addAuthDto.getEmail()).get();
+//        if (userEntity != null) {
+//            Collection<RolesEntity> roles = userEntity.getRoles();
+//            RolesEntity role = dataService.findRoleById(addAuthDto.getRoleId());
+//            roles.add(role);
+//            userEntity.setRoles(roles);
+//            dataService.saveUser(userEntity);
+//            return utilities.successResponse("Successfully added authority", null);
+//
+//    }
+//        return utilities.failedResponse(400,"cant add authority",null);
+//
+//    }
 
     public ResponseDTO createProfile(ProfileDto profileDto){
         ProfileEntity profile = modelMapper.map(profileDto, ProfileEntity.class);

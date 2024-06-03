@@ -15,7 +15,6 @@ public class AgentInfoEntity {
     private int agentInfoId;
     private String agencyName;
     private String agentType;
-    private String jobTitle;
     private String emergencyContact;
 
     @ManyToOne

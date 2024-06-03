@@ -4,6 +4,8 @@ import com.emis.EMIS.models.RolesEntity;
 import com.emis.EMIS.repositories.RolesRepo;
 import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.wrappers.requestDTOs.ProfileDto;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -44,5 +46,12 @@ public class EmisApplication implements CommandLineRunner {
 		rolesRepo.save(role);
 		rolesRepo.save(role2);
 
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		ModelMapper modelMapper = new ModelMapper();
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		return modelMapper;
 	}
 }

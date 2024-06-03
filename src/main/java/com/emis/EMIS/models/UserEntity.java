@@ -37,11 +37,8 @@ public class UserEntity {
     private Timestamp firstLogin;
     private Timestamp lastLogin;
     private int failedLoginAttempts;
-
     private int profileId;
 
-    @ManyToMany
-    private Collection<RolesEntity> roles;
 
 
 }

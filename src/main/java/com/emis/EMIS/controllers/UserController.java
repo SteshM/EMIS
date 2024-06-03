@@ -93,11 +93,11 @@ public class UserController {
     public ResponseDTO forgotPassword(@PathVariable String email){
         return otpService.forgotPassword(email);
     }
-
-    @PostMapping("/v1/admsdm/add-authority")
-    public ResponseDTO addAuthority(@RequestBody AddAuthDto addAuthDto){
-        return userService.addAuthority(addAuthDto);
-    }
+//
+//    @PostMapping("/v1/admsdm/add-authority")
+//    public ResponseDTO addAuthority(@RequestBody AddAuthDto addAuthDto){
+//        return userService.addAuthority(addAuthDto);
+//    }
 
 
 }

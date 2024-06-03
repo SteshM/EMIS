@@ -21,6 +21,7 @@ public class DataService {
     private final PartnerRepo partnerRepo;
     private final SchoolRepo schoolRepo;
     private final SchoolAdminRepo schoolAdminRepo;
+    private final UserRoleRepo userRoleRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -66,5 +67,10 @@ public class DataService {
     public List<ProfileEntity> fetchAll(){
         return profileRepo.findAll();
     }
-
+    public UserRoleEntity saveUserRole(UserRoleEntity userRole){
+        return userRoleRepo.save(userRole);
+    }
+    public List <UserRoleEntity>findByUserId2(int userId){
+        return userRoleRepo.findByUserId(userId);
+    }
 }
