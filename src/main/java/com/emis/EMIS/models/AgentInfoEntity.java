@@ -10,7 +10,7 @@ import lombok.Data;
 public class AgentInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int agentInfoId;
+    private int agentId;
     private String agencyName;
     private String agentType;
     private String emergencyContact;

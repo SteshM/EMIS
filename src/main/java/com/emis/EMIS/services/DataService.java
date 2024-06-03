@@ -77,5 +77,7 @@ public class DataService {
     public List <AgentInfoEntity> fetchAgents(){
         return agentRepo.findAll();
     }
-
+    public AgentInfoEntity findByAgentId(int agentId){
+        return agentRepo.findByAgentId(agentId);
+    }
 }

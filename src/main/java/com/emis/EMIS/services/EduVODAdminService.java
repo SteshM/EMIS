@@ -5,6 +5,7 @@ import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -26,4 +27,18 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched all agents",agentInfoEntityList);
 
     }
+
+    public ResponseDTO fetchByAgentId(int id) {
+        var agentEntity = dataService.findByAgentId(id);
+        return utilities.successResponse("fetched an agent",agentEntity);
+    }
+
+    public ResponseDTO updateAgentByAgentId(int id, UserDTO userDTO) {
+        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
+        AgentInfoEntity agentInfo1 = modelMapper.map(userDTO, AgentInfoEntity.class);
+        agentInfo1.setAgentType(agentInfo.getAgentType());
+        dataService.saveAgent(agentInfo1);
+        return utilities.successResponse("Updated an agent",agentInfo);
+    }
+
 }
