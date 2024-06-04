@@ -26,5 +26,9 @@ public class AgentController {
     public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO){
         return agentService.updateSchool(id,schoolDTO);
     }
+    @DeleteMapping("/delete/{id}")
+    public ResponseDTO deleteSchool(@PathVariable int id){
+        return agentService.deleteSchool(id);
+    }
 
 }

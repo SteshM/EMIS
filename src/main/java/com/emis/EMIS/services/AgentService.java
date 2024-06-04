@@ -51,4 +51,11 @@ public class AgentService {
         dataService.saveSchool(school);
         return utilities.successResponse("Successfully updated school details",school);
     }
+
+    public ResponseDTO deleteSchool(int id) {
+        SchoolsEntity school = dataService.findBySchoolId(id);
+        school.setStatus(Status.DELETED);
+        dataService.saveSchool(school);
+        return utilities.successResponse("deleted school",null);
+    }
 }
