@@ -22,6 +22,7 @@ public class UserConfigs {
     private int activeStatus;
     private int inactiveStatus;
     private int partnerPendingStatus;
+    private int deletedStatus;
 
 
     private String CANCREATEADMIN;

@@ -22,5 +22,6 @@ public class SchoolsEntity {
     private String county;
     private String subCounty;
     private String location;
+    private int status;
 
 }

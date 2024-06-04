@@ -1,5 +1,6 @@
 package com.emis.EMIS.services;
 
+import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.repositories.*;
 import lombok.RequiredArgsConstructor;
@@ -79,7 +80,7 @@ public class DataService {
         return agentRepo.findAll();
     }
     public List <AgentInfoEntity> fetchActiveAgents(){
-        return agentRepo.findByStatus(1);
+        return agentRepo.findByStatus(Status.ACTIVE);
     }
     public AgentInfoEntity findByAgentId(int agentId){
         return agentRepo.findByAgentId(agentId);

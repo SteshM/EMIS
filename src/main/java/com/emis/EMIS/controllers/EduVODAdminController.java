@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.EduVODAdminService;
+import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
@@ -27,8 +28,8 @@ public class EduVODAdminController {
         return eduVODAdminService.fetchByAgentId(id);
   }
   @PutMapping("/update-agent/{id}")
-    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody UserDTO userDTO){
-        return eduVODAdminService.updateAgentByAgentId(id,userDTO);
+    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody AgentDTO agentDTO){
+        return eduVODAdminService.updateAgentByAgentId(id,agentDTO);
   }
   @DeleteMapping("/agent/{id}")
     public ResponseDTO softDelete(@PathVariable int id){
@@ -41,5 +42,7 @@ public class EduVODAdminController {
         return eduVODAdminService.createSchool(schoolDTO);
     }
 //    @GetMapping("/schools")
-//    public
+//    public ResponseDTO getSchools(){
+//        return eduVODAdminService.fetchActiveSchools();
+//    }
 }

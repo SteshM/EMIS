@@ -1,6 +1,7 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.configs.UserConfigs;
+import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.AgentInfoEntity;
 import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.models.UserEntity;
@@ -26,6 +27,7 @@ public class EduVODAdminService {
     private final ModelMapper modelMapper;
     private final DataService dataService;
     private final Utilities utilities;
+    private final UserConfigs userConfigs;
 
     public ResponseDTO fetchActiveAgents() {
         List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
@@ -54,17 +56,21 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched an agent",agentEntity);
     }
 
-    public ResponseDTO updateAgentByAgentId(int id, UserDTO userDTO) {
+    public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
         AgentInfoEntity agentInfo = dataService.findByAgentId(id);
-        modelMapper.map(agentInfo, AgentDTO.class);
+        agentInfo.setAgentType(agentDTO.getAgentType());
+        agentInfo.setAgencyName(agentDTO.getAgencyName());
+        agentInfo.setEmergencyContact(agentDTO.getEmergencyContact());
+        AgentDTO agentDTO1 =modelMapper.map(agentInfo,AgentDTO.class);
         dataService.saveAgent(agentInfo);
-        return utilities.successResponse("Updated an agent",agentInfo);
+        return utilities.successResponse("Updated an agent",agentDTO1);
     }
 
 
     public ResponseDTO softDeleteAgent(int id) {
         AgentInfoEntity agentInfo = dataService.findByAgentId(id);
-        agentInfo.getUserEntity().setStatus(4);
+        agentInfo.setStatus(Status.DELETED);
+        agentInfo.getUserEntity().setStatus(userConfigs.getDeletedStatus());
         log.info("changed agent's status to deleted {}",agentInfo);
         dataService.saveAgent(agentInfo);
         return utilities.successResponse("soft deleted agent",null);
@@ -77,4 +83,6 @@ public class EduVODAdminService {
         return utilities.successResponse("Created school",schools);
     }
 
+//    public ResponseDTO fetchActiveSchools() {
+//    }
 }

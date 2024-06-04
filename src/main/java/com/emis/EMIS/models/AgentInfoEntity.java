@@ -1,5 +1,7 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.configs.UserConfigs;
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,7 +16,7 @@ public class AgentInfoEntity {
     private String agencyName;
     private String agentType;
     private String emergencyContact;
-    private int status;
+    private Status status;
 
     @OneToOne
     @JoinColumn(name = "userId")
