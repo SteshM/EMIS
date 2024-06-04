@@ -88,4 +88,7 @@ public class DataService {
     public List <SchoolsEntity>findAll(){
         return schoolRepo.findAll();
     }
+    public SchoolsEntity findBySchoolId(int schoolId){
+        return schoolRepo.findBySchoolId(schoolId);
+    }
 }

@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
             UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
             UserEntity savedUser = dataService.saveUser(userEntity);
             otpService.generateOTP(savedUser);
-            userEntity.setStatus(userConfigs.getInactiveStatus());
+            userEntity.setStatus(Status.INACTIVE);
             int profileId = userDTO.getProfileId();
 
              if(profileId ==1){
@@ -108,7 +108,7 @@ public class UserService implements UserDetailsService {
             boolean isOtpVerified = otpService.verifyOtp(userEntity.getUserId(), activateAccDTO.getOtp());
             log.info("Check if otp is verified: {}", isOtpVerified);
             if (isOtpVerified) {
-                userEntity.setStatus(userConfigs.getActiveStatus());
+                userEntity.setStatus(Status.ACTIVE);
                 userEntity.setPassword(passwordEncoder.encode(activateAccDTO.getPassword()));
                 dataService.saveUser(userEntity);
                 return utilities.successResponse("Your account has been activated successfully, proceed to login", null);

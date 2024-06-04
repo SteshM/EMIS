@@ -1,6 +1,7 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.configs.UserConfigs;
+import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.OTPEntity;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.RandomGenerator;
@@ -64,7 +65,7 @@ public class OTPService {
                     return false;
                 } else {
                     log.info("The otp is not expired proceed to invalidate and return true");
-                    otpEntity.setStatus(userConfigs.getInvalidStatus());
+                    otpEntity.setStatus(Status.INVALID);
                     dataService.saveOTP(otpEntity);
                     return true;
                 }
@@ -94,7 +95,7 @@ public class OTPService {
     public ResponseDTO regenerateOtp(int userId){
         var userEntity = dataService.findByUserId(userId);
         var otpEntity = dataService.findOTPByUserId(userId);
-        otpEntity.setStatus(userConfigs.getInvalidStatus());
+        otpEntity.setStatus(Status.INVALID);
         dataService.saveOTP(otpEntity);
         generateOTP(userEntity);
         return utilities.successResponse("Successfully regenerated otp",null);
@@ -104,7 +105,7 @@ public class OTPService {
         {
             UserEntity userEntity = dataService.findByEmail(email).get();
             if(userEntity != null){
-                userEntity.setStatus(userConfigs.getInactiveStatus());
+                userEntity.setStatus(Status.INACTIVE);
                 userEntity.setPassword(null);
                 dataService.saveUser(userEntity);
                 generateOTP(userEntity);

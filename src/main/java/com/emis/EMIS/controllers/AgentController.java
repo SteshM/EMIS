@@ -22,5 +22,9 @@ public class AgentController {
     public ResponseDTO fetchSchools(){
         return agentService.viewSchools();
     }
+    @PutMapping("/school/{id}")
+    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO){
+        return agentService.updateSchool(id,schoolDTO);
+    }
 
 }

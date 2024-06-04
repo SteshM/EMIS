@@ -34,5 +34,21 @@ public class AgentService {
         return utilities.successResponse("Successfully fetched schools",schoolsEntities);
 
     }
-    
+
+    public ResponseDTO updateSchool(int id, SchoolDTO schoolDTO) {
+        SchoolsEntity school = dataService.findBySchoolId(id);
+        school.setSchoolName(schoolDTO.getSchoolName());
+        school.setSchoolType(schoolDTO.getSchoolType());
+        school.setCounty(schoolDTO.getCounty());
+        school.setLocation(schoolDTO.getLocation());
+        school.setEmailAddress(schoolDTO.getEmailAddress());
+        school.setPostalAddress(schoolDTO.getPostalAddress());
+        school.setPostalCode(schoolDTO.getPostalCode());
+        school.setContact(schoolDTO.getContact());
+        school.setMoeRegistrationNo(schoolDTO.getMoeRegistrationNo());
+        SchoolDTO schoolDTO1= modelMapper.map(school, SchoolDTO.class);
+        log.info("About to fetch school details and modify : {} ",schoolDTO1);
+        dataService.saveSchool(school);
+        return utilities.successResponse("Successfully updated school details",school);
+    }
 }
