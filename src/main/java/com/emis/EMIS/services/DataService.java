@@ -49,27 +49,27 @@ public class DataService {
     public ProfileEntity findByProfile(String profile){
         return profileRepo.findByProfile(profile);
     }
-    public ProfileEntity saveProfile(ProfileEntity profileEntity){
-        return profileRepo.save(profileEntity);}
+    public void saveProfile(ProfileEntity profileEntity){
+        profileRepo.save(profileEntity);}
 
     public void saveAgent(AgentInfoEntity agentInfo){
         log.info("About to insert Agent:{}", agentInfo);
         agentRepo.save(agentInfo);
     }
-    public PartnerInfoEntity savePartner(PartnerInfoEntity partnerInfo){
-        return partnerRepo.save(partnerInfo);
+    public void savePartner(PartnerInfoEntity partnerInfo){
+         partnerRepo.save(partnerInfo);
     }
-    public SchoolsEntity saveSchool(SchoolsEntity schools){
-        return schoolRepo.save(schools);
+    public void saveSchool(SchoolsEntity schools){
+        schoolRepo.save(schools);
     }
-    public SchoolAdminInfoEntity saveSchoolAdmin(SchoolAdminInfoEntity schoolAdminInfo){
-        return schoolAdminRepo.save(schoolAdminInfo);
+    public void saveSchoolAdmin(SchoolAdminInfoEntity schoolAdminInfo){
+        schoolAdminRepo.save(schoolAdminInfo);
     }
     public List<ProfileEntity> fetchAll(){
         return profileRepo.findAll();
     }
-    public UserRoleEntity saveUserRole(UserRoleEntity userRole){
-        return userRoleRepo.save(userRole);
+    public  void saveUserRole(UserRoleEntity userRole)
+    {userRoleRepo.save(userRole);
     }
     public List <UserRoleEntity>findByUserId2(int userId){
         return userRoleRepo.findByUserId(userId);
@@ -77,6 +77,9 @@ public class DataService {
 
     public List <AgentInfoEntity> fetchAgents(){
         return agentRepo.findAll();
+    }
+    public List <AgentInfoEntity> fetchActiveAgents(){
+        return agentRepo.findByStatus(3);
     }
     public AgentInfoEntity findByAgentId(int agentId){
         return agentRepo.findByAgentId(agentId);

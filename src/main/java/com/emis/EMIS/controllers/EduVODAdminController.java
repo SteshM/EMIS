@@ -19,7 +19,7 @@ public class EduVODAdminController {
 
     @GetMapping("/agents")
     public ResponseDTO fetchAll(){
-        return eduVODAdminService.fetchAgents();
+        return eduVODAdminService.fetchActiveAgents();
     }
 
   @GetMapping("/agent/{id}")
@@ -30,14 +30,16 @@ public class EduVODAdminController {
     public ResponseDTO updateAgent(@PathVariable int id , @RequestBody UserDTO userDTO){
         return eduVODAdminService.updateAgentByAgentId(id,userDTO);
   }
-//  @DeleteMapping("/agent/{id}")
-//    public ResponseDTO softDelete(@PathVariable int id){
-//        return eduVODAdminService.softDeleteAgent(id);
-//  }
+  @DeleteMapping("/agent/{id}")
+    public ResponseDTO softDelete(@PathVariable int id){
+        return eduVODAdminService.softDeleteAgent(id);
+  }
 
 
     @PostMapping("/school")
     public ResponseDTO createSchool(@RequestBody SchoolDTO schoolDTO){
         return eduVODAdminService.createSchool(schoolDTO);
     }
+//    @GetMapping("/schools")
+//    public
 }
