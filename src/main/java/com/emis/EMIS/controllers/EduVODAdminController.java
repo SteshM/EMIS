@@ -2,6 +2,7 @@ package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,6 +36,8 @@ public class EduVODAdminController {
 //  }
 
 
-
-
+    @PostMapping("/school")
+    public ResponseDTO createSchool(@RequestBody SchoolDTO schoolDTO){
+        return eduVODAdminService.createSchool(schoolDTO);
+    }
 }

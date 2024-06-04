@@ -2,9 +2,11 @@ package com.emis.EMIS.services;
 
 import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.models.AgentInfoEntity;
+import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,6 @@ public class EduVODAdminService {
     private final ModelMapper modelMapper;
     private final DataService dataService;
     private final Utilities utilities;
-    private final UserConfigs userConfigs;
 
     public ResponseDTO fetchAgents() {
       List<AgentInfoEntity>agentInfoEntityList=dataService.fetchAgents();
@@ -41,6 +42,7 @@ public class EduVODAdminService {
         return utilities.successResponse("Updated an agent",agentInfo);
     }
 
+
 //    public ResponseDTO softDeleteAgent(int id) {
 //        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
 //        agentInfo.getUserEntity().setStatus();
@@ -49,5 +51,10 @@ public class EduVODAdminService {
 //        return utilities.successResponse("soft deleted agent",null);
 //    }
 
-
+    public ResponseDTO createSchool(SchoolDTO schoolDTO) {
+        SchoolsEntity schools = modelMapper.map(schoolDTO,SchoolsEntity.class);
+        dataService.saveSchool(schools);
+        log.info("About to fetch the saved schools {}",schools);
+        return utilities.successResponse("Created school",schools);
+    }
 }
