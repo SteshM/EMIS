@@ -28,7 +28,7 @@ public class EduVODAdminService {
     private final Utilities utilities;
 
     public ResponseDTO fetchActiveAgents() {
-        List<AgentInfoEntity>agentInfoEntityList=dataService.fetchAgents();
+        List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
         log.info("Fetched agents from the db:{}",agentInfoEntityList);
         List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
                 .map(agentInfoEntity -> {

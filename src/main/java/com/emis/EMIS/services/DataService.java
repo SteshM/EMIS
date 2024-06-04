@@ -79,7 +79,7 @@ public class DataService {
         return agentRepo.findAll();
     }
     public List <AgentInfoEntity> fetchActiveAgents(){
-        return agentRepo.findByStatus(3);
+        return agentRepo.findByStatus(1);
     }
     public AgentInfoEntity findByAgentId(int agentId){
         return agentRepo.findByAgentId(agentId);

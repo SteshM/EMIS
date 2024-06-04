@@ -14,6 +14,7 @@ public class AgentInfoEntity {
     private String agencyName;
     private String agentType;
     private String emergencyContact;
+    private int status;
 
     @OneToOne
     @JoinColumn(name = "userId")
