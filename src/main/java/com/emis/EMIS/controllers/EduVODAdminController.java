@@ -28,5 +28,9 @@ public class EduVODAdminController {
     public ResponseDTO updateAgent(@PathVariable int id , @RequestBody UserDTO userDTO){
         return eduVODAdminService.updateAgentByAgentId(id,userDTO);
   }
+  @DeleteMapping("/agent/{id}")
+    public ResponseDTO softDelete(@PathVariable int id){
+        return eduVODAdminService.softDeleteAgent(id);
+  }
 
 }

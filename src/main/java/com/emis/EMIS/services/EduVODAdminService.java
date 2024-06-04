@@ -1,7 +1,7 @@
 package com.emis.EMIS.services;
 
+import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.models.AgentInfoEntity;
-import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
@@ -20,12 +20,12 @@ public class EduVODAdminService {
     private final ModelMapper modelMapper;
     private final DataService dataService;
     private final Utilities utilities;
+    private final UserConfigs userConfigs;
 
     public ResponseDTO fetchAgents() {
       List<AgentInfoEntity>agentInfoEntityList=dataService.fetchAgents();
-      log.info("fetched agents from the db{}",agentInfoEntityList);
+      log.info("Fetched agents from the db:{}",agentInfoEntityList);
         return utilities.successResponse("fetched all agents",agentInfoEntityList);
-
     }
 
     public ResponseDTO fetchByAgentId(int id) {
@@ -35,10 +35,16 @@ public class EduVODAdminService {
 
     public ResponseDTO updateAgentByAgentId(int id, UserDTO userDTO) {
         AgentInfoEntity agentInfo = dataService.findByAgentId(id);
-        AgentInfoEntity agentInfo1 = modelMapper.map(userDTO, AgentInfoEntity.class);
-        agentInfo1.setAgentType(agentInfo.getAgentType());
-        dataService.saveAgent(agentInfo1);
+        modelMapper.map(agentInfo, AgentDTO.class);
+        dataService.saveAgent(agentInfo);
         return utilities.successResponse("Updated an agent",agentInfo);
     }
 
+    public ResponseDTO softDeleteAgent(int id) {
+        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
+        agentInfo.getUserEntity().setStatus();
+        log.info("changed agent's status to deleted {}",agentInfo);
+        dataService.saveAgent(agentInfo);
+        return utilities.successResponse("soft deleted agent",null);
+    }
 }

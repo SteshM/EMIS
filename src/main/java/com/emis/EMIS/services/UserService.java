@@ -70,6 +70,7 @@ public class UserService implements UserDetailsService {
 
             }else  if (profileId == 3){
                 AgentInfoEntity agentInfo = modelMapper.map(userDTO, AgentInfoEntity.class);
+                agentInfo.setUserEntity(savedUser);
                 dataService.saveAgent(agentInfo);
                 return utilities.successResponse("Registered agent",null);
 

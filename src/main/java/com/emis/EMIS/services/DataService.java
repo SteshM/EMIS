@@ -52,8 +52,9 @@ public class DataService {
     public ProfileEntity saveProfile(ProfileEntity profileEntity){
         return profileRepo.save(profileEntity);}
 
-    public AgentInfoEntity saveAgent(AgentInfoEntity agentInfo){
-        return agentRepo.save(agentInfo);
+    public void saveAgent(AgentInfoEntity agentInfo){
+        log.info("About to insert Agent:{}", agentInfo);
+        agentRepo.save(agentInfo);
     }
     public PartnerInfoEntity savePartner(PartnerInfoEntity partnerInfo){
         return partnerRepo.save(partnerInfo);

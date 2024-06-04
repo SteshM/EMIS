@@ -23,6 +23,7 @@ public class UserConfigs {
     private int inactiveStatus;
     private int partnerPendingStatus;
 
+
     private String CANCREATEADMIN;
     private String CANENROLAGENT;
     private String CANUPDATELAGENT;

@@ -18,7 +18,4 @@ public class AgentInfoEntity {
     @OneToOne
     @JoinColumn(name = "userId")
     UserEntity userEntity;
-
-
-
 }
