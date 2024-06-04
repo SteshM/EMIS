@@ -4,7 +4,6 @@ import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +34,19 @@ public class EduVODAdminController {
     public ResponseDTO softDelete(@PathVariable int id){
         return eduVODAdminService.softDeleteAgent(id);
   }
-
-
-    @PostMapping("/school")
-    public ResponseDTO createSchool(@RequestBody SchoolDTO schoolDTO){
-        return eduVODAdminService.createSchool(schoolDTO);
-    }
-//    @GetMapping("/schools")
-//    public ResponseDTO getSchools(){
-//        return eduVODAdminService.fetchActiveSchools();
+//
+//
+//
+//    @GetMapping("/pending-schools")
+//    public ResponseDTO pendingSchools(){
+//        return eduVODAdminService.fetchPendingSchools();
 //    }
+//    @PostMapping("/approve-school")
+//    public ResponseDTO approveSchool(@RequestBody SchoolDTO schoolDTO){
+//        return .approveSchool(schoolDTO);
+//    }
+////    @GetMapping("/schools")
+////    public ResponseDTO getSchools(){
+////        return eduVODAdminService.fetchActiveSchools();
+////    }
 }

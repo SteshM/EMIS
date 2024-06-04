@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class UserEntity {
     private String createdBy;
     private Date dateModified;
     private String modifiedBy;
-    private int status;
+    private Status status;
     private Date lastActivity = new Date();
     private Date firstLogin;
     private Date lastLogin;

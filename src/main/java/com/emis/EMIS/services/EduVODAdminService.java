@@ -70,19 +70,12 @@ public class EduVODAdminService {
     public ResponseDTO softDeleteAgent(int id) {
         AgentInfoEntity agentInfo = dataService.findByAgentId(id);
         agentInfo.setStatus(Status.DELETED);
-        agentInfo.getUserEntity().setStatus(userConfigs.getDeletedStatus());
+        agentInfo.getUserEntity().setStatus(Status.DELETED);
         log.info("changed agent's status to deleted {}",agentInfo);
         dataService.saveAgent(agentInfo);
         return utilities.successResponse("soft deleted agent",null);
     }
 
-    public ResponseDTO createSchool(SchoolDTO schoolDTO) {
-        SchoolsEntity schools = modelMapper.map(schoolDTO,SchoolsEntity.class);
-        dataService.saveSchool(schools);
-        log.info("About to fetch the saved schools {}",schools);
-        return utilities.successResponse("Created school",schools);
-    }
 
-//    public ResponseDTO fetchActiveSchools() {
-//    }
+
 }

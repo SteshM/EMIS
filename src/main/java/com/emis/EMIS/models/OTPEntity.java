@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class OTPEntity {
     private int otpId;
     private String otp;
     private Date dateCreated = new Date();
-    private int status = 1;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "userId")

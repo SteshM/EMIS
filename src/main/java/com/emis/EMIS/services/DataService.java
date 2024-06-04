@@ -85,4 +85,7 @@ public class DataService {
     public AgentInfoEntity findByAgentId(int agentId){
         return agentRepo.findByAgentId(agentId);
     }
+    public List <SchoolsEntity>findAll(){
+        return schoolRepo.findAll();
+    }
 }

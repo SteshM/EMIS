@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,6 @@ public class SchoolsEntity {
     private String county;
     private String subCounty;
     private String location;
-    private int status;
+    private Status status;
 
 }
