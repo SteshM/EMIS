@@ -37,12 +37,7 @@ public class UserEntity {
     private Date lastLogin;
     private int failedLoginAttempts;
     private int profileId;
-    private boolean isDeleted;
 
-//    @JsonBackReference
-//    @OneToOne
-//    @JoinColumn(name="agentId")
-//    private AgentInfoEntity agentInfo;
 
 
 

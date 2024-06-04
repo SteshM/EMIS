@@ -55,26 +55,18 @@ public class UserService implements UserDetailsService {
             userEntity.setStatus(userConfigs.getInactiveStatus());
             int profileId = userDTO.getProfileId();
 
-            if (profileId == 0) {
-                return utilities.failedResponse(400, "Profile does not exist", null);
-
-            }else if (profileId == 1){
-                SchoolsEntity  schools = modelMapper.map(userDTO,SchoolsEntity.class);
-                dataService.saveSchool(schools);
-                return utilities.successResponse("registered a school",null);
-
-            }else if(profileId ==2){
+             if(profileId ==1){
                 SchoolAdminInfoEntity schoolAdminInfo = modelMapper.map(userDTO,SchoolAdminInfoEntity.class);
                 dataService.saveSchoolAdmin(schoolAdminInfo);
                 return utilities.successResponse("Created a school Admin",null);
 
-            }else  if (profileId == 3){
+            }else  if (profileId == 2){
                 AgentInfoEntity agentInfo = modelMapper.map(userDTO, AgentInfoEntity.class);
                 agentInfo.setUserEntity(savedUser);
                 dataService.saveAgent(agentInfo);
                 return utilities.successResponse("Registered agent",null);
 
-            }else  if(profileId == 4){
+            }else  if(profileId == 3){
                 PartnerInfoEntity partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
                 dataService.savePartner(partnerInfo);
                 return utilities.successResponse("Created a partner",null);

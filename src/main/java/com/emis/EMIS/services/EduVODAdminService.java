@@ -25,7 +25,8 @@ public class EduVODAdminService {
     public ResponseDTO fetchAgents() {
       List<AgentInfoEntity>agentInfoEntityList=dataService.fetchAgents();
       log.info("Fetched agents from the db:{}",agentInfoEntityList);
-        return utilities.successResponse("fetched all agents",agentInfoEntityList);
+      modelMapper.map(agentInfoEntityList,AgentDTO.class);
+      return utilities.successResponse("fetched all agents",agentInfoEntityList);
     }
 
     public ResponseDTO fetchByAgentId(int id) {
@@ -40,11 +41,13 @@ public class EduVODAdminService {
         return utilities.successResponse("Updated an agent",agentInfo);
     }
 
-    public ResponseDTO softDeleteAgent(int id) {
-        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
-        agentInfo.getUserEntity().setStatus();
-        log.info("changed agent's status to deleted {}",agentInfo);
-        dataService.saveAgent(agentInfo);
-        return utilities.successResponse("soft deleted agent",null);
-    }
+//    public ResponseDTO softDeleteAgent(int id) {
+//        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
+//        agentInfo.getUserEntity().setStatus();
+//        log.info("changed agent's status to deleted {}",agentInfo);
+//        dataService.saveAgent(agentInfo);
+//        return utilities.successResponse("soft deleted agent",null);
+//    }
+
+
 }
