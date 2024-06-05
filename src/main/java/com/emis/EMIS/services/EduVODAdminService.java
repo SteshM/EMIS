@@ -1,23 +1,20 @@
 package com.emis.EMIS.services;
 
-import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.AgentInfoEntity;
 import com.emis.EMIS.models.SchoolAdminInfoEntity;
-import com.emis.EMIS.models.SchoolsEntity;
-import com.emis.EMIS.models.UserEntity;
+
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
+
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
+
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PutMapping;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,12 +78,42 @@ public class EduVODAdminService {
     public ResponseDTO fetchActiveSchoolAdmins() {
         List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
         log.info("About to fetch active school admins {}",schoolAdminInfoEntities);
+        List<SchoolAdminDTO>schoolAdminDTOList = schoolAdminInfoEntities.stream()
+                .map(schoolAdminInfo -> {
+                    return SchoolAdminDTO.builder()
+                            .adminRole(schoolAdminInfo.getAdminRole())
+                            .department(schoolAdminInfo.getDepartment())
+                            .tscNumber(schoolAdminInfo.getTscNumber())
+                            .officePhone(schoolAdminInfo.getOfficePhone())
+                            .firstName(schoolAdminInfo.getUserEntity().getFirstName())
+                            .middleName(schoolAdminInfo.getUserEntity().getMiddleName())
+                            .lastName(schoolAdminInfo.getUserEntity().getLastName())
+                            .nationalId(schoolAdminInfo.getUserEntity().getNationalId())
+                            .email(schoolAdminInfo.getUserEntity().getEmail())
+                            .phoneNo(schoolAdminInfo.getUserEntity().getPhoneNo())
+                            .build();
+
+                })
+                .toList();
         return utilities.successResponse("Successfully fetched active school admins",schoolAdminInfoEntities);
     }
+
 
     public ResponseDTO fetchSchoolAdminById(int id) {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
         return utilities.successResponse("fetched a school admin",schoolAdminInfo);
+
+    }
+
+    public ResponseDTO updateSchool(int id, SchoolAdminDTO schoolAdminDTO) {
+        var schoolAdminInfo = dataService.findBySchoolAdminId(id);
+        schoolAdminInfo.setAdminRole(schoolAdminDTO.getAdminRole());
+        schoolAdminInfo.setDepartment(schoolAdminDTO.getDepartment());
+        schoolAdminInfo.setOfficePhone(schoolAdminDTO.getOfficePhone());
+        schoolAdminInfo.setTscNumber(schoolAdminDTO.getTscNumber());
+        var schoolAdminDTO1 = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
+        dataService.saveSchoolAdmin(schoolAdminInfo);
+       return utilities.successResponse("updated  school admin details",schoolAdminDTO1);
 
     }
 }

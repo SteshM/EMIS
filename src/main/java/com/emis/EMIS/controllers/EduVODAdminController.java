@@ -4,6 +4,7 @@ import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
+import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +22,13 @@ public class EduVODAdminController {
     public ResponseDTO fetchSchoolAdmins(){
         return eduVODAdminService.fetchActiveSchoolAdmins();
     }
-    @GetMapping("/agent/{id}")
-    public ResponseDTO fetchById(@PathVariable int id){
+    @GetMapping("/school-admin/{id}")
+    public ResponseDTO fetchSchoolAdminById(@PathVariable int id){
         return eduVODAdminService.fetchSchoolAdminById(id);
+    }
+    @PutMapping("/school-admin/{id}")
+    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolAdminDTO schoolAdminDTO){
+        return eduVODAdminService.updateSchool(id,schoolAdminDTO);
     }
 
 
