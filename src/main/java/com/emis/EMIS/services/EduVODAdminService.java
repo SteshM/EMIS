@@ -27,54 +27,7 @@ public class EduVODAdminService {
     private final DataService dataService;
     private final Utilities utilities;
 
-    public ResponseDTO fetchActiveAgents() {
-        List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
-        log.info("Fetched agents from the db:{}",agentInfoEntityList);
-        List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
-                .map(agentInfoEntity -> {
-                  // return modelMapper.map(agentInfoEntity, AgentDTO.class);
-                  return   AgentDTO.builder()
-                            .agentType(agentInfoEntity.getAgentType())
-                            .agencyName(agentInfoEntity.getAgencyName())
-                            .emergencyContact(agentInfoEntity.getEmergencyContact())
-                            .firstName(agentInfoEntity.getUserEntity().getFirstName())
-                            .middleName(agentInfoEntity.getUserEntity().getMiddleName())
-                            .lastName(agentInfoEntity.getUserEntity().getLastName())
-                            .nationalId(agentInfoEntity.getUserEntity().getNationalId())
-                            .email(agentInfoEntity.getUserEntity().getEmail())
-                            .phoneNo(agentInfoEntity.getUserEntity().getPhoneNo())
-                            .build();
-                })
-                .toList();
-
-        return utilities.successResponse("fetched all agents",agentDTOList);}
-
-    public ResponseDTO fetchByAgentId(int id) {
-        var agentEntity = dataService.findByAgentId(id);
-        return utilities.successResponse("fetched an agent",agentEntity);
-    }
-
-    public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
-        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
-        agentInfo.setAgentType(agentDTO.getAgentType());
-        agentInfo.setAgencyName(agentDTO.getAgencyName());
-        agentInfo.setEmergencyContact(agentDTO.getEmergencyContact());
-        AgentDTO agentDTO1 =modelMapper.map(agentInfo,AgentDTO.class);
-        dataService.saveAgent(agentInfo);
-        return utilities.successResponse("Updated an agent",agentDTO1);
-    }
-
-
-    public ResponseDTO softDeleteAgent(int id) {
-        AgentInfoEntity agentInfo = dataService.findByAgentId(id);
-        agentInfo.setStatus(Status.DELETED);
-        agentInfo.getUserEntity().setStatus(Status.DELETED);
-        log.info("changed agent's status to deleted {}",agentInfo);
-        dataService.saveAgent(agentInfo);
-        return utilities.successResponse("soft deleted agent",null);
-    }
-
-
+    //School-Admins
     public ResponseDTO fetchActiveSchoolAdmins() {
         List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
         log.info("About to fetch active school admins {}",schoolAdminInfoEntities);
@@ -105,7 +58,7 @@ public class EduVODAdminService {
 
     }
 
-    public ResponseDTO updateSchool(int id, SchoolAdminDTO schoolAdminDTO) {
+    public ResponseDTO updateSchoolAdminDetails(int id, SchoolAdminDTO schoolAdminDTO) {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
         schoolAdminInfo.setAdminRole(schoolAdminDTO.getAdminRole());
         schoolAdminInfo.setDepartment(schoolAdminDTO.getDepartment());
@@ -113,7 +66,66 @@ public class EduVODAdminService {
         schoolAdminInfo.setTscNumber(schoolAdminDTO.getTscNumber());
         var schoolAdminDTO1 = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
         dataService.saveSchoolAdmin(schoolAdminInfo);
-       return utilities.successResponse("updated  school admin details",schoolAdminDTO1);
+        return utilities.successResponse("updated  school admin details",schoolAdminDTO1);
 
     }
+    public ResponseDTO deleteSchoolAdmin(int id){
+        var schoolAdminInfo = dataService.findBySchoolAdminId(id);
+        schoolAdminInfo.setStatus(Status.DELETED);
+        schoolAdminInfo.getUserEntity().setStatus(Status.DELETED);
+        dataService.saveSchoolAdmin(schoolAdminInfo);
+        return utilities.successResponse("deleted a school admin",null);
+    }
+
+
+    //Agents
+
+    public ResponseDTO fetchActiveAgents() {
+        List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
+        log.info("Fetched agents from the db:{}",agentInfoEntityList);
+        List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
+                .map(agentInfoEntity -> {
+                  // return modelMapper.map(agentInfoEntity, AgentDTO.class);
+                  return   AgentDTO.builder()
+                            .agentType(agentInfoEntity.getAgentType())
+                            .agencyName(agentInfoEntity.getAgencyName())
+                            .emergencyContact(agentInfoEntity.getEmergencyContact())
+                            .firstName(agentInfoEntity.getUserEntity().getFirstName())
+                            .middleName(agentInfoEntity.getUserEntity().getMiddleName())
+                            .lastName(agentInfoEntity.getUserEntity().getLastName())
+                            .nationalId(agentInfoEntity.getUserEntity().getNationalId())
+                            .email(agentInfoEntity.getUserEntity().getEmail())
+                            .phoneNo(agentInfoEntity.getUserEntity().getPhoneNo())
+                            .build();
+                })
+                .toList();
+
+        return utilities.successResponse("fetched all agents",agentDTOList);}
+
+    public ResponseDTO fetchByAgentId(int id) {
+        var agentEntity = dataService.findByAgentId(id);
+        return utilities.successResponse("fetched an agent",agentEntity);
+    }
+
+    public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
+        var agentInfo = dataService.findByAgentId(id);
+        agentInfo.setAgentType(agentDTO.getAgentType());
+        agentInfo.setAgencyName(agentDTO.getAgencyName());
+        agentInfo.setEmergencyContact(agentDTO.getEmergencyContact());
+        AgentDTO agentDTO1 =modelMapper.map(agentInfo,AgentDTO.class);
+        dataService.saveAgent(agentInfo);
+        return utilities.successResponse("Updated an agent",agentDTO1);
+    }
+
+
+    public ResponseDTO softDeleteAgent(int id) {
+        var agentInfo = dataService.findByAgentId(id);
+        agentInfo.setStatus(Status.DELETED);
+        agentInfo.getUserEntity().setStatus(Status.DELETED);
+        log.info("changed agent's status to deleted {}",agentInfo);
+        dataService.saveAgent(agentInfo);
+        return utilities.successResponse("soft deleted agent",null);
+    }
+
+
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;
 
+    //School-Admins
+
     @GetMapping("/school-admins")
     public ResponseDTO fetchSchoolAdmins(){
         return eduVODAdminService.fetchActiveSchoolAdmins();
@@ -28,10 +30,15 @@ public class EduVODAdminController {
     }
     @PutMapping("/school-admin/{id}")
     public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolAdminDTO schoolAdminDTO){
-        return eduVODAdminService.updateSchool(id,schoolAdminDTO);
+        return eduVODAdminService.updateSchoolAdminDetails(id,schoolAdminDTO);
+    }
+    @DeleteMapping("/del-school-admin/{id}")
+    public ResponseDTO deleteSchoolAdm(@PathVariable int id){
+        return eduVODAdminService.deleteSchoolAdmin(id);
     }
 
 
+    //Agents
 
     @GetMapping("/agents")
     public ResponseDTO fetchAll(){
