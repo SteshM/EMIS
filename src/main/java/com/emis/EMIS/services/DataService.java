@@ -101,4 +101,8 @@ public class DataService {
     public List<PartnerInfoEntity> fetchActivePartners() {
         return partnerRepo.findByStatus(Status.ACTIVE);
     }
+    public PartnerInfoEntity findByPartnerId(int partnerId){
+        return partnerRepo.findByPartnerId(partnerId);
+    }
+
 }

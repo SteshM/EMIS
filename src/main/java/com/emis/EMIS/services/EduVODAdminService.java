@@ -156,4 +156,10 @@ public class EduVODAdminService {
 
 return utilities.successResponse("Successfully fetched active partners",partnerDTOList);
     }
+
+
+    public ResponseDTO fetchOne(int id) {
+        PartnerInfoEntity partnerInfo = dataService.findByPartnerId(id);
+        return utilities.successResponse("Successfully fetched a partner",partnerInfo);
+    }
 }

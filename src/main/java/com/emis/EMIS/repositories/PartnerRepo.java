@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface PartnerRepo extends JpaRepository<PartnerInfoEntity,Integer> {
     List<PartnerInfoEntity> findByStatus(Status status);
+
+    PartnerInfoEntity findByPartnerId(int partnerId);
 }
