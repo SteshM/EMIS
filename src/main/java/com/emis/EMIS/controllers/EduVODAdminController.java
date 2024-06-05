@@ -58,4 +58,10 @@ public class EduVODAdminController {
         return eduVODAdminService.softDeleteAgent(id);
   }
 
+  //Partners
+    @GetMapping("/partners")
+    public ResponseDTO viewActivePartners(){
+        return eduVODAdminService.viewActivePartners();
+    }
+
 }

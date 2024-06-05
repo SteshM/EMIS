@@ -97,4 +97,8 @@ public class DataService {
     public SchoolsEntity findBySchoolId(int schoolId){
         return schoolRepo.findBySchoolId(schoolId);
     }
+
+    public List<PartnerInfoEntity> fetchActivePartners() {
+        return partnerRepo.findByStatus(Status.ACTIVE);
+    }
 }

@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,7 +24,7 @@ public class PartnerInfoEntity {
     private Date agreementStartDate;
     private Date agreementEndDate;
     private String contractDetails;
-
+    private Status status;
     @ManyToOne
     @JoinColumn(name = "userId")
     UserEntity userEntity;

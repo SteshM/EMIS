@@ -2,6 +2,7 @@ package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.AgentInfoEntity;
+import com.emis.EMIS.models.PartnerInfoEntity;
 import com.emis.EMIS.models.SchoolAdminInfoEntity;
 
 import com.emis.EMIS.utils.Utilities;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -128,4 +128,8 @@ public class EduVODAdminService {
     }
 
 
+    public ResponseDTO viewActivePartners() {
+        List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();
+
+    }
 }
