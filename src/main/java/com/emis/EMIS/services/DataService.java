@@ -78,6 +78,9 @@ public class DataService {
     public List<SchoolAdminInfoEntity>fetchActiveSchoolAdmins(){
         return schoolAdminRepo.findByStatus(Status.ACTIVE);
     }
+    public SchoolAdminInfoEntity findBySchoolAdminId(int schoolAdminId){
+        return schoolAdminRepo.findBySchoolAdminId(schoolAdminId);
+    }
 
     public List <AgentInfoEntity> fetchAgents(){
         return agentRepo.findAll();

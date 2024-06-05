@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface SchoolAdminRepo  extends JpaRepository<SchoolAdminInfoEntity,Integer> {
     List<SchoolAdminInfoEntity> findByStatus(Status status);
+
+    SchoolAdminInfoEntity findBySchoolAdminId(int schoolAdminId);
 }

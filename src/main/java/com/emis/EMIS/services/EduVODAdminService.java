@@ -11,6 +11,7 @@ import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
+import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -81,5 +82,11 @@ public class EduVODAdminService {
         List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
         log.info("About to fetch active school admins {}",schoolAdminInfoEntities);
         return utilities.successResponse("Successfully fetched active school admins",schoolAdminInfoEntities);
+    }
+
+    public ResponseDTO fetchSchoolAdminById(int id) {
+        var schoolAdminInfo = dataService.findBySchoolAdminId(id);
+        return utilities.successResponse("fetched a school admin",schoolAdminInfo);
+
     }
 }

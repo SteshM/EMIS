@@ -21,6 +21,10 @@ public class EduVODAdminController {
     public ResponseDTO fetchSchoolAdmins(){
         return eduVODAdminService.fetchActiveSchoolAdmins();
     }
+    @GetMapping("/agent/{id}")
+    public ResponseDTO fetchById(@PathVariable int id){
+        return eduVODAdminService.fetchSchoolAdminById(id);
+    }
 
 
 
