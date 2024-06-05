@@ -159,7 +159,23 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
 
 
     public ResponseDTO fetchOne(int id) {
-        PartnerInfoEntity partnerInfo = dataService.findByPartnerId(id);
+        var partnerInfo = dataService.findByPartnerId(id);
         return utilities.successResponse("Successfully fetched a partner",partnerInfo);
+    }
+
+
+    public ResponseDTO updatePartnerDetails(int id, PartnerDTO partnerDTO) {
+        var partnerInfo = dataService.findByPartnerId(id);
+        partnerInfo.setFirmName(partnerDTO.getFirmName());
+        partnerInfo.setEmergencyContact(partnerDTO.getEmergencyContact());
+        partnerInfo.setBusinessContact(partnerDTO.getBusinessContact());
+        partnerInfo.setContractDetails(partnerDTO.getContractDetails());
+        partnerInfo.setBusinessEmail(partnerDTO.getBusinessEmail());
+        partnerInfo.setAgreementStartDate(partnerDTO.getAgreementStartDate());
+        partnerInfo.setAgreementEndDate(partnerDTO.getAgreementEndDate());
+        PartnerDTO partnerDTO1 = modelMapper.map(partnerInfo, PartnerDTO.class);
+        dataService.savePartner(partnerInfo);
+        return utilities.successResponse("Successfully updated a partners details",partnerDTO1);
+
     }
 }
