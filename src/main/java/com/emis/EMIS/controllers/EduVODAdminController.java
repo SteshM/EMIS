@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;
 
-    @GetMapping("/schoolAdmins")
+    @GetMapping("/school-admins")
     public ResponseDTO fetchSchoolAdmins(){
         return eduVODAdminService.fetchActiveSchoolAdmins();
     }
