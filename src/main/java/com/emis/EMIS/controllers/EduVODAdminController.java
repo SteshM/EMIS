@@ -74,5 +74,9 @@ public class EduVODAdminController {
     public ResponseDTO updatePartnerDetails(@PathVariable int id, @RequestBody PartnerDTO partnerDTO){
         return eduVODAdminService.updatePartnerDetails(id,partnerDTO);
     }
+    @DeleteMapping("/del-partner/{id}")
+    public ResponseDTO delPartner(@PathVariable int id){
+        return eduVODAdminService.deletePartner(id);
+    }
 
 }

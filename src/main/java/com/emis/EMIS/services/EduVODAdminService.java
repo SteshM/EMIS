@@ -178,4 +178,13 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
         return utilities.successResponse("Successfully updated a partners details",partnerDTO1);
 
     }
+
+    public ResponseDTO deletePartner(int id) {
+        var partnerInfo = dataService.findByPartnerId(id);
+        partnerInfo.setStatus(Status.DELETED);
+        partnerInfo.getUserEntity().setStatus(Status.DELETED);
+        dataService.savePartner(partnerInfo);
+        return utilities.successResponse("deleted a partner",null);
+
+    }
 }
