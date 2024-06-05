@@ -9,6 +9,7 @@ import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 
+import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +49,7 @@ public class EduVODAdminService {
 
                 })
                 .toList();
-        return utilities.successResponse("Successfully fetched active school admins",schoolAdminInfoEntities);
+        return utilities.successResponse("Successfully fetched active school admins",schoolAdminDTOList);
     }
 
 
@@ -130,6 +131,29 @@ public class EduVODAdminService {
 
     public ResponseDTO viewActivePartners() {
         List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();
+        List<PartnerDTO>partnerDTOList = partnerInfoEntityList.stream()
+                .map(partnerInfoEntity ->{
+                    return PartnerDTO .builder()
+                            .firstName(partnerInfoEntity.getUserEntity().getFirstName())
+                            .middleName(partnerInfoEntity.getUserEntity().getMiddleName())
+                            .lastName(partnerInfoEntity.getUserEntity().getLastName())
+                            .email(partnerInfoEntity.getUserEntity().getEmail())
+                            .nationalId(partnerInfoEntity.getUserEntity().getNationalId())
+                            .phoneNo(partnerInfoEntity.getUserEntity().getPhoneNo())
+                            .businessEmail(partnerInfoEntity.getBusinessEmail())
+                            .businessContact(partnerInfoEntity.getBusinessContact())
+                            .businessEmail(partnerInfoEntity.getBusinessEmail())
+                            .firmName(partnerInfoEntity.getFirmName())
+                            .emergencyContact(partnerInfoEntity.getEmergencyContact())
+                            .contractDetails(partnerInfoEntity.getContractDetails())
+                            .agreementStartDate(partnerInfoEntity.getAgreementStartDate())
+                            .agreementEndDate(partnerInfoEntity.getAgreementEndDate())
+                            .build();
+                })
 
+
+                .toList();
+
+return utilities.successResponse("Successfully fetched active partners",partnerDTOList);
     }
 }

@@ -17,10 +17,8 @@ public class PartnerInfoEntity {
     private int partnerInfoId;
     private String firmName;
     private String emergencyContact;
-    private String partnerType;
     private String businessContact;
     private String businessEmail;
-    private String businessPhone;
     private Date agreementStartDate;
     private Date agreementEndDate;
     private String contractDetails;
