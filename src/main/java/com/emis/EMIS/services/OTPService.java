@@ -69,6 +69,8 @@ public class OTPService {
                     dataService.saveOTP(otpEntity);
                     return true;
                 }
+            }else{
+                log.info("OTP does not match - {}", encodedOtp);
             }
             return false;
         } catch (Exception e){

@@ -17,6 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;
 
+    @GetMapping("/schoolAdmins")
+    public ResponseDTO fetchSchoolAdmins(){
+        return eduVODAdminService.fetchActiveSchoolAdmins();
+    }
+
+
+
     @GetMapping("/agents")
     public ResponseDTO fetchAll(){
         return eduVODAdminService.fetchActiveAgents();
@@ -34,19 +41,5 @@ public class EduVODAdminController {
     public ResponseDTO softDelete(@PathVariable int id){
         return eduVODAdminService.softDeleteAgent(id);
   }
-//
-//
-//
-//    @GetMapping("/pending-schools")
-//    public ResponseDTO pendingSchools(){
-//        return eduVODAdminService.fetchPendingSchools();
-//    }
-//    @PostMapping("/approve-school")
-//    public ResponseDTO approveSchool(@RequestBody SchoolDTO schoolDTO){
-//        return .approveSchool(schoolDTO);
-//    }
-////    @GetMapping("/schools")
-////    public ResponseDTO getSchools(){
-////        return eduVODAdminService.fetchActiveSchools();
-////    }
+
 }

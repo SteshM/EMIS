@@ -57,6 +57,8 @@ public class UserService implements UserDetailsService {
 
              if(profileId ==1){
                 SchoolAdminInfoEntity schoolAdminInfo = modelMapper.map(userDTO,SchoolAdminInfoEntity.class);
+                schoolAdminInfo.setStatus(Status.ACTIVE);
+                schoolAdminInfo.setUserEntity(savedUser);
                 dataService.saveSchoolAdmin(schoolAdminInfo);
                 return utilities.successResponse("Created a school Admin",null);
 
@@ -105,6 +107,7 @@ public class UserService implements UserDetailsService {
 
         UserEntity userEntity = dataService.findByEmail(activateAccDTO.getEmail()).get();
         if (userEntity != null) {
+            log.info("the user = ,{}", userEntity);
             boolean isOtpVerified = otpService.verifyOtp(userEntity.getUserId(), activateAccDTO.getOtp());
             log.info("Check if otp is verified: {}", isOtpVerified);
             if (isOtpVerified) {

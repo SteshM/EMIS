@@ -3,6 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.AgentInfoEntity;
+import com.emis.EMIS.models.SchoolAdminInfoEntity;
 import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.Utilities;
@@ -27,7 +28,6 @@ public class EduVODAdminService {
     private final ModelMapper modelMapper;
     private final DataService dataService;
     private final Utilities utilities;
-    private final UserConfigs userConfigs;
 
     public ResponseDTO fetchActiveAgents() {
         List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
@@ -77,5 +77,9 @@ public class EduVODAdminService {
     }
 
 
-
+    public ResponseDTO fetchActiveSchoolAdmins() {
+        List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
+        log.info("About to fetch active school admins {}",schoolAdminInfoEntities);
+        return utilities.successResponse("Successfully fetched active school admins",schoolAdminInfoEntities);
+    }
 }

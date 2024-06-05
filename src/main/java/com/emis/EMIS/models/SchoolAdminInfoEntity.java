@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,9 +17,13 @@ public class SchoolAdminInfoEntity {
     private String department;
     private String officePhone;
     private String tscNumber;
+    private Status status;
 
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private UserEntity userEntity;
 
     @ManyToOne
     @JoinColumn(name = "schoolId")
-    private UserEntity userEntity;
+    private SchoolsEntity schools;
 }

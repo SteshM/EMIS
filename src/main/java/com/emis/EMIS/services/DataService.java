@@ -36,7 +36,7 @@ public class DataService {
         otpRepo.save(otpEntity);
     }
     public OTPEntity findOTPByUserId(int userId){
-        return otpRepo.findByUserEntityUserId(userId).orElseThrow();
+        return otpRepo.findByUserId(userId);
     }
     public UserEntity findByUserId(int userId){
         return userRepo.findByUserId(userId);
@@ -74,6 +74,9 @@ public class DataService {
     }
     public List <UserRoleEntity>findByUserId2(int userId){
         return userRoleRepo.findByUserId(userId);
+    }
+    public List<SchoolAdminInfoEntity>fetchActiveSchoolAdmins(){
+        return schoolAdminRepo.findByStatus(Status.ACTIVE);
     }
 
     public List <AgentInfoEntity> fetchAgents(){
