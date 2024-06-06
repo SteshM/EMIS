@@ -21,7 +21,7 @@ public class AgentService {
  private final Utilities utilities;
 
     public ResponseDTO enrolSchool(SchoolDTO schoolDTO) {
-        SchoolsEntity school = modelMapper.map(schoolDTO,SchoolsEntity.class);
+        var school = modelMapper.map(schoolDTO,SchoolsEntity.class);
         school.setStatus(Status.PENDING);
         log.info("About to fetch the saved school {}",school);
         dataService.saveSchool(school);
@@ -36,7 +36,7 @@ public class AgentService {
     }
 
     public ResponseDTO updateSchool(int id, SchoolDTO schoolDTO) {
-        SchoolsEntity school = dataService.findBySchoolId(id);
+        var school = dataService.findBySchoolId(id);
         school.setSchoolName(schoolDTO.getSchoolName());
         school.setSchoolType(schoolDTO.getSchoolType());
         school.setCounty(schoolDTO.getCounty());
@@ -53,7 +53,7 @@ public class AgentService {
     }
 
     public ResponseDTO deleteSchool(int id) {
-        SchoolsEntity school = dataService.findBySchoolId(id);
+        var school = dataService.findBySchoolId(id);
         school.setStatus(Status.DELETED);
         dataService.saveSchool(school);
         return utilities.successResponse("deleted school",null);
