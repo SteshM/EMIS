@@ -108,5 +108,8 @@ public class DataService {
     public void saveOtherAdmin(OtherAdminEntity otherAdmin){
         otherAdminsRepo.save(otherAdmin);
     }
+    public List<OtherAdminEntity>viewAll(){
+        return otherAdminsRepo.findByStatus(Status.ACTIVE);
+    }
 
 }

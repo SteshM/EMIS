@@ -20,6 +20,10 @@ public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;
 
     //OtherAdmins
+    @GetMapping("/other-admins")
+    public ResponseDTO viewOtherAdmins(){
+        return eduVODAdminService.viewOtherAdmins();
+    }
 
 
     //School-Admins

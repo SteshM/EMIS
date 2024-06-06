@@ -49,35 +49,35 @@ public class UserService implements UserDetailsService {
     public ResponseDTO register(UserDTO userDTO) {
 
         try {
-            UserEntity userEntity = modelMapper.map(userDTO, UserEntity.class);
+            var userEntity = modelMapper.map(userDTO, UserEntity.class);
             UserEntity savedUser = dataService.saveUser(userEntity);
             otpService.generateOTP(savedUser);
             userEntity.setStatus(Status.INACTIVE);
             int profileId = userDTO.getProfileId();
 
              if(profileId ==1) {
-                 OtherAdminEntity otherAdminEntity = modelMapper.map(userDTO, OtherAdminEntity.class);
+                 var otherAdminEntity = modelMapper.map(userDTO, OtherAdminEntity.class);
                  otherAdminEntity.setStatus(Status.ACTIVE);
                  otherAdminEntity.setUserEntity(savedUser);
                  dataService.saveOtherAdmin(otherAdminEntity);
                  return utilities.successResponse("Created other Admin", null);
 
              }else if(profileId ==2){
-                SchoolAdminInfoEntity schoolAdminInfo = modelMapper.map(userDTO,SchoolAdminInfoEntity.class);
+                var schoolAdminInfo = modelMapper.map(userDTO,SchoolAdminInfoEntity.class);
                 schoolAdminInfo.setStatus(Status.ACTIVE);
                 schoolAdminInfo.setUserEntity(savedUser);
                 dataService.saveSchoolAdmin(schoolAdminInfo);
                 return utilities.successResponse("Created a school Admin",null);
 
             }else  if (profileId == 3){
-                AgentInfoEntity agentInfo = modelMapper.map(userDTO, AgentInfoEntity.class);
+                var agentInfo = modelMapper.map(userDTO, AgentInfoEntity.class);
                 agentInfo.setUserEntity(savedUser);
                 agentInfo.setStatus(Status.ACTIVE);
                 dataService.saveAgent(agentInfo);
                 return utilities.successResponse("Registered agent",null);
 
             }else if (profileId == 4){
-                PartnerInfoEntity partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
+                var partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
                 dataService.savePartner(partnerInfo);
                 return utilities.successResponse("Created a partner",null);
 
@@ -85,7 +85,7 @@ public class UserService implements UserDetailsService {
 
             //adding basic role-->standard
             RolesEntity role = dataService.findRoleById(1);
-           UserRoleEntity userRoleEntity  = new UserRoleEntity();
+           var userRoleEntity  = new UserRoleEntity();
            if(role == null){
                return utilities.failedResponse(205,"This role does not exist ",null);
            }
@@ -101,8 +101,8 @@ public class UserService implements UserDetailsService {
             return utilities.successResponse("Successfully registered user", userProfileDTO);
         } catch (Exception psqlException) {
             log.error("Caught an exception", psqlException);
-            UserEntity userEntity = dataService.findByEmail(userDTO.getEmail()).get();
-            UserProfileDTO userProfileDTO = modelMapper.map(userEntity, UserProfileDTO.class);
+            var userEntity = dataService.findByEmail(userDTO.getEmail()).get();
+            var userProfileDTO = modelMapper.map(userEntity, UserProfileDTO.class);
             return utilities.failedResponse(205, "Email already exists", userProfileDTO);
         }
 
@@ -112,7 +112,7 @@ public class UserService implements UserDetailsService {
 
     public ResponseDTO activateAccount(ActivateAccDTO activateAccDTO) {
 
-        UserEntity userEntity = dataService.findByEmail(activateAccDTO.getEmail()).get();
+        var userEntity = dataService.findByEmail(activateAccDTO.getEmail()).get();
         if (userEntity != null) {
             log.info("the user = ,{}", userEntity);
             boolean isOtpVerified = otpService.verifyOtp(userEntity.getUserId(), activateAccDTO.getOtp());
@@ -145,7 +145,7 @@ public class UserService implements UserDetailsService {
 //    }
 
     public ResponseDTO createProfile(ProfileDto profileDto){
-        ProfileEntity profile = modelMapper.map(profileDto, ProfileEntity.class);
+        var profile = modelMapper.map(profileDto, ProfileEntity.class);
         if(dataService.findByProfile(profileDto.getProfile()) == null){
             dataService.saveProfile(profile);
             return utilities.successResponse("created profile", profile);
@@ -160,7 +160,7 @@ public class UserService implements UserDetailsService {
     }
 
     public ResponseDTO fetchByProfile(String profile) {
-        ProfileEntity profileEntity = dataService.findByProfile(profile);
+        var profileEntity = dataService.findByProfile(profile);
         return utilities.successResponse("fetched profile",profile);
     }
 }

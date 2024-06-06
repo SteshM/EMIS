@@ -2,6 +2,7 @@ package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.AgentInfoEntity;
+import com.emis.EMIS.models.OtherAdminEntity;
 import com.emis.EMIS.models.PartnerInfoEntity;
 import com.emis.EMIS.models.SchoolAdminInfoEntity;
 
@@ -183,6 +184,11 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
         partnerInfo.getUserEntity().setStatus(Status.DELETED);
         dataService.savePartner(partnerInfo);
         return utilities.successResponse("deleted a partner",null);
+
+    }
+
+    public ResponseDTO viewOtherAdmins() {
+        List<OtherAdminEntity>otherAdminEntityList = dataService.viewAll();
 
     }
 }
