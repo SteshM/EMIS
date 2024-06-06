@@ -4,6 +4,11 @@ import com.emis.EMIS.models.RolesEntity;
 import com.emis.EMIS.repositories.RolesRepo;
 import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.wrappers.requestDTOs.ProfileDto;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +21,23 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+
+@OpenAPIDefinition(
+		security = {
+				@SecurityRequirement(
+						name="bearerAuth"
+				)
+		}
+)
+
+@SecurityScheme(
+		name="bearerAuth",
+		description = "JWT bearer controller",
+		scheme = "bearer",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		in = SecuritySchemeIn.HEADER
+)
 @SpringBootApplication
 public class EmisApplication implements CommandLineRunner {
 

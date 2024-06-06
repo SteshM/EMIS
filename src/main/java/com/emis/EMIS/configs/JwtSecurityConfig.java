@@ -46,7 +46,18 @@ public class JwtSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers("/v1/user/all,/v1/eduAdmin/**").permitAll()
+                        .requestMatchers("/v1/user/all,/v1/eduAdmin/**",
+                                "/v2/**",
+                                "/v3/**",
+                                "/v3/api-docs/**",
+                                "/swagger-resources",
+                                "/swagger-resources/**",
+                                "/configuration/ui",
+                                "/configuration/security",
+                                "/api-docs/**",
+                                "/swagger-ui/**",
+                                "/webjars/**",
+                                "/swagger-ui.html").permitAll()
                         .requestMatchers("/v1/sdm/**").hasAuthority(userConfigs.getCANCREATEADMIN())
 //                        .requestMatchers("/v1/eduAdmin/**").hasAuthority("EDUVODADMIN")
                         .requestMatchers("/v1/admsdm/**").hasAnyAuthority("EDUVODADMIN","SUPERADMIN")
