@@ -23,6 +23,7 @@ public class DataService {
     private final SchoolRepo schoolRepo;
     private final SchoolAdminRepo schoolAdminRepo;
     private final UserRoleRepo userRoleRepo;
+    private final OtherAdminsRepo otherAdminsRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -103,6 +104,9 @@ public class DataService {
     }
     public PartnerInfoEntity findByPartnerId(int partnerId){
         return partnerRepo.findByPartnerId(partnerId);
+    }
+    public void saveOtherAdmin(OtherAdminEntity otherAdmin){
+        otherAdminsRepo.save(otherAdmin);
     }
 
 }
