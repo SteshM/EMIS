@@ -1,22 +1,18 @@
 package com.emis.EMIS.services;
-
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.AgentInfoEntity;
 import com.emis.EMIS.models.OtherAdminEntity;
 import com.emis.EMIS.models.PartnerInfoEntity;
 import com.emis.EMIS.models.SchoolAdminInfoEntity;
-
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
-
 import com.emis.EMIS.wrappers.responseDTOs.OtherAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-
 import org.springframework.stereotype.Service;
 
 
@@ -29,6 +25,54 @@ public class EduVODAdminService {
     private final ModelMapper modelMapper;
     private final DataService dataService;
     private final Utilities utilities;
+
+    //Other-System-Admins
+
+    public ResponseDTO viewOtherAdmins() {
+        List<OtherAdminEntity>otherAdminEntityList = dataService.viewAll();
+        List<OtherAdminsDTO>otherAdminsDTOList = otherAdminEntityList.stream()
+                .map(otherAdmin -> {
+                    return OtherAdminsDTO.builder()
+                            .employmentNo(otherAdmin.getEmploymentNo())
+                            .officePhoneNo(otherAdmin.getOfficePhoneNo())
+                            .employmentNo(otherAdmin.getEmploymentNo())
+                            .department(otherAdmin.getDepartment())
+                            .firstName(otherAdmin.getUserEntity().getFirstName())
+                            .middleName(otherAdmin.getUserEntity().getMiddleName())
+                            .lastName(otherAdmin.getUserEntity().getLastName())
+                            .nationalId(otherAdmin.getUserEntity().getNationalId())
+                            .email(otherAdmin.getUserEntity().getEmail())
+                            .phoneNo(otherAdmin.getUserEntity().getPhoneNo())
+                            .build();
+
+                })
+                .toList();
+        return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
+    }
+
+
+    public ResponseDTO singleAdmin(int id) {
+        var otherAdmin = dataService.findByAdminId(id);
+        return utilities.successResponse("fetched a single admin",otherAdmin);
+    }
+
+    public ResponseDTO updateAdminDetails(int id, OtherAdminsDTO otherAdminsDTO) {
+        var otherAdmin = dataService.findByAdminId(id);
+        otherAdmin.setDepartment(otherAdminsDTO.getDepartment());
+        otherAdmin.setEmploymentNo(otherAdminsDTO.getEmploymentNo());
+        otherAdmin.setOfficePhoneNo(otherAdminsDTO.getOfficePhoneNo());
+        OtherAdminsDTO otherAdminsDTO1 = modelMapper.map(otherAdmin, OtherAdminsDTO.class);
+        dataService.saveOtherAdmin(otherAdmin);
+        return utilities.successResponse("updated admins details",otherAdmin);
+    }
+
+    public ResponseDTO deleteAdmin(int id) {
+        var otherAdmin = dataService.findByAdminId(id);
+        otherAdmin.setStatus(Status.DELETED);
+        otherAdmin.getUserEntity().setStatus(Status.DELETED);
+        dataService.saveOtherAdmin(otherAdmin);
+        return utilities.successResponse("soft deleted an admin",null);
+    }
 
     //School-Admins
     public ResponseDTO fetchActiveSchoolAdmins() {
@@ -188,49 +232,4 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
 
     }
 
-    public ResponseDTO viewOtherAdmins() {
-        List<OtherAdminEntity>otherAdminEntityList = dataService.viewAll();
-        List<OtherAdminsDTO>otherAdminsDTOList = otherAdminEntityList.stream()
-                .map(otherAdmin -> {
-                    return OtherAdminsDTO.builder()
-                            .employmentNo(otherAdmin.getEmploymentNo())
-                            .officePhoneNo(otherAdmin.getOfficePhoneNo())
-                            .employmentNo(otherAdmin.getEmploymentNo())
-                            .department(otherAdmin.getDepartment())
-                            .firstName(otherAdmin.getUserEntity().getFirstName())
-                            .middleName(otherAdmin.getUserEntity().getMiddleName())
-                            .lastName(otherAdmin.getUserEntity().getLastName())
-                            .nationalId(otherAdmin.getUserEntity().getNationalId())
-                            .email(otherAdmin.getUserEntity().getEmail())
-                            .phoneNo(otherAdmin.getUserEntity().getPhoneNo())
-                            .build();
-
-                })
-                .toList();
-    return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
-    }
-
-
-    public ResponseDTO singleAdmin(int id) {
-        var otherAdmin = dataService.findByAdminId(id);
-        return utilities.successResponse("fetched a single admin",otherAdmin);
-    }
-
-    public ResponseDTO updateAdminDetails(int id, OtherAdminsDTO otherAdminsDTO) {
-        var otherAdmin = dataService.findByAdminId(id);
-        otherAdmin.setDepartment(otherAdminsDTO.getDepartment());
-        otherAdmin.setEmploymentNo(otherAdminsDTO.getEmploymentNo());
-        otherAdmin.setOfficePhoneNo(otherAdminsDTO.getOfficePhoneNo());
-        OtherAdminsDTO otherAdminsDTO1 = modelMapper.map(otherAdmin, OtherAdminsDTO.class);
-        dataService.saveOtherAdmin(otherAdmin);
-        return utilities.successResponse("updated admins details",otherAdmin);
-    }
-
-    public ResponseDTO deleteAdmin(int id) {
-        var otherAdmin = dataService.findByAdminId(id);
-        otherAdmin.setStatus(Status.DELETED);
-        otherAdmin.getUserEntity().setStatus(Status.DELETED);
-        dataService.saveOtherAdmin(otherAdmin);
-        return utilities.successResponse("soft deleted an admin",null);
-    }
 }
