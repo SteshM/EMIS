@@ -17,6 +17,5 @@ public class AgentDTO {
     private String nationalId;
     private String phoneNo;
     private String agencyName;
-    private String agentType;
     private String emergencyContact;
 }

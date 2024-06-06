@@ -19,10 +19,8 @@ public class UserDTO {
     private String phoneNo;
     private String password;
     private String agencyName;
-    private String agentType;
     private String firmName;
     private String emergencyContact;
-    private String partnerType;
     private String businessContact;
     private String businessEmail;
     private String businessPhone;
@@ -33,6 +31,8 @@ public class UserDTO {
     private String department;
     private String officePhone;
     private String tscNumber;
+    private String employmentNo;
+    private String officePhoneNo;
     private int profileId;
 
 

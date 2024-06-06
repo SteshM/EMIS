@@ -88,7 +88,6 @@ public class EduVODAdminService {
                 .map(agentInfoEntity -> {
                   // return modelMapper.map(agentInfoEntity, AgentDTO.class);
                   return   AgentDTO.builder()
-                            .agentType(agentInfoEntity.getAgentType())
                             .agencyName(agentInfoEntity.getAgencyName())
                             .emergencyContact(agentInfoEntity.getEmergencyContact())
                             .firstName(agentInfoEntity.getUserEntity().getFirstName())
@@ -110,7 +109,6 @@ public class EduVODAdminService {
 
     public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
         var agentInfo = dataService.findByAgentId(id);
-        agentInfo.setAgentType(agentDTO.getAgentType());
         agentInfo.setAgencyName(agentDTO.getAgencyName());
         agentInfo.setEmergencyContact(agentDTO.getEmergencyContact());
         AgentDTO agentDTO1 =modelMapper.map(agentInfo,AgentDTO.class);
