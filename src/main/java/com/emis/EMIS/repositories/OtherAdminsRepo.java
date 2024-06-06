@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface OtherAdminsRepo extends JpaRepository<OtherAdminEntity,Integer> {
     List<OtherAdminEntity> findByStatus(Status status);
+
+    OtherAdminEntity findByAdminId(int adminId);
 }

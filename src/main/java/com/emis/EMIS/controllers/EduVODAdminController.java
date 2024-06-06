@@ -24,6 +24,11 @@ public class EduVODAdminController {
     public ResponseDTO viewOtherAdmins(){
         return eduVODAdminService.viewOtherAdmins();
     }
+    @GetMapping("/single-admin")
+    public ResponseDTO singleAdmin(@PathVariable int id){
+        return eduVODAdminService.singleAdmin(id);
+    }
+
 
 
     //School-Admins

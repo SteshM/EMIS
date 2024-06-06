@@ -210,4 +210,9 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
     return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
     }
 
+
+    public ResponseDTO singleAdmin(int id) {
+        var otherAdmin = dataService.findByAdminId(id);
+        return utilities.successResponse("fetched a single admin",otherAdmin);
+    }
 }

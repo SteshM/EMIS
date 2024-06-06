@@ -111,5 +111,8 @@ public class DataService {
     public List<OtherAdminEntity>viewAll(){
         return otherAdminsRepo.findByStatus(Status.ACTIVE);
     }
+    public OtherAdminEntity findByAdminId(int adminId){
+        return otherAdminsRepo.findByAdminId(adminId);
+    }
 
 }
