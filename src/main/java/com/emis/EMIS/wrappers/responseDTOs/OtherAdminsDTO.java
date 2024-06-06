@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OtherAdminsDTO {
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String email;
+    private String nationalId;
+    private String phoneNo;
     private String employmentNo;
     private String department;
     private String officePhoneNo;

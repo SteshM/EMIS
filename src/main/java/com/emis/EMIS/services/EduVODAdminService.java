@@ -10,6 +10,7 @@ import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 
+import com.emis.EMIS.wrappers.responseDTOs.OtherAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
@@ -189,6 +190,24 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
 
     public ResponseDTO viewOtherAdmins() {
         List<OtherAdminEntity>otherAdminEntityList = dataService.viewAll();
+        List<OtherAdminsDTO>otherAdminsDTOList = otherAdminEntityList.stream()
+                .map(otherAdmin -> {
+                    return OtherAdminsDTO.builder()
+                            .employmentNo(otherAdmin.getEmploymentNo())
+                            .officePhoneNo(otherAdmin.getOfficePhoneNo())
+                            .employmentNo(otherAdmin.getEmploymentNo())
+                            .department(otherAdmin.getDepartment())
+                            .firstName(otherAdmin.getUserEntity().getFirstName())
+                            .middleName(otherAdmin.getUserEntity().getMiddleName())
+                            .lastName(otherAdmin.getUserEntity().getLastName())
+                            .nationalId(otherAdmin.getUserEntity().getNationalId())
+                            .email(otherAdmin.getUserEntity().getEmail())
+                            .phoneNo(otherAdmin.getUserEntity().getPhoneNo())
+                            .build();
 
+                })
+                .toList();
+    return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
     }
+
 }
