@@ -14,7 +14,7 @@ import java.util.Date;
 public class PartnerInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int partnerInfoId;
+    private int partnerId;
     private String firmName;
     private String emergencyContact;
     private String businessContact;

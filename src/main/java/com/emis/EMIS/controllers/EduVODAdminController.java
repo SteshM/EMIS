@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;
 
+    //OtherAdmins
+
+
     //School-Admins
 
     @GetMapping("/school-admins")

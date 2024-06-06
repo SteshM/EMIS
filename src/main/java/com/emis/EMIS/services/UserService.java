@@ -60,7 +60,7 @@ public class UserService implements UserDetailsService {
                  otherAdminEntity.setStatus(Status.ACTIVE);
                  otherAdminEntity.setUserEntity(savedUser);
                  dataService.saveOtherAdmin(otherAdminEntity);
-                 return utilities.successResponse("Created a school Admin", null);
+                 return utilities.successResponse("Created other Admin", null);
 
              }else if(profileId ==2){
                 SchoolAdminInfoEntity schoolAdminInfo = modelMapper.map(userDTO,SchoolAdminInfoEntity.class);
