@@ -33,6 +33,10 @@ public class EduVODAdminController {
     public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody OtherAdminsDTO otherAdminsDTO){
         return eduVODAdminService.updateAdminDetails(id,otherAdminsDTO);
     }
+    @DeleteMapping("/del-admin/{id}")
+    public ResponseDTO deleteAdmin(@PathVariable int id){
+        return eduVODAdminService.deleteAdmin(id);
+    }
 
 
 

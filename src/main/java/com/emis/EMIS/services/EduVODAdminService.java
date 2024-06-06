@@ -224,4 +224,12 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
         OtherAdminsDTO otherAdminsDTO1 = modelMapper.map(otherAdmin, OtherAdminsDTO.class);
         return utilities.successResponse("updated admins details",otherAdminsDTO1);
     }
+
+    public ResponseDTO deleteAdmin(int id) {
+        var otherAdmin = dataService.findByAdminId(id);
+        otherAdmin.setStatus(Status.DELETED);
+        otherAdmin.getUserEntity().setStatus(Status.DELETED);
+        dataService.saveOtherAdmin(otherAdmin);
+        return utilities.successResponse("soft deleted an admin",null);
+    }
 }
