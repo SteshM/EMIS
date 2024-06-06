@@ -13,6 +13,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -99,6 +100,9 @@ public class UserController {
 //        return userService.addAuthority(addAuthDto);
 //    }
 
-
+    @PostMapping("/updateprofile")
+    public ResponseDTO updateProfile(@RequestPart("file") MultipartFile file){
+        return userService.updateProfilePic(file);
+    }
 }
 

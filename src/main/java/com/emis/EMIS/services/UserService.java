@@ -3,6 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
+import com.emis.EMIS.utils.ImageUploader;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.*;
@@ -10,12 +11,15 @@ import com.emis.EMIS.wrappers.responseDTOs.UserProfileDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +36,10 @@ public class UserService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final UserConfigs userConfigs;
     private final ModelMapper modelMapper;
+    private final ImageUploader imageUploader;
+
+    @Value("${profile.images.path}")
+    private String profilePath;
 
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);
@@ -161,6 +169,21 @@ public class UserService implements UserDetailsService {
 
     public ResponseDTO fetchByProfile(String profile) {
         var profileEntity = dataService.findByProfile(profile);
-        return utilities.successResponse("fetched profile",profile);
+        return utilities.successResponse("fetched profile",profileEntity);
+    }
+
+    private String email(){
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public ResponseDTO updateProfilePic(MultipartFile file){
+        var user= dataService.findByEmail(this.email()).get();
+        if(user.getProfilePic() != null){
+            imageUploader.deleteImg(profilePath+"/"+user.getProfilePic());
+        }
+
+        user.setProfilePic(imageUploader.uploadImage(profilePath, file));
+        var user1 = dataService.saveUser(user);
+        return utilities.successResponse("updated", user1);
     }
 }

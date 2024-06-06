@@ -37,7 +37,7 @@ public class UserEntity {
     private Date lastLogin;
     private int failedLoginAttempts;
     private int profileId;
-
+    private String profilePic;
 
 
 

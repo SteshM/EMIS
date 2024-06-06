@@ -1,19 +1,22 @@
 package com.emis.EMIS.utils;
 
+import com.emis.EMIS.models.ProfileEntity;
+import com.emis.EMIS.models.RolesEntity;
 import com.emis.EMIS.models.UserEntity;
+import com.emis.EMIS.repositories.ProfileRepo;
+import com.emis.EMIS.repositories.RolesRepo;
 import com.emis.EMIS.repositories.UserRepo;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 import io.jsonwebtoken.Claims;
@@ -22,6 +25,10 @@ import io.jsonwebtoken.Claims;
 public class JwtUtil {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private ProfileRepo profileRepo;
+    @Autowired
+    private RolesRepo rolesRepo;
 
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
@@ -40,7 +47,7 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignKey())
@@ -62,8 +69,15 @@ public class JwtUtil {
     public String generateToken(String userName){
 
         UserEntity user = userRepo.findByEmail(userName).get();
+        ProfileEntity profileEntity = profileRepo.findById(user.getProfileId()).get();
+        List<RolesEntity> rolesEntities = rolesRepo.findByProfileId(profileEntity.getProfileId());
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
+        for(RolesEntity role: rolesEntities){
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        }
         Map<String,Object> claims=new HashMap<>();
+        claims.put("privileges", authorities);
 
         //Encode the  email on the JWT
         claims.put("email", user.getEmail());

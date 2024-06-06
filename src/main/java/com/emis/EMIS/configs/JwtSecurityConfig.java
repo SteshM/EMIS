@@ -2,6 +2,7 @@ package com.emis.EMIS.configs;
 
 import com.emis.EMIS.security.JwtAuthFilter;
 import com.emis.EMIS.services.UserService;
+import com.emis.EMIS.utils.JwtUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ import java.util.List;
 public class JwtSecurityConfig {
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    JwtUtil jwtUtil;
+
 
     @Autowired
     UserDetailsService userDetailsService;
@@ -69,7 +73,7 @@ public class JwtSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(new JwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthFilter(jwtUtil ), UsernamePasswordAuthenticationFilter.class)
                 .cors((cors) -> cors
                         .configurationSource(request-> {
                             CorsConfiguration configuration = new CorsConfiguration();

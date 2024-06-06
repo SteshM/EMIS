@@ -15,5 +15,5 @@ public class RolesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roleId;
     private String role;
-
+    private int profileId;
 }
