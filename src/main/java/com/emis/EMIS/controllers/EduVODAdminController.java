@@ -4,6 +4,7 @@ import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.AgentDTO;
 import com.emis.EMIS.wrappers.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
+import com.emis.EMIS.wrappers.responseDTOs.OtherAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,17 @@ public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;
 
     //OtherAdmins
-    @GetMapping("/other-admins")
+    @GetMapping("/admins")
     public ResponseDTO viewOtherAdmins(){
         return eduVODAdminService.viewOtherAdmins();
     }
-    @GetMapping("/single-admin")
+    @GetMapping("/single-admin/{id}")
     public ResponseDTO singleAdmin(@PathVariable int id){
         return eduVODAdminService.singleAdmin(id);
+    }
+    @PutMapping("/admin/{id}")
+    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody OtherAdminsDTO otherAdminsDTO){
+        return eduVODAdminService.updateAdminDetails(id,otherAdminsDTO);
     }
 
 

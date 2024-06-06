@@ -215,4 +215,13 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
         var otherAdmin = dataService.findByAdminId(id);
         return utilities.successResponse("fetched a single admin",otherAdmin);
     }
+
+    public ResponseDTO updateAdminDetails(int id, OtherAdminsDTO otherAdminsDTO) {
+        var otherAdmin = dataService.findByAdminId(id);
+        otherAdmin.setDepartment(otherAdminsDTO.getDepartment());
+        otherAdmin.setEmploymentNo(otherAdminsDTO.getEmploymentNo());
+        otherAdmin.setOfficePhoneNo(otherAdminsDTO.getOfficePhoneNo());
+        OtherAdminsDTO otherAdminsDTO1 = modelMapper.map(otherAdmin, OtherAdminsDTO.class);
+        return utilities.successResponse("updated admins details",otherAdminsDTO1);
+    }
 }
