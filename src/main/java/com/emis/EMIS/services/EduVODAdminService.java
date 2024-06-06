@@ -222,7 +222,8 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
         otherAdmin.setEmploymentNo(otherAdminsDTO.getEmploymentNo());
         otherAdmin.setOfficePhoneNo(otherAdminsDTO.getOfficePhoneNo());
         OtherAdminsDTO otherAdminsDTO1 = modelMapper.map(otherAdmin, OtherAdminsDTO.class);
-        return utilities.successResponse("updated admins details",otherAdminsDTO1);
+        dataService.saveOtherAdmin(otherAdmin);
+        return utilities.successResponse("updated admins details",otherAdmin);
     }
 
     public ResponseDTO deleteAdmin(int id) {
