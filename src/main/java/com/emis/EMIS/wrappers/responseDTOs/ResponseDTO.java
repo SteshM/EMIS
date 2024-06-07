@@ -1,6 +1,5 @@
-package com.emis.EMIS.wrappers;
+package com.emis.EMIS.wrappers.responseDTOs;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.emis.EMIS;
 
-import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 
 public interface Guide {
     public ResponseDTO addAuth();//SuperAdmin & Admin

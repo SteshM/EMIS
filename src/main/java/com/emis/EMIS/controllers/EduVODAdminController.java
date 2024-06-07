@@ -1,8 +1,8 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.EduVODAdminService;
-import com.emis.EMIS.wrappers.AgentDTO;
-import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
+import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.OtherAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;

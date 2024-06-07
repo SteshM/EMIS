@@ -3,7 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

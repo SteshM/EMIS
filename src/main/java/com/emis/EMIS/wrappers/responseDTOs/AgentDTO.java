@@ -1,6 +1,5 @@
-package com.emis.EMIS.wrappers;
+package com.emis.EMIS.wrappers.responseDTOs;
 
-import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

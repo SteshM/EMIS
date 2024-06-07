@@ -1,12 +1,11 @@
 package com.emis.EMIS.utils;
 
 import com.emis.EMIS.configs.UserConfigs;
-import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.security.MessageDigest;
 import java.util.Base64;
 
 @Data

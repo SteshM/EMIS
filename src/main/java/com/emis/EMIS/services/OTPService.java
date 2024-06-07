@@ -6,7 +6,7 @@ import com.emis.EMIS.models.OTPEntity;
 import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.RandomGenerator;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
