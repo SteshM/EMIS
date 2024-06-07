@@ -89,6 +89,11 @@ public class UserService implements UserDetailsService {
                 dataService.savePartner(partnerInfo);
                 return utilities.successResponse("Created a partner",null);
 
+            }else if (profileId == 5){
+                var student = modelMapper.map(userDTO, StudentEntity.class);
+                dataService.saveStudent(student);
+                return utilities.successResponse("Created a student",null);
+
             }
 
             //adding basic role-->standard

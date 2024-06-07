@@ -24,6 +24,7 @@ public class DataService {
     private final SchoolAdminRepo schoolAdminRepo;
     private final UserRoleRepo userRoleRepo;
     private final OtherAdminsRepo otherAdminsRepo;
+    private final StudentsRepo studentsRepo;
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -121,6 +122,16 @@ public class DataService {
     public RolesEntity findByProfileId(int profileId){
         return (RolesEntity) rolesRepo.findByProfileId(profileId);
     }
+    public StudentEntity findByStudentId(int studentId){
+        return studentsRepo.findByStudentId(studentId);
+    }
+    public List<StudentEntity>viewAllStudents(){
+        return studentsRepo.findByStatus(Status.ACTIVE);
+    }
 
 
+    public void saveStudent(StudentEntity student){
+        studentsRepo.save(student);
+
+    }
 }

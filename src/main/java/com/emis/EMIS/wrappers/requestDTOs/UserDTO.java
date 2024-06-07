@@ -33,6 +33,10 @@ public class UserDTO {
     private String tscNumber;
     private String employmentNo;
     private String officePhoneNo;
+    private String registrationNo;
+    private String gender;
+    private String nationality;
+    private String dateOfBirth;
     private int profileId;
 
 
