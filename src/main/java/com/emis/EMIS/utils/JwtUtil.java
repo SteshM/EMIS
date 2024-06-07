@@ -1,11 +1,7 @@
 package com.emis.EMIS.utils;
-
-import com.emis.EMIS.models.ProfileEntity;
 import com.emis.EMIS.models.RolesEntity;
-import com.emis.EMIS.models.UserEntity;
-import com.emis.EMIS.repositories.ProfileRepo;
 import com.emis.EMIS.repositories.RolesRepo;
-import com.emis.EMIS.repositories.UserRepo;
+import com.emis.EMIS.services.DataService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -24,11 +20,9 @@ import io.jsonwebtoken.Claims;
 @Service
 public class JwtUtil {
     @Autowired
-    private UserRepo userRepo;
-    @Autowired
-    private ProfileRepo profileRepo;
-    @Autowired
     private RolesRepo rolesRepo;
+    @Autowired
+    private DataService dataService;
 
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
@@ -68,8 +62,8 @@ public class JwtUtil {
 
     public String generateToken(String userName){
 
-        UserEntity user = userRepo.findByEmail(userName).get();
-        ProfileEntity profileEntity = profileRepo.findById(user.getProfileId()).get();
+        var user = dataService.findByEmail(userName).get();
+        var profileEntity = dataService.findById(user.getProfileId()).get();
         List<RolesEntity> rolesEntities = rolesRepo.findByProfileId(profileEntity.getProfileId());
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 

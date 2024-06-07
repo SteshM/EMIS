@@ -50,7 +50,11 @@ public class DataService {
     }
     public ProfileEntity findByProfile(String profile){
         return profileRepo.findByProfile(profile);
+
+    }  public Optional<ProfileEntity> findById(int profileId){
+        return profileRepo.findById(profileId);
     }
+
     public void saveProfile(ProfileEntity profileEntity){
         profileRepo.save(profileEntity);}
 
@@ -114,5 +118,9 @@ public class DataService {
     public OtherAdminEntity findByAdminId(int adminId){
         return otherAdminsRepo.findByAdminId(adminId);
     }
+    public RolesEntity findByProfileId(int profileId){
+        return (RolesEntity) rolesRepo.findByProfileId(profileId);
+    }
+
 
 }
