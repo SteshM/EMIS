@@ -86,11 +86,15 @@ public class UserService implements UserDetailsService {
 
             }else if (profileId == 4){
                 var partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
+                partnerInfo.setUserEntity(savedUser);
+                partnerInfo.setStatus(Status.ACTIVE);
                 dataService.savePartner(partnerInfo);
                 return utilities.successResponse("Created a partner",null);
 
             }else if (profileId == 5){
                 var student = modelMapper.map(userDTO, StudentEntity.class);
+                student.setUser(savedUser);
+                student.setStatus(Status.ACTIVE);
                 dataService.saveStudent(student);
                 return utilities.successResponse("Created a student",null);
 
