@@ -100,7 +100,7 @@ public class UserController {
 //        return userService.addAuthority(addAuthDto);
 //    }
 
-    @PostMapping("/updateprofile")
+    @PostMapping("/update-profile")
     public ResponseDTO updateProfile(@RequestPart("file") MultipartFile file){
         return userService.updateProfilePic(file);
     }

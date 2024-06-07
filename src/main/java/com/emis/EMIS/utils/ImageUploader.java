@@ -36,8 +36,7 @@ public class ImageUploader {
     }
 
     private String extName(MultipartFile file){
-        String fileName = file.getOriginalFilename();
-        System.out.println(fileName.split("."));
-        return "png";
+
+        return file.getContentType().split("/")[1];
     }
 }
