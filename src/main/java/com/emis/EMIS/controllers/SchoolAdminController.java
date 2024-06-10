@@ -44,4 +44,8 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO updateTeacher(@PathVariable int id,@RequestBody TeacherDTO teacherDTO){
     return schoolAdminService.updateTeacherDetails(id,teacherDTO);
 }
+@DeleteMapping("/del-teacher/{id}")
+    public ResponseDTO deleteTeacher(@PathVariable int id){
+    return schoolAdminService.deleteTeacher(id);
+}
       }

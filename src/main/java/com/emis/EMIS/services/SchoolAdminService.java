@@ -102,4 +102,13 @@ public class SchoolAdminService {
         return utilities.successResponse("Updated teacher's details successfully",teacher);
 
     }
+
+    public ResponseDTO deleteTeacher(int id) {
+        var teacher = dataService.findByTeacherId(id);
+        teacher.setStatus(Status.DELETED);
+        teacher.getUser().setStatus(Status.DELETED);
+        dataService.saveTeacher(teacher);
+        return utilities.successResponse("deleted a teacher",null);
+
+    }
 }
