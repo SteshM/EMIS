@@ -6,6 +6,7 @@ import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class SchoolAdminService {
     public DataService dataService;
     public Utilities utilities;
+    public ModelMapper modelMapper;
 
     public ResponseDTO viewStudents() {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
@@ -37,5 +39,11 @@ public class SchoolAdminService {
                 .toList();
         return utilities.successResponse("fetched all students",studentDTOList);
 
+    }
+
+    public ResponseDTO fetchOne(int id) {
+        var student = dataService.findByStudentId(id);
+        var studentDTO  = modelMapper.map(student, StudentDTO.class);
+        return utilities.successResponse("Successfully fetched a single record",studentDTO);
     }
 }

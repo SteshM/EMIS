@@ -53,7 +53,8 @@ public class EduVODAdminService {
 
     public ResponseDTO singleAdmin(int id) {
         var otherAdmin = dataService.findByAdminId(id);
-        return utilities.successResponse("fetched a single admin",otherAdmin);
+        var otherAdminsDTO =modelMapper.map(otherAdmin, OtherAdminsDTO.class);
+        return utilities.successResponse("fetched a single admin",otherAdminsDTO);
     }
 
     public ResponseDTO updateAdminDetails(int id, OtherAdminsDTO otherAdminsDTO) {
@@ -101,7 +102,8 @@ public class EduVODAdminService {
 
     public ResponseDTO fetchSchoolAdminById(int id) {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        return utilities.successResponse("fetched a school admin",schoolAdminInfo);
+        var schoolAdminDTO = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
+        return utilities.successResponse("fetched a school admin",schoolAdminDTO);
 
     }
 
@@ -150,7 +152,8 @@ public class EduVODAdminService {
 
     public ResponseDTO fetchByAgentId(int id) {
         var agentEntity = dataService.findByAgentId(id);
-        return utilities.successResponse("fetched an agent",agentEntity);
+        var agentDTO = modelMapper.map(agentEntity, AgentDTO.class);
+        return utilities.successResponse("fetched an agent",agentDTO);
     }
 
     public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
@@ -204,7 +207,8 @@ return utilities.successResponse("Successfully fetched active partners",partnerD
 
     public ResponseDTO fetchOne(int id) {
         var partnerInfo = dataService.findByPartnerId(id);
-        return utilities.successResponse("Successfully fetched a partner",partnerInfo);
+        PartnerDTO partnerDTO = modelMapper.map(partnerInfo, PartnerDTO.class);
+        return utilities.successResponse("Successfully fetched a partner",partnerDTO);
     }
 
 
