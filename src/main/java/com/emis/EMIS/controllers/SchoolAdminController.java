@@ -31,4 +31,5 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO softDelete(@PathVariable int id){
     return schoolAdminService.deleteStudent(id);
 }
+
       }

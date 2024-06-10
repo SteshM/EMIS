@@ -25,6 +25,8 @@ public class DataService {
     private final UserRoleRepo userRoleRepo;
     private final OtherAdminsRepo otherAdminsRepo;
     private final StudentsRepo studentsRepo;
+    private final TeachersRepo teachersRepo;
+
 
     public UserEntity saveUser(UserEntity userEntity) {
         log.info("Just about to save a user :: {}",userEntity);
@@ -133,5 +135,9 @@ public class DataService {
     public void saveStudent(StudentEntity student){
         studentsRepo.save(student);
 
+    }
+
+    public void saveTeacher(TeacherEntity teacher) {
+        teachersRepo.save(teacher);
     }
 }

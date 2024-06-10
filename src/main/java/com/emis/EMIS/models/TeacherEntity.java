@@ -15,5 +15,9 @@ public class TeacherEntity {
     private int yearsOfExperience;
     private Status status;
 
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
+
 
 }

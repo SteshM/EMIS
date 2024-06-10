@@ -98,6 +98,13 @@ public class UserService implements UserDetailsService {
                 dataService.saveStudent(student);
                 return utilities.successResponse("Created a student",null);
 
+            }else if (profileId == 6){
+                var teacher = modelMapper.map(userDTO, TeacherEntity.class);
+                teacher.setUser(savedUser);
+                teacher.setStatus(Status.ACTIVE);
+                dataService.saveTeacher(teacher);
+                return utilities.successResponse("Created a teacher",null);
+
             }
 
             //adding basic role-->standard
