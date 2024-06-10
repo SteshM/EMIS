@@ -40,4 +40,8 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO fetchATeacher(@PathVariable int id){
     return schoolAdminService.fetchTeacher(id);
 }
+@PutMapping("/teacher/{id}")
+    public ResponseDTO updateTeacher(@PathVariable int id,@RequestBody TeacherDTO teacherDTO){
+    return schoolAdminService.updateTeacherDetails(id,teacherDTO);
+}
       }

@@ -51,7 +51,7 @@ public class SchoolAdminService {
     }
 
     public ResponseDTO updateStudent(int id, StudentDTO studentDTO) {
-        StudentEntity student = dataService.findByStudentId(id);
+        var student = dataService.findByStudentId(id);
         student.setRegistrationNo(studentDTO.getRegistrationNo());
         var studentDTO1 = modelMapper.map(student, StudentDTO.class);
         dataService.saveStudent(student);
@@ -92,5 +92,14 @@ public class SchoolAdminService {
         TeacherEntity teacher = dataService.findByTeacherId(id);
         TeacherDTO teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
         return utilities.successResponse("fetched  a single teacher",teacherDTO);
+    }
+
+    public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) {
+        var teacher = dataService.findByTeacherId(id);
+        teacher.setTscNo(teacherDTO.getTscNo());
+        TeacherDTO teacherDTO1 = modelMapper.map(teacher, TeacherDTO.class);
+        dataService.saveTeacher(teacher);
+        return utilities.successResponse("Updated teacher's details successfully",teacher);
+
     }
 }
