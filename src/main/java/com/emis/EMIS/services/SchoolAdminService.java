@@ -67,4 +67,8 @@ public class SchoolAdminService {
         dataService.saveStudent(student);
         return utilities.successResponse("deleted a student",null);
     }
+
+
+
+
 }

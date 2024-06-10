@@ -14,7 +14,6 @@ public class StudentEntity {
     private String firstName;
     private String middleName;
     private String lastName;
-    private String email;
     private String registrationNo;
     private String gender;
     private String nationality;
