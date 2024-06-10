@@ -11,13 +11,7 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
-    private String firstName;
-    private String middleName;
-    private String lastName;
     private String registrationNo;
-    private String gender;
-    private String nationality;
-    private String dateOfBirth;
     private Status status;
 
     @ManyToOne

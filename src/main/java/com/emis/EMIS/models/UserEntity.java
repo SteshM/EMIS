@@ -24,6 +24,9 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
     private String nationalId;
+    private String gender;
+    private String nationality;
+    private String dateOfBirth;
     private String phoneNo;
     private  String password;
     @Column(nullable = false, updatable = false)

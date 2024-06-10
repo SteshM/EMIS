@@ -25,9 +25,9 @@ public class SchoolAdminService {
         List<StudentDTO>studentDTOList = studentEntityList.stream()
                 .map(student -> {
                     return StudentDTO.builder()
-                            .dateOfBirth(student.getDateOfBirth())
-                            .gender(student.getGender())
-                            .nationality(student.getNationality())
+                            .dateOfBirth(student.getUser().getDateOfBirth())
+                            .gender(student.getUser().getGender())
+                            .nationality(student.getUser().getNationality())
                             .registrationNo(student.getRegistrationNo())
                             .firstName(student.getUser().getFirstName())
                             .middleName(student.getUser().getMiddleName())
@@ -50,9 +50,6 @@ public class SchoolAdminService {
 
     public ResponseDTO updateStudent(int id, StudentDTO studentDTO) {
         StudentEntity student = dataService.findByStudentId(id);
-        student.setGender(studentDTO.getGender());
-        student.setDateOfBirth(studentDTO.getDateOfBirth());
-        student.setNationality(studentDTO.getNationality());
         student.setRegistrationNo(studentDTO.getRegistrationNo());
         var studentDTO1 = modelMapper.map(student, StudentDTO.class);
         dataService.saveStudent(student);
@@ -67,7 +64,6 @@ public class SchoolAdminService {
         dataService.saveStudent(student);
         return utilities.successResponse("deleted a student",null);
     }
-
 
 
 
