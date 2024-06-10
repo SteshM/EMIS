@@ -3,6 +3,7 @@ package com.emis.EMIS.controllers;
 import com.emis.EMIS.services.SchoolAdminService;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
+import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,9 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
 @GetMapping("/teachers")
     public ResponseDTO viewActiveTeachers(){
     return schoolAdminService.viewTeachers();
+}
+@GetMapping("/teacher/{id}")
+    public ResponseDTO fetchATeacher(@PathVariable int id){
+    return schoolAdminService.fetchTeacher(id);
 }
       }

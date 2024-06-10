@@ -88,4 +88,9 @@ public class SchoolAdminService {
         return utilities.successResponse("fetched all active teachers",teacherDTOList);
     }
 
+    public ResponseDTO fetchTeacher(int id) {
+        TeacherEntity teacher = dataService.findByTeacherId(id);
+        TeacherDTO teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
+        return utilities.successResponse("fetched  a single teacher",teacherDTO);
+    }
 }
