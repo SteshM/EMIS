@@ -140,4 +140,10 @@ public class DataService {
     public void saveTeacher(TeacherEntity teacher) {
         teachersRepo.save(teacher);
     }
+    public  List <TeacherEntity> fetchActiveTeacher(){
+        return teachersRepo.findByStatus(Status.ACTIVE);
+    }
+    public TeacherEntity findByTeacherId(int teacherId){
+        return teachersRepo.findByTeacherId(teacherId);
+    }
 }
