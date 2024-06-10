@@ -2,12 +2,10 @@ package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolAdminService;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,5 +22,13 @@ private SchoolAdminService schoolAdminService;
 @GetMapping("/student")
     public ResponseDTO  fetchOne(@PathVariable int id){
     return schoolAdminService.fetchOne(id);
+}
+@PutMapping("/update-student/{id}")
+public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO){
+    return schoolAdminService.updateStudent(id,studentDTO);
+}
+@DeleteMapping("/del-student/{id}")
+    public ResponseDTO softDelete(@PathVariable int id){
+    return schoolAdminService.deleteStudent(id);
 }
       }

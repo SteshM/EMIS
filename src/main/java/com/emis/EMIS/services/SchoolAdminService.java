@@ -1,5 +1,6 @@
 package com.emis.EMIS.services;
 
+import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.StudentEntity;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
@@ -45,5 +46,25 @@ public class SchoolAdminService {
         var student = dataService.findByStudentId(id);
         var studentDTO  = modelMapper.map(student, StudentDTO.class);
         return utilities.successResponse("Successfully fetched a single record",studentDTO);
+    }
+
+    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) {
+        StudentEntity student = dataService.findByStudentId(id);
+        student.setGender(studentDTO.getGender());
+        student.setDateOfBirth(studentDTO.getDateOfBirth());
+        student.setNationality(studentDTO.getNationality());
+        student.setRegistrationNo(studentDTO.getRegistrationNo());
+        var studentDTO1 = modelMapper.map(student, StudentDTO.class);
+        dataService.saveStudent(student);
+        return utilities.successResponse("successfully updated student",student);
+
+    }
+
+    public ResponseDTO deleteStudent(int id) {
+        var student = dataService.findByStudentId(id);
+        student.setStatus(Status.DELETED);
+        student.getUser().setStatus(Status.DELETED);
+        dataService.saveStudent(student);
+        return utilities.successResponse("deleted a student",null);
     }
 }
