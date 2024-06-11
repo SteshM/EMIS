@@ -73,7 +73,7 @@ public class SchoolAdminService {
         //old reference
         UserEntity user = student.getUser();
         //new update
-        UserEntity userEntity = modelMapper.map(studentDTO, UserEntity.class);
+        var userEntity = modelMapper.map(studentDTO, UserEntity.class);
         userEntity.setUserId(user.getUserId());
         userEntity.setDateOfBirth(user.getDateOfBirth());
         userEntity.setEmail(user.getEmail());
@@ -117,16 +117,31 @@ public class SchoolAdminService {
 
     public ResponseDTO fetchTeacher(int id) {
         TeacherEntity teacher = dataService.findByTeacherId(id);
-        TeacherDTO teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
+        var teacherDTO = TeacherDTO.builder()
+                .firstName(teacher.getUser().getFirstName())
+                .middleName(teacher.getUser().getMiddleName())
+                .lastName(teacher.getUser().getLastName())
+                .email(teacher.getUser().getEmail())
+                .phoneNo(teacher.getUser().getPhoneNo())
+                .gender(teacher.getUser().getGender())
+                .dateOfBirth(teacher.getUser().getDateOfBirth())
+                .nationality(teacher.getUser().getNationality())
+                .nationalId(teacher.getUser().getNationalId())
+                .tscNo(teacher.getTscNo())
+                .yearsOfExperience(teacher.getYearsOfExperience())
+                .build();
         return utilities.successResponse("fetched  a single teacher",teacherDTO);
     }
 
     public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) {
         var teacher = dataService.findByTeacherId(id);
-        teacher.setTscNo(teacherDTO.getTscNo());
-        TeacherDTO teacherDTO1 = modelMapper.map(teacher, TeacherDTO.class);
+        var user = teacher.getUser();
+        var userEntity =modelMapper.map(teacherDTO, UserEntity.class);
+        userEntity.setUserId(user.getUserId());
+        userEntity.setGender(user.getGender());
+        teacher.setUser(dataService.saveUser(userEntity));
         dataService.saveTeacher(teacher);
-        return utilities.successResponse("Updated teacher's details successfully",teacher);
+        return utilities.successResponse("Updated teacher's details successfully",teacherDTO);
 
     }
 
