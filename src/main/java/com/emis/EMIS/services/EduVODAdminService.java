@@ -1,9 +1,6 @@
 package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
-import com.emis.EMIS.models.AgentInfoEntity;
-import com.emis.EMIS.models.OtherAdminEntity;
-import com.emis.EMIS.models.PartnerInfoEntity;
-import com.emis.EMIS.models.SchoolAdminInfoEntity;
+import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
@@ -92,6 +89,9 @@ public class EduVODAdminService {
                             .nationalId(schoolAdminInfo.getUserEntity().getNationalId())
                             .email(schoolAdminInfo.getUserEntity().getEmail())
                             .phoneNo(schoolAdminInfo.getUserEntity().getPhoneNo())
+                            .nationality(schoolAdminInfo.getUserEntity().getNationality())
+                            .gender(schoolAdminInfo.getUserEntity().getGender())
+                            .dateOfBirth(schoolAdminInfo.getUserEntity().getDateOfBirth())
                             .build();
 
                 })
@@ -102,20 +102,33 @@ public class EduVODAdminService {
 
     public ResponseDTO fetchSchoolAdminById(int id) {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        var schoolAdminDTO = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
+        var schoolAdminDTO = SchoolAdminDTO.builder()
+                .firstName(schoolAdminInfo.getUserEntity().getFirstName())
+                .middleName(schoolAdminInfo.getUserEntity().getMiddleName())
+                .lastName(schoolAdminInfo.getUserEntity().getLastName())
+                .phoneNo(schoolAdminInfo.getUserEntity().getPhoneNo())
+                .email(schoolAdminInfo.getUserEntity().getEmail())
+                .nationalId(schoolAdminInfo.getUserEntity().getNationalId())
+                .nationality(schoolAdminInfo.getUserEntity().getNationality())
+                .dateOfBirth(schoolAdminInfo.getUserEntity().getDateOfBirth())
+                .gender(schoolAdminInfo.getUserEntity().getGender())
+                .officePhone(schoolAdminInfo.getOfficePhone())
+                .adminRole(schoolAdminInfo.getAdminRole())
+                .tscNumber(schoolAdminInfo.getTscNumber())
+                .department(schoolAdminInfo.getDepartment())
+                .build();
         return utilities.successResponse("fetched a school admin",schoolAdminDTO);
 
     }
 
     public ResponseDTO updateSchoolAdminDetails(int id, SchoolAdminDTO schoolAdminDTO) {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        schoolAdminInfo.setAdminRole(schoolAdminDTO.getAdminRole());
-        schoolAdminInfo.setDepartment(schoolAdminDTO.getDepartment());
-        schoolAdminInfo.setOfficePhone(schoolAdminDTO.getOfficePhone());
-        schoolAdminInfo.setTscNumber(schoolAdminDTO.getTscNumber());
-        var schoolAdminDTO1 = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
+        var user = schoolAdminInfo.getUserEntity();
+        var userEntity = modelMapper.map(schoolAdminDTO, UserEntity.class);
+        userEntity.setUserId(user.getUserId());
+        dataService.saveUser(userEntity);
         dataService.saveSchoolAdmin(schoolAdminInfo);
-        return utilities.successResponse("updated  school admin details",schoolAdminDTO1);
+        return utilities.successResponse("updated  school admin details",schoolAdminDTO);
 
     }
     public ResponseDTO deleteSchoolAdmin(int id){

@@ -20,4 +20,7 @@ public class SchoolAdminDTO {
     private String department;
     private String officePhone;
     private String tscNumber;
+    private String gender;
+    private String nationality;
+    private String dateOfBirth;
 }

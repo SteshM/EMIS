@@ -34,7 +34,6 @@ public class UserService implements UserDetailsService {
     private final Utilities utilities;
     private final OTPService otpService;
     private final PasswordEncoder passwordEncoder;
-    private final UserConfigs userConfigs;
     private final ModelMapper modelMapper;
     private final ImageUploader imageUploader;
 
