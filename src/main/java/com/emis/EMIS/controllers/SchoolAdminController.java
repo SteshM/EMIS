@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolAdminService;
+import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
@@ -14,13 +15,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/schAdmin")
 public class SchoolAdminController {
 
-private SchoolAdminService schoolAdminService;
+private final SchoolAdminService schoolAdminService;
 
 @GetMapping("/students")
     public ResponseDTO viewStudents(){
     return schoolAdminService.viewStudents();
 }
-@GetMapping("/student")
+@GetMapping("/student/{id}")
     public ResponseDTO  fetchOne(@PathVariable int id){
     return schoolAdminService.fetchOne(id);
 }

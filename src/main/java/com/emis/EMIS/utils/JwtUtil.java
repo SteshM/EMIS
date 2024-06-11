@@ -63,7 +63,7 @@ public class JwtUtil {
     public String generateToken(String userName){
 
         var user = dataService.findByEmail(userName).get();
-        var profileEntity = dataService.findById(user.getProfileId()).get();
+        var profileEntity = dataService.findById(user.getProfileId());
         List<RolesEntity> rolesEntities = rolesRepo.findByProfileId(profileEntity.getProfileId());
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 

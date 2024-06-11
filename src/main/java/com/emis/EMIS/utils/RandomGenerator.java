@@ -1,8 +1,6 @@
 package com.emis.EMIS.utils;
 
 import com.emis.EMIS.configs.UserConfigs;
-import com.emis.EMIS.models.OTPEntity;
-import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.services.DataService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

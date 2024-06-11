@@ -3,7 +3,9 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.StudentEntity;
 import com.emis.EMIS.models.TeacherEntity;
+import com.emis.EMIS.models.UserEntity;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
@@ -18,9 +20,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class SchoolAdminService {
-    public DataService dataService;
-    public Utilities utilities;
-    public ModelMapper modelMapper;
+    public final DataService dataService;
+    public final Utilities utilities;
+    public final ModelMapper modelMapper;
 
     public ResponseDTO viewStudents() {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
@@ -40,6 +42,12 @@ public class SchoolAdminService {
 
                 })
                 .toList();
+//
+////        List<StudentDTO>studentDTOList1 = studentEntityList.stream().map(
+////                student -> modelMapper.map(student, StudentDTO.class)
+//        ).toList();
+
+
         return utilities.successResponse("fetched all students",studentDTOList);
 
     }
@@ -52,10 +60,18 @@ public class SchoolAdminService {
 
     public ResponseDTO updateStudent(int id, StudentDTO studentDTO) {
         var student = dataService.findByStudentId(id);
-        student.setRegistrationNo(studentDTO.getRegistrationNo());
-        var studentDTO1 = modelMapper.map(student, StudentDTO.class);
-        dataService.saveStudent(student);
-        return utilities.successResponse("successfully updated student",student);
+        //old reference
+        UserEntity user = student.getUser();
+        //new update
+        UserEntity userEntity = modelMapper.map(studentDTO, UserEntity.class);
+        userEntity.setUserId(user.getUserId());
+        userEntity.setDateOfBirth(user.getDateOfBirth());
+        userEntity.setEmail(user.getEmail());
+
+        student.setUser(dataService.saveUser(userEntity));
+        StudentEntity student1 = dataService.saveStudent(student);
+        studentDTO.setRegistrationNo(student1.getRegistrationNo());
+        return utilities.successResponse("successfully updated student",studentDTO);
 
     }
 
@@ -80,6 +96,8 @@ public class SchoolAdminService {
                             .middleName(teacherEntity.getUser().getMiddleName())
                             .lastName(teacherEntity.getUser().getLastName())
                             .email(teacherEntity.getUser().getEmail())
+                            .nationalId(teacherEntity.getUser().getNationalId())
+                            .phoneNo(teacherEntity.getUser().getPhoneNo())
                             .nationality(teacherEntity.getUser().getNationality())
                             .yearsOfExperience(teacherEntity.getYearsOfExperience())
                             .build();

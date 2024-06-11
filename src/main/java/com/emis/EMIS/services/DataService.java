@@ -54,8 +54,8 @@ public class DataService {
     public ProfileEntity findByProfile(String profile){
         return profileRepo.findByProfile(profile);
 
-    }  public Optional<ProfileEntity> findById(int profileId){
-        return profileRepo.findById(profileId);
+    }  public ProfileEntity findById(int profileId){
+       return profileRepo.findByProfileId(profileId);
     }
 
     public void saveProfile(ProfileEntity profileEntity){
@@ -132,8 +132,8 @@ public class DataService {
     }
 
 
-    public void saveStudent(StudentEntity student){
-        studentsRepo.save(student);
+    public StudentEntity saveStudent(StudentEntity student){
+        return studentsRepo.save(student);
 
     }
 

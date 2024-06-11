@@ -13,6 +13,8 @@ public class TeacherDTO {
     private String firstName;
     private String middleName;
     private String lastName;
+    private String phoneNo;
+    private String nationalId;
     private String email;
     private String gender;
     private String nationality;

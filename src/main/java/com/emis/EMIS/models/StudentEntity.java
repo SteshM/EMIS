@@ -11,7 +11,7 @@ public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
-    private String registrationNo;
+     private String registrationNo;
     private Status status;
 
     @ManyToOne
