@@ -54,7 +54,17 @@ public class SchoolAdminService {
 
     public ResponseDTO fetchOne(int id) {
         var student = dataService.findByStudentId(id);
-        var studentDTO  = modelMapper.map(student, StudentDTO.class);
+        var studentDTO = StudentDTO.builder()
+                .gender(student.getUser().getGender())
+                .firstName(student.getUser().getFirstName())
+                .middleName(student.getUser().getMiddleName())
+                .lastName(student.getUser().getLastName())
+                .email(student.getUser().getEmail())
+                .dateOfBirth(student.getUser().getDateOfBirth())
+                .nationality(student.getUser().getNationality())
+                .registrationNo(student.getRegistrationNo())
+                .build();
+//        var studentDTO  = modelMapper.map(student, StudentDTO.class);
         return utilities.successResponse("Successfully fetched a single record",studentDTO);
     }
 
@@ -67,7 +77,6 @@ public class SchoolAdminService {
         userEntity.setUserId(user.getUserId());
         userEntity.setDateOfBirth(user.getDateOfBirth());
         userEntity.setEmail(user.getEmail());
-
         student.setUser(dataService.saveUser(userEntity));
         StudentEntity student1 = dataService.saveStudent(student);
         studentDTO.setRegistrationNo(student1.getRegistrationNo());
