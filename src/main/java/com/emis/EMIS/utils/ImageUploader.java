@@ -11,32 +11,32 @@ import java.nio.file.Paths;
 @Slf4j
 public class ImageUploader {
 
-    public String uploadImage(String path, MultipartFile file){
-        String imageName = STR."\{System.currentTimeMillis()}";
-        imageName +="." +extName(file);
-        createDir(path);
-        try{
-            file.transferTo(Paths.get(path+"/"+imageName));
-            return imageName;
-        }catch (Exception e){
-            log.warn(e.getLocalizedMessage());
-            return null;
-        }
-    }
-
-    public void deleteImg(String imageLocation){
-        File file=  new File(imageLocation);
-        file.delete();
-    }
-    private void createDir(String path){
-        File file=  new File(path);
-        if(!file.exists()){
-            file.mkdir();
-        }
-    }
-
-    private String extName(MultipartFile file){
-
-        return file.getContentType().split("/")[1];
-    }
+//    public String uploadImage(String path, MultipartFile file){
+//        String imageName = STR."\{System.currentTimeMillis()}";
+//        imageName +="." +extName(file);
+//        createDir(path);
+//        try{
+//            file.transferTo(Paths.get(path+"/"+imageName));
+//            return imageName;
+//        }catch (Exception e){
+//            log.warn(e.getLocalizedMessage());
+//            return null;
+//        }
+//    }
+//
+//    public void deleteImg(String imageLocation){
+//        File file=  new File(imageLocation);
+//        file.delete();
+//    }
+//    private void createDir(String path){
+//        File file=  new File(path);
+//        if(!file.exists()){
+//            file.mkdir();
+//        }
+//    }
+//
+//    private String extName(MultipartFile file){
+//
+//        return file.getContentType().split("/")[1];
+//    }
 }

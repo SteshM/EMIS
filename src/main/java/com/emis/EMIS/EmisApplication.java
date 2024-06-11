@@ -56,6 +56,7 @@ public class EmisApplication implements CommandLineRunner {
 	RolesRepo rolesRepo;
 	@Override
 	public void run(String... args) throws Exception {
+
 		RolesEntity role = RolesEntity.builder()
 				.role("basic role")
 				.roleId(1)

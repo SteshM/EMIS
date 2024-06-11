@@ -195,11 +195,11 @@ public class UserService implements UserDetailsService {
 
     public ResponseDTO updateProfilePic(MultipartFile file){
         var user= dataService.findByEmail(this.email()).get();
-        if(user.getProfilePic() != null){
-            imageUploader.deleteImg(profilePath+"/"+user.getProfilePic());
-        }
-
-        user.setProfilePic(imageUploader.uploadImage(profilePath, file));
+//        if(user.getProfilePic() != null){
+//            imageUploader.deleteImg(profilePath+"/"+user.getProfilePic());
+//        }
+//
+//        user.setProfilePic(imageUploader.uploadImage(profilePath, file));
         var user1 = dataService.saveUser(user);
         return utilities.successResponse("updated", user1);
     }
