@@ -9,6 +9,7 @@ import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -50,7 +51,19 @@ public class EduVODAdminService {
 
     public ResponseDTO singleAdmin(int id) {
         var otherAdmin = dataService.findByAdminId(id);
-        var otherAdminsDTO =modelMapper.map(otherAdmin, OtherAdminsDTO.class);
+
+        var otherAdminsDTO = OtherAdminsDTO.builder()
+                .firstName(otherAdmin.getUserEntity().getFirstName())
+                .middleName(otherAdmin.getUserEntity().getMiddleName())
+                .lastName(otherAdmin.getUserEntity().getLastName())
+                .phoneNo(otherAdmin.getUserEntity().getPhoneNo())
+                .nationalId(otherAdmin.getUserEntity().getNationalId())
+                .email(otherAdmin.getUserEntity().getEmail())
+                .department(otherAdmin.getDepartment())
+                .officePhoneNo(otherAdmin.getOfficePhoneNo())
+                .employmentNo(otherAdmin.getEmploymentNo())
+                .build();
+
         return utilities.successResponse("fetched a single admin",otherAdminsDTO);
     }
 
@@ -165,17 +178,27 @@ public class EduVODAdminService {
 
     public ResponseDTO fetchByAgentId(int id) {
         var agentEntity = dataService.findByAgentId(id);
-        var agentDTO = modelMapper.map(agentEntity, AgentDTO.class);
+        var agentDTO = AgentDTO.builder()
+                .firstName(agentEntity.getUserEntity().getFirstName())
+                .middleName(agentEntity.getUserEntity().getMiddleName())
+                .lastName(agentEntity.getUserEntity().getLastName())
+                .phoneNo(agentEntity.getUserEntity().getPhoneNo())
+                .email(agentEntity.getUserEntity().getEmail())
+                .nationalId(agentEntity.getUserEntity().getNationalId())
+                .emergencyContact(agentEntity.getEmergencyContact())
+                .agencyName(agentEntity.getAgencyName())
+                .build();
         return utilities.successResponse("fetched an agent",agentDTO);
     }
 
     public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
         var agentInfo = dataService.findByAgentId(id);
-        agentInfo.setAgencyName(agentDTO.getAgencyName());
-        agentInfo.setEmergencyContact(agentDTO.getEmergencyContact());
-        AgentDTO agentDTO1 =modelMapper.map(agentInfo,AgentDTO.class);
+        UserEntity user = agentInfo.getUserEntity();
+        var userEntity = modelMapper.map(agentDTO, UserEntity.class);
+        userEntity.setUserId(user.getUserId());
+       agentInfo.setUserEntity(dataService.saveUser(userEntity));
         dataService.saveAgent(agentInfo);
-        return utilities.successResponse("Updated an agent",agentDTO1);
+        return utilities.successResponse("Updated an agent",agentDTO);
     }
 
 
@@ -205,7 +228,6 @@ public class EduVODAdminService {
                             .businessEmail(partnerInfoEntity.getBusinessEmail())
                             .firmName(partnerInfoEntity.getFirmName())
                             .emergencyContact(partnerInfoEntity.getEmergencyContact())
-                            .contractDetails(partnerInfoEntity.getContractDetails())
                             .agreementStartDate(partnerInfoEntity.getAgreementStartDate())
                             .agreementEndDate(partnerInfoEntity.getAgreementEndDate())
                             .build();
@@ -217,26 +239,33 @@ public class EduVODAdminService {
 return utilities.successResponse("Successfully fetched active partners",partnerDTOList);
     }
 
-
     public ResponseDTO fetchOne(int id) {
         var partnerInfo = dataService.findByPartnerId(id);
-        PartnerDTO partnerDTO = modelMapper.map(partnerInfo, PartnerDTO.class);
+        var partnerDTO = PartnerDTO.builder()
+                .firstName(partnerInfo.getUserEntity().getFirstName())
+                .middleName(partnerInfo.getUserEntity().getMiddleName())
+                .lastName(partnerInfo.getUserEntity().getLastName())
+                .email(partnerInfo.getUserEntity().getEmail())
+                .phoneNo(partnerInfo.getUserEntity().getPhoneNo())
+                .emergencyContact(partnerInfo.getEmergencyContact())
+                .businessEmail(partnerInfo.getBusinessEmail())
+                .businessContact(partnerInfo.getBusinessContact())
+                .firmName(partnerInfo.getFirmName())
+                .agreementStartDate(partnerInfo.getAgreementStartDate())
+                .agreementEndDate(partnerInfo.getAgreementEndDate())
+                .build();
         return utilities.successResponse("Successfully fetched a partner",partnerDTO);
     }
 
 
     public ResponseDTO updatePartnerDetails(int id, PartnerDTO partnerDTO) {
         var partnerInfo = dataService.findByPartnerId(id);
-        partnerInfo.setFirmName(partnerDTO.getFirmName());
-        partnerInfo.setEmergencyContact(partnerDTO.getEmergencyContact());
-        partnerInfo.setBusinessContact(partnerDTO.getBusinessContact());
-        partnerInfo.setContractDetails(partnerDTO.getContractDetails());
-        partnerInfo.setBusinessEmail(partnerDTO.getBusinessEmail());
-        partnerInfo.setAgreementStartDate(partnerDTO.getAgreementStartDate());
-        partnerInfo.setAgreementEndDate(partnerDTO.getAgreementEndDate());
-        PartnerDTO partnerDTO1 = modelMapper.map(partnerInfo, PartnerDTO.class);
+        var user = partnerInfo.getUserEntity();
+        var userEntity = modelMapper.map(partnerDTO, UserEntity.class);
+        userEntity.setUserId(user.getUserId());
+        partnerInfo.setUserEntity(dataService.saveUser(userEntity));
         dataService.savePartner(partnerInfo);
-        return utilities.successResponse("Successfully updated a partners details",partnerDTO1);
+        return utilities.successResponse("Successfully updated a partners details",partnerDTO);
 
     }
 

@@ -24,6 +24,6 @@ public class PartnerDTO {
     private String businessEmail;
     private Date agreementStartDate;
     private Date agreementEndDate;
-    private String contractDetails;
+
 
 }

@@ -64,16 +64,16 @@ public class UserController {
     }
 
     @PostMapping("/all/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody UserDTO userDTO){
+    public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO){
         ResponseDTO responseDTO = new ResponseDTO();
         Map<String, String> objectMap = new HashMap<>();
         try {
-            log.info("userDTO:: {}", userDTO);
-            userService.loadUserByUsername(userDTO.getEmail());
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+            log.info("loginDTO:: {}", loginDTO);
+            userService.loadUserByUsername(loginDTO.getEmail());
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
 
             if (authenticate.isAuthenticated()) {
-                String jwtToken =  jwtUtil.generateToken(userDTO.getEmail());
+                String jwtToken =  jwtUtil.generateToken(loginDTO.getEmail());
                 objectMap.put("jwtToken", jwtToken);
                 responseDTO.setStatusMessage("Authenticated successfully");
                 responseDTO.setResult(objectMap);
