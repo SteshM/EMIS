@@ -28,6 +28,7 @@ public class DataService {
     private final OtherAdminsRepo otherAdminsRepo;
     private final StudentsRepo studentsRepo;
     private final TeachersRepo teachersRepo;
+    private final GuardianRepo guardianRepo;
 
 
     public UserEntity saveUser(UserEntity userEntity) {
@@ -147,5 +148,9 @@ public class DataService {
     }
     public TeacherEntity findByTeacherId(int teacherId){
         return teachersRepo.findByTeacherId(teacherId);
+    }
+
+    public void saveGuardian(GuardianEntity guardian) {
+        guardianRepo.save(guardian);
     }
 }

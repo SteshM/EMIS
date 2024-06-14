@@ -105,6 +105,13 @@ public class UserService implements UserDetailsService {
                 dataService.saveTeacher(teacher);
                 return utilities.successResponse("Created a teacher",null);
 
+            }else if (profileId == 7){
+                var guardian = modelMapper.map(userDTO, GuardianEntity.class);
+                guardian.setUserEntity(savedUser);
+                guardian.setStatus(Status.ACTIVE);
+                dataService.saveGuardian(guardian);
+                return utilities.successResponse("Created a teacher",null);
+
             }
 
             //adding basic role-->standard
