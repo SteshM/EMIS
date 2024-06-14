@@ -38,6 +38,8 @@ public class UserDTO {
     private String nationality;
     private String dateOfBirth;
     private int profileId;
+    private String relationship;
+    private String occupation;
 
 
 
