@@ -4,12 +4,11 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.responseDTOs.OtherAdminsDTO;
+import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +25,11 @@ public class EduVODAdminService {
 
     //Other-System-Admins
 
-    public ResponseDTO viewOtherAdmins() {
-        List<OtherAdminEntity>otherAdminEntityList = dataService.viewAll();
-        List<OtherAdminsDTO>otherAdminsDTOList = otherAdminEntityList.stream()
+    public ResponseDTO viewSystemAdmins() {
+        List<SystemAdminEntity>systemAdminEntityList = dataService.viewAll();
+        List<SystemAdminsDTO>otherAdminsDTOList = systemAdminEntityList.stream()
                 .map(otherAdmin -> {
-                    return OtherAdminsDTO.builder()
+                    return SystemAdminsDTO.builder()
                             .employmentNo(otherAdmin.getEmploymentNo())
                             .officePhoneNo(otherAdmin.getOfficePhoneNo())
                             .employmentNo(otherAdmin.getEmploymentNo())
@@ -50,38 +49,38 @@ public class EduVODAdminService {
 
 
     public ResponseDTO singleAdmin(int id) {
-        var otherAdmin = dataService.findByAdminId(id);
+        var systemAdmin = dataService.findByAdminId(id);
 
-        var otherAdminsDTO = OtherAdminsDTO.builder()
-                .firstName(otherAdmin.getUserEntity().getFirstName())
-                .middleName(otherAdmin.getUserEntity().getMiddleName())
-                .lastName(otherAdmin.getUserEntity().getLastName())
-                .phoneNo(otherAdmin.getUserEntity().getPhoneNo())
-                .nationalId(otherAdmin.getUserEntity().getNationalId())
-                .email(otherAdmin.getUserEntity().getEmail())
-                .department(otherAdmin.getDepartment())
-                .officePhoneNo(otherAdmin.getOfficePhoneNo())
-                .employmentNo(otherAdmin.getEmploymentNo())
+        var otherAdminsDTO = SystemAdminsDTO.builder()
+                .firstName(systemAdmin.getUserEntity().getFirstName())
+                .middleName(systemAdmin.getUserEntity().getMiddleName())
+                .lastName(systemAdmin.getUserEntity().getLastName())
+                .phoneNo(systemAdmin.getUserEntity().getPhoneNo())
+                .nationalId(systemAdmin.getUserEntity().getNationalId())
+                .email(systemAdmin.getUserEntity().getEmail())
+                .department(systemAdmin.getDepartment())
+                .officePhoneNo(systemAdmin.getOfficePhoneNo())
+                .employmentNo(systemAdmin.getEmploymentNo())
                 .build();
 
         return utilities.successResponse("fetched a single admin",otherAdminsDTO);
     }
 
-    public ResponseDTO updateAdminDetails(int id, OtherAdminsDTO otherAdminsDTO) {
-        var otherAdmin = dataService.findByAdminId(id);
-        otherAdmin.setDepartment(otherAdminsDTO.getDepartment());
-        otherAdmin.setEmploymentNo(otherAdminsDTO.getEmploymentNo());
-        otherAdmin.setOfficePhoneNo(otherAdminsDTO.getOfficePhoneNo());
-        OtherAdminsDTO otherAdminsDTO1 = modelMapper.map(otherAdmin, OtherAdminsDTO.class);
-        dataService.saveOtherAdmin(otherAdmin);
-        return utilities.successResponse("updated admins details",otherAdmin);
+    public ResponseDTO updateAdminDetails(int id, SystemAdminsDTO systemAdminsDTO) {
+        var systemAdmin = dataService.findByAdminId(id);
+        systemAdmin.setDepartment(systemAdminsDTO.getDepartment());
+        systemAdmin.setEmploymentNo(systemAdminsDTO.getEmploymentNo());
+        systemAdmin.setOfficePhoneNo(systemAdminsDTO.getOfficePhoneNo());
+        SystemAdminsDTO systemAdminsDTO1 = modelMapper.map(systemAdminsDTO, SystemAdminsDTO.class);
+        dataService.saveSystemAdmin(systemAdmin);
+        return utilities.successResponse("updated admins details",systemAdminsDTO1);
     }
 
     public ResponseDTO deleteAdmin(int id) {
-        var otherAdmin = dataService.findByAdminId(id);
-        otherAdmin.setStatus(Status.DELETED);
-        otherAdmin.getUserEntity().setStatus(Status.DELETED);
-        dataService.saveOtherAdmin(otherAdmin);
+        var systemAdmin = dataService.findByAdminId(id);
+        systemAdmin.setStatus(Status.DELETED);
+        systemAdmin.getUserEntity().setStatus(Status.DELETED);
+        dataService.saveSystemAdmin(systemAdmin);
         return utilities.successResponse("soft deleted an admin",null);
     }
 

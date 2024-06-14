@@ -112,13 +112,13 @@ public class DataService {
     public PartnerInfoEntity findByPartnerId(int partnerId){
         return partnerRepo.findByPartnerId(partnerId);
     }
-    public void saveOtherAdmin(OtherAdminEntity otherAdmin){
-        otherAdminsRepo.save(otherAdmin);
+    public void saveSystemAdmin(SystemAdminEntity systemAdmin){
+        otherAdminsRepo.save(systemAdmin);
     }
-    public List<OtherAdminEntity>viewAll(){
+    public List<SystemAdminEntity>viewAll(){
         return otherAdminsRepo.findByStatus(Status.ACTIVE);
     }
-    public OtherAdminEntity findByAdminId(int adminId){
+    public SystemAdminEntity findByAdminId(int adminId){
         return otherAdminsRepo.findByAdminId(adminId);
     }
     public RolesEntity findByProfileId(int profileId){

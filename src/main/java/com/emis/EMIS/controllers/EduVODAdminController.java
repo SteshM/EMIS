@@ -3,7 +3,7 @@ package com.emis.EMIS.controllers;
 import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.responseDTOs.OtherAdminsDTO;
+import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +21,16 @@ public class EduVODAdminController {
 
     //OtherAdmins
     @GetMapping("/admins")
-    public ResponseDTO viewOtherAdmins(){
-        return eduVODAdminService.viewOtherAdmins();
+    public ResponseDTO viewSystemAdmins(){
+        return eduVODAdminService.viewSystemAdmins();
     }
     @GetMapping("/single-admin/{id}")
     public ResponseDTO singleAdmin(@PathVariable int id){
         return eduVODAdminService.singleAdmin(id);
     }
     @PutMapping("/admin/{id}")
-    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody OtherAdminsDTO otherAdminsDTO){
-        return eduVODAdminService.updateAdminDetails(id,otherAdminsDTO);
+    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody SystemAdminsDTO systemAdminsDTO){
+        return eduVODAdminService.updateAdminDetails(id,systemAdminsDTO);
     }
     @DeleteMapping("/del-admin/{id}")
     public ResponseDTO deleteAdmin(@PathVariable int id){

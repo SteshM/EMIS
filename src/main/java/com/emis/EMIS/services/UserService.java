@@ -1,6 +1,5 @@
 package com.emis.EMIS.services;
 
-import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.ImageUploader;
@@ -63,10 +62,10 @@ public class UserService implements UserDetailsService {
             int profileId = userDTO.getProfileId();
 
              if(profileId ==1) {
-                 var otherAdminEntity = modelMapper.map(userDTO, OtherAdminEntity.class);
+                 var otherAdminEntity = modelMapper.map(userDTO, SystemAdminEntity.class);
                  otherAdminEntity.setStatus(Status.ACTIVE);
                  otherAdminEntity.setUserEntity(savedUser);
-                 dataService.saveOtherAdmin(otherAdminEntity);
+                 dataService.saveSystemAdmin(otherAdminEntity);
                  return utilities.successResponse("Created other Admin", null);
 
              }else if(profileId ==2){

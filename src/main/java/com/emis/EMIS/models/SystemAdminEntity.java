@@ -7,7 +7,7 @@ import lombok.Data;
 @Entity
 @Data
 @Table(name = "otherAdmins")
-public class OtherAdminEntity {
+public class SystemAdminEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int  adminId;

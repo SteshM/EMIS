@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OtherAdminsDTO {
+public class SystemAdminsDTO {
     private String firstName;
     private String middleName;
     private String lastName;
