@@ -49,4 +49,5 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO deleteTeacher(@PathVariable int id){
     return schoolAdminService.deleteTeacher(id);
 }
+
       }
