@@ -7,6 +7,7 @@ import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +30,11 @@ public class EduVODAdminController {
     public ResponseDTO singleAdmin(@PathVariable int id){
         return eduVODAdminService.singleAdmin(id);
     }
-    @PutMapping("/admin/{id}")
-    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody SystemAdminsDTO systemAdminsDTO){
-        return eduVODAdminService.updateAdminDetails(id,systemAdminsDTO);
+//    @PutMapping("/admin/{id}")
+    @PostMapping("/admin")
+    public ResponseDTO updateAdminDetails(@Valid @RequestBody SystemAdminsDTO systemAdminsDTO){
+//        return eduVODAdminService.updateAdminDetails(systemAdminsDTO);
+        return eduVODAdminService.updateAdminDetails(systemAdminsDTO);
     }
     @DeleteMapping("/del-admin/{id}")
     public ResponseDTO deleteAdmin(@PathVariable int id){

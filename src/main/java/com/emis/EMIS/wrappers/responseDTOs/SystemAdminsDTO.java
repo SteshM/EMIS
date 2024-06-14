@@ -1,5 +1,6 @@
 package com.emis.EMIS.wrappers.responseDTOs;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemAdminsDTO {
+    @NotEmpty(message = "System admin id is required!")
+    private int id;
     private String firstName;
     private String middleName;
     private String lastName;

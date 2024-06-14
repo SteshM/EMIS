@@ -71,8 +71,8 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched a single admin",otherAdminsDTO);
     }
 
-    public ResponseDTO updateAdminDetails(int id, SystemAdminsDTO systemAdminsDTO) {
-        var systemAdmin = dataService.findByAdminId(id);
+    public ResponseDTO updateAdminDetails( SystemAdminsDTO systemAdminsDTO) {
+        var systemAdmin = dataService.findByAdminId(systemAdminsDTO.getId());
         systemAdmin.setDepartment(systemAdminsDTO.getDepartment());
         systemAdmin.setEmploymentNo(systemAdminsDTO.getEmploymentNo());
         systemAdmin.setOfficePhoneNo(systemAdminsDTO.getOfficePhoneNo());
