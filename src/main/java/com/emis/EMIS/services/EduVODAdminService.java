@@ -2,6 +2,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -10,6 +11,10 @@ import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -154,8 +159,12 @@ public class EduVODAdminService {
 
     //Agents
 
-    public ResponseDTO fetchActiveAgents() {
-        List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
+public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) {
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize());
+//        Sort.Direction.DESC
+//        Sort.Direction.ASC
+        Sort sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
+        Page<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents(pageable);
         log.info("Fetched agents from the db:{}",agentInfoEntityList);
         List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
                 .map(agentInfoEntity -> {

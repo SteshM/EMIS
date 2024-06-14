@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.EduVODAdminService;
+import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -62,8 +63,8 @@ public class EduVODAdminController {
     //Agents
 
     @GetMapping("/agents")
-    public ResponseDTO fetchAll(){
-        return eduVODAdminService.fetchActiveAgents();
+    public ResponseDTO fetchAll(@RequestBody PageRequestDTO pageRequestDTO){
+        return eduVODAdminService.fetchActiveAgents(pageRequestDTO);
     }
 
   @GetMapping("/agent/{id}")

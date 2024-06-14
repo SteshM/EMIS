@@ -5,6 +5,8 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -93,8 +95,8 @@ public class DataService {
     public List <AgentInfoEntity> fetchAgents(){
         return agentRepo.findAll();
     }
-    public List <AgentInfoEntity> fetchActiveAgents(){
-        return agentRepo.findByStatus(Status.ACTIVE);
+    public Page<AgentInfoEntity> fetchActiveAgents(Pageable pageable){
+        return agentRepo.findByStatus(Status.ACTIVE, pageable);
     }
     public AgentInfoEntity findByAgentId(int agentId){
         return agentRepo.findByAgentId(agentId);
