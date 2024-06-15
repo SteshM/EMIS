@@ -5,6 +5,8 @@ import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +36,16 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     return schoolAdminService.deleteStudent(id);
 }
 @GetMapping("/teachers")
-    public ResponseDTO viewActiveTeachers(){
+    public ResponseDTO viewActiveTeachers() throws JsonProcessingException {
     return schoolAdminService.viewTeachers();
 }
 @GetMapping("/teacher/{id}")
-    public ResponseDTO fetchATeacher(@PathVariable int id){
+    public ResponseDTO fetchATeacher(@PathVariable int id) throws JsonProcessingException {
     return schoolAdminService.fetchTeacher(id);
 }
 @PutMapping("/teacher/{id}")
-    public ResponseDTO updateTeacher(@PathVariable int id,@RequestBody TeacherDTO teacherDTO){
+    public ResponseDTO updateTeacher(@PathVariable int id,@RequestBody TeacherDTO teacherDTO) throws JsonProcessingException {
+    log.info("Received a request to update Teacher Details. ID:{}. Payload:{}", id, new ObjectMapper().writeValueAsString(teacherDTO));
     return schoolAdminService.updateTeacherDetails(id,teacherDTO);
 }
 @DeleteMapping("/del-teacher/{id}")

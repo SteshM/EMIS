@@ -58,14 +58,14 @@ public class UserService implements UserDetailsService {
             var userEntity = modelMapper.map(userDTO, UserEntity.class);
             UserEntity savedUser = dataService.saveUser(userEntity);
             otpService.generateOTP(savedUser);
-            userEntity.setStatus(Status.INACTIVE);
+            userEntity.setStatus(Status.ACTIVE);
             int profileId = userDTO.getProfileId();
 
              if(profileId ==1) {
-                 var otherAdminEntity = modelMapper.map(userDTO, SystemAdminEntity.class);
-                 otherAdminEntity.setStatus(Status.ACTIVE);
-                 otherAdminEntity.setUserEntity(savedUser);
-                 dataService.saveSystemAdmin(otherAdminEntity);
+                 var systemAdmin = modelMapper.map(userDTO, SystemAdminEntity.class);
+                 systemAdmin.setStatus(Status.ACTIVE);
+                 systemAdmin.setUserEntity(savedUser);
+                 dataService.saveSystemAdmin(systemAdmin);
                  return utilities.successResponse("Created other Admin", null);
 
              }else if(profileId ==2){
@@ -102,6 +102,7 @@ public class UserService implements UserDetailsService {
                 var teacher = modelMapper.map(userDTO, TeacherEntity.class);
                 teacher.setUser(savedUser);
                 teacher.setStatus(Status.ACTIVE);
+                log.info("about to save a teacher :{}",teacher);
                 dataService.saveTeacher(teacher);
                 return utilities.successResponse("Created a teacher",null);
 

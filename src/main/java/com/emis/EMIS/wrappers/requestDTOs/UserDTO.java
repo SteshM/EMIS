@@ -30,7 +30,7 @@ public class UserDTO {
     private String adminRole;
     private String department;
     private String officePhone;
-    private String tscNumber;
+    private String tscNo;
     private String employmentNo;
     private String officePhoneNo;
     private String registrationNo;

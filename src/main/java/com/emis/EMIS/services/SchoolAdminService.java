@@ -9,6 +9,8 @@ import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -93,53 +95,32 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO viewTeachers() {
+    public ResponseDTO viewTeachers() throws JsonProcessingException {
         List<TeacherEntity>teacherEntityList =  dataService.fetchActiveTeachers();
         List<TeacherDTO>teacherDTOList = teacherEntityList.stream()
                 .map(teacherEntity -> {
-                    return TeacherDTO.builder()
-                            .tscNo(teacherEntity.getTscNo())
-                            .gender(teacherEntity.getUser().getGender())
-                            .dateOfBirth(teacherEntity.getUser().getDateOfBirth())
-                            .firstName(teacherEntity.getUser().getFirstName())
-                            .middleName(teacherEntity.getUser().getMiddleName())
-                            .lastName(teacherEntity.getUser().getLastName())
-                            .email(teacherEntity.getUser().getEmail())
-                            .nationalId(teacherEntity.getUser().getNationalId())
-                            .phoneNo(teacherEntity.getUser().getPhoneNo())
-                            .nationality(teacherEntity.getUser().getNationality())
-                            .yearsOfExperience(teacherEntity.getYearsOfExperience())
-                            .build();
+
+                    return modelMapper.map(teacherEntity, TeacherDTO.class);
                 })
                 .toList();
+        log.info("Fetched  all teachers Details:{}", new ObjectMapper().writeValueAsString(teacherEntityList));
+
         return utilities.successResponse("fetched all active teachers",teacherDTOList);
     }
 
-    public ResponseDTO fetchTeacher(int id) {
+    public ResponseDTO fetchTeacher(int id) throws JsonProcessingException {
         TeacherEntity teacher = dataService.findByTeacherId(id);
-        var teacherDTO = TeacherDTO.builder()
-                .firstName(teacher.getUser().getFirstName())
-                .middleName(teacher.getUser().getMiddleName())
-                .lastName(teacher.getUser().getLastName())
-                .email(teacher.getUser().getEmail())
-                .phoneNo(teacher.getUser().getPhoneNo())
-                .gender(teacher.getUser().getGender())
-                .dateOfBirth(teacher.getUser().getDateOfBirth())
-                .nationality(teacher.getUser().getNationality())
-                .nationalId(teacher.getUser().getNationalId())
-                .tscNo(teacher.getTscNo())
-                .yearsOfExperience(teacher.getYearsOfExperience())
-                .build();
-        return utilities.successResponse("fetched  a single teacher",teacherDTO);
+        log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(teacher));
+        var teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
+        return utilities.successResponse("fetched  a single teacher",teacher);
     }
 
-    public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) {
+    public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var teacher = dataService.findByTeacherId(id);
-        var user = teacher.getUser();
-        var userEntity =modelMapper.map(teacherDTO, UserEntity.class);
-        userEntity.setUserId(user.getUserId());
-        userEntity.setGender(user.getGender());
-        teacher.setUser(dataService.saveUser(userEntity));
+        log.info("Fetched Teacher:{}", objectMapper.writeValueAsString(teacher));
+        modelMapper.map(teacherDTO, teacher);
+        log.info("Updated Teacher Details. About to save:{}", objectMapper.writeValueAsString(teacher));
         dataService.saveTeacher(teacher);
         return utilities.successResponse("Updated teacher's details successfully",teacherDTO);
 

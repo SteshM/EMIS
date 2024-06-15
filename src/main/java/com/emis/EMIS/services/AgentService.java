@@ -37,6 +37,7 @@ public class AgentService {
 
     public ResponseDTO updateSchool(int id, SchoolDTO schoolDTO) {
         var school = dataService.findBySchoolId(id);
+        modelMapper.map(schoolDTO, school);
         school.setSchoolName(schoolDTO.getSchoolName());
         school.setSchoolType(schoolDTO.getSchoolType());
         school.setCounty(schoolDTO.getCounty());

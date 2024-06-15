@@ -66,11 +66,4 @@ public class EmisApplication implements CommandLineRunner {
 		rolesRepo.save(role2);
 
 	}
-
-	@Bean
-	public ModelMapper modelMapper() {
-		ModelMapper modelMapper = new ModelMapper();
-		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-		return modelMapper;
-	}
 }
