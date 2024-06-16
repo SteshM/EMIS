@@ -1,7 +1,11 @@
 package com.emis.EMIS.configs;
 
+import com.emis.EMIS.models.AgentInfoEntity;
+import com.emis.EMIS.models.PartnerInfoEntity;
 import com.emis.EMIS.models.StudentEntity;
 import com.emis.EMIS.models.TeacherEntity;
+import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
+import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
 import org.modelmapper.ModelMapper;
@@ -41,9 +45,32 @@ public class ModelMapperConfig {
                 map().setDateOfBirth(source.getUser().getDateOfBirth());
             }
         };
+            PropertyMap<AgentInfoEntity, AgentDTO>agentInfoEntityAgentDTOPropertyMap = new PropertyMap<AgentInfoEntity, AgentDTO>() {
+                protected void  configure(){
+                map().setFirstName(source.getUserEntity().getFirstName());
+                map().setMiddleName(source.getUserEntity().getMiddleName());
+                map().setLastName(source.getUserEntity().getLastName());
+                map().setEmail(source.getUserEntity().getEmail());
+                map().setPhoneNo(source.getUserEntity().getPhoneNo());
+                map().setNationalId(source.getUserEntity().getNationalId());
+                }
+            };
+            PropertyMap<PartnerInfoEntity, PartnerDTO>partnerInfoEntityPartnerDTOPropertyMap = new PropertyMap<PartnerInfoEntity, PartnerDTO>() {
+                protected void configure() {
+                    map().setFirstName(source.getUserEntity().getFirstName());
+                    map().setMiddleName(source.getUserEntity().getMiddleName());
+                    map().setLastName(source.getUserEntity().getLastName());
+                    map().setEmail(source.getUserEntity().getEmail());
+                    map().setPhoneNo(source.getUserEntity().getPhoneNo());
+                    map().setNationalId(source.getUserEntity().getNationalId());
+
+                }
+            };
 
         modelMapper.addMappings(teacherEntityTeacherDTOPropertyMap);
         modelMapper.addMappings(studentEntityStudentDTOPropertyMap);
+        modelMapper.addMappings(agentInfoEntityAgentDTOPropertyMap);
+        modelMapper.addMappings(partnerInfoEntityPartnerDTOPropertyMap);
         return modelMapper;
     }
 
