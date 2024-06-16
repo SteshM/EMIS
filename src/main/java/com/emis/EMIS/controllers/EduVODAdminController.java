@@ -61,6 +61,7 @@ public class EduVODAdminController {
     }
 
 
+
     //Agents
 
     @GetMapping("/agents")
@@ -79,6 +80,8 @@ public class EduVODAdminController {
     public ResponseDTO softDelete(@PathVariable int id){
         return eduVODAdminService.softDeleteAgent(id);
   }
+
+
 
   //Partners
     @GetMapping("/partners")

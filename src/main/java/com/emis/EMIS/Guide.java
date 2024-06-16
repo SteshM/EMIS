@@ -15,7 +15,17 @@ public interface Guide {
     public ResponseDTO getSchoolAdminById();
     public ResponseDTO deleteSchoolAdminById();
 
-    //Agents
+    //TODO LIST MONDAY
+    /* Check out
+    * agents service registering a school....things like CURRICULUM */
+    /* Tackle Guardians(rel with students),
+    * Classes
+    * Grades
+    * Subjects
+    * levels*/
+
+
+
   
 
 

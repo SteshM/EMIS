@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +40,6 @@ public class EduVODAdminService {
                 })
                 .toList();
         log.info("Fetched  all System Admins' Details:{}", new ObjectMapper().writeValueAsString(systemAdminEntityList));
-
         return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
     }
 
@@ -71,6 +69,7 @@ public class EduVODAdminService {
         return utilities.successResponse("soft deleted an admin",null);
     }
 
+
     //School-Admins
     public ResponseDTO fetchActiveSchoolAdmins() throws JsonProcessingException {
         List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
@@ -81,7 +80,6 @@ public class EduVODAdminService {
                 })
                 .toList();
         log.info("Fetched  all School admin Details:{}", new ObjectMapper().writeValueAsString(schoolAdminInfoEntities));
-
         return utilities.successResponse("Successfully fetched active school admins",schoolAdminDTOList);
     }
 
@@ -115,7 +113,7 @@ public class EduVODAdminService {
 
     //Agents
 
-public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
+    public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
         var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize());
         var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
         Page<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents(pageable);
@@ -148,7 +146,6 @@ public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonP
         return utilities.successResponse("Updated an agent",agentDTO);
     }
 
-
     public ResponseDTO softDeleteAgent(int id) {
         var agentInfo = dataService.findByAgentId(id);
         agentInfo.setStatus(Status.DELETED);
@@ -158,6 +155,7 @@ public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonP
         return utilities.successResponse("soft deleted agent",null);
     }
 
+    //Partners
 
     public ResponseDTO viewActivePartners() throws JsonProcessingException {
         List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();

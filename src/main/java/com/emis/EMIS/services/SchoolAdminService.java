@@ -24,7 +24,7 @@ public class SchoolAdminService {
     public final Utilities utilities;
     public final ModelMapper modelMapper;
 
-
+//Students
 
     public ResponseDTO viewStudents() throws JsonProcessingException {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
@@ -65,6 +65,8 @@ public class SchoolAdminService {
     }
 
 
+    //Teachers
+
     public ResponseDTO viewTeachers() throws JsonProcessingException {
         List<TeacherEntity>teacherEntityList =  dataService.fetchActiveTeachers();
         List<TeacherDTO>teacherDTOList = teacherEntityList.stream()
@@ -74,7 +76,6 @@ public class SchoolAdminService {
                 })
                 .toList();
         log.info("Fetched  all teachers Details:{}", new ObjectMapper().writeValueAsString(teacherEntityList));
-
         return utilities.successResponse("fetched all active teachers",teacherDTOList);
     }
 

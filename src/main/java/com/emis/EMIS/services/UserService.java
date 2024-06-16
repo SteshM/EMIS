@@ -60,28 +60,28 @@ public class UserService implements UserDetailsService {
             otpService.generateOTP(savedUser);
             userEntity.setStatus(Status.ACTIVE);
             int profileId = userDTO.getProfileId();
-
+//SystemAdmin
              if(profileId ==1) {
                  var systemAdmin = modelMapper.map(userDTO, SystemAdminEntity.class);
                  systemAdmin.setStatus(Status.ACTIVE);
                  systemAdmin.setUserEntity(savedUser);
                  dataService.saveSystemAdmin(systemAdmin);
                  return utilities.successResponse("Created other Admin", null);
-
+//SchoolAdmin
              }else if(profileId ==2){
                 var schoolAdminInfo = modelMapper.map(userDTO,SchoolAdminInfoEntity.class);
                 schoolAdminInfo.setStatus(Status.ACTIVE);
                 schoolAdminInfo.setUserEntity(savedUser);
                 dataService.saveSchoolAdmin(schoolAdminInfo);
                 return utilities.successResponse("Created a school Admin",null);
-
+//Agents
             }else  if (profileId == 3){
                 var agentInfo = modelMapper.map(userDTO, AgentInfoEntity.class);
                 agentInfo.setUserEntity(savedUser);
                 agentInfo.setStatus(Status.ACTIVE);
                 dataService.saveAgent(agentInfo);
                 return utilities.successResponse("Registered agent",null);
-
+//Partner
             }else if (profileId == 4){
                 var partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
                  savedUser.setStatus(Status.INACTIVE);
@@ -89,7 +89,7 @@ public class UserService implements UserDetailsService {
                 partnerInfo.setStatus(Status.ACTIVE);
                 dataService.savePartner(partnerInfo);
                 return utilities.successResponse("Created a partner",null);
-
+//Student
             }else if (profileId == 5){
                 var student = modelMapper.map(userDTO, StudentEntity.class);
                 savedUser.setStatus(Status.INACTIVE);
@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService {
                 student.setStatus(Status.INACTIVE);
                 dataService.saveStudent(student);
                 return utilities.successResponse("Created a student",null);
-
+//Teacher
             }else if (profileId == 6){
                 var teacher = modelMapper.map(userDTO, TeacherEntity.class);
                 teacher.setUser(savedUser);
@@ -105,7 +105,7 @@ public class UserService implements UserDetailsService {
                 log.info("about to save a teacher :{}",teacher);
                 dataService.saveTeacher(teacher);
                 return utilities.successResponse("Created a teacher",null);
-
+//Guardian
             }else if (profileId == 7){
                 var guardian = modelMapper.map(userDTO, GuardianEntity.class);
                 guardian.setUserEntity(savedUser);
