@@ -52,7 +52,7 @@ public class EduVODAdminController {
         return eduVODAdminService.fetchSchoolAdminById(id);
     }
     @PutMapping("/school-admin/{id}")
-    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolAdminDTO schoolAdminDTO){
+    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolAdminDTO schoolAdminDTO) throws JsonProcessingException {
         return eduVODAdminService.updateSchoolAdminDetails(id,schoolAdminDTO);
     }
     @DeleteMapping("/del-school-admin/{id}")
@@ -64,12 +64,12 @@ public class EduVODAdminController {
     //Agents
 
     @GetMapping("/agents")
-    public ResponseDTO fetchAll(@RequestBody PageRequestDTO pageRequestDTO){
+    public ResponseDTO fetchAll(@RequestBody PageRequestDTO pageRequestDTO) throws JsonProcessingException {
         return eduVODAdminService.fetchActiveAgents(pageRequestDTO);
     }
 
   @GetMapping("/agent/{id}")
-    public ResponseDTO fetchAgentById(@PathVariable int id){
+    public ResponseDTO fetchAgentById(@PathVariable int id) throws JsonProcessingException {
         return eduVODAdminService.fetchByAgentId(id);
   }
   @PutMapping("/update-agent/{id}")

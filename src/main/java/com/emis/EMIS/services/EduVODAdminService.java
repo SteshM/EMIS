@@ -88,7 +88,7 @@ public class EduVODAdminService {
 
     public ResponseDTO fetchSchoolAdminById(int id) throws JsonProcessingException {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(schoolAdminInfo));
+        log.info("Fetched school admin Details:{}", new ObjectMapper().writeValueAsString(schoolAdminInfo));
         var schoolAdminDTO = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
         return utilities.successResponse("fetched a school admin",schoolAdminDTO);
 
@@ -115,52 +115,33 @@ public class EduVODAdminService {
 
     //Agents
 
-public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize());
-//        Sort.Direction.DESC
-//        Sort.Direction.ASC
-        Sort sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
+public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
+        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize());
+        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
         Page<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents(pageable);
         log.info("Fetched agents from the db:{}",agentInfoEntityList);
         List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
                 .map(agentInfoEntity -> {
-                  // return modelMapper.map(agentInfoEntity, AgentDTO.class);
-                  return   AgentDTO.builder()
-                            .agencyName(agentInfoEntity.getAgencyName())
-                            .emergencyContact(agentInfoEntity.getEmergencyContact())
-                            .firstName(agentInfoEntity.getUserEntity().getFirstName())
-                            .middleName(agentInfoEntity.getUserEntity().getMiddleName())
-                            .lastName(agentInfoEntity.getUserEntity().getLastName())
-                            .nationalId(agentInfoEntity.getUserEntity().getNationalId())
-                            .email(agentInfoEntity.getUserEntity().getEmail())
-                            .phoneNo(agentInfoEntity.getUserEntity().getPhoneNo())
-                            .build();
+                    return modelMapper.map(agentInfoEntity, AgentDTO.class);
+
                 })
                 .toList();
+    log.info("About to fetch all active agents' Details:{}", new ObjectMapper().writeValueAsString(agentInfoEntityList));
+    return utilities.successResponse("fetched all agents",agentDTOList);}
 
-        return utilities.successResponse("fetched all agents",agentDTOList);}
-
-    public ResponseDTO fetchByAgentId(int id) {
+    public ResponseDTO fetchByAgentId(int id) throws JsonProcessingException {
         var agentEntity = dataService.findByAgentId(id);
-        var agentDTO = AgentDTO.builder()
-                .firstName(agentEntity.getUserEntity().getFirstName())
-                .middleName(agentEntity.getUserEntity().getMiddleName())
-                .lastName(agentEntity.getUserEntity().getLastName())
-                .phoneNo(agentEntity.getUserEntity().getPhoneNo())
-                .email(agentEntity.getUserEntity().getEmail())
-                .nationalId(agentEntity.getUserEntity().getNationalId())
-                .emergencyContact(agentEntity.getEmergencyContact())
-                .agencyName(agentEntity.getAgencyName())
-                .build();
+        log.info("Fetched agent Details:{}", new ObjectMapper().writeValueAsString(agentEntity));
+        var agentDTO = modelMapper.map(agentEntity, AgentDTO.class);
         return utilities.successResponse("fetched an agent",agentDTO);
     }
 
-    public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) {
+    public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var agentInfo = dataService.findByAgentId(id);
-        UserEntity user = agentInfo.getUserEntity();
-        var userEntity = modelMapper.map(agentDTO, UserEntity.class);
-        userEntity.setUserId(user.getUserId());
-       agentInfo.setUserEntity(dataService.saveUser(userEntity));
+        log.info("Fetching an agent's details{}",objectMapper.writeValueAsString(agentInfo));
+        modelMapper.map(agentDTO,agentInfo);
+        log.info("Updated agent Details. About to save:{}", objectMapper.writeValueAsString(agentInfo));
         dataService.saveAgent(agentInfo);
         return utilities.successResponse("Updated an agent",agentDTO);
     }
