@@ -72,60 +72,34 @@ public class EduVODAdminService {
     }
 
     //School-Admins
-    public ResponseDTO fetchActiveSchoolAdmins() {
+    public ResponseDTO fetchActiveSchoolAdmins() throws JsonProcessingException {
         List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
         log.info("About to fetch active school admins {}",schoolAdminInfoEntities);
         List<SchoolAdminDTO>schoolAdminDTOList = schoolAdminInfoEntities.stream()
                 .map(schoolAdminInfo -> {
-                    return SchoolAdminDTO.builder()
-                            .adminRole(schoolAdminInfo.getAdminRole())
-                            .department(schoolAdminInfo.getDepartment())
-                            .tscNumber(schoolAdminInfo.getTscNumber())
-                            .officePhone(schoolAdminInfo.getOfficePhone())
-                            .firstName(schoolAdminInfo.getUserEntity().getFirstName())
-                            .middleName(schoolAdminInfo.getUserEntity().getMiddleName())
-                            .lastName(schoolAdminInfo.getUserEntity().getLastName())
-                            .nationalId(schoolAdminInfo.getUserEntity().getNationalId())
-                            .email(schoolAdminInfo.getUserEntity().getEmail())
-                            .phoneNo(schoolAdminInfo.getUserEntity().getPhoneNo())
-                            .nationality(schoolAdminInfo.getUserEntity().getNationality())
-                            .gender(schoolAdminInfo.getUserEntity().getGender())
-                            .dateOfBirth(schoolAdminInfo.getUserEntity().getDateOfBirth())
-                            .build();
-
+                    return modelMapper.map(schoolAdminInfo,SchoolAdminDTO.class);
                 })
                 .toList();
+        log.info("Fetched  all School admin Details:{}", new ObjectMapper().writeValueAsString(schoolAdminInfoEntities));
+
         return utilities.successResponse("Successfully fetched active school admins",schoolAdminDTOList);
     }
 
 
-    public ResponseDTO fetchSchoolAdminById(int id) {
+    public ResponseDTO fetchSchoolAdminById(int id) throws JsonProcessingException {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        var schoolAdminDTO = SchoolAdminDTO.builder()
-                .firstName(schoolAdminInfo.getUserEntity().getFirstName())
-                .middleName(schoolAdminInfo.getUserEntity().getMiddleName())
-                .lastName(schoolAdminInfo.getUserEntity().getLastName())
-                .phoneNo(schoolAdminInfo.getUserEntity().getPhoneNo())
-                .email(schoolAdminInfo.getUserEntity().getEmail())
-                .nationalId(schoolAdminInfo.getUserEntity().getNationalId())
-                .nationality(schoolAdminInfo.getUserEntity().getNationality())
-                .dateOfBirth(schoolAdminInfo.getUserEntity().getDateOfBirth())
-                .gender(schoolAdminInfo.getUserEntity().getGender())
-                .officePhone(schoolAdminInfo.getOfficePhone())
-                .adminRole(schoolAdminInfo.getAdminRole())
-                .tscNumber(schoolAdminInfo.getTscNumber())
-                .department(schoolAdminInfo.getDepartment())
-                .build();
+        log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(schoolAdminInfo));
+        var schoolAdminDTO = modelMapper.map(schoolAdminInfo, SchoolAdminDTO.class);
         return utilities.successResponse("fetched a school admin",schoolAdminDTO);
 
     }
 
-    public ResponseDTO updateSchoolAdminDetails(int id, SchoolAdminDTO schoolAdminDTO) {
+    public ResponseDTO updateSchoolAdminDetails(int id, SchoolAdminDTO schoolAdminDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        var user = schoolAdminInfo.getUserEntity();
-        var userEntity = modelMapper.map(schoolAdminDTO, UserEntity.class);
-        userEntity.setUserId(user.getUserId());
-        dataService.saveUser(userEntity);
+        log.info("about to fetch  an admin{}",objectMapper.writeValueAsString(schoolAdminInfo));
+        modelMapper.map(schoolAdminDTO,schoolAdminInfo);
+        log.info("Updated  school admins Details. About to save:{}", objectMapper.writeValueAsString(schoolAdminInfo));
         dataService.saveSchoolAdmin(schoolAdminInfo);
         return utilities.successResponse("updated  school admin details",schoolAdminDTO);
 

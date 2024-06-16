@@ -44,11 +44,11 @@ public class EduVODAdminController {
     //School-Admins
 
     @GetMapping("/school-admins")
-    public ResponseDTO fetchSchoolAdmins(){
+    public ResponseDTO fetchSchoolAdmins() throws JsonProcessingException {
         return eduVODAdminService.fetchActiveSchoolAdmins();
     }
     @GetMapping("/school-admin/{id}")
-    public ResponseDTO fetchSchoolAdminById(@PathVariable int id){
+    public ResponseDTO fetchSchoolAdminById(@PathVariable int id) throws JsonProcessingException {
         return eduVODAdminService.fetchSchoolAdminById(id);
     }
     @PutMapping("/school-admin/{id}")
