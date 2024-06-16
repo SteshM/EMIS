@@ -7,6 +7,7 @@ import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +23,15 @@ public class EduVODAdminController {
 
     //OtherAdmins
     @GetMapping("/admins")
-    public ResponseDTO viewSystemAdmins(){
+    public ResponseDTO viewSystemAdmins() throws JsonProcessingException {
         return eduVODAdminService.viewSystemAdmins();
     }
     @GetMapping("/single-admin/{id}")
-    public ResponseDTO singleAdmin(@PathVariable int id){
+    public ResponseDTO singleAdmin(@PathVariable int id) throws JsonProcessingException {
         return eduVODAdminService.singleAdmin(id);
     }
     @PutMapping("/admin/{id}")
-    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody SystemAdminsDTO systemAdminsDTO){
+    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody SystemAdminsDTO systemAdminsDTO) throws JsonProcessingException {
         return eduVODAdminService.updateAdminDetails(id,systemAdminsDTO);
     }
     @DeleteMapping("/del-admin/{id}")

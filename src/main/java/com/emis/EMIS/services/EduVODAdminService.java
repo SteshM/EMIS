@@ -8,6 +8,8 @@ import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -30,55 +32,35 @@ public class EduVODAdminService {
 
     //Other-System-Admins
 
-    public ResponseDTO viewSystemAdmins() {
+    public ResponseDTO viewSystemAdmins() throws JsonProcessingException {
         List<SystemAdminEntity>systemAdminEntityList = dataService.viewAll();
         List<SystemAdminsDTO>otherAdminsDTOList = systemAdminEntityList.stream()
-                .map(otherAdmin -> {
-                    return SystemAdminsDTO.builder()
-                            .employmentNo(otherAdmin.getEmploymentNo())
-                            .officePhoneNo(otherAdmin.getOfficePhoneNo())
-                            .employmentNo(otherAdmin.getEmploymentNo())
-                            .department(otherAdmin.getDepartment())
-                            .firstName(otherAdmin.getUserEntity().getFirstName())
-                            .middleName(otherAdmin.getUserEntity().getMiddleName())
-                            .lastName(otherAdmin.getUserEntity().getLastName())
-                            .nationalId(otherAdmin.getUserEntity().getNationalId())
-                            .email(otherAdmin.getUserEntity().getEmail())
-                            .phoneNo(otherAdmin.getUserEntity().getPhoneNo())
-                            .build();
+                .map(systemAdmin -> {
+                  return modelMapper.map(systemAdmin,SystemAdminsDTO.class);
 
                 })
                 .toList();
+        log.info("Fetched  all System Admins' Details:{}", new ObjectMapper().writeValueAsString(systemAdminEntityList));
+
         return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
     }
 
 
-    public ResponseDTO singleAdmin(int id) {
+    public ResponseDTO singleAdmin(int id) throws JsonProcessingException {
         var systemAdmin = dataService.findByAdminId(id);
-
-        var otherAdminsDTO = SystemAdminsDTO.builder()
-                .firstName(systemAdmin.getUserEntity().getFirstName())
-                .middleName(systemAdmin.getUserEntity().getMiddleName())
-                .lastName(systemAdmin.getUserEntity().getLastName())
-                .phoneNo(systemAdmin.getUserEntity().getPhoneNo())
-                .nationalId(systemAdmin.getUserEntity().getNationalId())
-                .email(systemAdmin.getUserEntity().getEmail())
-                .department(systemAdmin.getDepartment())
-                .officePhoneNo(systemAdmin.getOfficePhoneNo())
-                .employmentNo(systemAdmin.getEmploymentNo())
-                .build();
-
-        return utilities.successResponse("fetched a single admin",otherAdminsDTO);
+        var systemAdminsDTO =modelMapper.map(systemAdmin,SystemAdminsDTO.class);
+        log.info("Fetched student Details:{}", new ObjectMapper().writeValueAsString(systemAdmin));
+        return utilities.successResponse("fetched a single admin",systemAdminsDTO);
     }
 
-    public ResponseDTO updateAdminDetails(int id, SystemAdminsDTO systemAdminsDTO) {
+    public ResponseDTO updateAdminDetails(int id, SystemAdminsDTO systemAdminsDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var systemAdmin = dataService.findByAdminId(id);
-        systemAdmin.setDepartment(systemAdminsDTO.getDepartment());
-        systemAdmin.setEmploymentNo(systemAdminsDTO.getEmploymentNo());
-        systemAdmin.setOfficePhoneNo(systemAdminsDTO.getOfficePhoneNo());
-        SystemAdminsDTO systemAdminsDTO1 = modelMapper.map(systemAdminsDTO, SystemAdminsDTO.class);
+        log.info("Fetched an admin:{}", objectMapper.writeValueAsString(systemAdmin));
+        modelMapper.map(systemAdminsDTO,systemAdmin);
+        log.info("Updated admins Details. About to save:{}", objectMapper.writeValueAsString(systemAdmin));
         dataService.saveSystemAdmin(systemAdmin);
-        return utilities.successResponse("updated admins details",systemAdminsDTO1);
+        return utilities.successResponse("updated admins details",systemAdminsDTO);
     }
 
     public ResponseDTO deleteAdmin(int id) {
