@@ -129,6 +129,8 @@ public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonP
     log.info("About to fetch all active agents' Details:{}", new ObjectMapper().writeValueAsString(agentInfoEntityList));
     return utilities.successResponse("fetched all agents",agentDTOList);}
 
+
+
     public ResponseDTO fetchByAgentId(int id) throws JsonProcessingException {
         var agentEntity = dataService.findByAgentId(id);
         log.info("Fetched agent Details:{}", new ObjectMapper().writeValueAsString(agentEntity));
@@ -157,58 +159,32 @@ public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonP
     }
 
 
-    public ResponseDTO viewActivePartners() {
+    public ResponseDTO viewActivePartners() throws JsonProcessingException {
         List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();
+        log.info("about to fetch active partners from te db : {}",partnerInfoEntityList);
         List<PartnerDTO>partnerDTOList = partnerInfoEntityList.stream()
                 .map(partnerInfoEntity ->{
-                    return PartnerDTO .builder()
-                            .firstName(partnerInfoEntity.getUserEntity().getFirstName())
-                            .middleName(partnerInfoEntity.getUserEntity().getMiddleName())
-                            .lastName(partnerInfoEntity.getUserEntity().getLastName())
-                            .email(partnerInfoEntity.getUserEntity().getEmail())
-                            .nationalId(partnerInfoEntity.getUserEntity().getNationalId())
-                            .phoneNo(partnerInfoEntity.getUserEntity().getPhoneNo())
-                            .businessEmail(partnerInfoEntity.getBusinessEmail())
-                            .businessContact(partnerInfoEntity.getBusinessContact())
-                            .businessEmail(partnerInfoEntity.getBusinessEmail())
-                            .firmName(partnerInfoEntity.getFirmName())
-                            .emergencyContact(partnerInfoEntity.getEmergencyContact())
-                            .agreementStartDate(partnerInfoEntity.getAgreementStartDate())
-                            .agreementEndDate(partnerInfoEntity.getAgreementEndDate())
-                            .build();
+                    return modelMapper.map(partnerInfoEntity,PartnerDTO.class);
                 })
-
-
                 .toList();
-
-return utilities.successResponse("Successfully fetched active partners",partnerDTOList);
+        log.info("Fetching all active partners' Details:{}", new ObjectMapper().writeValueAsString(partnerInfoEntityList));
+        return utilities.successResponse("Successfully fetched active partners",partnerDTOList);
     }
 
-    public ResponseDTO fetchOne(int id) {
+    public ResponseDTO fetchOne(int id) throws JsonProcessingException {
         var partnerInfo = dataService.findByPartnerId(id);
-        var partnerDTO = PartnerDTO.builder()
-                .firstName(partnerInfo.getUserEntity().getFirstName())
-                .middleName(partnerInfo.getUserEntity().getMiddleName())
-                .lastName(partnerInfo.getUserEntity().getLastName())
-                .email(partnerInfo.getUserEntity().getEmail())
-                .phoneNo(partnerInfo.getUserEntity().getPhoneNo())
-                .emergencyContact(partnerInfo.getEmergencyContact())
-                .businessEmail(partnerInfo.getBusinessEmail())
-                .businessContact(partnerInfo.getBusinessContact())
-                .firmName(partnerInfo.getFirmName())
-                .agreementStartDate(partnerInfo.getAgreementStartDate())
-                .agreementEndDate(partnerInfo.getAgreementEndDate())
-                .build();
+        log.info("Fetching a partner's Details:{}", new ObjectMapper().writeValueAsString(partnerInfo));
+        var partnerDTO = modelMapper.map(partnerInfo, PartnerDTO.class);
         return utilities.successResponse("Successfully fetched a partner",partnerDTO);
     }
 
 
-    public ResponseDTO updatePartnerDetails(int id, PartnerDTO partnerDTO) {
+    public ResponseDTO updatePartnerDetails(int id, PartnerDTO partnerDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var partnerInfo = dataService.findByPartnerId(id);
-        var user = partnerInfo.getUserEntity();
-        var userEntity = modelMapper.map(partnerDTO, UserEntity.class);
-        userEntity.setUserId(user.getUserId());
-        partnerInfo.setUserEntity(dataService.saveUser(userEntity));
+        log.info("About to fetch a partner's details{}",objectMapper.writeValueAsString(partnerInfo));
+        modelMapper.map(partnerDTO,partnerInfo);
+        log.info("Updated a Partner's Details. About to save:{}", objectMapper.writeValueAsString(partnerInfo));
         dataService.savePartner(partnerInfo);
         return utilities.successResponse("Successfully updated a partners details",partnerDTO);
 

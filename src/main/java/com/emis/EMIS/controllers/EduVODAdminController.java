@@ -82,17 +82,17 @@ public class EduVODAdminController {
 
   //Partners
     @GetMapping("/partners")
-    public ResponseDTO viewActivePartners(){
+    public ResponseDTO viewActivePartners() throws JsonProcessingException {
         return eduVODAdminService.viewActivePartners();
     }
 
     @GetMapping("/partner/{id}")
-    public ResponseDTO fetchOne(@PathVariable int id){
+    public ResponseDTO fetchOne(@PathVariable int id) throws JsonProcessingException {
         return eduVODAdminService.fetchOne(id);
     }
 
     @PutMapping("/partner/{id}")
-    public ResponseDTO updatePartnerDetails(@PathVariable int id, @RequestBody PartnerDTO partnerDTO){
+    public ResponseDTO updatePartnerDetails(@PathVariable int id, @RequestBody PartnerDTO partnerDTO) throws JsonProcessingException {
         return eduVODAdminService.updatePartnerDetails(id,partnerDTO);
     }
     @DeleteMapping("/del-partner/{id}")
