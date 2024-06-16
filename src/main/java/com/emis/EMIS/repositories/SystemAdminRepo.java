@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface OtherAdminsRepo extends JpaRepository<SystemAdminEntity,Integer> {
+public interface SystemAdminRepo extends JpaRepository<SystemAdminEntity,Integer> {
     List<SystemAdminEntity> findByStatus(Status status);
 
     SystemAdminEntity findByAdminId(int adminId);

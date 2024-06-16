@@ -1,13 +1,7 @@
 package com.emis.EMIS.configs;
 
-import com.emis.EMIS.models.AgentInfoEntity;
-import com.emis.EMIS.models.PartnerInfoEntity;
-import com.emis.EMIS.models.StudentEntity;
-import com.emis.EMIS.models.TeacherEntity;
-import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
-import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
-import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
-import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
+import com.emis.EMIS.models.*;
+import com.emis.EMIS.wrappers.responseDTOs.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
@@ -66,11 +60,23 @@ public class ModelMapperConfig {
 
                 }
             };
+            PropertyMap<SystemAdminEntity, SystemAdminsDTO>systemAdminEntitySystemAdminsDTOPropertyMap=new PropertyMap<SystemAdminEntity, SystemAdminsDTO>() {
+                protected void configure() {
+                    map().setFirstName(source.getUserEntity().getFirstName());
+                    map().setMiddleName(source.getUserEntity().getMiddleName());
+                    map().setLastName(source.getUserEntity().getLastName());
+                    map().setEmail(source.getUserEntity().getEmail());
+                    map().setPhoneNo(source.getUserEntity().getPhoneNo());
+                    map().setNationalId(source.getUserEntity().getNationalId());
+
+                }
+            };
 
         modelMapper.addMappings(teacherEntityTeacherDTOPropertyMap);
         modelMapper.addMappings(studentEntityStudentDTOPropertyMap);
         modelMapper.addMappings(agentInfoEntityAgentDTOPropertyMap);
         modelMapper.addMappings(partnerInfoEntityPartnerDTOPropertyMap);
+        modelMapper.addMappings(systemAdminEntitySystemAdminsDTOPropertyMap);
         return modelMapper;
     }
 

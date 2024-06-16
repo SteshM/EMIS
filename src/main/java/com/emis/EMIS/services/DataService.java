@@ -25,7 +25,7 @@ public class DataService {
     private final SchoolRepo schoolRepo;
     private final SchoolAdminRepo schoolAdminRepo;
     private final UserRoleRepo userRoleRepo;
-    private final OtherAdminsRepo otherAdminsRepo;
+    private final SystemAdminRepo otherAdminsRepo;
     private final StudentsRepo studentsRepo;
     private final TeachersRepo teachersRepo;
     private final GuardianRepo guardianRepo;
