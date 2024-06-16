@@ -73,8 +73,7 @@ public class EduVODAdminController {
         return eduVODAdminService.fetchByAgentId(id);
   }
   @PutMapping("/update-agent/{id}")
-    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody AgentDTO agentDTO)
-  {return eduVODAdminService.updateAgentByAgentId(id,agentDTO);
+    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody AgentDTO agentDTO) throws JsonProcessingException {return eduVODAdminService.updateAgentByAgentId(id,agentDTO);
   }
   @DeleteMapping("/agent/{id}")
     public ResponseDTO softDelete(@PathVariable int id){
