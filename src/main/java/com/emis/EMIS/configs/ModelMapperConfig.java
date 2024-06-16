@@ -72,11 +72,26 @@ public class ModelMapperConfig {
                 }
             };
 
+            PropertyMap<SchoolAdminInfoEntity,SchoolAdminDTO>schoolAdminInfoEntitySchoolAdminDTOPropertyMap = new PropertyMap<SchoolAdminInfoEntity, SchoolAdminDTO>() {
+                protected void configure() {
+                    map().setFirstName(source.getUserEntity().getFirstName());
+                    map().setMiddleName(source.getUserEntity().getMiddleName());
+                    map().setLastName(source.getUserEntity().getLastName());
+                    map().setEmail(source.getUserEntity().getEmail());
+                    map().setPhoneNo(source.getUserEntity().getPhoneNo());
+                    map().setNationalId(source.getUserEntity().getNationalId());
+                    map().setNationality(source.getUserEntity().getNationality());
+                    map().setGender(source.getUserEntity().getGender());
+                    map().setDateOfBirth(source.getUserEntity().getDateOfBirth());
+                }
+            };
+
         modelMapper.addMappings(teacherEntityTeacherDTOPropertyMap);
         modelMapper.addMappings(studentEntityStudentDTOPropertyMap);
         modelMapper.addMappings(agentInfoEntityAgentDTOPropertyMap);
         modelMapper.addMappings(partnerInfoEntityPartnerDTOPropertyMap);
         modelMapper.addMappings(systemAdminEntitySystemAdminsDTOPropertyMap);
+        modelMapper.addMappings(schoolAdminInfoEntitySchoolAdminDTOPropertyMap);
         return modelMapper;
     }
 
