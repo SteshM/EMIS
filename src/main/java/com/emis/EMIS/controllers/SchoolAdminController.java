@@ -20,15 +20,15 @@ public class SchoolAdminController {
 private final SchoolAdminService schoolAdminService;
 
 @GetMapping("/students")
-    public ResponseDTO viewStudents(){
+    public ResponseDTO viewStudents() throws JsonProcessingException {
     return schoolAdminService.viewStudents();
 }
 @GetMapping("/student/{id}")
-    public ResponseDTO  fetchOne(@PathVariable int id){
+    public ResponseDTO  fetchOne(@PathVariable int id) throws JsonProcessingException {
     return schoolAdminService.fetchOne(id);
 }
 @PutMapping("/update-student/{id}")
-public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO){
+public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO) throws JsonProcessingException {
     return schoolAdminService.updateStudent(id,studentDTO);
 }
 @DeleteMapping("/del-student/{id}")

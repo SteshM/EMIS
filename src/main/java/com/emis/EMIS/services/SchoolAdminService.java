@@ -26,62 +26,34 @@ public class SchoolAdminService {
     public final Utilities utilities;
     public final ModelMapper modelMapper;
 
-    public ResponseDTO viewStudents() {
+
+
+    public ResponseDTO viewStudents() throws JsonProcessingException {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
         List<StudentDTO>studentDTOList = studentEntityList.stream()
                 .map(student -> {
-                    return StudentDTO.builder()
-                            .dateOfBirth(student.getUser().getDateOfBirth())
-                            .gender(student.getUser().getGender())
-                            .nationality(student.getUser().getNationality())
-                            .registrationNo(student.getRegistrationNo())
-                            .firstName(student.getUser().getFirstName())
-                            .middleName(student.getUser().getMiddleName())
-                            .lastName(student.getUser().getLastName())
-                            .email(student.getUser().getEmail())
-                            .build();
-
-
+                    return modelMapper.map(student,StudentDTO.class);
                 })
                 .toList();
-//
-////        List<StudentDTO>studentDTOList1 = studentEntityList.stream().map(
-////                student -> modelMapper.map(student, StudentDTO.class)
-//        ).toList();
-
-
-        return utilities.successResponse("fetched all students",studentDTOList);
+        log.info("Fetched  all student Details:{}", new ObjectMapper().writeValueAsString(studentEntityList));
+        return utilities.successResponse("fetched all  active students",studentDTOList);
 
     }
 
-    public ResponseDTO fetchOne(int id) {
+    public ResponseDTO fetchOne(int id) throws JsonProcessingException {
         var student = dataService.findByStudentId(id);
-        var studentDTO = StudentDTO.builder()
-                .gender(student.getUser().getGender())
-                .firstName(student.getUser().getFirstName())
-                .middleName(student.getUser().getMiddleName())
-                .lastName(student.getUser().getLastName())
-                .email(student.getUser().getEmail())
-                .dateOfBirth(student.getUser().getDateOfBirth())
-                .nationality(student.getUser().getNationality())
-                .registrationNo(student.getRegistrationNo())
-                .build();
-//        var studentDTO  = modelMapper.map(student, StudentDTO.class);
+        var studentDTO  = modelMapper.map(student, StudentDTO.class);
+        log.info("Fetched student Details:{}", new ObjectMapper().writeValueAsString(student));
         return utilities.successResponse("Successfully fetched a single record",studentDTO);
     }
 
-    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) {
+    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var student = dataService.findByStudentId(id);
-        //old reference
-        UserEntity user = student.getUser();
-        //new update
-        var userEntity = modelMapper.map(studentDTO, UserEntity.class);
-        userEntity.setUserId(user.getUserId());
-        userEntity.setDateOfBirth(user.getDateOfBirth());
-        userEntity.setEmail(user.getEmail());
-        student.setUser(dataService.saveUser(userEntity));
-        StudentEntity student1 = dataService.saveStudent(student);
-        studentDTO.setRegistrationNo(student1.getRegistrationNo());
+        log.info("Fetched a Student:{}", objectMapper.writeValueAsString(student));
+        modelMapper.map(studentDTO, student);
+        log.info("Updated Student Details. About to save:{}", objectMapper.writeValueAsString(student));
+        dataService.saveStudent(student);
         return utilities.successResponse("successfully updated student",studentDTO);
 
     }
@@ -112,7 +84,7 @@ public class SchoolAdminService {
         TeacherEntity teacher = dataService.findByTeacherId(id);
         log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(teacher));
         var teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
-        return utilities.successResponse("fetched  a single teacher",teacher);
+        return utilities.successResponse("fetched  a single teacher",teacherDTO);
     }
 
     public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) throws JsonProcessingException {
