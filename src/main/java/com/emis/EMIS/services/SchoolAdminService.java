@@ -15,8 +15,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
+/**
+ * Created by Stella
+ * Project school admin service
+ */
 
 @Service
 @Slf4j
@@ -29,9 +33,9 @@ public class SchoolAdminService {
 //Students
 
     /**
-     *
-     * @return ResponseDTO
-     * @throws JsonProcessingException
+     * Method to view student details
+     * @return the responseDTO
+     * @throws JsonProcessingException the exception
      */
 
     public ResponseDTO viewStudents() throws JsonProcessingException {
@@ -48,9 +52,9 @@ public class SchoolAdminService {
 
     /**
      *
-     * @param id
+     * @param id the student id
      * @return ResponseDTO
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the exception
      */
 
     public ResponseDTO fetchOne(int id) throws JsonProcessingException {
@@ -61,11 +65,11 @@ public class SchoolAdminService {
     }
 
     /**
-     *
-     * @param id
-     * @param studentDTO
+     * A method to update a Student
+     * @param id the studentId
+     * @param studentDTO the Student dto
      * @return ResponseDTO
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the exception
      */
 
     public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException {
@@ -80,8 +84,8 @@ public class SchoolAdminService {
     }
 
     /**
-     *
-     * @param id
+     * A method to delete a student
+     * @param id the studentId
      * @return ResponseDTO
      */
 
@@ -94,9 +98,9 @@ public class SchoolAdminService {
     }
 
     /**
-     *
+     * A method to view teachers
      * @return ResponseDTO
-     * @throws JsonProcessingException
+     * @throws JsonProcessingException the exception
      */
 
 
@@ -114,12 +118,26 @@ public class SchoolAdminService {
         return utilities.successResponse("fetched all active teachers",teacherDTOList);
     }
 
+    /**
+     * Created a method to fetch a single teacher
+     * @param id the teacher id
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
     public ResponseDTO fetchTeacher(int id) throws JsonProcessingException {
         var teacher = dataService.findByTeacherId(id);
         log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(teacher));
         var teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
         return utilities.successResponse("fetched  a single teacher",teacherDTO);
     }
+
+    /**
+     * A method to update a teacher details
+     * @param id teacher id
+     * @param teacherDTO the teacher dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -132,6 +150,12 @@ public class SchoolAdminService {
 
     }
 
+    /**
+     * soft deleting a teachers record
+     * @param id the teacher id
+     * @return response dto
+     */
+
     public ResponseDTO deleteTeacher(int id) {
         var teacher = dataService.findByTeacherId(id);
         teacher.setStatus(Status.DELETED);
@@ -140,6 +164,12 @@ public class SchoolAdminService {
         return utilities.successResponse("deleted a teacher",null);
 
     }
+
+    /**
+     * A request to view all active guardians in the system
+     * @return the response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO viewAll() throws JsonProcessingException {
         List<GuardianEntity>guardianEntityList = dataService.fetchActiveGuardians();
@@ -152,12 +182,27 @@ public class SchoolAdminService {
         return utilities.successResponse("Fetched all guardians",guardianDTOList);
     }
 
+    /**
+     * Fetching a guardian from the db
+     * @param id the guardian id
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO getGuardian(int id) throws JsonProcessingException {
         var guardian = dataService.findByGuardianId(id);
         log.info("Fetched guardian Details from the db:{}", new ObjectMapper().writeValueAsString(guardian));
         var guardianDTO = modelMapper.map(guardian, GuardianDTO.class);
         return utilities.successResponse("Successfully fetched a guardian",guardianDTO);
     }
+
+    /**
+     * Fetching guardians details from the db , updating and saving them
+     * @param id the guardian id
+     * @param guardianDTO the guardian dto
+     * @return the response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO updateGuardian(int id, GuardianDTO guardianDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -168,11 +213,13 @@ public class SchoolAdminService {
         dataService.saveGuardian(guardian);
         return utilities.successResponse("Updated a guardian's details",guardianDTO);
 
-
-
-
     }
 
+    /**
+     * soft deleting a guardian's record
+     * @param id the guardian id
+     * @return the response dto
+     */
     public ResponseDTO delGuardian(int id) {
         var guardian = dataService.findByGuardianId(id);
         guardian.setStatus(Status.DELETED);

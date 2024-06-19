@@ -15,12 +15,22 @@ import org.springframework.web.bind.annotation.*;
 public class AgentController {
     private final AgentService agentService;
 
+    /**
+     * A method to enrol a school
+     *
+     * @param schoolDTO
+     * @return agent Service
+     */
+
     @PostMapping("/school")
     public ResponseDTO enrolSchool(@RequestBody @Valid SchoolDTO schoolDTO){
+        log.info("Agent Controller : About to enrol a school :: {}",schoolDTO.getSchoolName());
         return agentService.enrolSchool(schoolDTO);
     }
     @GetMapping("/schools")
-    public ResponseDTO fetchSchools(){
+    public ResponseDTO fetchSchools()
+    {
+        log.info("About to fetch school details");
         return agentService.viewSchools();
     }
     @PutMapping("/school/{id}")
