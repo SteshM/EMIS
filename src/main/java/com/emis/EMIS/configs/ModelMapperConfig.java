@@ -85,6 +85,18 @@ public class ModelMapperConfig {
                     map().setDateOfBirth(source.getUserEntity().getDateOfBirth());
                 }
             };
+            PropertyMap<GuardianEntity,GuardianDTO>guardianEntityGuardianDTOPropertyMap = new PropertyMap<GuardianEntity, GuardianDTO>() {
+                protected void configure() {
+                    map().setFirstName(source.getUserEntity().getFirstName());
+                    map().setMiddleName(source.getUserEntity().getMiddleName());
+                    map().setLastName(source.getUserEntity().getLastName());
+                    map().setEmail(source.getUserEntity().getEmail());
+                    map().setPhoneNo(source.getUserEntity().getPhoneNo());
+                    map().setNationalId(source.getUserEntity().getNationalId());
+                    map().setNationality(source.getUserEntity().getNationality());
+                    map().setGender(source.getUserEntity().getGender());
+                }
+            };
 
         modelMapper.addMappings(teacherEntityTeacherDTOPropertyMap);
         modelMapper.addMappings(studentEntityStudentDTOPropertyMap);
@@ -92,6 +104,7 @@ public class ModelMapperConfig {
         modelMapper.addMappings(partnerInfoEntityPartnerDTOPropertyMap);
         modelMapper.addMappings(systemAdminEntitySystemAdminsDTOPropertyMap);
         modelMapper.addMappings(schoolAdminInfoEntitySchoolAdminDTOPropertyMap);
+        modelMapper.addMappings(guardianEntityGuardianDTOPropertyMap);
         return modelMapper;
     }
 
