@@ -63,7 +63,7 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     return schoolAdminService.getGuardian(id);
 }
 @PutMapping("/guardian/{id}")
-    public ResponseDTO updateGuardianDetails(@PathVariable int id, @RequestBody GuardianDTO guardianDTO){
+    public ResponseDTO updateGuardianDetails(@PathVariable int id, @RequestBody GuardianDTO guardianDTO) throws JsonProcessingException {
     return schoolAdminService.updateGuardian(id,guardianDTO);
 }
       }
