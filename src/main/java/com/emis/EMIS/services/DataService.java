@@ -135,8 +135,8 @@ public class DataService {
     }
 
 
-    public StudentEntity saveStudent(StudentEntity student){
-        return studentsRepo.save(student);
+    public void saveStudent(StudentEntity student){
+        studentsRepo.save(student);
 
     }
 
@@ -152,6 +152,12 @@ public class DataService {
 
     public void saveGuardian(GuardianEntity guardian) {
         guardianRepo.save(guardian);
+    }
+    public  List<GuardianEntity> fetchActiveGuardians(){
+        return guardianRepo.findByStatus(Status.ACTIVE);
+    }
+    public GuardianEntity findByGuardianId(int guardianId){
+        return guardianRepo.findByGuardianId(guardianId);
     }
 
 }

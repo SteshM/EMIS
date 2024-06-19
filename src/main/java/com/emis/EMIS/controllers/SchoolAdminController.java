@@ -53,4 +53,9 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     return schoolAdminService.deleteTeacher(id);
 }
 
+@GetMapping("/guardians")
+    public ResponseDTO viewAll() throws JsonProcessingException {
+    return schoolAdminService.viewAll();
+}
+
       }

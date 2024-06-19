@@ -1,9 +1,11 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
+import com.emis.EMIS.models.GuardianEntity;
 import com.emis.EMIS.models.StudentEntity;
 import com.emis.EMIS.models.TeacherEntity;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
@@ -80,7 +82,7 @@ public class SchoolAdminService {
     }
 
     public ResponseDTO fetchTeacher(int id) throws JsonProcessingException {
-        TeacherEntity teacher = dataService.findByTeacherId(id);
+        var teacher = dataService.findByTeacherId(id);
         log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(teacher));
         var teacherDTO = modelMapper.map(teacher, TeacherDTO.class);
         return utilities.successResponse("fetched  a single teacher",teacherDTO);
@@ -104,5 +106,16 @@ public class SchoolAdminService {
         dataService.saveTeacher(teacher);
         return utilities.successResponse("deleted a teacher",null);
 
+    }
+
+    public ResponseDTO viewAll() throws JsonProcessingException {
+        List<GuardianEntity>guardianEntityList = dataService.fetchActiveGuardians();
+        List<GuardianDTO>guardianDTOList = guardianEntityList.stream()
+                .map(guardianEntity -> {
+                    return modelMapper.map(guardianEntity, GuardianDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all guardian Details:{}", new ObjectMapper().writeValueAsString(guardianEntityList));
+        return utilities.successResponse("Fetched all guardians",guardianDTOList);
     }
 }
