@@ -29,6 +29,11 @@ public class DataService {
     private final StudentsRepo studentsRepo;
     private final TeachersRepo teachersRepo;
     private final GuardianRepo guardianRepo;
+    private final LevelRepo levelRepo;
+    private final SubjectRepo subjectRepo;
+    private final GradeRepo gradeRepo;
+    private final CurriculumRepo curriculumRepo;
+
 
 
     public UserEntity saveUser(UserEntity userEntity) {
