@@ -125,4 +125,18 @@ public class SchoolAdminService {
         var guardianDTO = modelMapper.map(guardian, GuardianDTO.class);
         return utilities.successResponse("Successfully fetched a guardian",guardianDTO);
     }
+
+    public ResponseDTO updateGuardian(int id, GuardianDTO guardianDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var guardian = dataService.findByGuardianId(id);
+        log.info("Fetched a guardian:{}", objectMapper.writeValueAsString(guardian));
+        modelMapper.map(guardianDTO,guardian);
+        log.info("Updated guardian Details. About to save:{}", objectMapper.writeValueAsString(guardian));
+        dataService.saveGuardian(guardian);
+        return utilities.successResponse("Updated a guardian's details",guardianDTO);
+
+
+
+
+    }
 }

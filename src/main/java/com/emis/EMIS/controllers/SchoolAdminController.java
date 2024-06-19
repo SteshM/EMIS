@@ -2,6 +2,7 @@ package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolAdminService;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
+import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
@@ -57,9 +58,12 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO viewAll() throws JsonProcessingException {
     return schoolAdminService.viewAll();
 }
-@GetMapping("/single-guardian")
+@GetMapping("/single-guardian/{id}")
     public ResponseDTO fetchGuardian(@PathVariable int id) throws JsonProcessingException {
     return schoolAdminService.getGuardian(id);
 }
-
+@PutMapping("/guardian/{id}")
+    public ResponseDTO updateGuardianDetails(@PathVariable int id, @RequestBody GuardianDTO guardianDTO){
+    return schoolAdminService.updateGuardian(id,guardianDTO);
+}
       }
