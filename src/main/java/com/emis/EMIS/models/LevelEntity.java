@@ -13,4 +13,7 @@ public class LevelEntity {
     private int levelId;
     private String levelName;
 
+    @ManyToOne
+    @JoinColumn(name = "curriculumId")
+    private CurriculumEntity curriculum;
 }

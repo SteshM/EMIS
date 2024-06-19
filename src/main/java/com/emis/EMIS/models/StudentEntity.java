@@ -18,4 +18,6 @@ public class StudentEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+
+
 }

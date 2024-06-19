@@ -11,4 +11,8 @@ public class SubjectEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int subjectId;
     private String subject;
+
+    @ManyToOne
+    @JoinColumn(name = "gradeId")
+    private GradeEntity grade;
 }

@@ -21,4 +21,8 @@ public class GuardianEntity {
     @JoinColumn(name = "userId")
     UserEntity userEntity;
 
+    @OneToMany
+    @JoinColumn(name = "studentId")
+    private StudentEntity student;
+
 }

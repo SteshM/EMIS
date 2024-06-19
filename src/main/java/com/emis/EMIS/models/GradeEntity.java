@@ -12,4 +12,8 @@ public class GradeEntity {
     private int gradeId;
     private String grade;
     private String stream;
+
+    @ManyToOne
+    @JoinColumn(name = "levelId")
+    private LevelEntity level;
 }
