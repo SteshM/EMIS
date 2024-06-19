@@ -5,11 +5,10 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "grades")
-public class GradeEntity {
+@Table(name = "subjects")
+public class SubjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int gradeId;
-    private String grade;
-    private String stream;
+    private int subjectId;
+    private String subject;
 }

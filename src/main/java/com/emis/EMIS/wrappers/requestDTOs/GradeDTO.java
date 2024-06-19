@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class GradeDTO {
     private String grade;
+    private String stream;
 }
