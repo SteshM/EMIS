@@ -66,4 +66,8 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO updateGuardianDetails(@PathVariable int id, @RequestBody GuardianDTO guardianDTO) throws JsonProcessingException {
     return schoolAdminService.updateGuardian(id,guardianDTO);
 }
+@DeleteMapping("/del-guardian/{id}")
+    public ResponseDTO delGuardianInfo(@PathVariable int id){
+    return schoolAdminService.delGuardian(id);
+}
       }

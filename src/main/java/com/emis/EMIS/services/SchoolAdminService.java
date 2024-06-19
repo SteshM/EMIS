@@ -139,4 +139,12 @@ public class SchoolAdminService {
 
 
     }
+
+    public ResponseDTO delGuardian(int id) {
+        var guardian = dataService.findByGuardianId(id);
+        guardian.setStatus(Status.DELETED);
+        guardian.getUserEntity().setStatus(Status.DELETED);
+        dataService.saveGuardian(guardian);
+        return utilities.successResponse("Successfully deleted guardian details",null);
+    }
 }
