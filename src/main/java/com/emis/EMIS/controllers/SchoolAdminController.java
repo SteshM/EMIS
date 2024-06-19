@@ -57,5 +57,9 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO viewAll() throws JsonProcessingException {
     return schoolAdminService.viewAll();
 }
+@GetMapping("/single-guardian")
+    public ResponseDTO fetchGuardian(@PathVariable int id) throws JsonProcessingException {
+    return schoolAdminService.getGuardian(id);
+}
 
       }

@@ -118,4 +118,11 @@ public class SchoolAdminService {
         log.info("Fetched  all guardian Details:{}", new ObjectMapper().writeValueAsString(guardianEntityList));
         return utilities.successResponse("Fetched all guardians",guardianDTOList);
     }
+
+    public ResponseDTO getGuardian(int id) throws JsonProcessingException {
+        var guardian = dataService.findByGuardianId(id);
+        log.info("Fetched guardian Details from the db:{}", new ObjectMapper().writeValueAsString(guardian));
+        var guardianDTO = modelMapper.map(guardian, GuardianDTO.class);
+        return utilities.successResponse("Successfully fetched a guardian",guardianDTO);
+    }
 }
