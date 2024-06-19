@@ -1,10 +1,11 @@
 package com.emis.EMIS.wrappers.requestDTOs;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-
+@Valid
 @Data
 public class LoginDTO {
     @NotBlank(message = "Email is mandatory!")

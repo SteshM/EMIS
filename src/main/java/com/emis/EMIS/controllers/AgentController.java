@@ -3,6 +3,7 @@ package com.emis.EMIS.controllers;
 import com.emis.EMIS.services.AgentService;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ public class AgentController {
     private final AgentService agentService;
 
     @PostMapping("/school")
-    public ResponseDTO enrolSchool(@RequestBody SchoolDTO schoolDTO){
+    public ResponseDTO enrolSchool(@RequestBody @Valid SchoolDTO schoolDTO){
         return agentService.enrolSchool(schoolDTO);
     }
     @GetMapping("/schools")
@@ -23,7 +24,7 @@ public class AgentController {
         return agentService.viewSchools();
     }
     @PutMapping("/school/{id}")
-    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO){
+    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody @Valid SchoolDTO schoolDTO){
         return agentService.updateSchool(id,schoolDTO);
     }
     @DeleteMapping("/delete/{id}")

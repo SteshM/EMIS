@@ -5,9 +5,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
+/**
+ * Created by Stella
+ * Project Eduvod-Emis system
+ * Date: 12/05/2024
+ */
 
 @Entity
 @Data
@@ -30,8 +36,11 @@ public class UserEntity {
     private String phoneNo;
     private  String password;
     @Column(nullable = false, updatable = false)
-    private Date dateCreated = new Date();
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated ;
     private String createdBy;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateModified;
     private String modifiedBy;
     private Status status;

@@ -28,6 +28,12 @@ public class SchoolAdminService {
 
 //Students
 
+    /**
+     *
+     * @return ResponseDTO
+     * @throws JsonProcessingException
+     */
+
     public ResponseDTO viewStudents() throws JsonProcessingException {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
         List<StudentDTO>studentDTOList = studentEntityList.stream()
@@ -40,12 +46,27 @@ public class SchoolAdminService {
 
     }
 
+    /**
+     *
+     * @param id
+     * @return ResponseDTO
+     * @throws JsonProcessingException
+     */
+
     public ResponseDTO fetchOne(int id) throws JsonProcessingException {
         var student = dataService.findByStudentId(id);
         var studentDTO  = modelMapper.map(student, StudentDTO.class);
         log.info("Fetched student Details:{}", new ObjectMapper().writeValueAsString(student));
         return utilities.successResponse("Successfully fetched a single record",studentDTO);
     }
+
+    /**
+     *
+     * @param id
+     * @param studentDTO
+     * @return ResponseDTO
+     * @throws JsonProcessingException
+     */
 
     public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -58,6 +79,12 @@ public class SchoolAdminService {
 
     }
 
+    /**
+     *
+     * @param id
+     * @return ResponseDTO
+     */
+
     public ResponseDTO deleteStudent(int id) {
         var student = dataService.findByStudentId(id);
         student.setStatus(Status.DELETED);
@@ -65,6 +92,12 @@ public class SchoolAdminService {
         dataService.saveStudent(student);
         return utilities.successResponse("deleted a student",null);
     }
+
+    /**
+     *
+     * @return ResponseDTO
+     * @throws JsonProcessingException
+     */
 
 
     //Teachers

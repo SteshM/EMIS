@@ -8,6 +8,7 @@ import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
 import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +75,7 @@ public class EduVODAdminController {
         return eduVODAdminService.fetchByAgentId(id);
   }
   @PutMapping("/update-agent/{id}")
-    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody AgentDTO agentDTO) throws JsonProcessingException {return eduVODAdminService.updateAgentByAgentId(id,agentDTO);
+    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody @Valid AgentDTO agentDTO) throws JsonProcessingException {return eduVODAdminService.updateAgentByAgentId(id,agentDTO);
   }
   @DeleteMapping("/agent/{id}")
     public ResponseDTO softDelete(@PathVariable int id){

@@ -8,6 +8,7 @@ import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +64,7 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     return schoolAdminService.getGuardian(id);
 }
 @PutMapping("/guardian/{id}")
-    public ResponseDTO updateGuardianDetails(@PathVariable int id, @RequestBody GuardianDTO guardianDTO) throws JsonProcessingException {
+    public ResponseDTO updateGuardianDetails(@PathVariable int id, @RequestBody  GuardianDTO guardianDTO) throws JsonProcessingException {
     return schoolAdminService.updateGuardian(id,guardianDTO);
 }
 @DeleteMapping("/del-guardian/{id}")

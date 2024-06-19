@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class GradeDTO {
-    @NotBlank(message = "This field is required!")
+    @NotBlank(message = "Grade is required!")
     private String grade;
     @NotNull(message = "This field cannot be null!")
     private String stream;

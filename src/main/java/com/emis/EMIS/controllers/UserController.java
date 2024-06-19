@@ -5,6 +5,7 @@ import com.emis.EMIS.services.UserService;
 import com.emis.EMIS.utils.JwtUtil;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/all/create-profile")
-    public ResponseDTO createProfile(@RequestBody ProfileDto profileDto){
+    public ResponseDTO createProfile(@RequestBody @Valid ProfileDto profileDto){
         return userService.createProfile(profileDto);
     }
     @GetMapping("/all/profiles")
@@ -47,14 +48,14 @@ public class UserController {
     }
 
     @PostMapping("/all/register")
-    public ResponseDTO register(@RequestBody UserDTO userDTO){
+    public ResponseDTO register(@RequestBody  @Valid UserDTO userDTO){
 
         log.info("Register request received from the customer::{}",userDTO);
         return userService.register(userDTO);
     }
 
     @PostMapping("/all/activateAcc")
-    public ResponseDTO verifyOtp(@RequestBody ActivateAccDTO activateAccDTO){
+    public ResponseDTO verifyOtp(@RequestBody @Valid ActivateAccDTO activateAccDTO){
         return userService.activateAccount(activateAccDTO);
     }
 
@@ -64,7 +65,7 @@ public class UserController {
     }
 
     @PostMapping("/all/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO){
+    public ResponseEntity<ResponseDTO> login(@RequestBody @Valid LoginDTO loginDTO){
         ResponseDTO responseDTO = new ResponseDTO();
         Map<String, String> objectMap = new HashMap<>();
         try {
