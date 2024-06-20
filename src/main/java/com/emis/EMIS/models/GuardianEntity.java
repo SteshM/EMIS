@@ -3,7 +3,6 @@ package com.emis.EMIS.models;
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NonNull;
 
 @Entity
 @Data

@@ -294,7 +294,6 @@ public class EduVODAdminService {
      * @param id partner id
      * @return response dto
      */
-
     public ResponseDTO deletePartner(int id) {
         var partnerInfo = dataService.findByPartnerId(id);
         partnerInfo.setStatus(Status.DELETED);

@@ -25,9 +25,10 @@ public class OTPService {
     private final PasswordEncoder passwordEncoder;
 
 
-//    private final Exchanger exchanger;
-//    private final RandomGenerator randomGenerator;
-
+    /**
+     * A method to generate otp
+     * @param userEntity is tied to the otpEntity
+     */
 
     public void generateOTP(UserEntity userEntity){
         //generate a random number
@@ -42,15 +43,25 @@ public class OTPService {
         this.sendOTP(otp,userEntity);
     }
 
+    /**
+     * A method to send otp via email
+     * @param otp is the otp
+     * @param userEntity where we get the email
+     */
     private void sendOTP( String otp,UserEntity userEntity){
         log.info("OTP:{}", otp);
-
         //Send via Email
        emailService.send(userEntity, "Your OTP is ");
-
-        //Send via SMS
+       //Send via SMS
     }
 
+
+    /**
+     * This is a method to verify the otp
+     * @param userId used to get the user's email
+     * @param otp otp
+     * @return response dto
+     */
     public boolean verifyOtp(int userId, String otp) {
         try {
             var otpEntity = dataService.findOTPByUserId(userId);
@@ -79,6 +90,11 @@ public class OTPService {
         }
     }
 
+    /**
+     * A method to check if the otp is expired
+     * @param dateCreated date created
+     * @return response dto
+     */
     private boolean isOtpExpired(Date dateCreated){
         Date now = new Date();
         int duration = userConfigs.getOtpExpiryDurationInMinutes();
@@ -94,6 +110,11 @@ public class OTPService {
         return now.after(expiryDate);
     }
 
+    /**
+     * A method to regenerate otp
+     * @param userId used to find the user
+     * @return response dto
+     */
     public ResponseDTO regenerateOtp(int userId){
         var userEntity = dataService.findByUserId(userId);
         var otpEntity = dataService.findOTPByUserId(userId);
@@ -103,6 +124,11 @@ public class OTPService {
         return utilities.successResponse("Successfully regenerated otp",null);
     }
 
+    /**
+     * A forgot password method
+     * @param email user's email
+     * @return response dto
+     */
     public ResponseDTO forgotPassword(String email) {
         {
             UserEntity userEntity = dataService.findByEmail(email).get();

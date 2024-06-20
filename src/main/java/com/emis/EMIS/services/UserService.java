@@ -53,9 +53,9 @@ public class UserService implements UserDetailsService {
 
 
     /**
-     * This is a m
-     * @param userDTO
-     * @return Re
+     * This is a method to register users in the system
+     * @param userDTO is the request dto
+     * @return Response dto
      */
     public ResponseDTO register(UserDTO userDTO) {
 
@@ -147,6 +147,12 @@ public class UserService implements UserDetailsService {
 
     }
 
+    /**
+     * A method to activate the account after registering and in case one forgets their password
+     * @param activateAccDTO the request dto
+     * @return response dto
+     */
+
     public ResponseDTO activateAccount(ActivateAccDTO activateAccDTO) {
 
         var userEntity = dataService.findByEmail(activateAccDTO.getEmail()).get();
@@ -181,6 +187,12 @@ public class UserService implements UserDetailsService {
 //
 //    }
 
+    /**
+     * This is a method to create profiles
+     * @param profileDto the request dto
+     * @return response dto
+     */
+
     public ResponseDTO createProfile(ProfileDto profileDto){
         var profile = modelMapper.map(profileDto, ProfileEntity.class);
         if(dataService.findByProfile(profileDto.getProfile()) == null){
@@ -190,11 +202,20 @@ public class UserService implements UserDetailsService {
         return utilities.failedResponse(400, "profile exists", null);
     }
 
-
+    /**
+     * a method to fetch all profiles from the db
+     * @return response dto
+     */
     public ResponseDTO fetchAll() {
         List<ProfileEntity>profiles = dataService.fetchAll();
         return utilities.successResponse("fetched all profiles",profiles);
     }
+
+    /**
+     * A method to fetch a user by profile
+     * @param profile profile
+     * @return response dto
+     */
 
     public ResponseDTO fetchByProfile(String profile) {
         var profileEntity = dataService.findByProfile(profile);
@@ -205,6 +226,12 @@ public class UserService implements UserDetailsService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
+
+    /**
+     * A method to upload/update the profile pic
+     * @param file file
+     * @return response dto
+     */
     public ResponseDTO updateProfilePic(MultipartFile file){
         var user= dataService.findByEmail(this.email()).get();
 //        if(user.getProfilePic() != null){
