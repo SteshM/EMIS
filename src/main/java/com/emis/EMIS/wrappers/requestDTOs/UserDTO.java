@@ -12,7 +12,8 @@ import java.util.Date;
 
 @Data
 public class UserDTO {
-    @NotBlank(message = "First name is required!")
+//    @NotBlank(message = "First name is required!")
+    @NotNull(message = "First name is required!")
     private String firstName;
 
     @NotBlank(message = "Middle name is required!")

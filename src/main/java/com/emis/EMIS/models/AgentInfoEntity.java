@@ -1,6 +1,5 @@
 package com.emis.EMIS.models;
 
-import com.emis.EMIS.configs.UserConfigs;
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,6 +22,9 @@ public class AgentInfoEntity {
     private String agentType;
     private String emergencyContact;
     private Status status;
+//
+//    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
+//    public boolean softDelete;
 
     @OneToOne
     @JoinColumn(name = "userId")

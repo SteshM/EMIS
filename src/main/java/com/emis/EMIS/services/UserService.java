@@ -25,6 +25,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Created by Stella
+ * user Service
+ */
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +43,12 @@ public class UserService implements UserDetailsService {
 
     @Value("${profile.images.path}")
     private String profilePath;
+
+    /**
+     *
+     * @param username username
+     * @return response dto
+     */
 
     public UserDetails loadUserByUsername(String username) {
         Optional<UserEntity> credential = dataService.findByEmail(username);

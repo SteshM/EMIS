@@ -51,6 +51,9 @@ public class UserEntity {
     private int profileId;
     private String profilePic;
 
+//    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
+//    public boolean softDelete;
+
 
 
 }

@@ -19,5 +19,9 @@ public class StudentEntity {
     private UserEntity user;
 
 
+    @ManyToOne
+    @JoinColumn(name = "guardianId")
+    private GuardianEntity guardian;
+
 
 }

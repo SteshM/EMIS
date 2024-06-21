@@ -214,7 +214,7 @@ public class EduVODAdminService {
     public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var agentInfo = dataService.findByAgentId(id);
-        log.info("Fetching an agent's details{}",objectMapper.writeValueAsString(agentInfo));
+        log.info("Fetching anDefaultSecurityFilterChain agent's details{}",objectMapper.writeValueAsString(agentInfo));
         modelMapper.map(agentDTO,agentInfo);
         log.info("Updated agent Details. About to save:{}", objectMapper.writeValueAsString(agentInfo));
         dataService.saveAgent(agentInfo);
@@ -229,7 +229,9 @@ public class EduVODAdminService {
      */
     public ResponseDTO softDeleteAgent(int id) {
         var agentInfo = dataService.findByAgentId(id);
+
         agentInfo.setStatus(Status.DELETED);
+//        agentInfo.setSoftDelete(true);
         agentInfo.getUserEntity().setStatus(Status.DELETED);
         log.info("changed agent's status to deleted {}",agentInfo);
         dataService.saveAgent(agentInfo);
