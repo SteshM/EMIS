@@ -4,11 +4,15 @@ import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "schools")
+@SQLDelete(sql = "UPDATE schools set soft_delete=true where id=?")
+@Where(clause = "soft_delete=false")
 public class SchoolsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,5 +28,8 @@ public class SchoolsEntity {
     private String subCounty;
     private String location;
     private Status status;
+
+    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
+    public boolean softDelete;
 
 }

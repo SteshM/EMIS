@@ -89,8 +89,8 @@ public class EduVODAdminService {
 
     public ResponseDTO deleteAdmin(int id) {
         var systemAdmin = dataService.findByAdminId(id);
-        systemAdmin.setStatus(Status.DELETED);
-        systemAdmin.getUserEntity().setStatus(Status.DELETED);
+        systemAdmin.setSoftDelete(true);
+        systemAdmin.getUserEntity().setSoftDelete(true);
         dataService.saveSystemAdmin(systemAdmin);
         return utilities.successResponse("soft deleted an admin",null);
     }
@@ -158,8 +158,8 @@ public class EduVODAdminService {
 
     public ResponseDTO deleteSchoolAdmin(int id){
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        schoolAdminInfo.setStatus(Status.DELETED);
-        schoolAdminInfo.getUserEntity().setStatus(Status.DELETED);
+        schoolAdminInfo.setSoftDelete(true);
+        schoolAdminInfo.getUserEntity().setSoftDelete(true);
         dataService.saveSchoolAdmin(schoolAdminInfo);
         return utilities.successResponse("deleted a school admin",null);
     }
@@ -176,8 +176,8 @@ public class EduVODAdminService {
      */
 
     public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
-        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize());
         var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
+        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
         Page<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents(pageable);
         log.info("Fetched agents from the db:{}",agentInfoEntityList);
         List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
@@ -229,10 +229,8 @@ public class EduVODAdminService {
      */
     public ResponseDTO softDeleteAgent(int id) {
         var agentInfo = dataService.findByAgentId(id);
-
-        agentInfo.setStatus(Status.DELETED);
-//        agentInfo.setSoftDelete(true);
-        agentInfo.getUserEntity().setStatus(Status.DELETED);
+        agentInfo.setSoftDelete(true);
+        agentInfo.getUserEntity().setSoftDelete(true);
         log.info("changed agent's status to deleted {}",agentInfo);
         dataService.saveAgent(agentInfo);
         return utilities.successResponse("soft deleted agent",null);
@@ -246,8 +244,10 @@ public class EduVODAdminService {
      * @return response dto
      * @throws JsonProcessingException the exception
      */
-    public ResponseDTO viewActivePartners() throws JsonProcessingException {
-        List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();
+    public ResponseDTO viewActivePartners(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
+        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
+        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
+        Page<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners(pageable);
         log.info("about to fetch active partners from te db : {}",partnerInfoEntityList);
         List<PartnerDTO>partnerDTOList = partnerInfoEntityList.stream()
                 .map(partnerInfoEntity ->{
@@ -298,8 +298,8 @@ public class EduVODAdminService {
      */
     public ResponseDTO deletePartner(int id) {
         var partnerInfo = dataService.findByPartnerId(id);
-        partnerInfo.setStatus(Status.DELETED);
-        partnerInfo.getUserEntity().setStatus(Status.DELETED);
+        partnerInfo.setSoftDelete(true);
+        partnerInfo.getUserEntity().setSoftDelete(true);
         dataService.savePartner(partnerInfo);
         return utilities.successResponse("deleted a partner",null);
 

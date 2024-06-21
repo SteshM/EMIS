@@ -86,8 +86,8 @@ public class EduVODAdminController {
 
   //Partners
     @GetMapping("/partners")
-    public ResponseDTO viewActivePartners() throws JsonProcessingException {
-        return eduVODAdminService.viewActivePartners();
+    public ResponseDTO viewActivePartners(@RequestBody PageRequestDTO pageRequestDTO) throws JsonProcessingException {
+        return eduVODAdminService.viewActivePartners(pageRequestDTO);
     }
 
     @GetMapping("/partner/{id}")

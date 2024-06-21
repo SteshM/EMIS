@@ -114,8 +114,8 @@ public class DataService {
         return schoolRepo.findBySchoolId(schoolId);
     }
 
-    public List<PartnerInfoEntity> fetchActivePartners() {
-        return partnerRepo.findByStatus(Status.ACTIVE);
+    public Page<PartnerInfoEntity> fetchActivePartners(Pageable pageable) {
+        return partnerRepo.findByStatus(Status.ACTIVE,pageable);
     }
     public PartnerInfoEntity findByPartnerId(int partnerId){
         return partnerRepo.findByPartnerId(partnerId);

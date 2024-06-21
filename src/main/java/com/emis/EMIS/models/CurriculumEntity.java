@@ -11,6 +11,9 @@ public class CurriculumEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int curriculumId;
     private String curriculum;
+    private int createdBy;
+    private int updatedBy;
+
 
     @ManyToOne
     @JoinColumn(name = "schoolId")

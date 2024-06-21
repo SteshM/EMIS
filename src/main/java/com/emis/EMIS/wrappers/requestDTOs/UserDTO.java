@@ -12,8 +12,7 @@ import java.util.Date;
 
 @Data
 public class UserDTO {
-//    @NotBlank(message = "First name is required!")
-    @NotNull(message = "First name is required!")
+    @NotBlank(message = "First name is required!")
     private String firstName;
 
     @NotBlank(message = "Middle name is required!")
@@ -27,18 +26,18 @@ public class UserDTO {
     @NotBlank(message = " email is required!")
     private String email;
 
-    @NotNull(message = "This field cannot be null")
+    @NotNull(message = "This field cannot be null!")
     private String nationalId;
 
-    @NotNull(message = "This field cannot be null")
+    @NotNull(message = "This field cannot be null!")
     private String phoneNo;
 
     private String password;
 
-    @NotNull(message = "This field cannot be null")
+    @NotNull(message = "This field cannot be null!")
     private String agencyName;
 
-    @NotNull(message = "This field cannot be null")
+    @NotNull(message = "This field cannot be null!")
     private String firmName;
 
     @NotNull(message = "This field cannot be null")
@@ -53,49 +52,46 @@ public class UserDTO {
     @NotNull(message = "This field cannot be null")
     private String businessPhone;
 
-    @NotEmpty(message = "This field cannot be empty!")
+    @NotNull(message = "agreement end date cannot be null!")
     private Date agreementStartDate;
 
-    @NotEmpty(message = "This field cannot be empty!")
+    @NotNull(message = "agreement date cannot be null!")
     private Date agreementEndDate;
 
-    @NotEmpty(message = "This field cannot be empty!")
-    private String contractDetails;
-
-    @NotEmpty(message = "This field cannot be empty!")
+    @NotEmpty(message = "admin role cannot be empty!")
     private String adminRole;
 
-    @NotEmpty(message = "This field cannot be empty!")
+    @NotEmpty(message = "department cannot be empty!")
     private String department;
 
-    @NotEmpty(message = "This field cannot be empty!")
+    @NotEmpty(message = "Office Phone cannot be empty!")
     private String officePhone;
 
-    @NotBlank(message = "This field cannot be blank!")
+    @NotBlank(message = "tsc no cannot be blank!")
     private String tscNo;
 
-    @NotBlank(message = "This field is mandatory!")
+    @NotBlank(message = "Employment no is mandatory!")
     private String employmentNo;
 
-    @NotBlank(message = "This field is required!")
+    @NotBlank(message = "officePhoneNo is required!")
     private String officePhoneNo;
 
-    @NotBlank(message = "This field is required!")
+    @NotBlank(message = "registrationNo is required!")
     private String registrationNo;
 
-    @NotBlank(message = "This field is mandatory!")
+    @NotBlank(message = "gender is mandatory!")
     private String gender;
 
-    @NotBlank(message = "This field is mandatory!")
+    @NotBlank(message = "Nationality is mandatory!")
     private String nationality;
 
-    @NotBlank(message = "nationality is required!")
+    @NotBlank(message = "date of birth is required!")
     private String dateOfBirth;
 
-    @NotBlank(message = " date of birth is required!")
+    @NotNull(message = " profile id  is required!")
     private int profileId;
 
-    @NotBlank(message = "profileId is required!")
+    @NotBlank(message = "Relationship is required!")
     private String relationship;
 
     @NotBlank(message = " occupation is required!")

@@ -6,14 +6,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "agentInfo")
+@Table(name = "agent_info")
 @Builder
+@SQLDelete(sql = "UPDATE agent_info set soft_delete=true where id=?")
+@Where(clause = "soft_delete=false")
 public class AgentInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +26,9 @@ public class AgentInfoEntity {
     private String agentType;
     private String emergencyContact;
     private Status status;
-//
-//    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
-//    public boolean softDelete;
+
+    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
+    public boolean softDelete;
 
     @OneToOne
     @JoinColumn(name = "userId")
