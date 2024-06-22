@@ -1,8 +1,10 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
+import com.emis.EMIS.models.SchoolType;
 import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -81,5 +83,28 @@ public class SchoolService {
         school.setStatus(Status.DELETED);
         dataService.saveSchool(school);
         return utilities.successResponse("deleted school",null);
+    }
+
+    public ResponseDTO addSchoolType(SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
+        var schoolType = modelMapper.map(schoolTypeDTO,SchoolType.class);
+        log.info("About to save a schoolType basic info:{}", new ObjectMapper().writeValueAsString(schoolType));
+        dataService.saveSchoolType(schoolType);
+        return utilities.successResponse("added a school type",schoolTypeDTO);
+
+
+    }
+
+    public ResponseDTO getAllSchoolTypes() throws JsonProcessingException {
+        List<SchoolType>schoolTypeList = dataService.fetchSchoolTypes();
+        log.info("About to fetch all school types from the db::{}",schoolTypeList);
+        List<SchoolTypeDTO>schoolTypeDTOList = schoolTypeList.stream()
+                .map(schoolType -> {
+                    return modelMapper.map(schoolType,SchoolTypeDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  schoolType Details:{}", new ObjectMapper().writeValueAsString(schoolTypeList));
+return utilities.successResponse("fetched all school types",schoolTypeDTOList);
+
+
     }
 }

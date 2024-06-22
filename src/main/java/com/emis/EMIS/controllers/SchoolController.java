@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolService;
+import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -41,4 +42,13 @@ public class SchoolController {
         return schoolService.deleteSchool(id);
     }
 
+
+    @PostMapping("/school-type/save")
+    public ResponseDTO addSchoolType(@RequestBody SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
+        return schoolService.addSchoolType(schoolTypeDTO);
+    }
+    @GetMapping("/school-type/get-all")
+    public ResponseDTO getAllSchoolTypes() throws JsonProcessingException {
+        return schoolService.getAllSchoolTypes();
+    }
 }
