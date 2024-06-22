@@ -1,11 +1,18 @@
 package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -16,15 +23,19 @@ public class SchoolsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int schoolId;
     private String schoolName;
-    private String schoolType;
+    private String moeRegistrationNo;
+    private String MobileNo;
     private String emailAddress;
     private String postalAddress;
     private String postalCode;
-    private String contact;
-    private String moeRegistrationNo;
-    private String county;
-    private String subCounty;
-    private String location;
     private Status status;
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated = new Date() ;
+    private String createdBy;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateModified;
+    private String modifiedBy;
 
 }

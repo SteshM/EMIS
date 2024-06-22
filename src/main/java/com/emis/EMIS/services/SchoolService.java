@@ -5,6 +5,8 @@ import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -15,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class AgentService {
+public class SchoolService {
  private final ModelMapper modelMapper;
  private final DataService dataService;
  private final Utilities utilities;
@@ -26,12 +28,11 @@ public class AgentService {
      * @return response dto
      */
 
-    public ResponseDTO enrolSchool(SchoolDTO schoolDTO) {
+    public ResponseDTO createBasicInfo(SchoolDTO schoolDTO) throws JsonProcessingException {
         var school = modelMapper.map(schoolDTO,SchoolsEntity.class);
-        school.setStatus(Status.PENDING);
-        log.info("About to fetch the saved school {}",school);
+        log.info("About to save a school's basic info:{}", new ObjectMapper().writeValueAsString(school));
         dataService.saveSchool(school);
-        return utilities.successResponse("Created school",school);
+        return utilities.successResponse("Created school",schoolDTO);
     }
 
     /**
@@ -39,10 +40,16 @@ public class AgentService {
      * @return response dto
      */
 
-    public ResponseDTO viewSchools() {
+    public ResponseDTO viewSchools() throws JsonProcessingException {
         List<SchoolsEntity>schoolsEntities = dataService.findAll();
         log.info("About to fetch schools {}",schoolsEntities);
-        return utilities.successResponse("Successfully fetched schools",schoolsEntities);
+        List<SchoolDTO>schoolDTOList = schoolsEntities.stream()
+                .map(schools -> {
+                    return modelMapper.map(schools, SchoolDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all school Details:{}", new ObjectMapper().writeValueAsString(schoolsEntities));
+        return utilities.successResponse("Successfully fetched schools",schoolDTOList);
 
     }
 
@@ -53,22 +60,14 @@ public class AgentService {
      * @return response dto
      */
 
-    public ResponseDTO updateSchool(int id, SchoolDTO schoolDTO) {
+    public ResponseDTO updateSchool(int id, SchoolDTO schoolDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
         var school = dataService.findBySchoolId(id);
-        modelMapper.map(schoolDTO, school);
-        school.setSchoolName(schoolDTO.getSchoolName());
-        school.setSchoolType(schoolDTO.getSchoolType());
-        school.setCounty(schoolDTO.getCounty());
-        school.setLocation(schoolDTO.getLocation());
-        school.setEmailAddress(schoolDTO.getEmailAddress());
-        school.setPostalAddress(schoolDTO.getPostalAddress());
-        school.setPostalCode(schoolDTO.getPostalCode());
-        school.setContact(schoolDTO.getContact());
-        school.setMoeRegistrationNo(schoolDTO.getMoeRegistrationNo());
-        SchoolDTO schoolDTO1= modelMapper.map(school, SchoolDTO.class);
-        log.info("About to fetch school details and modify : {} ",schoolDTO1);
+        log.info("Fetched a school:{}", objectMapper.writeValueAsString(school));
+        modelMapper.map(schoolDTO,school);
+        log.info("Updated school Details. About to save:{}", objectMapper.writeValueAsString(school));
         dataService.saveSchool(school);
-        return utilities.successResponse("Successfully updated school details",school);
+        return utilities.successResponse("Successfully updated school details",schoolDTO);
     }
 
     /**
