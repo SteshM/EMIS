@@ -47,4 +47,8 @@ public class SchoolsEntity {
     @JoinColumn(name = "schoolGenderId")
     private SchoolGender schoolGender;
 
+    @ManyToOne
+    @JoinColumn(name = "curriculumId")
+    private CurriculumEntity curriculum;
+
 }

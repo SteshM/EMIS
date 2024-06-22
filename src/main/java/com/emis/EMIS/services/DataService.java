@@ -187,4 +187,14 @@ public class DataService {
     public SchoolGender findBySchoolGenderId(int schoolGenderId){
         return schoolGenderRepo.findBySchoolGenderId(schoolGenderId);
     }
+
+    public void saveCurriculum(CurriculumEntity curriculum){
+        curriculumRepo.save(curriculum);
+    }
+    public List<CurriculumEntity>fetchCurriculums(){
+        return curriculumRepo.findAll();
+    }
+    public CurriculumEntity findByCurriculumId(int curriculumId){
+        return curriculumRepo.findByCurriculumId(curriculumId);
+    }
 }

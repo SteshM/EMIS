@@ -87,6 +87,15 @@ public class SchoolService {
         return utilities.successResponse("deleted school",null);
     }
 
+
+    /**
+     * CRUD
+     * SCHOOL TYPES
+     * @param schoolTypeDTO school type dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO addSchoolType(SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
         var schoolType = modelMapper.map(schoolTypeDTO,SchoolType.class);
         log.info("About to save a schoolType basic info:{}", new ObjectMapper().writeValueAsString(schoolType));
@@ -121,6 +130,13 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
 
     }
 
+    /**
+     * CRUD
+     * SCHOOL GENDER
+     * @param schoolGenderDTO the dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO addSchoolGender(SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
         var schoolGender = modelMapper.map(schoolGenderDTO,SchoolGender.class);
@@ -146,7 +162,12 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         SchoolGender schoolGender = dataService.findBySchoolGenderId(id);
         log.info("Fetched a school gender:{}", objectMapper.writeValueAsString(schoolGender));
         modelMapper.map(schoolGender,schoolGenderDTO);
+        //not saving new record
         log.info("Updated school gender Details. About to save:{}", objectMapper.writeValueAsString(schoolGender));
         return utilities.successResponse("updated school type successfully",schoolGenderDTO);
     }
+
+
+
+
 }
