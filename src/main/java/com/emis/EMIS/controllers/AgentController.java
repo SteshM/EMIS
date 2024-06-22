@@ -23,7 +23,7 @@ public class AgentController {
      */
 
     @PostMapping("/school")
-    public ResponseDTO enrolSchool(@RequestBody @Valid SchoolDTO schoolDTO){
+    public ResponseDTO enrolSchool(@RequestBody SchoolDTO schoolDTO){
         log.info("Agent Controller : About to enrol a school :: {}",schoolDTO.getSchoolName());
         return agentService.enrolSchool(schoolDTO);
     }
@@ -34,7 +34,7 @@ public class AgentController {
         return agentService.viewSchools();
     }
     @PutMapping("/school/{id}")
-    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody @Valid SchoolDTO schoolDTO){
+    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO){
         return agentService.updateSchool(id,schoolDTO);
     }
     @DeleteMapping("/delete/{id}")

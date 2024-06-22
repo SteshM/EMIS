@@ -9,17 +9,12 @@ import org.hibernate.annotations.Where;
 @Data
 @Entity
 @Table(name = "students")
-@SQLDelete(sql = "UPDATE students set soft_delete=true where id=?")
-@Where(clause = "soft_delete=false")
 public class StudentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int studentId;
      private String registrationNo;
     private Status status;
-
-    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
-    public boolean softDelete;
 
     @ManyToOne
     @JoinColumn(name = "userId")

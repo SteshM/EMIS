@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PostMapping("/all/create-profile")
-    public ResponseDTO createProfile(@RequestBody @Valid ProfileDto profileDto){
+    public ResponseDTO createProfile(@RequestBody ProfileDto profileDto){
         return userService.createProfile(profileDto);
     }
     @GetMapping("/all/profiles")
@@ -48,14 +48,14 @@ public class UserController {
     }
 
     @PostMapping("/all/register")
-    public ResponseDTO register(@Valid @RequestBody UserDTO userDTO){
+    public ResponseDTO register( @RequestBody UserDTO userDTO){
 
         log.info("Register request received from the customer::{}",userDTO);
         return userService.register(userDTO);
     }
 
     @PostMapping("/all/activateAcc")
-    public ResponseDTO verifyOtp(@RequestBody @Valid ActivateAccDTO activateAccDTO){
+    public ResponseDTO verifyOtp(@RequestBody ActivateAccDTO activateAccDTO){
         return userService.activateAccount(activateAccDTO);
     }
 
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @PostMapping("/all/login")
-    public ResponseEntity<ResponseDTO> login(@RequestBody @Valid LoginDTO loginDTO){
+    public ResponseEntity<ResponseDTO> login(@RequestBody LoginDTO loginDTO){
         ResponseDTO responseDTO = new ResponseDTO();
         Map<String, String> objectMap = new HashMap<>();
         try {

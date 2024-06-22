@@ -9,8 +9,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Data
 @Table(name = "other_admins")
-@SQLDelete(sql = "UPDATE other_admins set soft_delete=true where id=?")
-@Where(clause = "soft_delete=false")
+
 public class SystemAdminEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,9 +18,6 @@ public class SystemAdminEntity {
     private String department;
     private String officePhoneNo;
     private Status status;
-
-    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
-    public boolean softDelete;
 
     @OneToOne
     @JoinColumn(name = "userId")

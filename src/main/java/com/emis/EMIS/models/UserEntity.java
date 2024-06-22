@@ -22,8 +22,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
-@SQLDelete(sql = "UPDATE users set soft_delete=true where id=?")
-@Where(clause = "soft_delete=false")
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,8 +53,6 @@ public class UserEntity {
     private int profileId;
     private String profilePic;
 
-    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
-    public boolean softDelete;
 
 
 

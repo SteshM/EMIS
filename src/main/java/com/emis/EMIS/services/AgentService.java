@@ -79,7 +79,7 @@ public class AgentService {
 
     public ResponseDTO deleteSchool(int id) {
         var school = dataService.findBySchoolId(id);
-        school.setSoftDelete(true);
+        school.setStatus(Status.DELETED);
         dataService.saveSchool(school);
         return utilities.successResponse("deleted school",null);
     }

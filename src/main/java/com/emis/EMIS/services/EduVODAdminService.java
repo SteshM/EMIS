@@ -89,8 +89,8 @@ public class EduVODAdminService {
 
     public ResponseDTO deleteAdmin(int id) {
         var systemAdmin = dataService.findByAdminId(id);
-        systemAdmin.setSoftDelete(true);
-        systemAdmin.getUserEntity().setSoftDelete(true);
+        systemAdmin.setStatus(Status.DELETED);
+        systemAdmin.getUserEntity().setStatus(Status.DELETED);
         dataService.saveSystemAdmin(systemAdmin);
         return utilities.successResponse("soft deleted an admin",null);
     }
@@ -158,8 +158,8 @@ public class EduVODAdminService {
 
     public ResponseDTO deleteSchoolAdmin(int id){
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
-        schoolAdminInfo.setSoftDelete(true);
-        schoolAdminInfo.getUserEntity().setSoftDelete(true);
+        schoolAdminInfo.setStatus(Status.DELETED);
+        schoolAdminInfo.getUserEntity().setStatus(Status.DELETED);
         dataService.saveSchoolAdmin(schoolAdminInfo);
         return utilities.successResponse("deleted a school admin",null);
     }
@@ -229,8 +229,8 @@ public class EduVODAdminService {
      */
     public ResponseDTO softDeleteAgent(int id) {
         var agentInfo = dataService.findByAgentId(id);
-        agentInfo.setSoftDelete(true);
-        agentInfo.getUserEntity().setSoftDelete(true);
+        agentInfo.setStatus(Status.DELETED);
+        agentInfo.getUserEntity().setStatus(Status.DELETED);
         log.info("changed agent's status to deleted {}",agentInfo);
         dataService.saveAgent(agentInfo);
         return utilities.successResponse("soft deleted agent",null);
@@ -298,8 +298,8 @@ public class EduVODAdminService {
      */
     public ResponseDTO deletePartner(int id) {
         var partnerInfo = dataService.findByPartnerId(id);
-        partnerInfo.setSoftDelete(true);
-        partnerInfo.getUserEntity().setSoftDelete(true);
+        partnerInfo.setStatus(Status.DELETED);
+        partnerInfo.getUserEntity().setStatus(Status.DELETED);
         dataService.savePartner(partnerInfo);
         return utilities.successResponse("deleted a partner",null);
 

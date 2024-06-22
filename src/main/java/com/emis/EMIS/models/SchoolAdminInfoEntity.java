@@ -15,9 +15,7 @@ import org.hibernate.annotations.Where;
 @Setter
 @Getter
 @Entity
-@Table(name = "school_admin_info")
-@SQLDelete(sql = "UPDATE agent_info set soft_delete=true where id=?")
-@Where(clause = "soft_delete=false")
+@Table(name = "schoolAdminInfo")
 public class SchoolAdminInfoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +26,6 @@ public class SchoolAdminInfoEntity {
     private String tscNumber;
     private Status status;
 
-    @Column(name = "softDelete", columnDefinition = "char(1) default 0")
-    public boolean softDelete;
 
     @OneToOne
     @JoinColumn(name = "userId")
