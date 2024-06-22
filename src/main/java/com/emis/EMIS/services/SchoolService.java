@@ -1,10 +1,12 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
+import com.emis.EMIS.models.CurriculumEntity;
 import com.emis.EMIS.models.SchoolGender;
 import com.emis.EMIS.models.SchoolType;
 import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.requestDTOs.CurriculumDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolGenderDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
@@ -142,7 +144,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         var schoolGender = modelMapper.map(schoolGenderDTO,SchoolGender.class);
         log.info("About to save a schoolGender basic info:{}", new ObjectMapper().writeValueAsString(schoolGender));
         dataService.saveSchoolGender(schoolGender);
-        return utilities.successResponse("added a school type",schoolGenderDTO);
+        return utilities.successResponse("added a school gender",schoolGenderDTO);
     }
 
     public ResponseDTO getAllSchoolGenders() throws JsonProcessingException {
@@ -154,7 +156,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
                 })
                 .toList();
         log.info("Fetched  all  school gender Details:{}", new ObjectMapper().writeValueAsString(schoolGenderList));
-        return utilities.successResponse("fetched all school types",schoolGenderDTOList);
+        return utilities.successResponse("fetched all school genders",schoolGenderDTOList);
     }
 
     public ResponseDTO updateSchoolGender(int id, SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
@@ -164,10 +166,42 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         modelMapper.map(schoolGender,schoolGenderDTO);
         //not saving new record
         log.info("Updated school gender Details. About to save:{}", objectMapper.writeValueAsString(schoolGender));
-        return utilities.successResponse("updated school type successfully",schoolGenderDTO);
+        return utilities.successResponse("updated school gender successfully",schoolGenderDTO);
     }
 
 
 
+    /**
+     * CURRICULUM
+     * @param curriculumDTO the dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+    public ResponseDTO addCurriculum(CurriculumDTO curriculumDTO) throws JsonProcessingException {
+        CurriculumEntity curriculum = modelMapper.map(curriculumDTO,CurriculumEntity.class);
+        log.info("About to save a curriculum basic info:{}", new ObjectMapper().writeValueAsString(curriculum));
+        dataService.saveCurriculum(curriculum);
+        return utilities.successResponse("added a curriculum",curriculumDTO);
+    }
 
+    public ResponseDTO getCurriculums() throws JsonProcessingException {
+        List<CurriculumEntity>curriculumEntityList = dataService.fetchCurriculums();
+        log.info("About to fetch all curriculums from the db::{}",curriculumEntityList);
+        List<CurriculumDTO>curriculumDTOList = curriculumEntityList.stream()
+                .map(curriculum -> {
+                    return modelMapper.map(curriculum,CurriculumDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  curriculum Details:{}", new ObjectMapper().writeValueAsString(curriculumEntityList));
+        return utilities.successResponse("fetched all curriculums",curriculumDTOList);
+    }
+
+    public ResponseDTO updateCurriculum(int id, CurriculumDTO curriculumDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+       CurriculumEntity curriculum = dataService.findByCurriculumId(id);
+        log.info("Fetched a curriculum from the db:{}", objectMapper.writeValueAsString(curriculum));
+        modelMapper.map(curriculum,curriculumDTO);
+        log.info("Updated curriculum Details. About to save:{}", objectMapper.writeValueAsString(curriculum));
+        return utilities.successResponse("updated school type successfully",curriculumDTO);
+    }
 }

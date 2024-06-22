@@ -12,4 +12,5 @@ public class CurriculumEntity {
     private int curriculumId;
     private String curriculum;
 
+
 }
