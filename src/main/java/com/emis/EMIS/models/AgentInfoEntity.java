@@ -25,9 +25,6 @@ public class AgentInfoEntity {
     private String agentType;
     private String emergencyContact;
     private Status status;
-
-
-
     @OneToOne
     @JoinColumn(name = "userId")
     UserEntity userEntity;

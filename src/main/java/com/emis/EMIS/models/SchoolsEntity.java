@@ -38,4 +38,9 @@ public class SchoolsEntity {
     private Date dateModified;
     private String modifiedBy;
 
+
+    @ManyToOne
+    @JoinColumn(name = "schoolTypeId")
+    private SchoolType schoolType;
+
 }
