@@ -1,17 +1,10 @@
 package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
-
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 @Setter
@@ -50,5 +43,13 @@ public class SchoolsEntity {
     @ManyToOne
     @JoinColumn(name = "curriculumId")
     private CurriculumEntity curriculum;
+
+    @ManyToOne
+    @JoinColumn(name = "countyId")
+    private CountyEntity countyEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "curriculumId")
+    private SubCountyEntity subCountyEntity;
 
 }
