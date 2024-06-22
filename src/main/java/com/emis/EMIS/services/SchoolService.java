@@ -1,16 +1,10 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
-import com.emis.EMIS.models.CurriculumEntity;
-import com.emis.EMIS.models.SchoolGender;
-import com.emis.EMIS.models.SchoolType;
-import com.emis.EMIS.models.SchoolsEntity;
+import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.requestDTOs.CurriculumDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolGenderDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -203,5 +197,12 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         modelMapper.map(curriculum,curriculumDTO);
         log.info("Updated curriculum Details. About to save:{}", objectMapper.writeValueAsString(curriculum));
         return utilities.successResponse("updated school type successfully",curriculumDTO);
+    }
+
+    public ResponseDTO addCounty(CountyDTO countyDTO) throws JsonProcessingException {
+        CountyEntity countyEntity = modelMapper.map(countyDTO,CountyEntity.class);
+        log.info("About to save a county ::{}",new ObjectMapper().writeValueAsString(countyEntity));
+        dataService.saveCounty(countyEntity);
+        return utilities.successResponse("Added a county",countyDTO);
     }
 }

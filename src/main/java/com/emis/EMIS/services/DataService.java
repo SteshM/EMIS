@@ -31,9 +31,11 @@ public class DataService {
     private final GuardianRepo guardianRepo;
     private final SchoolTypeRepo schoolTypeRepo;
     private final SchoolGenderRepo schoolGenderRepo;
+
     private final LevelRepo levelRepo;
     private final SubjectRepo subjectRepo;
-    private final GradeRepo gradeRepo;
+    private final CountyRepo countyRepo;
+    private final SubCountyRepo subCountyRepo;
     private final CurriculumRepo curriculumRepo;
 
 
@@ -196,5 +198,8 @@ public class DataService {
     }
     public CurriculumEntity findByCurriculumId(int curriculumId){
         return curriculumRepo.findByCurriculumId(curriculumId);
+    }
+    public void saveCounty(CountyEntity countyEntity){
+        countyRepo.save(countyEntity);
     }
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class countyDTO {
+public class CountyDTO {
     @NotBlank(message = "This field is required!")
     private String county;
 }

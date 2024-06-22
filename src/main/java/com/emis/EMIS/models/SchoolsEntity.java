@@ -49,7 +49,7 @@ public class SchoolsEntity {
     private CountyEntity countyEntity;
 
     @ManyToOne
-    @JoinColumn(name = "curriculumId")
+    @JoinColumn(name = "subCountyId")
     private SubCountyEntity subCountyEntity;
 
 }

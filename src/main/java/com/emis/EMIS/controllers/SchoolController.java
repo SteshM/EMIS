@@ -1,11 +1,8 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolService;
-import com.emis.EMIS.wrappers.requestDTOs.CurriculumDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolGenderDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,5 +102,10 @@ public class SchoolController {
     @PutMapping("/curriculum/update/{id}")
     public ResponseDTO updateCurriculum(@PathVariable int id,@RequestBody CurriculumDTO curriculumDTO) throws JsonProcessingException {
         return schoolService.updateCurriculum(id,curriculumDTO);
+    }
+
+    @PostMapping("county/save")
+    public ResponseDTO addCounty(@RequestBody CountyDTO countyDTO) throws JsonProcessingException {
+        return schoolService.addCounty(countyDTO);
     }
 }
