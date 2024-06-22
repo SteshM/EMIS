@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolService;
+import com.emis.EMIS.wrappers.requestDTOs.SchoolGenderDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
@@ -54,5 +55,22 @@ public class SchoolController {
     @PutMapping("/school-type/update/{id}")
     public ResponseDTO updateSchoolType(@PathVariable int id,@RequestBody SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
         return schoolService.updateSchoolType(id,schoolTypeDTO);
+    }
+
+
+
+
+
+    @PostMapping("/school-gender/save")
+    public ResponseDTO addSchoolGender(@RequestBody SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
+        return schoolService.addSchoolGender(schoolGenderDTO);
+    }
+    @GetMapping("/school-gender/get-all")
+    public ResponseDTO getAllSchoolGenders() throws JsonProcessingException {
+        return schoolService.getAllSchoolGenders();
+    }
+    @PutMapping("/school-gender/update/{id}")
+    public ResponseDTO updateSchoolGender(@PathVariable int id,@RequestBody SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
+        return schoolService.updateSchoolGender(id,schoolGenderDTO);
     }
 }

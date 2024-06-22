@@ -1,9 +1,11 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
+import com.emis.EMIS.models.SchoolGender;
 import com.emis.EMIS.models.SchoolType;
 import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.requestDTOs.SchoolGenderDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolTypeDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SchoolDTO;
@@ -117,5 +119,34 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         return utilities.successResponse("updated school type successfully",schoolTypeDTO);
 
 
+    }
+
+
+    public ResponseDTO addSchoolGender(SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
+        var schoolGender = modelMapper.map(schoolGenderDTO,SchoolGender.class);
+        log.info("About to save a schoolGender basic info:{}", new ObjectMapper().writeValueAsString(schoolGender));
+        dataService.saveSchoolGender(schoolGender);
+        return utilities.successResponse("added a school type",schoolGenderDTO);
+    }
+
+    public ResponseDTO getAllSchoolGenders() throws JsonProcessingException {
+        List<SchoolGender>schoolGenderList = dataService.fetchSchoolGenders();
+        log.info("About to fetch all school genders from the db::{}",schoolGenderList);
+        List<SchoolGenderDTO>schoolGenderDTOList = schoolGenderList.stream()
+                .map(schoolGender -> {
+                    return modelMapper.map(schoolGender,SchoolGenderDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  school gender Details:{}", new ObjectMapper().writeValueAsString(schoolGenderList));
+        return utilities.successResponse("fetched all school types",schoolGenderDTOList);
+    }
+
+    public ResponseDTO updateSchoolGender(int id, SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        SchoolGender schoolGender = dataService.findBySchoolGenderId(id);
+        log.info("Fetched a school gender:{}", objectMapper.writeValueAsString(schoolGender));
+        modelMapper.map(schoolGender,schoolGenderDTO);
+        log.info("Updated school gender Details. About to save:{}", objectMapper.writeValueAsString(schoolGender));
+        return utilities.successResponse("updated school type successfully",schoolGenderDTO);
     }
 }

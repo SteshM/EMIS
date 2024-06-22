@@ -184,7 +184,7 @@ public class DataService {
     public List<SchoolGender>fetchSchoolGenders(){
         return schoolGenderRepo.findAll();
     }
-    public SchoolType findBySchoolGenderId(int schoolTypeId){
-        return schoolGenderRepo.findBySchoolTypeId(schoolTypeId);
+    public SchoolGender findBySchoolGenderId(int schoolGenderId){
+        return schoolGenderRepo.findBySchoolGenderId(schoolGenderId);
     }
 }
