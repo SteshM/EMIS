@@ -173,4 +173,7 @@ public class DataService {
     public List<SchoolType>fetchSchoolTypes(){
         return schoolTypeRepo.findAll();
     }
+    public SchoolType findBySchoolTypeId(int schoolTypeId){
+        return schoolTypeRepo.findBySchoolTypeId(schoolTypeId);
+    }
 }

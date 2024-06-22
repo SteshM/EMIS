@@ -107,4 +107,15 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
 
 
     }
+
+    public ResponseDTO updateSchoolType(int id, SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        SchoolType schoolType = dataService.findBySchoolTypeId(id);
+        log.info("Fetched a school type:{}", objectMapper.writeValueAsString(schoolType));
+        modelMapper.map(schoolTypeDTO,schoolType);
+        log.info("Updated school type Details. About to save:{}", objectMapper.writeValueAsString(schoolType));
+        return utilities.successResponse("updated school type successfully",schoolTypeDTO);
+
+
+    }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 public interface SchoolTypeRepo extends JpaRepository<SchoolType,Integer> {
 
 
-
+    SchoolType findBySchoolTypeId(int schoolTypeId);
 }

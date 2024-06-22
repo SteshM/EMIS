@@ -51,4 +51,8 @@ public class SchoolController {
     public ResponseDTO getAllSchoolTypes() throws JsonProcessingException {
         return schoolService.getAllSchoolTypes();
     }
+    @PutMapping("/school-type/update/{id}")
+    public ResponseDTO updateSchoolType(@PathVariable int id,@RequestBody SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
+        return schoolService.updateSchoolType(id,schoolTypeDTO);
+    }
 }
