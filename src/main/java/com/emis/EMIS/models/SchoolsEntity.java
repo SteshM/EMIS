@@ -43,4 +43,8 @@ public class SchoolsEntity {
     @JoinColumn(name = "schoolTypeId")
     private SchoolType schoolType;
 
+    @ManyToOne
+    @JoinColumn(name = "schoolGenderId")
+    private SchoolGender schoolGender;
+
 }
