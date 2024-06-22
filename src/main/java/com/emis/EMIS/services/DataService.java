@@ -202,4 +202,7 @@ public class DataService {
     public void saveCounty(CountyEntity countyEntity){
         countyRepo.save(countyEntity);
     }
+    public List<CountyEntity>fetchAllCounties(){
+        return countyRepo.findAll();
+    }
 }

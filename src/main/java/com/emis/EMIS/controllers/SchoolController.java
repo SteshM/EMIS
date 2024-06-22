@@ -108,4 +108,8 @@ public class SchoolController {
     public ResponseDTO addCounty(@RequestBody CountyDTO countyDTO) throws JsonProcessingException {
         return schoolService.addCounty(countyDTO);
     }
+    @GetMapping("/county/get-all")
+    public ResponseDTO getCounties() throws JsonProcessingException {
+        return schoolService.getAllCounties();
+    }
 }

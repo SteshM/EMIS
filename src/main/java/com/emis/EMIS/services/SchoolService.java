@@ -192,7 +192,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
 
     public ResponseDTO updateCurriculum(int id, CurriculumDTO curriculumDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
-       CurriculumEntity curriculum = dataService.findByCurriculumId(id);
+        CurriculumEntity curriculum = dataService.findByCurriculumId(id);
         log.info("Fetched a curriculum from the db:{}", objectMapper.writeValueAsString(curriculum));
         modelMapper.map(curriculum,curriculumDTO);
         log.info("Updated curriculum Details. About to save:{}", objectMapper.writeValueAsString(curriculum));
@@ -204,5 +204,17 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         log.info("About to save a county ::{}",new ObjectMapper().writeValueAsString(countyEntity));
         dataService.saveCounty(countyEntity);
         return utilities.successResponse("Added a county",countyDTO);
+    }
+
+    public ResponseDTO getAllCounties() throws JsonProcessingException {
+        List<CountyEntity>countyEntityList = dataService.fetchAllCounties();
+        List<CountyDTO>countyDTOList = countyEntityList.stream()
+                .map(countyEntity -> {
+                    return modelMapper.map(countyEntity,CountyDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  counties Details:{}", new ObjectMapper().writeValueAsString(countyEntityList));
+return utilities.successResponse("fetched all counties",countyDTOList);
+
     }
 }
