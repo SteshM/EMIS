@@ -30,6 +30,7 @@ public class DataService {
     private final TeachersRepo teachersRepo;
     private final GuardianRepo guardianRepo;
     private final SchoolTypeRepo schoolTypeRepo;
+    private final SchoolGenderRepo schoolGenderRepo;
     private final LevelRepo levelRepo;
     private final SubjectRepo subjectRepo;
     private final GradeRepo gradeRepo;
@@ -175,5 +176,15 @@ public class DataService {
     }
     public SchoolType findBySchoolTypeId(int schoolTypeId){
         return schoolTypeRepo.findBySchoolTypeId(schoolTypeId);
+
+    }   public void saveSchoolGender(SchoolGender schoolGender) {
+        schoolGenderRepo.save(schoolGender);
+    }
+
+    public List<SchoolGender>fetchSchoolGenders(){
+        return schoolGenderRepo.findAll();
+    }
+    public SchoolType findBySchoolGenderId(int schoolTypeId){
+        return schoolGenderRepo.findBySchoolTypeId(schoolTypeId);
     }
 }
