@@ -263,7 +263,7 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
 
 
     public ResponseDTO addCategory(CategoryDTO categoryDTO) throws JsonProcessingException {
-        CategoriesEntity categoriesEntity = modelMapper.map(categoryDTO, CategoriesEntity.class);
+        var categoriesEntity = modelMapper.map(categoryDTO, CategoriesEntity.class);
         log.info("About to save a category:{}", new ObjectMapper().writeValueAsString(categoriesEntity));
         dataService.saveCategories(categoriesEntity);
         return utilities.successResponse("Added a category",null);
@@ -280,5 +280,12 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
 
         log.info("Fetched  all  categories :{}", new ObjectMapper().writeValueAsString(categoryDTOList));
 return utilities.successResponse("fetched all categories",null);
+    }
+
+    public ResponseDTO addDesignation(DesignationDTO designationDTO) throws JsonProcessingException {
+        DesignationEntity designationEntity = modelMapper.map(designationDTO, DesignationEntity.class);
+        log.info("About to save a designation:{}", new ObjectMapper().writeValueAsString(designationEntity));
+        return utilities.successResponse("Added designation",null);
+
     }
 }

@@ -139,4 +139,9 @@ public class SchoolController {
         return schoolService.getCategories();
     }
 
+    @PostMapping("/designation/add")
+    public ResponseDTO addDesignation(@RequestBody DesignationDTO designationDTO) throws JsonProcessingException {
+        return schoolService.addDesignation(designationDTO);
+    }
+
 }
