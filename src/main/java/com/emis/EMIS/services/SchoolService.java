@@ -254,6 +254,7 @@ return utilities.successResponse("fetched all counties",countyDTOList);
 return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
     }
 
+
     /**
      * CATEGORY
      * @param categoryDTO the dto
@@ -282,6 +283,14 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
 return utilities.successResponse("fetched all categories",categoryDTOList);
     }
 
+
+    /**
+     * DESIGNATION
+     * @param designationDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO addDesignation(DesignationDTO designationDTO) throws JsonProcessingException {
         DesignationEntity designationEntity = modelMapper.map(designationDTO, DesignationEntity.class);
         log.info("About to save a designation:{}", new ObjectMapper().writeValueAsString(designationEntity));
@@ -302,11 +311,30 @@ return utilities.successResponse("fetched all categories",categoryDTOList);
 return utilities.successResponse("Fetched all designations",designationDTOList);
     }
 
+
+    /**
+     * DIOCESE
+     * @param dioceseDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO addDiocese(DioceseDTO dioceseDTO) throws JsonProcessingException {
         DioceseEntity dioceseEntity = modelMapper.map(dioceseDTO, DioceseEntity.class);
         log.info("About to save a diocese:{}", new ObjectMapper().writeValueAsString(dioceseEntity));
         dataService.saveDiocese(dioceseEntity);
         return utilities.successResponse("saved a diocese",null);
 
+    }
+
+    public ResponseDTO getDioceses() throws JsonProcessingException {
+        List<DioceseEntity>dioceseEntityList = dataService.fetchDioceses();
+        List<DioceseDTO>dioceseDTOList = dioceseEntityList.stream()
+                .map(dioceseEntity -> {
+                    return modelMapper.map(dioceseEntity,DioceseDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  dioceses :{}", new ObjectMapper().writeValueAsString(dioceseEntityList));
+return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 }
