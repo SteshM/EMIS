@@ -116,7 +116,7 @@ public class SchoolController {
         return schoolService.addCounty(countyDTO);
     }
     @PutMapping("/county/update/{id}")
-    public ResponseDTO updateCounty(@RequestBody CountyDTO countyDTO,@PathVariable int id){
+    public ResponseDTO updateCounty(@RequestBody CountyDTO countyDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateCounty(countyDTO,id);
     }
     @GetMapping("/county/get-all")
@@ -124,40 +124,80 @@ public class SchoolController {
         return schoolService.getAllCounties();
     }
 
+    /**
+     * SUB-COUNTY
+     * @param subCountyDTO the request dto
+     * @return the response dto
+     * @throws JsonProcessingException the exception
+     */
     @PostMapping("/subCounty/save")
     public ResponseDTO addSubCounty(@RequestBody SubCountyDTO subCountyDTO) throws JsonProcessingException {
         return  schoolService.addSubCounty(subCountyDTO);
     }
+    @PutMapping("/subCounty/update/{id}")
+    public ResponseDTO updateSubCounty(@RequestBody SubCountyDTO subCountyDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateSubCounty(subCountyDTO,id);}
 
     @GetMapping("/subCounty/all")
     public ResponseDTO getSubCounties() throws JsonProcessingException {
         return schoolService.getAllSubCounties();
     }
 
+    /**
+     * CATEGORY
+     * @param categoryDTO the request dto
+     * @return the response dto
+     * @throws JsonProcessingException the exception
+     */
     @PostMapping("/category/add")
     public ResponseDTO addCategory(@RequestBody CategoryDTO categoryDTO) throws JsonProcessingException {
         return  schoolService.addCategory(categoryDTO);
     }
+    @PutMapping("/category/update/{id}")
+    public ResponseDTO updateCategory(@RequestBody CategoryDTO categoryDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateCategory(categoryDTO,id);}
 
     @GetMapping("/category/all")
     public ResponseDTO getCategories() throws JsonProcessingException {
         return schoolService.getCategories();
     }
 
+    /**
+     * DESIGNATION
+     * @param designationDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     @PostMapping("/designation/add")
     public ResponseDTO addDesignation(@RequestBody DesignationDTO designationDTO) throws JsonProcessingException {
         return schoolService.addDesignation(designationDTO);
     }
+    @PutMapping("/designation/update/{id}")
+    public ResponseDTO updateDesignation(@RequestBody DesignationDTO designationDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateDesignation(designationDTO,id);}
+
     @GetMapping("/designation/all")
     public ResponseDTO getDesignations() throws JsonProcessingException {
         return schoolService.getDesignations();
     }
 
+    /**
+     * DIOCESE
+     * @param dioceseDTO the dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     @PostMapping("/diocese/add")
     public ResponseDTO addDiocese(@RequestBody DioceseDTO dioceseDTO) throws JsonProcessingException {
         return schoolService.addDiocese(dioceseDTO);
     }
-    @GetMapping("/designation/all")
+    @PutMapping("/diocese/update/{id}")
+    public ResponseDTO updateDiocese(@RequestBody DioceseDTO dioceseDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateDiocese(dioceseDTO,id);}
+
+    @GetMapping("/diocese/all")
     public ResponseDTO getDioceses() throws JsonProcessingException {
         return schoolService.getDioceses();
     }
