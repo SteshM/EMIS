@@ -261,4 +261,16 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
         return utilities.successResponse("Added a category",null);
 
     }
+
+    public ResponseDTO getCategories() throws JsonProcessingException {
+        List<CategoriesEntity>categoriesEntities = dataService.fetchAllCategories();
+        List<CategoryDTO>categoryDTOList =categoriesEntities.stream()
+                .map(categoriesEntity -> {
+                    return modelMapper.map(categoriesEntity, CategoryDTO.class);
+                })
+                .toList();
+
+        log.info("Fetched  all  categories :{}", new ObjectMapper().writeValueAsString(categoryDTOList));
+return utilities.successResponse("fetched all categories",null);
+    }
 }

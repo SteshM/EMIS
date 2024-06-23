@@ -217,5 +217,8 @@ public class DataService {
     public void saveCategories(CategoriesEntity categoriesEntity){
         categoryRepo.save(categoriesEntity);
     }
+    public List<CategoriesEntity>fetchAllCategories(){
+        return categoryRepo.findAll();
+    }
 
 }
