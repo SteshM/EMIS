@@ -175,6 +175,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         CurriculumEntity curriculum = modelMapper.map(curriculumDTO,CurriculumEntity.class);
         log.info("About to save a curriculum basic info:{}", new ObjectMapper().writeValueAsString(curriculum));
         dataService.saveCurriculum(curriculum);
+        //not saving
         return utilities.successResponse("added a curriculum",curriculumDTO);
     }
 
