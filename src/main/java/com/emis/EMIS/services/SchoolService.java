@@ -253,4 +253,12 @@ return utilities.successResponse("fetched all counties",countyDTOList);
         log.info("Fetched  all  subCounties :{}", new ObjectMapper().writeValueAsString(subCountyEntityList));
 return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
     }
+
+    public ResponseDTO addCategory(CategoryDTO categoryDTO) throws JsonProcessingException {
+        CategoriesEntity categoriesEntity = modelMapper.map(categoryDTO, CategoriesEntity.class);
+        log.info("About to save a category:{}", new ObjectMapper().writeValueAsString(categoriesEntity));
+        dataService.saveCategories(categoriesEntity);
+        return utilities.successResponse("Added a category",null);
+
+    }
 }

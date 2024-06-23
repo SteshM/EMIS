@@ -31,6 +31,8 @@ public class DataService {
     private final GuardianRepo guardianRepo;
     private final SchoolTypeRepo schoolTypeRepo;
     private final SchoolGenderRepo schoolGenderRepo;
+    private final CategoryRepo categoryRepo;
+
 
     private final LevelRepo levelRepo;
     private final SubjectRepo subjectRepo;
@@ -212,4 +214,8 @@ public class DataService {
     public List<SubCountyEntity>fetchAllSubCounties(){
         return subCountyRepo.findAll();
     }
+    public void saveCategories(CategoriesEntity categoriesEntity){
+        categoryRepo.save(categoriesEntity);
+    }
+
 }

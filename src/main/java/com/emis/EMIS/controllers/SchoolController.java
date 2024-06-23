@@ -128,4 +128,15 @@ public class SchoolController {
     public ResponseDTO getSubCounties() throws JsonProcessingException {
         return schoolService.getAllSubCounties();
     }
+
+    @PostMapping("/category/add")
+    public ResponseDTO addCategory(@RequestBody CategoryDTO categoryDTO) throws JsonProcessingException {
+        return  schoolService.addCategory(categoryDTO);
+    }
+
+    @GetMapping("/category/all")
+    public ResponseDTO getCategories() throws JsonProcessingException {
+        return schoolService.getCategories();
+    }
+
 }
