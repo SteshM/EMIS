@@ -18,7 +18,6 @@ public class SchoolController {
     /**
      * SCHOOL
      * A method to enrol a school
-     *
      * @param schoolDTO the dto
      * @return agent Service
      */
@@ -104,6 +103,13 @@ public class SchoolController {
         return schoolService.updateCurriculum(id,curriculumDTO);
     }
 
+    /**
+     * COUNTY
+     * @param countyDTO the dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     @PostMapping("county/save")
     public ResponseDTO addCounty(@RequestBody CountyDTO countyDTO) throws JsonProcessingException {
         return schoolService.addCounty(countyDTO);
@@ -111,5 +117,15 @@ public class SchoolController {
     @GetMapping("/county/get-all")
     public ResponseDTO getCounties() throws JsonProcessingException {
         return schoolService.getAllCounties();
+    }
+
+    @PostMapping("/subCounty/save")
+    public ResponseDTO addSubCounty(@RequestBody SubCountyDTO subCountyDTO) throws JsonProcessingException {
+        return  schoolService.addSubCounty(subCountyDTO);
+    }
+
+    @GetMapping("/subCounty/all")
+    public ResponseDTO getSubCounties() throws JsonProcessingException {
+        return schoolService.getAllSubCounties();
     }
 }

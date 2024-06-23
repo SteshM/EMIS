@@ -13,4 +13,8 @@ public class SubCountyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int subCountyId;
     private String subCounty;
+
+    @ManyToOne
+    @JoinColumn(name = "countyId")
+    private CountyEntity countyEntity;
 }

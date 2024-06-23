@@ -199,6 +199,14 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         return utilities.successResponse("updated school type successfully",curriculumDTO);
     }
 
+
+    /**
+     * COUNTY
+     * @param countyDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO addCounty(CountyDTO countyDTO) throws JsonProcessingException {
         CountyEntity countyEntity = modelMapper.map(countyDTO,CountyEntity.class);
         log.info("About to save a county ::{}",new ObjectMapper().writeValueAsString(countyEntity));
@@ -216,5 +224,33 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         log.info("Fetched  all  counties Details:{}", new ObjectMapper().writeValueAsString(countyEntityList));
 return utilities.successResponse("fetched all counties",countyDTOList);
 
+    }
+
+
+
+    /**
+     * SUB-COUNTY
+     * @param subCountyDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    public ResponseDTO addSubCounty(SubCountyDTO subCountyDTO) throws JsonProcessingException {
+        SubCountyEntity subCounty =modelMapper.map(subCountyDTO, SubCountyEntity.class);
+        log.info("About to save a subCounty:{}", new ObjectMapper().writeValueAsString(subCounty));
+        dataService.saveSubCounty(subCounty);
+        return utilities.successResponse("saved a subCounty",subCountyDTO);
+
+    }
+
+    public ResponseDTO getAllSubCounties() throws JsonProcessingException {
+        List<SubCountyEntity>subCountyEntityList = dataService.fetchAllSubCounties();
+        List<SubCountyDTO>subCountyDTOList = subCountyEntityList.stream()
+                .map(subCounty -> {
+                    return modelMapper.map(subCounty, SubCountyDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  subCounties :{}", new ObjectMapper().writeValueAsString(subCountyEntityList));
+return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
     }
 }
