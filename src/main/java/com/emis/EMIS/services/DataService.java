@@ -32,6 +32,8 @@ public class DataService {
     private final SchoolTypeRepo schoolTypeRepo;
     private final SchoolGenderRepo schoolGenderRepo;
     private final CategoryRepo categoryRepo;
+    private final DesignationRepo designationRepo;
+
 
 
     private final LevelRepo levelRepo;
@@ -219,6 +221,12 @@ public class DataService {
     }
     public List<CategoriesEntity>fetchAllCategories(){
         return categoryRepo.findAll();
+    }
+    public void saveDesignation(DesignationEntity designationEntity){
+        designationRepo.save(designationEntity);
+    }
+    public List<DesignationEntity>fetchDesignations(){
+        return designationRepo.findAll();
     }
 
 }

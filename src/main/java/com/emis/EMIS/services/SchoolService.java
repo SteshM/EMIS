@@ -278,14 +278,27 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
                 })
                 .toList();
 
-        log.info("Fetched  all  categories :{}", new ObjectMapper().writeValueAsString(categoryDTOList));
-return utilities.successResponse("fetched all categories",null);
+        log.info("Fetched  all  categories :{}", new ObjectMapper().writeValueAsString(categoriesEntities));
+return utilities.successResponse("fetched all categories",categoryDTOList);
     }
 
     public ResponseDTO addDesignation(DesignationDTO designationDTO) throws JsonProcessingException {
         DesignationEntity designationEntity = modelMapper.map(designationDTO, DesignationEntity.class);
         log.info("About to save a designation:{}", new ObjectMapper().writeValueAsString(designationEntity));
+        dataService.saveDesignation(designationEntity);
         return utilities.successResponse("Added designation",null);
 
+    }
+
+    public ResponseDTO getDesignations() throws JsonProcessingException {
+        List<DesignationEntity>designationEntityList = dataService.fetchDesignations();
+        List<DesignationDTO>designationDTOList = designationEntityList.stream()
+                .map(designationEntity -> {
+                    return modelMapper.map(designationEntity, DesignationDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  designations :{}", new ObjectMapper().writeValueAsString(designationEntityList));
+
+return utilities.successResponse("Fetched all designations",designationDTOList);
     }
 }

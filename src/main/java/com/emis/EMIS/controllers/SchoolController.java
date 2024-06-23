@@ -4,6 +4,7 @@ import com.emis.EMIS.services.SchoolService;
 import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -142,6 +143,10 @@ public class SchoolController {
     @PostMapping("/designation/add")
     public ResponseDTO addDesignation(@RequestBody DesignationDTO designationDTO) throws JsonProcessingException {
         return schoolService.addDesignation(designationDTO);
+    }
+    @GetMapping("/designation/all")
+    public ResponseDTO getDesignations() throws JsonProcessingException {
+        return schoolService.getDesignations();
     }
 
 }
