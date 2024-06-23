@@ -301,4 +301,12 @@ return utilities.successResponse("fetched all categories",categoryDTOList);
 
 return utilities.successResponse("Fetched all designations",designationDTOList);
     }
+
+    public ResponseDTO addDiocese(DioceseDTO dioceseDTO) throws JsonProcessingException {
+        DioceseEntity dioceseEntity = modelMapper.map(dioceseDTO, DioceseEntity.class);
+        log.info("About to save a diocese:{}", new ObjectMapper().writeValueAsString(dioceseEntity));
+        dataService.saveDiocese(dioceseEntity);
+        return utilities.successResponse("saved a diocese",null);
+
+    }
 }

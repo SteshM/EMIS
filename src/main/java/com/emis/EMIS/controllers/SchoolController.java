@@ -149,4 +149,13 @@ public class SchoolController {
         return schoolService.getDesignations();
     }
 
+    @PostMapping("/diocese/add")
+    public ResponseDTO addDiocese(@RequestBody DioceseDTO dioceseDTO) throws JsonProcessingException {
+        return schoolService.addDiocese(dioceseDTO);
+    }
+    @GetMapping("/designation/all")
+    public ResponseDTO getDioceses() throws JsonProcessingException {
+        return schoolService.getDioceses();
+    }
+
 }

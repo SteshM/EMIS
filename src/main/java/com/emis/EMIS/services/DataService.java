@@ -33,6 +33,7 @@ public class DataService {
     private final SchoolGenderRepo schoolGenderRepo;
     private final CategoryRepo categoryRepo;
     private final DesignationRepo designationRepo;
+    private final DioceseRepo dioceseRepo;
 
 
 
@@ -227,6 +228,12 @@ public class DataService {
     }
     public List<DesignationEntity>fetchDesignations(){
         return designationRepo.findAll();
+    }
+    public void saveDiocese(DioceseEntity dioceseEntity){
+        dioceseRepo.save(dioceseEntity);
+    }
+    public List<DioceseEntity>fetchDioceses(){
+        return dioceseRepo.findAll();
     }
 
 }
