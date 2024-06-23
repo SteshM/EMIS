@@ -214,6 +214,15 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         return utilities.successResponse("Added a county",countyDTO);
     }
 
+    public ResponseDTO updateCounty(CountyDTO countyDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        CountyEntity countyEntity = dataService.findByCountyId(id);
+        log.info("Fetched a county from the db:{}", objectMapper.writeValueAsString(countyEntity));
+        modelMapper.map(countyEntity,countyDTO);
+        log.info("Updated county Details. About to save:{}", objectMapper.writeValueAsString(countyEntity));
+        return utilities.successResponse("updated county details successfully",countyDTO);
+    }
+
     public ResponseDTO getAllCounties() throws JsonProcessingException {
         List<CountyEntity>countyEntityList = dataService.fetchAllCounties();
         List<CountyDTO>countyDTOList = countyEntityList.stream()
@@ -242,6 +251,15 @@ return utilities.successResponse("fetched all counties",countyDTOList);
         return utilities.successResponse("saved a subCounty",subCountyDTO);
 
     }
+    public ResponseDTO updateSubCounty(SubCountyDTO subCountyDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var subCountyEntity = dataService.findBySubCountyId(id);
+        log.info("Fetched a subCounty from the db:{}", objectMapper.writeValueAsString(subCountyEntity));
+        modelMapper.map(subCountyEntity,subCountyDTO);
+        log.info("Updated subCounty Details. About to save:{}", objectMapper.writeValueAsString(subCountyEntity));
+        return utilities.successResponse("updated subCounty details successfully",subCountyDTO);
+    }
+
 
     public ResponseDTO getAllSubCounties() throws JsonProcessingException {
         List<SubCountyEntity>subCountyEntityList = dataService.fetchAllSubCounties();
@@ -271,6 +289,16 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
 
     }
 
+    public ResponseDTO updateCategory(CategoryDTO categoryDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var categoriesEntity = dataService.findByCategoryId(id);
+        log.info("Fetched a category from the db:{}", objectMapper.writeValueAsString(categoriesEntity));
+        modelMapper.map(categoriesEntity,categoryDTO);
+        log.info("Updated category Details. About to save:{}", objectMapper.writeValueAsString(categoriesEntity));
+        return utilities.successResponse("updated category details successfully",categoryDTO);
+    }
+
+
     public ResponseDTO getCategories() throws JsonProcessingException {
         List<CategoriesEntity>categoriesEntities = dataService.fetchAllCategories();
         List<CategoryDTO>categoryDTOList =categoriesEntities.stream()
@@ -298,6 +326,15 @@ return utilities.successResponse("fetched all categories",categoryDTOList);
         return utilities.successResponse("Added designation",null);
 
     }
+    public ResponseDTO updateDesignation(DesignationDTO designationDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var designationEntity = dataService.findByDesignationId(id);
+        log.info("Fetched a designation from the db:{}", objectMapper.writeValueAsString(designationEntity));
+        modelMapper.map(designationEntity,designationDTO);
+        log.info("Updated designation Details. About to save:{}", objectMapper.writeValueAsString(designationEntity));
+        return utilities.successResponse("updated designation details successfully",designationDTO);
+    }
+
 
     public ResponseDTO getDesignations() throws JsonProcessingException {
         List<DesignationEntity>designationEntityList = dataService.fetchDesignations();
@@ -327,6 +364,16 @@ return utilities.successResponse("Fetched all designations",designationDTOList);
 
     }
 
+    public ResponseDTO updateDiocese(DioceseDTO dioceseDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var dioceseEntity = dataService.findByDioceseId(id);
+        log.info("Fetched a diocese from the db:{}", objectMapper.writeValueAsString(dioceseEntity));
+        modelMapper.map(dioceseEntity,dioceseDTO);
+        log.info("Updated diocese Details. About to save:{}", objectMapper.writeValueAsString(dioceseEntity));
+        return utilities.successResponse("updated county details successfully",dioceseDTO);
+    }
+
+
     public ResponseDTO getDioceses() throws JsonProcessingException {
         List<DioceseEntity>dioceseEntityList = dataService.fetchDioceses();
         List<DioceseDTO>dioceseDTOList = dioceseEntityList.stream()
@@ -337,4 +384,6 @@ return utilities.successResponse("Fetched all designations",designationDTOList);
         log.info("Fetched  all  dioceses :{}", new ObjectMapper().writeValueAsString(dioceseEntityList));
 return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
+
+
 }

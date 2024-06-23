@@ -115,6 +115,10 @@ public class SchoolController {
     public ResponseDTO addCounty(@RequestBody CountyDTO countyDTO) throws JsonProcessingException {
         return schoolService.addCounty(countyDTO);
     }
+    @PutMapping("/county/update/{id}")
+    public ResponseDTO updateCounty(@RequestBody CountyDTO countyDTO,@PathVariable int id){
+        return schoolService.updateCounty(countyDTO,id);
+    }
     @GetMapping("/county/get-all")
     public ResponseDTO getCounties() throws JsonProcessingException {
         return schoolService.getAllCounties();

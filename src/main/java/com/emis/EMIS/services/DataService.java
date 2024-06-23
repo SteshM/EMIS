@@ -207,6 +207,9 @@ public class DataService {
     public void saveCounty(CountyEntity countyEntity){
         countyRepo.save(countyEntity);
     }
+    public CountyEntity findByCountyId(int countyId){
+        return countyRepo.findByCountyId(countyId);
+    }
     public List<CountyEntity>fetchAllCounties(){
         return countyRepo.findAll();
     }
@@ -214,11 +217,17 @@ public class DataService {
     public void saveSubCounty(SubCountyEntity subCounty){
         subCountyRepo.save(subCounty);
     }
+    public SubCountyEntity findBySubCountyId(int subCountyId){
+        return subCountyRepo.findBySubCountyId(subCountyId);
+    }
     public List<SubCountyEntity>fetchAllSubCounties(){
         return subCountyRepo.findAll();
     }
     public void saveCategories(CategoriesEntity categoriesEntity){
         categoryRepo.save(categoriesEntity);
+    }
+    public CategoriesEntity findByCategoryId(int categoryId){
+        return categoryRepo.findByCategoryId(categoryId);
     }
     public List<CategoriesEntity>fetchAllCategories(){
         return categoryRepo.findAll();
@@ -226,11 +235,18 @@ public class DataService {
     public void saveDesignation(DesignationEntity designationEntity){
         designationRepo.save(designationEntity);
     }
+    public DesignationEntity findByDesignationId(int designationId){
+        return designationRepo.findByDesignationId(designationId);
+    }
+
     public List<DesignationEntity>fetchDesignations(){
         return designationRepo.findAll();
     }
     public void saveDiocese(DioceseEntity dioceseEntity){
         dioceseRepo.save(dioceseEntity);
+    }
+    public DioceseEntity findByDioceseId(int dioceseId){
+        return dioceseRepo.findByDioceseId(dioceseId);
     }
     public List<DioceseEntity>fetchDioceses(){
         return dioceseRepo.findAll();

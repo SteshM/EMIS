@@ -4,4 +4,5 @@ import com.emis.EMIS.models.CategoriesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepo  extends JpaRepository<CategoriesEntity,Integer> {
+    CategoriesEntity findByCategoryId(int categoryId);
 }
