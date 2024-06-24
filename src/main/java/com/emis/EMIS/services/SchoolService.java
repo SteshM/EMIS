@@ -455,6 +455,12 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
 
+    /**
+     * MENU CODES
+     * @param documentTypeCodesDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO saveMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
       var menuCodes = modelMapper.map(documentTypeCodesDTO,MenuCodes.class);
@@ -472,5 +478,18 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveMenuCodes(menuCodes);
         return utilities.successResponse("updated menu codes  successfully",documentTypeCodesDTO);
     }
+
+    public ResponseDTO getMenuCodes() throws JsonProcessingException {
+        List<MenuCodes>menuCodesList = dataService.fetchAllMenuCodes();
+        List<DocumentTypeCodesDTO>documentTypeCodesDTOS = menuCodesList.stream()
+                .map(menuCodes -> {
+                    return modelMapper.map(menuCodes,DocumentTypeCodesDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  menu codes from the db :{}", new ObjectMapper().writeValueAsString(menuCodesList));
+        return utilities.successResponse("Fetched all school contacts",documentTypeCodesDTOS);
+    }
+
+
 
 }

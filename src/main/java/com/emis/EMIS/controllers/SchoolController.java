@@ -257,11 +257,11 @@ public class SchoolController {
     @PutMapping("/menu-code/update/{id}")
     public ResponseDTO updateMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateMenuCode(documentTypeCodesDTO,id);}
-//
-//    @GetMapping("/menu-codes/all")
-//    public ResponseDTO getAll() throws JsonProcessingException {
-//        return schoolService.getMenuCodes();
-//    }
+
+    @GetMapping("/menu-codes/all")
+    public ResponseDTO getAll() throws JsonProcessingException {
+        return schoolService.getMenuCodes();
+    }
 
 
 
