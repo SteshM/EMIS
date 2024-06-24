@@ -202,4 +202,35 @@ public class SchoolController {
         return schoolService.getDioceses();
     }
 
+    @PostMapping("/school-contact/add")
+    public ResponseDTO addSchoolContacts(@RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
+        return schoolService.createSchoolContact(schoolContactsDTO);
+    }
+//    @PutMapping("/update/{id}")
+//    public ResponseDTO updateSchoolContact(@RequestBody SchoolContactsDTO schoolContactsDTO,@PathVariable int id) throws JsonProcessingException {
+//        return schoolService.updateSchoolContacts(schoolContactsDTO,id);
+//    }
+//
+//    @GetMapping("/view/{id}")
+//    public ResponseDTO getSchoolContact(@PathVariable int id){
+//    return schoolService.getSchoolContact(id);
+//    }
+//
+//    @GetMapping("/get-all")
+//    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
+//        return schoolService.viewSchoolContacts();
+//    }
+//
+//    @GetMapping("/get-all/for-school")
+//    public ResponseDTO viewSchoolContactsForSchool(){
+//        return schoolService.getSchoolContactsForSchool();
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseDTO deleteSchoolContacts(@PathVariable int id){
+//        return schoolService.deleteSchoolcontacts(id);
+//    }
+//
+//
+
 }

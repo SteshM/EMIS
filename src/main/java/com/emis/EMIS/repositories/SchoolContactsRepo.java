@@ -4,4 +4,5 @@ import com.emis.EMIS.models.SchoolContacts;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SchoolContactsRepo extends JpaRepository<SchoolContacts,Integer> {
+    SchoolContacts findBySchoolContactsId(int schoolContactsId);
 }

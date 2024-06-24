@@ -34,6 +34,8 @@ public class DataService {
     private final CategoryRepo categoryRepo;
     private final DesignationRepo designationRepo;
     private final DioceseRepo dioceseRepo;
+    private final SchoolContactsRepo  schoolContactsRepo;
+
 
 
 
@@ -250,6 +252,17 @@ public class DataService {
     }
     public List<DioceseEntity>fetchDioceses(){
         return dioceseRepo.findAll();
+    }
+
+    public void saveSchoolContacts(SchoolContacts schoolContacts){
+        schoolContactsRepo.save(schoolContacts);
+
+    }
+    public List<SchoolContacts> fetchSchoolContacts(){
+        return schoolContactsRepo.findAll();
+    }
+    public SchoolContacts findBySchoolContactsId(int schoolContactsId){
+        return schoolContactsRepo.findBySchoolContactsId(schoolContactsId);
     }
 
 }
