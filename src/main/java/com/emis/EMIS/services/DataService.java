@@ -261,8 +261,8 @@ public class DataService {
     public List<SchoolContacts> fetchSchoolContacts(){
         return schoolContactsRepo.findAll();
     }
-    public SchoolContacts findBySchoolContactsId(int schoolContactsId){
-        return schoolContactsRepo.findBySchoolContactsId(schoolContactsId);
+    public SchoolContacts findBySchoolContactsId(int schoolContactId){
+        return schoolContactsRepo.findBySchoolContactId(schoolContactId);
     }
 
 }

@@ -206,6 +206,13 @@ public class SchoolController {
         return schoolService.getDioceses();
     }
 
+    /**
+     * SCHOOL CONTACTS
+     * @param schoolContactsDTO  the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     @PostMapping("/school-contact/add")
     public ResponseDTO addSchoolContacts(@RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         return schoolService.createSchoolContact(schoolContactsDTO);
@@ -230,7 +237,7 @@ public class SchoolController {
 //        return schoolService.getSchoolContactsForSchool();
 //    }
 //
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete-school-contacts/{id}")
     public ResponseDTO deleteSchoolContacts(@PathVariable int id){
         return schoolService.deleteSchoolContacts(id);
     }

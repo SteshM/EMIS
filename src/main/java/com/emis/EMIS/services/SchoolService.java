@@ -402,6 +402,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
 
+    /**
+     * SCHOOL CONTACTS
+     * @param schoolContactsDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
 
     public ResponseDTO createSchoolContact(SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         SchoolContacts schoolContacts = modelMapper.map(schoolContactsDTO,SchoolContacts.class);
