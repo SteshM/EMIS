@@ -386,4 +386,6 @@ return utilities.successResponse("Fetched all designations",designationDTOList);
 return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
+
+
 }

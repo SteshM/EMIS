@@ -52,4 +52,28 @@ public class SchoolsEntity {
     @JoinColumn(name = "subCountyId")
     private SubCountyEntity subCountyEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "countyDioceseId")
+    private CountyDioceseEntity countyDioceseEntity;
+
+    @ManyToOne
+    @JoinColumn(name = "dioceseId")
+    private DioceseEntity dioceseEntity;
+    private String logoName;
+    private String logoUrl;
+    private String logoSize;
+    private String logoType;
+    private String logoKey;
+    private String location;
+    private String road;
+    private String state;
+//    private double latitude;
+//    private double longitude;
+//    private int approvedBy = 0;
+//    private int rejectedBy = 0;
+//    private int submittedBy = 0;
+//    private int clarificationRaisedBy = 0;
+//    private int clarificationRepliedBy = 0;
+//    private int clarificationClosedBy = 0;
+
 }

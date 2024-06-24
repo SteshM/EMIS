@@ -27,4 +27,18 @@ public class SchoolDTO {
     @NotNull(message = "This field cannot be null")
     private String moeRegistrationNo;
 
+    private String category;
+    private String schoolType;
+    private String schoolGender;
+    private String curriculum;
+    private String county;
+    private String subCounty;
+    @NotNull(message = "Latitude is required")
+    private Double latitude;
+
+    @NotNull(message = "Longitude is required")
+    private Double longitude;
+    private String diocese;
+    private String logo;
+
 }

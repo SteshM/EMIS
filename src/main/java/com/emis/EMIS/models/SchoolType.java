@@ -16,5 +16,13 @@ public class SchoolType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int schoolTypeId;
     private String name;
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated = new Date();
+    private String createdBy;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateModified =new Date();
+    private String modifiedBy;
 
 }
