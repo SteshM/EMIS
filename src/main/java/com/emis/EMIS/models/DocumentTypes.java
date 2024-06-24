@@ -13,4 +13,9 @@ public class DocumentTypes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int documentTypeId;
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "menu_codes_id")
+    private MenuCodes menuCodes;
+
 }
