@@ -230,11 +230,10 @@ public class SchoolController {
 //        return schoolService.getSchoolContactsForSchool();
 //    }
 //
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseDTO deleteSchoolContacts(@PathVariable int id){
-//        return schoolService.deleteSchoolcontacts(id);
-//    }
-//
-//
+    @DeleteMapping("/delete/{id}")
+    public ResponseDTO deleteSchoolContacts(@PathVariable int id){
+        return schoolService.deleteSchoolContacts(id);
+    }
+
 
 }

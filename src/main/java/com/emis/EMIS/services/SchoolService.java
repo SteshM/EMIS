@@ -439,4 +439,11 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         log.info("Fetched  all  school contacts :{}", new ObjectMapper().writeValueAsString(schoolContactsList));
         return utilities.successResponse("Fetched all school contacts",schoolContactsDTOList);
     }
+
+    public ResponseDTO deleteSchoolContacts(int id) {
+        var schoolContacts = dataService.findBySchoolContactsId(id);
+        schoolContacts.setStatus(Status.DELETED);
+        dataService.saveSchoolContacts(schoolContacts);
+        return utilities.successResponse("deleted school contacts",null);
+    }
 }

@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class SchoolContacts {
     private String name;
     private String emailAddress;
     private String phoneNumber;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "designationId")
@@ -24,6 +26,7 @@ public class SchoolContacts {
     private SchoolsEntity schoolsEntity ;
     private int createdBy;
     private int updatedBy;
+
 
 //    @ManyToOne
 //    @JoinColumn(name = "document_types_id")
