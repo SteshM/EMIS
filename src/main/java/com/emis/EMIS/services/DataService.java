@@ -37,6 +37,7 @@ public class DataService {
     private final SchoolContactsRepo  schoolContactsRepo;
     private final MenuCodesRepo menuCodesRepo;
     private final DocumentTypesRepo  documentTypesRepo;
+    private final IdentityTypeRepo  identityTypeRepo;
 
 
 
@@ -293,5 +294,16 @@ public class DataService {
 
     public DocumentTypes findByDocumentTypeId(int documentTypeId){
         return documentTypesRepo.findByDocumentTypeId(documentTypeId);
+    }
+
+    public void saveIdentityType(IdentityType identityType){
+        identityTypeRepo.save(identityType);
+    }
+
+    public List<IdentityType>FetchAllIdentityTypes(){
+        return identityTypeRepo.findAll();
+    }
+    public IdentityType findByIdentityTypeId(int identityTypeId){
+        return identityTypeRepo.findByIdentityTypeId(identityTypeId);
     }
 }
