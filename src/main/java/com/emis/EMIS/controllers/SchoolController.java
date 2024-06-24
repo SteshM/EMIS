@@ -206,10 +206,10 @@ public class SchoolController {
     public ResponseDTO addSchoolContacts(@RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         return schoolService.createSchoolContact(schoolContactsDTO);
     }
-//    @PutMapping("/update/{id}")
-//    public ResponseDTO updateSchoolContact(@RequestBody SchoolContactsDTO schoolContactsDTO,@PathVariable int id) throws JsonProcessingException {
-//        return schoolService.updateSchoolContacts(schoolContactsDTO,id);
-//    }
+    @PutMapping("/update/{id}")
+    public ResponseDTO updateSchoolContact(@RequestBody SchoolContactsDTO schoolContactsDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateSchoolContacts(schoolContactsDTO,id);
+    }
 //
 //    @GetMapping("/view/{id}")
 //    public ResponseDTO getSchoolContact(@PathVariable int id){

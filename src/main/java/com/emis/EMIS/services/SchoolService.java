@@ -121,6 +121,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         log.info("Fetched a school type:{}", objectMapper.writeValueAsString(schoolType));
         modelMapper.map(schoolTypeDTO,schoolType);
         log.info("Updated school type Details. About to save:{}", objectMapper.writeValueAsString(schoolType));
+        dataService.saveSchoolType(schoolType);
         return utilities.successResponse("updated school type successfully",schoolTypeDTO);
 
 
@@ -158,8 +159,8 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         SchoolGender schoolGender = dataService.findBySchoolGenderId(id);
         log.info("Fetched a school gender:{}", objectMapper.writeValueAsString(schoolGender));
         modelMapper.map(schoolGender,schoolGenderDTO);
-        //not saving new record
         log.info("Updated school gender Details. About to save:{}", objectMapper.writeValueAsString(schoolGender));
+        dataService.saveSchoolGender(schoolGender);
         return utilities.successResponse("updated school gender successfully",schoolGenderDTO);
     }
 
@@ -197,6 +198,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         log.info("Fetched a curriculum from the db:{}", objectMapper.writeValueAsString(curriculum));
         modelMapper.map(curriculum,curriculumDTO);
         log.info("Updated curriculum Details. About to save:{}", objectMapper.writeValueAsString(curriculum));
+        dataService.saveCurriculum(curriculum);
         return utilities.successResponse("updated school type successfully",curriculumDTO);
     }
 
@@ -221,6 +223,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         log.info("Fetched a county from the db:{}", objectMapper.writeValueAsString(countyEntity));
         modelMapper.map(countyEntity,countyDTO);
         log.info("Updated county Details. About to save:{}", objectMapper.writeValueAsString(countyEntity));
+        dataService.saveCounty(countyEntity);
         return utilities.successResponse("updated county details successfully",countyDTO);
     }
 
@@ -258,6 +261,7 @@ return utilities.successResponse("fetched all counties",countyDTOList);
         log.info("Fetched a subCounty from the db:{}", objectMapper.writeValueAsString(subCountyEntity));
         modelMapper.map(subCountyEntity,subCountyDTO);
         log.info("Updated subCounty Details. About to save:{}", objectMapper.writeValueAsString(subCountyEntity));
+        dataService.saveSubCounty(subCountyEntity);
         return utilities.successResponse("updated subCounty details successfully",subCountyDTO);
     }
 
@@ -296,6 +300,7 @@ return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
         log.info("Fetched a category from the db:{}", objectMapper.writeValueAsString(categoriesEntity));
         modelMapper.map(categoriesEntity,categoryDTO);
         log.info("Updated category Details. About to save:{}", objectMapper.writeValueAsString(categoriesEntity));
+        dataService.saveCategories(categoriesEntity);
         return utilities.successResponse("updated category details successfully",categoryDTO);
     }
 
@@ -333,6 +338,7 @@ return utilities.successResponse("fetched all categories",categoryDTOList);
         log.info("Fetched a designation from the db:{}", objectMapper.writeValueAsString(designationEntity));
         modelMapper.map(designationEntity,designationDTO);
         log.info("Updated designation Details. About to save:{}", objectMapper.writeValueAsString(designationEntity));
+        dataService.saveDesignation(designationEntity);
         return utilities.successResponse("updated designation details successfully",designationDTO);
     }
 
@@ -371,7 +377,8 @@ return utilities.successResponse("Fetched all designations",designationDTOList);
         log.info("Fetched a diocese from the db:{}", objectMapper.writeValueAsString(dioceseEntity));
         modelMapper.map(dioceseEntity,dioceseDTO);
         log.info("Updated diocese Details. About to save:{}", objectMapper.writeValueAsString(dioceseEntity));
-        return utilities.successResponse("updated county details successfully",dioceseDTO);
+        dataService.saveDiocese(dioceseEntity);
+        return utilities.successResponse("updated diocese details successfully",dioceseDTO);
     }
 
 
@@ -395,4 +402,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("saved school contacts",null);
 
     }
+
+    public ResponseDTO updateSchoolContacts(SchoolContactsDTO schoolContactsDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var schoolContacts = dataService.findBySchoolContactsId(id);
+        log.info("Fetched school contacts from the db:{}", objectMapper.writeValueAsString(schoolContacts));
+        modelMapper.map(schoolContacts,schoolContactsDTO);
+        log.info("Updated school contacts  Details. About to save:{}", objectMapper.writeValueAsString(schoolContacts));
+        dataService.saveSchoolContacts(schoolContacts);
+        return utilities.successResponse("updated school contacts details successfully",schoolContactsDTO);
+    }
+
+
 }
