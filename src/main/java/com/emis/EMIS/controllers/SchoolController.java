@@ -288,7 +288,12 @@ public class SchoolController {
 //        return schoolService.getDocumentTypeByMenuCodeId(id);
 //    }
 
-
+    /**
+     *
+     * @param identityTypeDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     @PostMapping("/create/identity-type")
     public ResponseDTO createIdentityType(@RequestBody IdentityTypeDTO identityTypeDTO) throws JsonProcessingException {
@@ -298,8 +303,9 @@ public class SchoolController {
     public ResponseDTO updateIdentityType(@RequestBody IdentityTypeDTO identityTypeDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateIdentityType(identityTypeDTO,id);}
 
-//    @GetMapping("/identity-types/all")
-//    public ResponseDTO getAll() throws JsonProcessingException {
-//        return schoolService.getIdentityTypes();
+    @GetMapping("/identity-types/all")
+    public ResponseDTO getAllTypes() throws JsonProcessingException {
+        return schoolService.getIdentityTypes();
 
+}
 }

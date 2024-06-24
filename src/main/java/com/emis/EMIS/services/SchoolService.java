@@ -487,7 +487,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                 })
                 .toList();
         log.info("Fetched  all  menu codes from the db :{}", new ObjectMapper().writeValueAsString(menuCodesList));
-        return utilities.successResponse("Fetched all school contacts",documentTypeCodesDTOS);
+        return utilities.successResponse("Fetched all menu codes",documentTypeCodesDTOS);
     }
 
 
@@ -524,8 +524,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                 })
                 .toList();
         log.info("Fetched  all document types from the db :{}", new ObjectMapper().writeValueAsString(documentTypesList));
-        return utilities.successResponse("Fetched all school contacts",documentTypesDTOList);
+        return utilities.successResponse("Fetched all document types",documentTypesDTOList);
     }
+
+
+    /**
+     * IDENTITY TYPES
+     * @param identityTypeDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO createIdentityType(IdentityTypeDTO identityTypeDTO) throws JsonProcessingException {
         var identityType = modelMapper.map(identityTypeDTO,IdentityType.class);
@@ -545,4 +553,15 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             return utilities.successResponse("updated document types  successfully",identityTypeDTO);
         }
 
+    public ResponseDTO getIdentityTypes() throws JsonProcessingException {
+        List<IdentityType>identityTypeList = dataService.FetchAllIdentityTypes();
+        List<IdentityTypeDTO>identityTypeDTOList = identityTypeList.stream()
+                .map(identityType -> {
+                    return modelMapper.map(identityType,IdentityTypeDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all identity types from the db :{}", new ObjectMapper().writeValueAsString(identityTypeList));
+        return utilities.successResponse("Fetched all identity types ",identityTypeDTOList);
+
+    }
 }
