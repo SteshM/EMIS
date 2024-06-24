@@ -497,5 +497,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveDocumentTypes(documentTypes);
         return utilities.successResponse("saved a document type",null);
     }
+
+    public ResponseDTO updateDocumentType(DocumentTypesDTO documentTypesDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        DocumentTypes documentTypes = dataService.findByDocumentTypeId(id);
+        log.info("Fetched a document type  from the db:{}", objectMapper.writeValueAsString(documentTypes));
+        modelMapper.map(documentTypes,documentTypesDTO);
+        log.info("Updated document types . About to save:{}", objectMapper.writeValueAsString(documentTypes));
+        dataService.saveDocumentTypes(documentTypes);
+        return utilities.successResponse("updated document types  successfully",documentTypesDTO);
     }
+
+
 }

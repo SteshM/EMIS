@@ -291,7 +291,7 @@ public class DataService {
         return documentTypesRepo.findAll();
     }
 
-    public MenuCodes findByDocumentTypeId(int documentTypeId){
+    public DocumentTypes findByDocumentTypeId(int documentTypeId){
         return documentTypesRepo.findByDocumentTypeId(documentTypeId);
     }
 }
