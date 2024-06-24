@@ -533,4 +533,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveIdentityType(identityType);
         return utilities.successResponse("saved an identity  type",null);
     }
+
+
+    public ResponseDTO updateIdentityType(IdentityTypeDTO identityTypeDTO, int id) throws JsonProcessingException {
+            var objectMapper = new ObjectMapper();
+            IdentityType identityType = dataService.findByIdentityTypeId(id);
+            log.info("Fetched an identity type  from the db:{}", objectMapper.writeValueAsString(identityType));
+            modelMapper.map(identityType,identityTypeDTO);
+            log.info("Updated identity types . About to save:{}", objectMapper.writeValueAsString(identityType));
+            dataService.saveIdentityType(identityType);
+            return utilities.successResponse("updated document types  successfully",identityTypeDTO);
+        }
+
 }
