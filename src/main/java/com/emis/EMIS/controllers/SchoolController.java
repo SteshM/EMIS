@@ -219,11 +219,11 @@ public class SchoolController {
     public ResponseDTO getSchoolContact(@PathVariable int id) throws JsonProcessingException {
     return schoolService.getSchoolContact(id);
     }
-//
-//    @GetMapping("/get-all")
-//    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
-//        return schoolService.viewSchoolContacts();
-//    }
+
+    @GetMapping("/get-all")
+    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
+        return schoolService.viewSchoolContacts();
+    }
 //
 //    @GetMapping("/get-all/for-school")
 //    public ResponseDTO viewSchoolContactsForSchool(){

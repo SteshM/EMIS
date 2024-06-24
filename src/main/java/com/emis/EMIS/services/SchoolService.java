@@ -428,4 +428,15 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var schoolContactsDTO = modelMapper.map(schoolContacts, SchoolContactsDTO.class);
         return utilities.successResponse("Successfully fetched a partner",schoolContactsDTO);
     }
+
+    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
+        List<SchoolContacts>schoolContactsList = dataService.fetchSchoolContacts();
+        List<SchoolContactsDTO>schoolContactsDTOList = schoolContactsList.stream()
+                .map(schoolContacts -> {
+                    return modelMapper.map(schoolContacts,SchoolContactsDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  school contacts :{}", new ObjectMapper().writeValueAsString(schoolContactsList));
+        return utilities.successResponse("Fetched all school contacts",schoolContactsDTOList);
+    }
 }
