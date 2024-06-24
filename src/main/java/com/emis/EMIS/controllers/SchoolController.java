@@ -243,4 +243,27 @@ public class SchoolController {
     }
 
 
+    /**
+     * MENU CODES
+     * @param documentTypeCodesDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    @PostMapping("/save/menu-code")
+    public ResponseDTO saveMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
+        return schoolService.saveMenuCode(documentTypeCodesDTO);
+    }
+//    @PutMapping("/menu-code/update/{id}")
+//    public ResponseDTO updateMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO,@PathVariable int id) throws JsonProcessingException {
+//        return schoolService.updateMenuCode(documentTypeCodesDTO,id);}
+//
+//    @GetMapping("/menu-codes/all")
+//    public ResponseDTO getAll() throws JsonProcessingException {
+//        return schoolService.getMenuCodes();
+//    }
+
+
+
+
 }

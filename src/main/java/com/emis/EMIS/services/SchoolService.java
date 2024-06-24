@@ -453,4 +453,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveSchoolContacts(schoolContacts);
         return utilities.successResponse("deleted school contacts",null);
     }
+
+
+
+    public ResponseDTO saveMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
+      var menuCodes = modelMapper.map(documentTypeCodesDTO,MenuCodes.class);
+        log.info("About to save a menu code:{}", new ObjectMapper().writeValueAsString(menuCodes));
+        dataService.saveMenuCodes(menuCodes);
+        return utilities.successResponse("saved menu codes",null);
+    }
 }

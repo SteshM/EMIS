@@ -35,6 +35,8 @@ public class DataService {
     private final DesignationRepo designationRepo;
     private final DioceseRepo dioceseRepo;
     private final SchoolContactsRepo  schoolContactsRepo;
+    private final MenuCodesRepo menuCodesRepo;
+    private final DocumentTypesRepo  documentTypesRepo;
 
 
 
@@ -263,6 +265,11 @@ public class DataService {
     }
     public SchoolContacts findBySchoolContactsId(int schoolContactId){
         return schoolContactsRepo.findBySchoolContactId(schoolContactId);
+    }
+
+    public void saveMenuCodes(MenuCodes menuCodes){
+        menuCodesRepo.save(menuCodes);
+
     }
 
 }
