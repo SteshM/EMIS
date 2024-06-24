@@ -490,6 +490,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("Fetched all school contacts",documentTypeCodesDTOS);
     }
 
+
     /**
      * DOCUMENT TYPES
      * @param documentTypesDTO the request dto
@@ -526,4 +527,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("Fetched all school contacts",documentTypesDTOList);
     }
 
+    public ResponseDTO createIdentityType(IdentityTypeDTO identityTypeDTO) throws JsonProcessingException {
+        var identityType = modelMapper.map(identityTypeDTO,IdentityType.class);
+        log.info("About to save an identity type:{}", new ObjectMapper().writeValueAsString(identityType));
+        dataService.saveIdentityType(identityType);
+        return utilities.successResponse("saved an identity  type",null);
+    }
 }

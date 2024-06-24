@@ -290,4 +290,16 @@ public class SchoolController {
 
 
 
+    @PostMapping("/create/identity-type")
+    public ResponseDTO createIdentityType(@RequestBody IdentityTypeDTO identityTypeDTO) throws JsonProcessingException {
+        return schoolService.createIdentityType(identityTypeDTO);
+    }
+//    @PutMapping("/identity-type/update/{id}")
+//    public ResponseDTO updateIdentityType(@RequestBody IdentityTypeDTO identityTypeDTO,@PathVariable int id) throws JsonProcessingException {
+//        return schoolService.updateIdentityType(identityTypeDTO,id);}
+//
+//    @GetMapping("/identity-types/all")
+//    public ResponseDTO getAll() throws JsonProcessingException {
+//        return schoolService.getIdentityTypes();
+
 }
