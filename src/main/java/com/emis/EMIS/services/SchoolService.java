@@ -391,7 +391,8 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     public ResponseDTO createSchoolContact(SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         SchoolContacts schoolContacts = modelMapper.map(schoolContactsDTO,SchoolContacts.class);
         log.info("About to save a school contacts:{}", new ObjectMapper().writeValueAsString(schoolContacts));
-        dataService.
+        dataService.saveSchoolContacts(schoolContacts);
+        return utilities.successResponse("saved school contacts",null);
 
     }
 }
