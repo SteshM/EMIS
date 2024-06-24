@@ -281,4 +281,17 @@ public class DataService {
     }
 
 
+
+    public void saveDocumentTypes(DocumentTypes documentTypes){
+        documentTypesRepo.save(documentTypes);
+
+    }
+
+    public List<DocumentTypes> fetchAllDocumentTypes(){
+        return documentTypesRepo.findAll();
+    }
+
+    public MenuCodes findByDocumentTypeId(int documentTypeId){
+        return documentTypesRepo.findByDocumentTypeId(documentTypeId);
+    }
 }

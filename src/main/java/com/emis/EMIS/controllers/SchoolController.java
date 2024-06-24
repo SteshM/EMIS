@@ -259,10 +259,34 @@ public class SchoolController {
         return schoolService.updateMenuCode(documentTypeCodesDTO,id);}
 
     @GetMapping("/menu-codes/all")
-    public ResponseDTO getAll() throws JsonProcessingException {
+    public ResponseDTO getAllMenuCodes() throws JsonProcessingException {
         return schoolService.getMenuCodes();
     }
 
+    /**
+     * DOCUMENT TYPES
+     * @param documentTypesDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    @PostMapping("/save/document-type")
+    public ResponseDTO saveDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
+        return schoolService.saveDocumentType(documentTypesDTO);
+    }
+    @PutMapping("/document-type/update/{id}")
+    public ResponseDTO updateDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateDocumentType(documentTypesDTO,id);}
+
+//    @GetMapping("/document-types/all")
+//    public ResponseDTO getAll() throws JsonProcessingException {
+//        return schoolService.getDocumentTypes();
+//    }
+////get by menu code id
+//    @GetMapping("/document-type/menu-code/{id}")
+//    public ResponseDTO getByMenuCodeId(@PathVariable int id){
+//        return schoolService.getDocumentTypeByMenuCodeId(id);
+//    }
 
 
 
