@@ -33,6 +33,10 @@ public class SchoolController {
         log.info("About to fetch school details");
         return schoolService.viewSchools();
     }
+    @GetMapping("/school/{id}")
+    public ResponseDTO getSchool(@PathVariable int id) throws JsonProcessingException {
+        return schoolService.getSchool(id);
+    }
     @PutMapping("/school/{id}")
     public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO) throws JsonProcessingException {
         return schoolService.updateSchool(id,schoolDTO);
@@ -210,11 +214,11 @@ public class SchoolController {
     public ResponseDTO updateSchoolContact(@RequestBody SchoolContactsDTO schoolContactsDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateSchoolContacts(schoolContactsDTO,id);
     }
-//
-//    @GetMapping("/view/{id}")
-//    public ResponseDTO getSchoolContact(@PathVariable int id){
-//    return schoolService.getSchoolContact(id);
-//    }
+
+    @GetMapping("/view/{id}")
+    public ResponseDTO getSchoolContact(@PathVariable int id) throws JsonProcessingException {
+    return schoolService.getSchoolContact(id);
+    }
 //
 //    @GetMapping("/get-all")
 //    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {

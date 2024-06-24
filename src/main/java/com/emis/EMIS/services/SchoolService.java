@@ -53,6 +53,14 @@ public class SchoolService {
 
     }
 
+    public ResponseDTO getSchool(int id) throws JsonProcessingException {
+        var schools= dataService.findBySchoolId(id);
+        log.info("Fetching a school's Details:{}", new ObjectMapper().writeValueAsString(schools));
+        var schoolDTO = modelMapper.map(schools, SchoolDTO.class);
+        return utilities.successResponse("Successfully fetched a school",schoolDTO);
+    }
+
+
     /**
      * Fetching a school, updating its details and saving
      * @param id school id
@@ -414,4 +422,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
 
+    public ResponseDTO getSchoolContact(int id) throws JsonProcessingException {
+        var schoolContacts= dataService.findBySchoolContactsId(id);
+        log.info("Fetching a school's contact Details:{}", new ObjectMapper().writeValueAsString(schoolContacts));
+        var schoolContactsDTO = modelMapper.map(schoolContacts, SchoolContactsDTO.class);
+        return utilities.successResponse("Successfully fetched a partner",schoolContactsDTO);
+    }
 }
