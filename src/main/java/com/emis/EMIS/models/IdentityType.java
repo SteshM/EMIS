@@ -1,6 +1,8 @@
 package com.emis.EMIS.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,29 +15,17 @@ public class IdentityType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int identityTypeId;
 
-    @ManyToOne
-    @JoinColumn(name = "schoolId")
-    private SchoolsEntity schoolsEntity;
 
-    @ManyToOne
-    @JoinColumn(name = "menuCodeId")
-    private MenuCodes menuCodes;
+    @Size(max = 30)
+    @Column(name = "code", length = 30)
+    private String code;
 
-    @Lob
-    @Column(name = "remarks", columnDefinition = "TEXT", nullable = false)
-    private String remarks;
-    private String status;  //Pending,Rejected,Completed
-    @Column(name = "remark_status")
-    private String remarkStatus ;
-//    RemarksClarificationStatus.CLOSED.name();  //OPEN,REVIEW,CLOSED
-    private Integer completionPercentage;  //Pending,Rejected,Completed
+    @Size(max = 128)
+    @NotNull
+    @Column(name = "name", nullable = false, length = 128)
+    private String name;
 
-    private int createdBy;
-    private int approvedBy;
-    private int rejectedBy;
-    private int submittedBy;
-    private int clarificationRaisedBy;
-    private int clarificationRepliedBy;
-    private int clarificationClosedBy;
-
+    @NotNull
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = false;
 }
