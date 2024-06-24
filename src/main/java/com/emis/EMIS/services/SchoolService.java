@@ -490,6 +490,12 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("Fetched all school contacts",documentTypeCodesDTOS);
     }
 
+    /**
+     * DOCUMENT TYPES
+     * @param documentTypesDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO saveDocumentType(DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
         var documentTypes = modelMapper.map(documentTypesDTO,DocumentTypes.class);
@@ -508,5 +514,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("updated document types  successfully",documentTypesDTO);
     }
 
+
+    public ResponseDTO getDocumentTypes() throws JsonProcessingException {
+        List<DocumentTypes>documentTypesList = dataService.fetchAllDocumentTypes();
+        List<DocumentTypesDTO>documentTypesDTOList = documentTypesList.stream()
+                .map(documentTypes -> {
+                    return modelMapper.map(documentTypes,DocumentTypesDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all document types from the db :{}", new ObjectMapper().writeValueAsString(documentTypesList));
+        return utilities.successResponse("Fetched all school contacts",documentTypesDTOList);
+    }
 
 }

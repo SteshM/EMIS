@@ -278,10 +278,10 @@ public class SchoolController {
     public ResponseDTO updateDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateDocumentType(documentTypesDTO,id);}
 
-//    @GetMapping("/document-types/all")
-//    public ResponseDTO getAll() throws JsonProcessingException {
-//        return schoolService.getDocumentTypes();
-//    }
+    @GetMapping("/document-types/all")
+    public ResponseDTO getAll() throws JsonProcessingException {
+        return schoolService.getDocumentTypes();
+    }
 ////get by menu code id
 //    @GetMapping("/document-type/menu-code/{id}")
 //    public ResponseDTO getByMenuCodeId(@PathVariable int id){
