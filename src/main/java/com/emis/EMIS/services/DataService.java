@@ -272,4 +272,13 @@ public class DataService {
 
     }
 
+    public List<MenuCodes> fetchAllMenuCodes(){
+        return menuCodesRepo.findAll();
+    }
+
+    public MenuCodes findByMenuCodeId(int menuCodeId){
+        return menuCodesRepo.findByMenuCodeId(menuCodeId);
+    }
+
+
 }

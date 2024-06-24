@@ -462,4 +462,15 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveMenuCodes(menuCodes);
         return utilities.successResponse("saved menu codes",null);
     }
+
+    public ResponseDTO updateMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var menuCodes = dataService.findByMenuCodeId(id);
+        log.info("Fetched a menu code from the db:{}", objectMapper.writeValueAsString(menuCodes));
+        modelMapper.map(menuCodes,documentTypeCodesDTO);
+        log.info("Updated menu codes . About to save:{}", objectMapper.writeValueAsString(menuCodes));
+        dataService.saveMenuCodes(menuCodes);
+        return utilities.successResponse("updated menu codes  successfully",documentTypeCodesDTO);
+    }
+
 }
