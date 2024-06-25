@@ -581,6 +581,19 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         SupportDocDTO supportDocDTO = modelMapper.map(supportingDocuments, SupportDocDTO.class);
         return utilities.successResponse("Successfully fetched a supporting doc",supportDocDTO);
     }
+
+
+    public ResponseDTO getAllSupportDocs() throws JsonProcessingException {
+        List<SupportingDocuments>supportingDocumentsList =dataService.FetchAllSupportingDocs();
+        List<SupportDocDTO>supportDocDTOList = supportingDocumentsList.stream()
+                .map(supportingDocuments -> {
+                    return modelMapper.map(supportingDocuments,SupportDocDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all supporting documents  from the db :{}", new ObjectMapper().writeValueAsString(supportingDocumentsList));
+        return utilities.successResponse("Fetched all supporting documents ",supportDocDTOList);
+
+    }
 }
 
 

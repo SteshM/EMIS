@@ -325,10 +325,10 @@ public class SchoolController {
         return schoolService.getAllBySupportId(id);
     }
 
-//    @GetMapping("/get-all/support-docs")
-//    public ResponseDTO getAllSupportDocs() throws JsonProcessingException {
-//        return schoolService.getAllSupportDocs();
-//    }
+    @GetMapping("/get-all/support-docs")
+    public ResponseDTO getAllSupportDocs() throws JsonProcessingException {
+        return schoolService.getAllSupportDocs();
+    }
 //
 //    @DeleteMapping("/delete/support-docs/{id}")
 //    public ResponseDTO deleteSupportDocs(@PathVariable int id){
