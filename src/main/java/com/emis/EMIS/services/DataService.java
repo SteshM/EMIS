@@ -38,6 +38,7 @@ public class DataService {
     private final MenuCodesRepo menuCodesRepo;
     private final DocumentTypesRepo  documentTypesRepo;
     private final IdentityTypeRepo  identityTypeRepo;
+    private final SupportingDocumentsRepo  supportingDocumentsRepo;
 
 
 
@@ -306,4 +307,19 @@ public class DataService {
     public IdentityType findByIdentityTypeId(int identityTypeId){
         return identityTypeRepo.findByIdentityTypeId(identityTypeId);
     }
+
+
+
+    public void saveSupportDocs(SupportingDocuments supportingDocuments){
+        supportingDocumentsRepo.save(supportingDocuments);
+    }
+
+    public List<SupportingDocuments>FetchAllSupportingDocs(){
+        return supportingDocumentsRepo.findAll();
+    }
+
+    public SupportingDocuments findBySupportId(int supportId){
+        return supportingDocumentsRepo.findBySupportId(supportId);
+    }
+
 }

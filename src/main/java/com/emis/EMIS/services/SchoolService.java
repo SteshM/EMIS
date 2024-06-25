@@ -565,7 +565,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     }
 
-//    public ResponseDTO getAllMenuCodeStatuses(MenuCodeStatusesDTO menuCodeStatusesDTO) {
-//
-//    }
-}
+
+
+    public ResponseDTO CreateSupportDocuments(SupportDocDTO supportDocDTO) throws JsonProcessingException {
+        SupportingDocuments supportingDocuments = modelMapper.map(supportDocDTO,SupportingDocuments.class);
+        log.info("About to save supporting documents:{}", new ObjectMapper().writeValueAsString(supportingDocuments));
+        dataService.saveSupportDocs(supportingDocuments);
+        return utilities.successResponse("saved  supporting documents ",null);
+    }
+
+
+    }
+
+
