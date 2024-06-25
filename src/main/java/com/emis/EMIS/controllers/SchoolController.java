@@ -308,4 +308,12 @@ public class SchoolController {
         return schoolService.getIdentityTypes();
 
 }
+//
+//@PostMapping("/statuses/get-all")
+//    public ResponseDTO getAllStatuses(@RequestBody MenuCodeStatusesDTO menuCodeStatusesDTO){
+//        return schoolService.getAllMenuCodeStatuses();
+//}
+
+
+
 }

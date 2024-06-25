@@ -564,4 +564,8 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("Fetched all identity types ",identityTypeDTOList);
 
     }
+
+//    public ResponseDTO getAllMenuCodeStatuses(MenuCodeStatusesDTO menuCodeStatusesDTO) {
+//
+//    }
 }
