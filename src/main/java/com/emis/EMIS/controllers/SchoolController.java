@@ -320,11 +320,11 @@ public class SchoolController {
         return schoolService.CreateSupportDocuments(supportDocDTO);
     }
 
-//    @GetMapping("/get-all/{id}")
-//    public ResponseDTO getALlBySupportId(@PathVariable int id) throws JsonProcessingException {
-//        return schoolService.getAllBySupportId(id);
-//    }
-//
+    @GetMapping("/get-all/{id}")
+    public ResponseDTO getALlBySupportId(@PathVariable int id) throws JsonProcessingException {
+        return schoolService.getAllBySupportId(id);
+    }
+
 //    @GetMapping("/get-all/support-docs")
 //    public ResponseDTO getAllSupportDocs() throws JsonProcessingException {
 //        return schoolService.getAllSupportDocs();

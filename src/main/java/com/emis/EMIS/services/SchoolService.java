@@ -575,6 +575,12 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
 
+    public ResponseDTO getAllBySupportId(int id) throws JsonProcessingException {
+       var supportingDocuments= dataService.findBySupportId(id);
+        log.info("Fetching a support document:{}", new ObjectMapper().writeValueAsString(supportingDocuments));
+        SupportDocDTO supportDocDTO = modelMapper.map(supportingDocuments, SupportDocDTO.class);
+        return utilities.successResponse("Successfully fetched a supporting doc",supportDocDTO);
     }
+}
 
 
