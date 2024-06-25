@@ -566,6 +566,12 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
 
+    /**
+     * SUPPORTING DOCUMENTS
+     * @param supportDocDTO the request dto
+     * @return the response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO CreateSupportDocuments(SupportDocDTO supportDocDTO) throws JsonProcessingException {
         SupportingDocuments supportingDocuments = modelMapper.map(supportDocDTO,SupportingDocuments.class);

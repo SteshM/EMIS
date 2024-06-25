@@ -313,6 +313,12 @@ public class SchoolController {
 //}
 
 
+    /**
+     * SUPPORTING DOCUMENTS
+     * @param supportDocDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
 
     @PostMapping("/support-docs/save")
@@ -325,12 +331,12 @@ public class SchoolController {
         return schoolService.getAllBySupportId(id);
     }
 
-    @GetMapping("/get-all/support-docs")
+    @GetMapping("/get-all/docs")
     public ResponseDTO getAllSupportDocs() throws JsonProcessingException {
         return schoolService.getAllSupportDocs();
     }
 
-    @DeleteMapping("/delete/support-docs/{id}")
+    @DeleteMapping("/delete/doc/{id}")
     public ResponseDTO deleteSupportDocs(@PathVariable int id){
         return schoolService.deleteSupportDocs(id);
     }
