@@ -329,11 +329,11 @@ public class SchoolController {
     public ResponseDTO getAllSupportDocs() throws JsonProcessingException {
         return schoolService.getAllSupportDocs();
     }
-//
-//    @DeleteMapping("/delete/support-docs/{id}")
-//    public ResponseDTO deleteSupportDocs(@PathVariable int id){
-//        return schoolService.deleteSupportDocs(id);
-//    }
+
+    @DeleteMapping("/delete/support-docs/{id}")
+    public ResponseDTO deleteSupportDocs(@PathVariable int id){
+        return schoolService.deleteSupportDocs(id);
+    }
 
 
 

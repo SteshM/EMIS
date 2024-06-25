@@ -594,6 +594,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("Fetched all supporting documents ",supportDocDTOList);
 
     }
+
+    public ResponseDTO deleteSupportDocs(int id) {
+        SupportingDocuments supportingDocuments =dataService.findBySupportId(id);
+        supportingDocuments.setStatus(Status.DELETED);
+        dataService.saveSupportDocs(supportingDocuments);
+        return utilities.successResponse("deleted supporting documents",null);
+    }
 }
 
 

@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class SupportingDocuments {
     @Lob
     @Column(name = "description", columnDefinition = "TEXT", nullable = false)
     private String description;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "document_types_id")
