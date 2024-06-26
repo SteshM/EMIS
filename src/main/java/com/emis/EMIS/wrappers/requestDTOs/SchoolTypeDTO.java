@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 @Getter
 public class SchoolTypeDTO {
-    @NotBlank(message = "name is mandatory!")
+    private int schoolTypeId;
     private String name;
 }

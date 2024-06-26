@@ -180,8 +180,8 @@ public class DataService {
         return guardianRepo.findByGuardianId(guardianId);
     }
 
-    public void saveSchoolType(SchoolType schoolType) {
-        schoolTypeRepo.save(schoolType);
+    public SchoolType saveSchoolType(SchoolType schoolType) {
+         return schoolTypeRepo.save(schoolType);
     }
 
     public List<SchoolType>fetchSchoolTypes(){
@@ -318,8 +318,8 @@ public class DataService {
         return supportingDocumentsRepo.findAll();
     }
 
-    public SupportingDocuments findBySupportId(int supportId){
-        return supportingDocumentsRepo.findBySupportId(supportId);
+    public SupportingDocuments findBySupportDocId(int supportDocId){
+        return supportingDocumentsRepo.findBySupportDocId(supportDocId);
     }
 
 }

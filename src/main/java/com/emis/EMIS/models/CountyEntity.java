@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,4 +17,7 @@ public class CountyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int countyId;
     private String county;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "countyEntity")
+    private List<SubCountyEntity>subCountyEntityList;
 }

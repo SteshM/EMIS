@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SupportingDocumentsRepo extends JpaRepository<SupportingDocuments,Integer> {
 
-    SupportingDocuments findBySupportId(int supportId);
+
+    SupportingDocuments findBySupportDocId(int supportDocId);
 }

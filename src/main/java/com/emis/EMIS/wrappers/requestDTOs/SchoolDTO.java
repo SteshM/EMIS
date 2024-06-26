@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class SchoolDTO {
+
     @NotNull(message = "SchoolName is required")
     private String schoolName;
 
@@ -27,12 +28,11 @@ public class SchoolDTO {
     @NotNull(message = "This field cannot be null")
     private String moeRegistrationNo;
 
-    private String category;
-    private String schoolType;
-    private String schoolGender;
-    private String curriculum;
-    private String county;
-    private String subCounty;
+    private int categoryId;
+    private int schoolTypeId;
+    private int schoolGenderId;
+    private int curriculumId;
+    private int subCountyId;
     @NotNull(message = "Latitude is required")
     private Double latitude;
 
