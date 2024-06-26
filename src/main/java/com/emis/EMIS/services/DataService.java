@@ -324,8 +324,9 @@ public class DataService {
         return supportingDocumentsRepo.findBySupportDocId(supportDocId);
     }
 
-    public void findBySchoolDocId(int schoolDocId){
-        schoolDocumentRepo.findBySchoolDocId(schoolDocId);
+    public SchoolDocuments findBySchoolDocId(int schoolDocId){
+       return schoolDocumentRepo.findBySchoolDocId(schoolDocId);
+
     }
 
     public void saveSchoolDocument(SchoolDocuments schoolDocuments){

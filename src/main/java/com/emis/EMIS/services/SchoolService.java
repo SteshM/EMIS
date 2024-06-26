@@ -582,6 +582,18 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("updated a school document  successfully",documentsDTO);
     }
+
+    public ResponseDTO deleteSchoolDocument(DocumentsDTO documentsDTO,int id) {
+       var schoolDocuments =dataService.findBySchoolDocId(id);
+       schoolDocuments.setStatus(Status.DELETED);
+       schoolDocuments.getDocumentTypes().setStatus(Status.DELETED);
+       schoolDocuments.getSchoolsEntity().setStatus(Status.DELETED);
+       schoolDocuments.getMenuCodes().setStatus(Status.DELETED);
+       schoolDocuments.getSupportingDocuments().setStatus(Status.DELETED);
+       dataService.saveSchoolDocument(schoolDocuments);
+        return utilities.successResponse("deleted school documents",null);
+
+    }
 }
 
 

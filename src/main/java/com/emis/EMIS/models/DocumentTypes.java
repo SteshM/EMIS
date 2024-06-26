@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +14,7 @@ public class DocumentTypes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int documentTypeId;
     private String name;
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "menu_codes_id")
