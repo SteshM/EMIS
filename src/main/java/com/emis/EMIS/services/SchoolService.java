@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -560,25 +561,54 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
 
+
+    /**
+     *
+     * @param schoolDocumentData the param
+     * @param file file
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO createSchoolDocument(String schoolDocumentData, MultipartFile file) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
-        SchoolDocuments schoolDocuments = new SchoolDocuments();
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
-        log.info("creating school document  :{}",documentsDTO.toString());
         String fileName = fileUpload.uploadImage(docPath,file);
-        documentsDTO.setFileDocs(fileName);
+         var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
+         var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
+         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+        SchoolDocuments schoolDocuments = new SchoolDocuments();
+        schoolDocuments.setDocumentTypes(documentType);
+        schoolDocuments.setSchoolsEntity(schoolsEntity);
+        schoolDocuments.setSupportingDocuments(supportingDocuments);
+        schoolDocuments.setMenuCodes(menuCodes);
+        schoolDocuments.setDocName(file.getName());
+        schoolDocuments.setDocUrl(fileName);
+        schoolDocuments.setDocSize(String.valueOf(file.getSize()));
+        schoolDocuments.setDocType(file.getContentType());
+        schoolDocuments.setDocKey(UUID.randomUUID().toString());
         dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("created a school document",documentsDTO);
     }
 
-    public ResponseDTO updateSchoolDocument(String schoolDocumentData, MultipartFile file,DocumentsDTO documentsDTO,int id) throws JsonProcessingException {
-        var schoolDocuments = modelMapper.map(documentsDTO,SchoolDocuments.class);
-        var objectMapper = new ObjectMapper();
-        dataService.findBySchoolDocId(id);
-        log.info("Fetched an school doc from the db:{}", objectMapper.writeValueAsString(schoolDocuments));
-        modelMapper.map(schoolDocuments,documentsDTO);
-        modelMapper.map(file,schoolDocumentData);
-        log.info("Updated a school doc  . About to save:{}", objectMapper.writeValueAsString(schoolDocuments));
+    public ResponseDTO updateSchoolDocument(String schoolDocumentData, MultipartFile file,int id) throws JsonProcessingException {
+        var schoolDocuments = dataService.findBySchoolDocId(id);
+        DocumentsDTO documentsDTO =modelMapper.map(schoolDocuments,DocumentsDTO.class);
+        String fileName = fileUpload.uploadImage(docPath,file);
+        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
+        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
+        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+        schoolDocuments.setDocumentTypes(documentType);
+        schoolDocuments.setSchoolsEntity(schoolsEntity);
+        schoolDocuments.setSupportingDocuments(supportingDocuments);
+        schoolDocuments.setMenuCodes(menuCodes);
+        schoolDocuments.setDocName(file.getName());
+        schoolDocuments.setDocUrl(fileName);
+        schoolDocuments.setDocSize(String.valueOf(file.getSize()));
+        schoolDocuments.setDocType(file.getContentType());
+        schoolDocuments.setDocKey(UUID.randomUUID().toString());
         dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("updated a school document  successfully",documentsDTO);
     }

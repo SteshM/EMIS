@@ -313,8 +313,8 @@ public class SchoolController {
         return schoolService.createSchoolDocument(schoolDocumentData,file);
     }
     @PutMapping("/school-doc/{id}")
-    public ResponseDTO updateSchoolDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file,@RequestBody DocumentsDTO documentsDTO,@PathVariable int id) throws JsonProcessingException {
-        return schoolService.updateSchoolDocument(schoolDocumentData,file,documentsDTO,id);
+    public ResponseDTO updateSchoolDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateSchoolDocument(schoolDocumentData,file,id);
     }
     @DeleteMapping("/school-doc/{id}")
     public ResponseDTO deleteSchoolDocument(@RequestBody DocumentsDTO documentsDTO,@PathVariable int id){
