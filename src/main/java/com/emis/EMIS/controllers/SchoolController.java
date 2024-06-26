@@ -308,6 +308,10 @@ public class SchoolController {
         return schoolService.deleteSupportDocs(id);
     }
 
+    @PostMapping("/school-doc")
+    public ResponseDTO createSchoolDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file){
+        return schoolService.createSchoolDocument(schoolDocumentData,file);
+    }
 
 
 }

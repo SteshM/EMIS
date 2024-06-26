@@ -30,6 +30,9 @@ public class SchoolService {
     @Value("${logo.images.path}")
     String logoPath;
 
+    @Value("${school.doc.images.path}")
+    String docPath;
+
     /**
      *
      * @param schoolDTO the request dto
@@ -115,9 +118,8 @@ public class SchoolService {
 
 
     /**
-     * CRUD
-     * SCHOOL TYPES
-     * @param schoolTypeDTO school type dto
+     *
+     * @param schoolTypeName school type
      * @return response dto
      * @throws JsonProcessingException the exception
      */
@@ -556,6 +558,17 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveSupportDocs(supportingDocuments);
         return utilities.successResponse("deleted supporting documents",null);
     }
+
+
+    public ResponseDTO createSchoolDocument(String schoolDocumentData, MultipartFile file) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
+        log.info("creating school document  :{}",documentsDTO.toString());
+        String fileName = fileUpload.uploadImage(docPath,file);
+        documentsDTO.setFileDocs(fileName);
+        return utilities.successResponse("created a school document",documentsDTO);
+    }
+
 }
 
 
