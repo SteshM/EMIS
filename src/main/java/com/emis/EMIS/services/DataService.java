@@ -39,6 +39,8 @@ public class DataService {
     private final DocumentTypesRepo  documentTypesRepo;
     private final IdentityTypeRepo  identityTypeRepo;
     private final SupportingDocumentsRepo  supportingDocumentsRepo;
+    private final SchoolDocumentRepo  schoolDocumentRepo;
+
 
 
 
@@ -320,6 +322,14 @@ public class DataService {
 
     public SupportingDocuments findBySupportDocId(int supportDocId){
         return supportingDocumentsRepo.findBySupportDocId(supportDocId);
+    }
+
+    public void findBySchoolDocId(int schoolDocId){
+        schoolDocumentRepo.findBySchoolDocId(schoolDocId);
+    }
+
+    public void saveSchoolDocument(SchoolDocuments schoolDocuments){
+        schoolDocumentRepo.save(schoolDocuments);
     }
 
 }

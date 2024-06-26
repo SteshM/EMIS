@@ -14,7 +14,7 @@ public class SchoolDocuments {
     private int schoolDocId;
 
     @ManyToOne
-    @JoinColumn(name = "documentTypeIdd")
+    @JoinColumn(name = "documentTypeId")
     private DocumentTypes documentTypes;
 
     @ManyToOne

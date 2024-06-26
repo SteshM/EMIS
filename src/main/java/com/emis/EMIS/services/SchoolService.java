@@ -497,7 +497,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     public ResponseDTO updateIdentityType(IdentityTypeDTO identityTypeDTO, int id) throws JsonProcessingException {
             var objectMapper = new ObjectMapper();
             IdentityType identityType = dataService.findByIdentityTypeId(id);
-            log.info("Fetched an identity type  from the db:{}", objectMapper.writeValueAsString(identityType));
+            log.info("About to fetch an identity type  from the db:{}", objectMapper.writeValueAsString(identityType));
             modelMapper.map(identityType,identityTypeDTO);
             log.info("Updated identity types . About to save:{}", objectMapper.writeValueAsString(identityType));
             dataService.saveIdentityType(identityType);
@@ -562,13 +562,27 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     public ResponseDTO createSchoolDocument(String schoolDocumentData, MultipartFile file) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
+        SchoolDocuments schoolDocuments = new SchoolDocuments();
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
         log.info("creating school document  :{}",documentsDTO.toString());
         String fileName = fileUpload.uploadImage(docPath,file);
         documentsDTO.setFileDocs(fileName);
+        dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("created a school document",documentsDTO);
     }
 
+    public ResponseDTO updateSchoolDocument(String schoolDocumentData, MultipartFile file,DocumentsDTO documentsDTO,int id) throws JsonProcessingException {
+        var schoolDocuments = modelMapper.map(documentsDTO,SchoolDocuments.class);
+        var objectMapper = new ObjectMapper();
+        dataService.findBySchoolDocId(id);
+        log.info("Fetched an school doc from the db:{}", objectMapper.writeValueAsString(schoolDocuments));
+        modelMapper.map(schoolDocuments,documentsDTO);
+        modelMapper.map(file,schoolDocumentData);
+        log.info("Updated a school doc  . About to save:{}", objectMapper.writeValueAsString(schoolDocuments));
+        dataService.saveSchoolDocument(schoolDocuments);
+        return utilities.successResponse("updated a school document  successfully",documentsDTO);
+    }
 }
+
 
 
