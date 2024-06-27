@@ -333,14 +333,14 @@ public class SchoolController {
     public ResponseDTO createSchoolFinanceDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs ) throws JsonProcessingException {
         return schoolService.createSchoolFinanceDocument(schoolDocumentData,fileDocs);
     }
-//    @PutMapping("/school-finance-doc/{id}")
-//    public ResponseDTO updateSchoolFinanceDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file,@PathVariable int id) throws JsonProcessingException {
-//        return schoolService.updateSchoolFinanceDocument(schoolDocumentData,file,id);
-//    }
-//    @DeleteMapping("/school-finance-doc/{id}")
-//    public ResponseDTO deleteSchoolFinanceDocument(@RequestBody DocumentsDTO documentsDTO,@PathVariable int id){
-//        return schoolService.deleteSchoolFinanceDocument(documentsDTO,id);
-//    }
+    @PutMapping("/school-finance-doc/{id}")
+    public ResponseDTO updateSchoolFinanceDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateSchoolFinanceDocument(schoolDocumentData,file,id);
+    }
+    @DeleteMapping("/school-finance-doc/{id}")
+    public ResponseDTO deleteSchoolFinanceDocument(@RequestBody DocumentsDTO documentsDTO,@PathVariable int id){
+        return schoolService.deleteSchoolFinanceDocument(documentsDTO,id);
+    }
 
 
 

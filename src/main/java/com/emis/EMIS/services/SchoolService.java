@@ -645,6 +645,40 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveNewDocument(newDocument);
         return utilities.successResponse("created a school finance document",documentsDTO);
     }
+
+    public ResponseDTO updateSchoolFinanceDocument(String schoolDocumentData, MultipartFile fileDocs, int id) {
+        var schoolDocument = dataService.findBySchoolDocId(id);
+        DocumentsDTO documentsDTO =modelMapper.map(schoolDocument,DocumentsDTO.class);
+        String fileName = fileUpload.uploadImage(docPath,fileDocs);
+        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
+        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
+        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+        schoolDocument.setDocumentTypes(documentType);
+        schoolDocument.setSchoolsEntity(schoolsEntity);
+        schoolDocument.setSupportingDocuments(supportingDocuments);
+        schoolDocument.setMenuCodes(menuCodes);
+        schoolDocument.setDocName(fileDocs.getName());
+        schoolDocument.setDocUrl(fileName);
+        schoolDocument.setDocSize(String.valueOf(fileDocs.getSize()));
+        schoolDocument.setDocType(fileDocs.getContentType());
+        schoolDocument.setDocKey(UUID.randomUUID().toString());
+        dataService.saveNewDocument(schoolDocument);
+        return utilities.successResponse("updated a school finance document  successfully",documentsDTO);
+    }
+
+
+    public ResponseDTO deleteSchoolFinanceDocument(DocumentsDTO documentsDTO, int id) {
+        var schoolDocuments =dataService.findBySchoolDocId(id);
+        schoolDocuments.setStatus(Status.DELETED);
+        schoolDocuments.getDocumentTypes().setStatus(Status.DELETED);
+        schoolDocuments.getSchoolsEntity().setStatus(Status.DELETED);
+        schoolDocuments.getMenuCodes().setStatus(Status.DELETED);
+        schoolDocuments.getSupportingDocuments().setStatus(Status.DELETED);
+        dataService.saveNewDocument(schoolDocuments);
+        return utilities.successResponse("deleted school documents",null);
+
+    }
 }
 
 
