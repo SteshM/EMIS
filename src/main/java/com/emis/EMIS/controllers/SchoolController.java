@@ -308,18 +308,41 @@ public class SchoolController {
         return schoolService.deleteSupportDocs(id);
     }
 
+    /**
+     * SCHOOL DOCUMENTS
+     * @param schoolDocumentData school document data
+     * @param
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     @PostMapping("/school-doc")
-    public ResponseDTO createSchoolDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file ) throws JsonProcessingException {
-        return schoolService.createSchoolDocument(schoolDocumentData,file);
+    public ResponseDTO createSchoolDocument(@RequestPart ("schoolDocumentData")String schoolDocumentData, @RequestPart ("fileDocs")MultipartFile fileDocs ) throws JsonProcessingException {
+        return schoolService.createSchoolDocument(schoolDocumentData,fileDocs);
     }
     @PutMapping("/school-doc/{id}")
-    public ResponseDTO updateSchoolDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file,@PathVariable int id) throws JsonProcessingException {
-        return schoolService.updateSchoolDocument(schoolDocumentData,file,id);
+    public ResponseDTO updateSchoolDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateSchoolDocument(schoolDocumentData,fileDocs,id);
     }
     @DeleteMapping("/school-doc/{id}")
-    public ResponseDTO deleteSchoolDocument(@RequestBody DocumentsDTO documentsDTO,@PathVariable int id){
-        return schoolService.deleteSchoolDocument(documentsDTO,id);
+    public ResponseDTO deleteSchoolDocument(@PathVariable int id){
+        return schoolService.deleteSchoolDocument(id);
     }
+
+    @PostMapping("/school-finance-doc")
+    public ResponseDTO createSchoolFinanceDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs ) throws JsonProcessingException {
+        return schoolService.createSchoolFinanceDocument(schoolDocumentData,fileDocs);
+    }
+//    @PutMapping("/school-finance-doc/{id}")
+//    public ResponseDTO updateSchoolFinanceDocument(@RequestPart String schoolDocumentData, @RequestPart MultipartFile file,@PathVariable int id) throws JsonProcessingException {
+//        return schoolService.updateSchoolFinanceDocument(schoolDocumentData,file,id);
+//    }
+//    @DeleteMapping("/school-finance-doc/{id}")
+//    public ResponseDTO deleteSchoolFinanceDocument(@RequestBody DocumentsDTO documentsDTO,@PathVariable int id){
+//        return schoolService.deleteSchoolFinanceDocument(documentsDTO,id);
+//    }
+
+
 
 
 

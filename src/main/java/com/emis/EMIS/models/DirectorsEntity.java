@@ -12,4 +12,5 @@ public class DirectorsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int directorId;
+
 }

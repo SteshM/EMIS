@@ -333,4 +333,7 @@ public class DataService {
         schoolDocumentRepo.save(schoolDocuments);
     }
 
+    public void saveNewDocument(SchoolDocuments newDocument) {
+        schoolDocumentRepo.save(newDocument);
+    }
 }
