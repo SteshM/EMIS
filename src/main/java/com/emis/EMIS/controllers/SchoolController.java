@@ -345,10 +345,17 @@ public class SchoolController {
 
 
     @PostMapping("/director-documents")
-    public ResponseDTO createDirector(    @RequestPart("directors") String directors,
+    public ResponseDTO createDirectorDocument(    @RequestPart("directors") String directors,
                                           @RequestPart("identityDoc") MultipartFile identityDoc,
                                           @RequestPart("pinCertificateDoc") MultipartFile pinCertificateDoc) throws JsonProcessingException {
 return schoolService.createDirectorDocument(directors,identityDoc,pinCertificateDoc);
+    }
+
+    @PutMapping("/directors-doc/{id}")
+    public ResponseDTO updateDirectorsDocument(@PathVariable int id,@RequestPart("directors") String directors,
+                                               @RequestPart("identityDoc") MultipartFile identityDoc,
+                                               @RequestPart("pinCertificateDoc") MultipartFile pinCertificateDoc) throws JsonProcessingException {
+        return schoolService.updateDirectorsDocument(id,identityDoc,pinCertificateDoc,directors);
     }
 
 

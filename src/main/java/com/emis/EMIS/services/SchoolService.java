@@ -701,6 +701,35 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     return utilities.successResponse("Created directors document",directorsDTO);
 
     }
+
+    public ResponseDTO updateDirectorsDocument(int id, MultipartFile identityDoc, MultipartFile pinCertificateDoc,String directors) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        DirectorsEntity directorsEntity = dataService.findByDirectorId(id);
+        DirectorsEntity directorsEntity1 = objectMapper.readValue(directors, DirectorsEntity.class);
+        var documentType = directorsEntity.getDocumentTypes();
+        var schoolsEntity = directorsEntity.getSchoolsEntity();
+        var menuCodes = directorsEntity.getMenuCodes();
+        var identityType =directorsEntity.getIdentityType();
+        directorsEntity1.setSchoolsEntity(schoolsEntity);
+        directorsEntity1.setDocumentTypes(documentType);
+        directorsEntity1.setMenuCodes(menuCodes);
+        directorsEntity1.setIdentityType(identityType);
+        directorsEntity1.setIdentityDoc(directorsEntity.getIdentityDoc());
+        directorsEntity1.setPinCertificateDoc(directorsEntity.getPinCertificateDoc());
+        if (identityDoc !=null){
+            String oldFile = docPath + "/" + directorsEntity.getIdentityDoc();
+            fileUpload.deleteLocalPicture(oldFile);
+            String fileName = fileUpload.uploadImage(docPath,identityDoc);
+            directorsEntity1.setIdentityDoc(fileName);
+        } if(pinCertificateDoc !=null) {
+            String oldFile = docPath + "/" + directorsEntity.getPinCertificateDoc();
+            fileUpload.deleteLocalPicture(oldFile);
+            String file = fileUpload.uploadImage(docPath, pinCertificateDoc);
+            directorsEntity1.setIdentityDoc(file);}
+        dataService.saveDirectorsDocument(directorsEntity1);
+        return utilities.successResponse("updated directors docs",null);
+
+    }
 }
 
 

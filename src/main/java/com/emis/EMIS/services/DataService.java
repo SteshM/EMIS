@@ -340,6 +340,9 @@ public class DataService {
 
     public void saveDirectorsDocument(DirectorsEntity directorsEntity){
         directorsRepo.save(directorsEntity);
+    }
 
+    public DirectorsEntity findByDirectorId(int directorId){
+        return directorsRepo.findByDirectorId(directorId);
     }
 }
