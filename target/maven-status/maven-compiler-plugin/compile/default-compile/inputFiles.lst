@@ -48,6 +48,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/SubCountyDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/GradeEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/configs/JwtSecurityConfig.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/DirectorsDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/exception/EmisException.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/security/JwtAuthFilter.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/DioceseDTO.java
@@ -86,6 +87,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SupportingDocumentsRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/enums/Curriculum.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/UserRoleRepo.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/DirectorsRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/AddAuthDto.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/services/EmailService.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/controllers/SchoolController.java
