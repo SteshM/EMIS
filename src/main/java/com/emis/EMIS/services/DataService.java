@@ -40,6 +40,7 @@ public class DataService {
     private final IdentityTypeRepo  identityTypeRepo;
     private final SupportingDocumentsRepo  supportingDocumentsRepo;
     private final SchoolDocumentRepo  schoolDocumentRepo;
+    private final DirectorsRepo  directorsRepo;
 
 
 
@@ -335,5 +336,10 @@ public class DataService {
 
     public void saveNewDocument(SchoolDocuments newDocument) {
         schoolDocumentRepo.save(newDocument);
+    }
+
+    public void saveDirectorsDocument(DirectorsEntity directorsEntity){
+        directorsRepo.save(directorsEntity);
+
     }
 }

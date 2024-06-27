@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -677,6 +678,27 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         schoolDocuments.getSupportingDocuments().setStatus(Status.DELETED);
         dataService.saveNewDocument(schoolDocuments);
         return utilities.successResponse("deleted school documents",null);
+
+    }
+
+    public ResponseDTO createDirectorDocument(String directors, MultipartFile identityDoc, MultipartFile pinCertificateDoc) throws JsonProcessingException {
+    var objectMapper = new ObjectMapper();
+    DirectorsDTO directorsDTO = objectMapper.readValue(directors, DirectorsDTO.class);
+    String fileName = fileUpload.uploadImage(docPath,identityDoc);
+    String file = fileUpload.uploadImage(docPath,pinCertificateDoc);
+    var documentType = dataService.findByDocumentTypeId(directorsDTO.getDocumentTypeId());
+    var schoolsEntity = dataService.findBySchoolId(directorsDTO.getSchoolId());
+    var menuCodes = dataService.findByMenuCodeId(directorsDTO.getMenuCodeId());
+    var identityType = dataService.findByIdentityTypeId(directorsDTO.getIdentityTypeId());
+    DirectorsEntity directorsEntity = modelMapper.map(directorsDTO, DirectorsEntity.class);
+    directorsEntity.setIdentityDoc(fileName);
+    directorsEntity.setPinCertificateDoc(file);
+    directorsEntity.setSchoolsEntity(schoolsEntity);
+    directorsEntity.setMenuCodes(menuCodes);
+    directorsEntity.setDocumentTypes(documentType);
+    directorsEntity.setIdentityType(identityType);
+    dataService.saveDirectorsDocument(directorsEntity);
+    return utilities.successResponse("Created directors document",directorsDTO);
 
     }
 }

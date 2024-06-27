@@ -9,6 +9,7 @@ import jakarta.websocket.server.PathParam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -340,6 +341,14 @@ public class SchoolController {
     @DeleteMapping("/school-finance-doc/{id}")
     public ResponseDTO deleteSchoolFinanceDocument(@RequestBody DocumentsDTO documentsDTO,@PathVariable int id){
         return schoolService.deleteSchoolFinanceDocument(documentsDTO,id);
+    }
+
+
+    @PostMapping("/director-documents")
+    public ResponseDTO createDirector(    @RequestPart("directors") String directors,
+                                          @RequestPart("identityDoc") MultipartFile identityDoc,
+                                          @RequestPart("pinCertificateDoc") MultipartFile pinCertificateDoc) throws JsonProcessingException {
+return schoolService.createDirectorDocument(directors,identityDoc,pinCertificateDoc);
     }
 
 
