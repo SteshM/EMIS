@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -690,7 +689,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     var schoolsEntity = dataService.findBySchoolId(directorsDTO.getSchoolId());
     var menuCodes = dataService.findByMenuCodeId(directorsDTO.getMenuCodeId());
     var identityType = dataService.findByIdentityTypeId(directorsDTO.getIdentityTypeId());
-    DirectorsEntity directorsEntity = modelMapper.map(directorsDTO, DirectorsEntity.class);
+    DirectorsDocsEntity directorsEntity = modelMapper.map(directorsDTO, DirectorsDocsEntity.class);
     directorsEntity.setIdentityDoc(fileName);
     directorsEntity.setPinCertificateDoc(file);
     directorsEntity.setSchoolsEntity(schoolsEntity);
@@ -704,8 +703,8 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     public ResponseDTO updateDirectorsDocument(int id, MultipartFile identityDoc, MultipartFile pinCertificateDoc,String directors) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
-        DirectorsEntity directorsEntity = dataService.findByDirectorId(id);
-        DirectorsEntity directorsEntity1 = objectMapper.readValue(directors, DirectorsEntity.class);
+        DirectorsDocsEntity directorsEntity = dataService.findByDirectorDocId(id);
+        DirectorsDocsEntity directorsEntity1 = objectMapper.readValue(directors, DirectorsDocsEntity.class);
         var documentType = directorsEntity.getDocumentTypes();
         var schoolsEntity = directorsEntity.getSchoolsEntity();
         var menuCodes = directorsEntity.getMenuCodes();
@@ -732,7 +731,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
     public ResponseDTO deleteDirectorsDocuments(int id) {
-        DirectorsEntity directors = dataService.findByDirectorId(id);
+        DirectorsDocsEntity directors = dataService.findByDirectorDocId(id);
        directors.getDocumentTypes().setStatus(Status.DELETED);
        directors.getSchoolsEntity().setStatus(Status.DELETED);
        directors.setStatus(Status.DELETED);
@@ -740,6 +739,15 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
        return utilities.successResponse("deleted a director's document",null);
 
     }
+
+    public ResponseDTO createDirector(DirectorsRequestDTO directorsRequestDTO) throws JsonProcessingException {
+        DirectorsEntity directorsEntity = modelMapper.map(directorsRequestDTO, DirectorsEntity.class);
+        log.info("About to save a director's info:{}", new ObjectMapper().writeValueAsString(directorsEntity));
+         dataService.saveDirector(directorsEntity);
+         var savedDirector = modelMapper.map(directorsEntity,DirectorsRequestDTO.class);
+        return utilities.successResponse("added a director ",savedDirector);
+    }
+
 }
 
 

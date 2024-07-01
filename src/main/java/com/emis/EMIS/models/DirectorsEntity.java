@@ -4,37 +4,36 @@ import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Date;
 
 @Setter
 @Getter
 @Entity
-@Table(name ="directorsEntity")
+@Table(name ="directors")
 public class DirectorsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int directorId;
-    private String name;
-    private String identityDoc;
-    private String pinCertificateDoc;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    @Column(unique = true)
+    private String email;
+    private String nationalId;
+    private String gender;
+    private String nationality;
+    private String dateOfBirth;
+    private String phoneNo;
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated ;
+    private String createdBy;
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateModified;
+    private String modifiedBy;
     private Status status;
-
-
-    @ManyToOne
-    @JoinColumn(name = "documentTypesId")
-    private DocumentTypes documentTypes;
-    @ManyToOne
-    @JoinColumn(name = "menuCodesId")
-    private MenuCodes menuCodes;
-    @ManyToOne
-    @JoinColumn(name = "identityTypeId")
-    private IdentityType identityType;
-    private Integer identityNumber;
-    private String pin;
-    @ManyToOne
-    @JoinColumn(name = "schoolId")
-    private SchoolsEntity schoolsEntity;
-    private int createdBy;
-    private int deletedBy;
-    private int updatedBy;
 
 }

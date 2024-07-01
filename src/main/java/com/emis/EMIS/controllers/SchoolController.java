@@ -362,6 +362,11 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
         return schoolService.deleteDirectorsDocuments(id);
  }
 
+ @PostMapping("/create-director")
+    public ResponseDTO createDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO) throws JsonProcessingException {
+        return schoolService.createDirector(directorsRequestDTO);
+ }
+
 
 
 

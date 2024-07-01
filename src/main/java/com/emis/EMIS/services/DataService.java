@@ -40,7 +40,8 @@ public class DataService {
     private final IdentityTypeRepo  identityTypeRepo;
     private final SupportingDocumentsRepo  supportingDocumentsRepo;
     private final SchoolDocumentRepo  schoolDocumentRepo;
-    private final DirectorsRepo  directorsRepo;
+    private final DirectorsDocsRepo directorsDocsRepo;
+    private final DirectorsRepo directorsRepo;
 
 
 
@@ -338,11 +339,24 @@ public class DataService {
         schoolDocumentRepo.save(newDocument);
     }
 
-    public void saveDirectorsDocument(DirectorsEntity directorsEntity){
-        directorsRepo.save(directorsEntity);
+    public void saveDirectorsDocument(DirectorsDocsEntity directorsDocsEntity){
+        directorsDocsRepo.save(directorsDocsEntity);
     }
 
-    public DirectorsEntity findByDirectorId(int directorId){
-        return directorsRepo.findByDirectorId(directorId);
+    public DirectorsDocsEntity findByDirectorDocId(int directorId){
+        return directorsDocsRepo.findByDirectorDocId(directorId);
     }
+
+    public void saveDirector(DirectorsEntity directorsEntity){
+        directorsRepo.save(directorsEntity);
+}
+  public List<DirectorsEntity>FetchAllDirectors(){
+        return directorsRepo.findAll();
+  }
+  public DirectorsEntity findByDirectorId(int directorId){
+        return directorsRepo.findByDirectorId(directorId);
+  }
+
+
+
 }
