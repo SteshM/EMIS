@@ -362,10 +362,36 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
         return schoolService.deleteDirectorsDocuments(id);
  }
 
+
+    /**
+     * DIRECTORS
+     * @param directorsRequestDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
  @PostMapping("/create-director")
     public ResponseDTO createDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO) throws JsonProcessingException {
         return schoolService.createDirector(directorsRequestDTO);
  }
+
+ @GetMapping("/directors")
+    public ResponseDTO getAllDirectors() throws JsonProcessingException {
+        return schoolService.getAllDirectors();
+ }
+ @GetMapping("/single-director/{id}")
+    public ResponseDTO getOneDirector(@PathVariable int id) throws JsonProcessingException {
+        return schoolService.getDirector(id);
+ }
+ @PutMapping("/director/{id}")
+    public ResponseDTO updateDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateDirector(directorsRequestDTO,id);
+ }
+
+ @DeleteMapping("/del-director/{id}")
+    public ResponseDTO deleteDirector(@PathVariable int id){
+        return schoolService.deleteDirector(id);
+ }
+
 
 
 

@@ -740,6 +740,14 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     }
 
+
+    /**
+     * DIRECTORS
+     * @param directorsRequestDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO createDirector(DirectorsRequestDTO directorsRequestDTO) throws JsonProcessingException {
         DirectorsEntity directorsEntity = modelMapper.map(directorsRequestDTO, DirectorsEntity.class);
         log.info("About to save a director's info:{}", new ObjectMapper().writeValueAsString(directorsEntity));
@@ -748,6 +756,45 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("added a director ",savedDirector);
     }
 
+    public ResponseDTO getAllDirectors() throws JsonProcessingException {
+        List<DirectorsEntity>directorsEntityList = dataService.FetchAllDirectors();
+        List<DirectorsRequestDTO>directorsRequestDTOList = directorsEntityList.stream()
+                .map(directors -> {
+                    return modelMapper.map(directors,DirectorsRequestDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all directors from the db :{}", new ObjectMapper().writeValueAsString(directorsEntityList));
+        return utilities.successResponse("Fetched all directors ",directorsRequestDTOList);
+
+    }
+
+
+    public ResponseDTO getDirector(int id) throws JsonProcessingException {
+        DirectorsEntity directors = dataService.findByDirectorId(id);
+        log.info("Fetching a  director:{}", new ObjectMapper().writeValueAsString(directors));
+        DirectorsRequestDTO directorsRequestDTO = modelMapper.map(directors, DirectorsRequestDTO.class);
+        return utilities.successResponse("Successfully fetched a supporting doc",directorsRequestDTO);
+
+    }
+
+    public ResponseDTO updateDirector(DirectorsRequestDTO directorsRequestDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        DirectorsEntity directors = dataService.findByDirectorId(id);
+        log.info("Fetched a director from the db:{}", objectMapper.writeValueAsString(directors));
+        modelMapper.map(directors,directorsRequestDTO);
+        log.info("Updated director details . About to save:{}", objectMapper.writeValueAsString(directors));
+        dataService.saveDirector(directors);
+        var updatedDirectorDetails = modelMapper.map(directors,DirectorsRequestDTO.class);
+        return utilities.successResponse("updated director details  successfully",updatedDirectorDetails);
+    }
+
+
+    public ResponseDTO deleteDirector(int id) {
+        DirectorsEntity directors = dataService.findByDirectorId(id);
+        directors.setStatus(Status.DELETED);
+        dataService.saveDirector(directors);
+        return utilities.successResponse("deleted a director",null);
+    }
 }
 
 
