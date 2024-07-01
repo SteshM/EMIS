@@ -357,6 +357,11 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
                                                @RequestPart("pinCertificateDoc") MultipartFile pinCertificateDoc) throws JsonProcessingException {
         return schoolService.updateDirectorsDocument(id,identityDoc,pinCertificateDoc,directors);
     }
+ @DeleteMapping("/del-director-doc/{id}")
+    public ResponseDTO deleteDirectorsDocument(@PathVariable int id){
+        return schoolService.deleteDirectorsDocuments(id);
+ }
+
 
 
 

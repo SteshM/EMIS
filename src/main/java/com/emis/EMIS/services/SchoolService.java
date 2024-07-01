@@ -730,6 +730,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("updated directors docs",null);
 
     }
+
+    public ResponseDTO deleteDirectorsDocuments(int id) {
+        DirectorsEntity directors = dataService.findByDirectorId(id);
+       directors.getDocumentTypes().setStatus(Status.DELETED);
+       directors.getSchoolsEntity().setStatus(Status.DELETED);
+       directors.setStatus(Status.DELETED);
+       dataService.saveDirectorsDocument(directors);
+       return utilities.successResponse("deleted a director's document",null);
+
+    }
 }
 
 

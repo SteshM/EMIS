@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +16,7 @@ public class DirectorsEntity {
     private String name;
     private String identityDoc;
     private String pinCertificateDoc;
+    private Status status;
 
 
     @ManyToOne
