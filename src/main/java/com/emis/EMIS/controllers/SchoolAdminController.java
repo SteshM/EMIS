@@ -99,7 +99,7 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
       return schoolAdminService.addLevel(levelDTO);
 }
 @GetMapping("/curriculum/{id}/levels")
-    public ResponseDTO getLevelsByCurriculumsId(@PathVariable int id){
+    public ResponseDTO getLevelsByCurriculumsId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getLevelsByCurriculumId( id);
 }
 

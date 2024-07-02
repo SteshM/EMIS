@@ -355,6 +355,10 @@ public class DataService {
       levelsRepo.save(levelsEntity);
   }
 
+  public List <LevelsEntity> fetchAllLevels(){
+       return levelsRepo.findAll();
+  }
+
 
 
 }

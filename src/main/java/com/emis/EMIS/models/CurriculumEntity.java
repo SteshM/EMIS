@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,5 +23,8 @@ public class CurriculumEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateModified;
     private String modifiedBy;
+
+    @OneToMany()
+    List<LevelsEntity> levelsEntityList;
 
 }

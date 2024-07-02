@@ -233,7 +233,16 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO getLevelsByCurriculumId(int id) {
+    public ResponseDTO getLevelsByCurriculumId(int id) throws JsonProcessingException {
+        List<LevelsEntity>levelsEntityList =dataService.fetchAllLevels();
+        log.info("Fetched all levels from the db {}",levelsEntityList);
+        List<LevelDTO>levelDTOList = levelsEntityList.stream()
+                .map(levelsEntity -> {
+                    return modelMapper.map(levelsEntity, LevelDTO.class);
+                })
+                .toList();
+        log.info("fetched all levels per curriculum {}",new ObjectMapper().writeValueAsString(levelsEntityList));
+        return utilities.successResponse("Successfully fetched all curriculum levels",levelDTOList);
     }
 }
 

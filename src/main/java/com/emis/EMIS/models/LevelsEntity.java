@@ -22,8 +22,4 @@ public class LevelsEntity {
     private String modifiedBy;
     private Status status;
 
-
-    @ManyToOne
-    @JoinColumn(name = "curriculumId")
-    private CurriculumEntity curriculum;
 }
