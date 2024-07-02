@@ -137,7 +137,7 @@ public class SchoolAdminController {
         return schoolAdminService.createLearningStage(learningStagesDTO);
     }
 
-    @GetMapping("/learning-stages")
+    @GetMapping("/level/{id}/learning-stages")
     public ResponseDTO getLearningStageByLevelId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getLearningStagesByLevelId(id);
     }
@@ -147,8 +147,12 @@ public class SchoolAdminController {
         return schoolAdminService.deleteLearningStage(id);
     }
     @PostMapping("/subject")
-    public ResponseDTO createSubject(@RequestBody SubjectDTO subjectDTO){
+    public ResponseDTO createSubject(@RequestBody SubjectDTO subjectDTO) throws JsonProcessingException {
         return schoolAdminService.CreateSubject(subjectDTO);
+    }
+    @GetMapping("/level/{id}/subjects")
+    public ResponseDTO getSubjectsByLevelId(@PathVariable int id){
+        return schoolAdminService.getSubjectsByLevelId(id);
     }
 
 }

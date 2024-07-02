@@ -306,7 +306,17 @@ public class SchoolAdminService {
         log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
         dataService.saveSubject(subject);
         return utilities.successResponse("Created a subject",subjectDTO);
+    }
 
+    public ResponseDTO getSubjectsByLevelId(int id) throws JsonProcessingException {
+        List<SubjectEntity>subjectEntityList = dataService.fetchSubjects();
+        List<SubjectDTO>subjectDTOS = subjectEntityList.stream()
+                .map(subject -> {
+                    return modelMapper.map(subject, SubjectDTO.class);
+                })
+                .toList();
+        log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(subjectEntityList));
+return utilities.successResponse("fetched subjects",subjectDTOS);
     }
 }
 

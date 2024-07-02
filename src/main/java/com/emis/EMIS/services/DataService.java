@@ -383,6 +383,9 @@ public class DataService {
     public void saveSubject(SubjectEntity subject){
         subjectRepo.save(subject);
     }
+    public List <SubjectEntity> fetchSubjects(){
+        return subjectRepo.findAll();
+    }
 
 
 
