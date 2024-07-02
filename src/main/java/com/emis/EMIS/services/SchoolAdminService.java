@@ -3,6 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
+import com.emis.EMIS.wrappers.requestDTOs.LearningStagesDTO;
 import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
 import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -225,8 +226,7 @@ public class SchoolAdminService {
     }
 
     public ResponseDTO addLevel(LevelDTO levelDTO) throws JsonProcessingException {
-        LevelsEntity levelsEntity =  new LevelsEntity();
-        modelMapper.map(levelDTO,LevelsEntity.class);
+        LevelsEntity levelsEntity = modelMapper.map(levelDTO,LevelsEntity.class);
         log.info("About to save a level : {}",new ObjectMapper().writeValueAsString(levelsEntity));
          dataService.saveLevel(levelsEntity);
         return utilities.successResponse("saved a level",levelDTO);
@@ -265,6 +265,32 @@ public class SchoolAdminService {
         return utilities.successResponse("deleted a level",null);
     }
 
+    public ResponseDTO createLearningStage(LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
+        LearningStageEntity learningStage = modelMapper.map(learningStagesDTO,LearningStageEntity.class);
+        log.info("About to save a learning stage : {}",new ObjectMapper().writeValueAsString(learningStage));
+        dataService.saveLearningStage(learningStage);
+        return utilities.successResponse("Created a learning stage",learningStage);
+    }
+
+    public ResponseDTO getLearningStagesByLevelId(int id) throws JsonProcessingException {
+        List<LearningStageEntity>learningStageEntityList =dataService.fetchLearningStages();
+        log.info("Fetched all learning stages from the db {}",learningStageEntityList);
+        List<LearningStagesDTO>learningStagesDTOList = learningStageEntityList.stream()
+                .map(learningStage -> {
+                    return modelMapper.map(learningStage,LearningStagesDTO.class);
+                })
+                .toList();
+        log.info("fetched all learning stages per level {}",new ObjectMapper().writeValueAsString(learningStageEntityList));
+        return utilities.successResponse("Successfully fetched all learning stages",learningStagesDTOList);
+    }
+
+
+    public ResponseDTO deleteLearningStage(int id) {
+        LearningStageEntity learningStage = dataService.findByLearningStageId(id);
+        learningStage.setStatus(Status.DELETED);
+        learningStage.getLevelsEntity().setStatus(Status.DELETED);
+        utilities.successResponse("deleted a learning stage",null);
+    }
 }
 
 

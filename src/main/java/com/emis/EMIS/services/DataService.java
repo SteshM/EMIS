@@ -44,6 +44,7 @@ public class DataService {
     private final DirectorsDocsRepo directorsDocsRepo;
     private final DirectorsRepo directorsRepo;
     private final LevelsRepo levelsRepo;
+    private final LearningStagesRepo learningStagesRepo;
     private final SubjectRepo subjectRepo;
     private final CountyRepo countyRepo;
     private final SubCountyRepo subCountyRepo;
@@ -366,5 +367,19 @@ public class DataService {
 //    public LevelsEntity findByCurriculumIdAndLevelId(int curriculumId,int levelId){
 //        return levelsRepo.findByCurriculumIdAndLevelId(curriculumId,levelId);
 //  }
+
+    public void saveLearningStage(LearningStageEntity learningStage){
+        learningStagesRepo.save(learningStage);
+    }
+
+    public List <LearningStageEntity> fetchLearningStages(){
+        return learningStagesRepo.findAll();
+    }
+
+    public LearningStageEntity findByLearningStageId(int learningStageId){
+        return learningStagesRepo.findByLearningStageId(learningStageId);
+    }
+
+
 
 }

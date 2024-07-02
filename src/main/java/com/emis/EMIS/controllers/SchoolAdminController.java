@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolAdminService;
+import com.emis.EMIS.wrappers.requestDTOs.LearningStagesDTO;
 import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
@@ -129,6 +130,23 @@ public class SchoolAdminController {
     @DeleteMapping("/level/{id}")
     public ResponseDTO deleteLevel(@PathVariable int id){
         return schoolAdminService.deleteLevel(id);}
+
+    @PostMapping("/learning-stage")
+    public ResponseDTO createLearningStage(@RequestBody LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
+        return schoolAdminService.createLearningStage(learningStagesDTO);
+    }
+
+    @GetMapping("/learning-stages")
+    public ResponseDTO getLearningStageByLevelId(@PathVariable int id) throws JsonProcessingException {
+        return schoolAdminService.getLearningStagesByLevelId(id);
+    }
+
+    @DeleteMapping("/learning-stage/{id}")
+    public ResponseDTO deleteLearningStage(@PathVariable int id){
+        return schoolAdminService.deleteLearningStage(id);
+    }
+
+
 
 
 
