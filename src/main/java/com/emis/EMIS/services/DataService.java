@@ -363,8 +363,8 @@ public class DataService {
         return levelsRepo.findByLevelId(levelId);
   }
 
-    public LevelsEntity findByCurriculumIdAndLevelId(int curriculumId,int levelId){
-        return levelsRepo.findByCurriculumIdAndLevelId(curriculumId,levelId);
-  }
+//    public LevelsEntity findByCurriculumIdAndLevelId(int curriculumId,int levelId){
+//        return levelsRepo.findByCurriculumIdAndLevelId(curriculumId,levelId);
+//  }
 
 }

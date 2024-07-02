@@ -20,7 +20,5 @@ public class SubjectEntity {
     private String modifiedBy;
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "gradeId")
-    private GradeEntity grade;
+
 }

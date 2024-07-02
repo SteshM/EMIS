@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface LevelsRepo  extends JpaRepository<LevelsEntity,Integer> {
     LevelsEntity findByLevelId(int levelId);
 
-    LevelsEntity findByCurriculumIdAndLevelId(int curriculumId, int levelId);
+//    LevelsEntity findByCurriculumIdAndLevelId(int curriculumId, int levelId);
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Setter
 @Getter
@@ -22,4 +24,10 @@ public class LevelsEntity {
     private String modifiedBy;
     private Status status;
 
+    @ManyToOne
+    @JoinColumn(name = "curriculumId")
+    private CurriculumEntity curriculum;
+
+    @OneToMany
+    List<LearningStageEntity>learningStageEntityList;
 }

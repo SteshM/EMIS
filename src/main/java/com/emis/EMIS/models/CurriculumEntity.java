@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,7 +24,7 @@ public class CurriculumEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateModified;
     private String modifiedBy;
-
+    private Status status;
     @OneToMany()
     List<LevelsEntity> levelsEntityList;
 

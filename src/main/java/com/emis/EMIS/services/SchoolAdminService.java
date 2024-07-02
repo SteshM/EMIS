@@ -245,16 +245,26 @@ public class SchoolAdminService {
         return utilities.successResponse("Successfully fetched all curriculum levels",levelDTOList);
     }
 
-    public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
-        var objectMapper = new ObjectMapper();
-        LevelsEntity levelsEntity = dataService.findByCurriculumIdAndLevelId(id,id);
-            log.info("Fetched levels By levelId and curriculumId:{}", objectMapper.writeValueAsString(levelsEntity));
-            levelsEntity.setLevelName(levelName);
-            log.info("Updated level Details. About to save:{}", objectMapper.writeValueAsString(levelsEntity));
-            dataService.saveLevel(levelsEntity);
-            return utilities.successResponse("updated a level successfully",levelName);
 
+//    public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
+//        var objectMapper = new ObjectMapper();
+//        LevelsEntity levelsEntity = dataService.findByCurriculumIdAndLevelId(id,id);
+//        log.info("Fetched levels By levelId and curriculumId:{}", objectMapper.writeValueAsString(levelsEntity));
+//        levelsEntity.setLevelName(levelName);
+//        log.info("Updated level Details. About to save:{}", objectMapper.writeValueAsString(levelsEntity));
+//        dataService.saveLevel(levelsEntity);
+//        return utilities.successResponse("updated a level successfully",levelName);
+//
+//    }
+
+
+    public ResponseDTO deleteLevel(int id) {
+        LevelsEntity levelsEntity = dataService.findByLevelId(id);
+        levelsEntity.setStatus(Status.DELETED);
+        levelsEntity.getCurriculum().setStatus(Status.DELETED);
+        return utilities.successResponse("deleted a level",null);
     }
+
 }
 
 
