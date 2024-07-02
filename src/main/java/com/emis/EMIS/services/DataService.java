@@ -380,6 +380,10 @@ public class DataService {
         return learningStagesRepo.findByLearningStageId(learningStageId);
     }
 
+    public void saveSubject(SubjectEntity subject){
+        subjectRepo.save(subject);
+    }
+
 
 
 }

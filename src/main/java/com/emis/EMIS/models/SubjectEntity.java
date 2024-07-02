@@ -20,5 +20,9 @@ public class SubjectEntity {
     private String modifiedBy;
     private Status status;
 
+    @ManyToOne
+    @JoinColumn(name = "levelId")
+    private LevelsEntity levels;
+
 
 }

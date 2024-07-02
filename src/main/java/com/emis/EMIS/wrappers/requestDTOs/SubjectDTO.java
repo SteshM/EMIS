@@ -7,4 +7,5 @@ import lombok.Data;
 public class SubjectDTO {
     @NotBlank(message = "This field is required!")
     private String subject;
+    private int levelId;
 }

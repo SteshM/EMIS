@@ -5,6 +5,7 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.LearningStagesDTO;
 import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
+import com.emis.EMIS.wrappers.requestDTOs.SubjectDTO;
 import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -265,6 +266,14 @@ public class SchoolAdminService {
         return utilities.successResponse("deleted a level",null);
     }
 
+
+    /**
+     * LEARNING STAGE
+     * @param learningStagesDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
     public ResponseDTO createLearningStage(LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
         LearningStageEntity learningStage = modelMapper.map(learningStagesDTO,LearningStageEntity.class);
         log.info("About to save a learning stage : {}",new ObjectMapper().writeValueAsString(learningStage));
@@ -289,7 +298,15 @@ public class SchoolAdminService {
         LearningStageEntity learningStage = dataService.findByLearningStageId(id);
         learningStage.setStatus(Status.DELETED);
         learningStage.getLevelsEntity().setStatus(Status.DELETED);
-        utilities.successResponse("deleted a learning stage",null);
+        return utilities.successResponse("deleted a learning stage",null);
+    }
+
+    public ResponseDTO CreateSubject(SubjectDTO subjectDTO) throws JsonProcessingException {
+        SubjectEntity subject = modelMapper.map(subjectDTO, SubjectEntity.class);
+        log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
+        dataService.saveSubject(subject);
+        return utilities.successResponse("Created a subject",subjectDTO);
+
     }
 }
 

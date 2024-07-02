@@ -3,6 +3,7 @@ package com.emis.EMIS.controllers;
 import com.emis.EMIS.services.SchoolAdminService;
 import com.emis.EMIS.wrappers.requestDTOs.LearningStagesDTO;
 import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
+import com.emis.EMIS.wrappers.requestDTOs.SubjectDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
@@ -145,11 +146,10 @@ public class SchoolAdminController {
     public ResponseDTO deleteLearningStage(@PathVariable int id){
         return schoolAdminService.deleteLearningStage(id);
     }
-
-
-
-
-
+    @PostMapping("/subject")
+    public ResponseDTO createSubject(@RequestBody SubjectDTO subjectDTO){
+        return schoolAdminService.CreateSubject(subjectDTO);
+    }
 
 }
 

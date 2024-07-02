@@ -30,4 +30,7 @@ public class LevelsEntity {
 
     @OneToMany
     List<LearningStageEntity>learningStageEntityList;
+
+    @OneToMany()
+    List<SubjectEntity>subjectEntityList;
 }
