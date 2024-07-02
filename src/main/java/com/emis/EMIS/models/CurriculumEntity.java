@@ -14,12 +14,12 @@ public class CurriculumEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int curriculumId;
     private String curriculum;
-//    @Column(nullable = false, updatable = false)
-//    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated ;
     private String createdBy;
-//    @UpdateTimestamp
-//    @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateModified;
     private String modifiedBy;
 

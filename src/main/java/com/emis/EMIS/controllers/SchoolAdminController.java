@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolAdminService;
+import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
 import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
@@ -9,6 +10,7 @@ import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,13 @@ import org.springframework.web.bind.annotation.*;
 public class SchoolAdminController {
 
 private final SchoolAdminService schoolAdminService;
+
+    /**
+     *
+     * STUDENTS
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
 @GetMapping("/students")
     public ResponseDTO viewStudents() throws JsonProcessingException {
@@ -37,7 +46,14 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO softDelete(@PathVariable int id){
     return schoolAdminService.deleteStudent(id);
 }
-@GetMapping("/teachers")
+
+
+    /**
+     * TEACHERS
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+    @GetMapping("/teachers")
     public ResponseDTO viewActiveTeachers() throws JsonProcessingException {
     return schoolAdminService.viewTeachers();
 }
@@ -55,7 +71,13 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     return schoolAdminService.deleteTeacher(id);
 }
 
-@GetMapping("/guardians")
+
+    /**
+     * GUARDIANS
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+    @GetMapping("/guardians")
     public ResponseDTO viewAll() throws JsonProcessingException {
     return schoolAdminService.viewAll();
 }
@@ -71,6 +93,33 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO delGuardianInfo(@PathVariable int id){
     return schoolAdminService.delGuardian(id);
 }
+
+@PostMapping("/level")
+    public ResponseDTO addLevel(@RequestBody LevelDTO levelDTO) throws JsonProcessingException {
+      return schoolAdminService.addLevel(levelDTO);
+}
+@GetMapping("/curriculum/{id}/levels")
+    public ResponseDTO getLevelsByCurriculumsId(@PathVariable int id){
+        return schoolAdminService.getLevelsByCurriculumId( id);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       }
+
+
 
 

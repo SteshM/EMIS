@@ -42,12 +42,7 @@ public class DataService {
     private final SchoolDocumentRepo  schoolDocumentRepo;
     private final DirectorsDocsRepo directorsDocsRepo;
     private final DirectorsRepo directorsRepo;
-
-
-
-
-
-    private final LevelRepo levelRepo;
+    private final LevelsRepo levelsRepo;
     private final SubjectRepo subjectRepo;
     private final CountyRepo countyRepo;
     private final SubCountyRepo subCountyRepo;
@@ -355,6 +350,9 @@ public class DataService {
   }
   public DirectorsEntity findByDirectorId(int directorId){
         return directorsRepo.findByDirectorId(directorId);
+  }
+  public void saveLevel(LevelsEntity levelsEntity){
+      levelsRepo.save(levelsEntity);
   }
 
 

@@ -1,14 +1,10 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
-import com.emis.EMIS.models.GuardianEntity;
-import com.emis.EMIS.models.StudentEntity;
-import com.emis.EMIS.models.TeacherEntity;
+import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
-import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
-import com.emis.EMIS.wrappers.responseDTOs.TeacherDTO;
+import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
+import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -227,4 +223,18 @@ public class SchoolAdminService {
         dataService.saveGuardian(guardian);
         return utilities.successResponse("Successfully deleted guardian details",null);
     }
+
+    public ResponseDTO addLevel(LevelDTO levelDTO) throws JsonProcessingException {
+        LevelsEntity levelsEntity =  new LevelsEntity();
+        modelMapper.map(levelDTO,LevelsEntity.class);
+        log.info("About to save a level : {}",new ObjectMapper().writeValueAsString(levelsEntity));
+         dataService.saveLevel(levelsEntity);
+        return utilities.successResponse("saved a level",levelDTO);
+    }
+
+
+    public ResponseDTO getLevelsByCurriculumId(int id) {
+    }
 }
+
+
