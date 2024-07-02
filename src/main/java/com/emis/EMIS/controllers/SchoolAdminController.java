@@ -151,8 +151,12 @@ public class SchoolAdminController {
         return schoolAdminService.CreateSubject(subjectDTO);
     }
     @GetMapping("/level/{id}/subjects")
-    public ResponseDTO getSubjectsByLevelId(@PathVariable int id){
+    public ResponseDTO getSubjectsByLevelId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getSubjectsByLevelId(id);
+    }
+    @DeleteMapping("/subject/{id}")
+    public ResponseDTO deleteSubject(@PathVariable int id){
+        return schoolAdminService.deleteSubject(id);
     }
 
 }

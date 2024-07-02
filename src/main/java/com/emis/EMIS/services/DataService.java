@@ -386,6 +386,9 @@ public class DataService {
     public List <SubjectEntity> fetchSubjects(){
         return subjectRepo.findAll();
     }
+    public SubjectEntity findBySubjectId(int subjectId){
+        return subjectRepo.findBySubjectId(subjectId);
+    }
 
 
 

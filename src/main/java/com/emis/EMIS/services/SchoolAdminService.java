@@ -318,6 +318,14 @@ public class SchoolAdminService {
         log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(subjectEntityList));
 return utilities.successResponse("fetched subjects",subjectDTOS);
     }
+
+
+    public ResponseDTO deleteSubject(int id) {
+        SubjectEntity subject = dataService.findBySubjectId(id);
+        subject.setStatus(Status.DELETED);
+        subject.getLevels().setStatus(Status.DELETED);
+        return utilities.successResponse("deleted a subject",null);
+    }
 }
 
 
