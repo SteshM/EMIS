@@ -13,11 +13,11 @@ public class SchoolMenuCodeStatuses {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int schoolMenuCodeStatusId;
     @ManyToOne
-    @JoinColumn(name = "school_id")
+    @JoinColumn(name = "schoolId")
     private SchoolsEntity schoolsEntity;
 
     @ManyToOne
-    @JoinColumn(name = "menu_codes_id")
+    @JoinColumn(name = "menuCodeId")
     private MenuCodes menuCodes;
 
     @Lob

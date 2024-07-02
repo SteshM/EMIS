@@ -795,6 +795,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         dataService.saveDirector(directors);
         return utilities.successResponse("deleted a director",null);
     }
+
+//    public ResponseDTO submitSchoolForApproval(SubmitSchoolDTO submitSchoolDTO) {
+//
+//    }
 }
 
 

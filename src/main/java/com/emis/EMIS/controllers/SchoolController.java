@@ -6,10 +6,8 @@ import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.Nullable;
 import jakarta.websocket.server.PathParam;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -392,10 +390,9 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
         return schoolService.deleteDirector(id);
  }
 
-
-
-
-
-
+// @PostMapping("/submit-school-data")
+//    public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
+//     return schoolService.submitSchoolForApproval(submitSchoolDTO);
+// }
 
 }

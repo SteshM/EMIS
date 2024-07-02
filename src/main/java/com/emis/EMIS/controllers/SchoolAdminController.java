@@ -72,3 +72,5 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     return schoolAdminService.delGuardian(id);
 }
       }
+
+

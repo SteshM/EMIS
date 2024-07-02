@@ -1,4 +1,4 @@
-package com.emis.EMIS.wrappers.requestDTOs;
+package com.emis.EMIS.repositories;
 
 import com.emis.EMIS.models.SchoolMenuCodeStatuses;
 import org.springframework.data.jpa.repository.JpaRepository;

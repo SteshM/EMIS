@@ -29,6 +29,7 @@ public class PartnerInfoEntity {
     private Status status;
 
 
+
     @ManyToOne
     @JoinColumn(name = "userId")
     UserEntity userEntity;
