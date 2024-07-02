@@ -20,17 +20,15 @@ public class GlobalExceptionHandler  extends ResponseEntityExceptionHandler {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),webRequest.getDescription(false));
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
-    //custom validation
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatus status,
-                                                                  WebRequest request) {
+     @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         Map<String,String> errors=new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error->{
             String fieldName=((FieldError)error).getField();
             String errorMessage=error.getDefaultMessage();
             errors.put(fieldName,errorMessage);
         });
-        return new ResponseEntity<>(errors,HttpStatus.BAD_REQUEST);
+//        UniversalResponse response = new UniversalResponse(400,"Validation failed!", errors,errors);
+        return new ResponseEntity<>(errors, BAD_REQUEST);
     }
 }
