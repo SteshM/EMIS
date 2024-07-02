@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -355,10 +356,15 @@ public class DataService {
       levelsRepo.save(levelsEntity);
   }
 
-  public List <LevelsEntity> fetchAllLevels(){
-       return levelsRepo.findAll();
+  public List <LevelsEntity> fetchAllLevels() {
+      return levelsRepo.findAll();
+  }
+  public LevelsEntity findByLevelId(int levelId){
+        return levelsRepo.findByLevelId(levelId);
   }
 
-
+    public LevelsEntity findByCurriculumIdAndLevelId(int curriculumId,int levelId){
+        return levelsRepo.findByCurriculumIdAndLevelId(curriculumId,levelId);
+  }
 
 }

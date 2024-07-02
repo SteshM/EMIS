@@ -102,6 +102,10 @@ public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody Stude
     public ResponseDTO getLevelsByCurriculumsId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getLevelsByCurriculumId( id);
 }
+@PutMapping("/curriculum/{id}/level/{id}")
+    public ResponseDTO updateLevel(@PathVariable int id ,@PathParam("levelName") String levelName) throws JsonProcessingException {
+        return schoolAdminService.updateLevel(id,levelName);
+}
 
 
 

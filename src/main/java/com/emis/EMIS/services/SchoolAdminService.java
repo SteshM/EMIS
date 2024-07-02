@@ -244,6 +244,17 @@ public class SchoolAdminService {
         log.info("fetched all levels per curriculum {}",new ObjectMapper().writeValueAsString(levelsEntityList));
         return utilities.successResponse("Successfully fetched all curriculum levels",levelDTOList);
     }
+
+    public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        LevelsEntity levelsEntity = dataService.findByCurriculumIdAndLevelId(id,id);
+            log.info("Fetched levels By levelId and curriculumId:{}", objectMapper.writeValueAsString(levelsEntity));
+            levelsEntity.setLevelName(levelName);
+            log.info("Updated level Details. About to save:{}", objectMapper.writeValueAsString(levelsEntity));
+            dataService.saveLevel(levelsEntity);
+            return utilities.successResponse("updated a level successfully",levelName);
+
+    }
 }
 
 
