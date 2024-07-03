@@ -30,5 +30,7 @@ public class StreamsEntity {
 
     @OneToMany
     List<StudentEntity> studentEntityList;
+    @ManyToOne()
+    SchoolsEntity schoolsEntity;
 
 }

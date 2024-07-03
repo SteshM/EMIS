@@ -170,7 +170,10 @@ public class SchoolAdminController {
     @GetMapping("/school/{id}/Streams")
     public ResponseDTO getStreamsBySchoolId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.fetchStreamsBySchoolId(id);
-
+    }
+    @DeleteMapping("/stream/{id}")
+    public ResponseDTO deleteStream(@PathVariable int id){
+        return schoolAdminService.deleteStream(id);
     }
 
 

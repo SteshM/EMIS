@@ -348,6 +348,15 @@ return utilities.successResponse("fetched subjects",subjectDTOS);
         var streamResDTO = modelMapper.map(streamsEntityList,StreamResDTO.class);
         return utilities.successResponse("successfully fetched all streams",streamResDTO);
     }
+
+    public ResponseDTO deleteStream(int id) {
+        StreamsEntity streams = dataService.findByStreamId(id);
+        streams.getSchoolsEntity().setStatus(Status.DELETED);
+        streams.setStatus(Status.DELETED);
+        dataService.saveStream(streams);
+        return utilities.successResponse("Deleted a stream",null);
+
+    }
 }
 
 
