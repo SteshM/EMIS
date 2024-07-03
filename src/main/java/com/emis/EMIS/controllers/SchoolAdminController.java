@@ -120,15 +120,22 @@ public class SchoolAdminController {
     public ResponseDTO getLevelsByCurriculumsId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getLevelsByCurriculumId(id);
     }
-//@PutMapping("/curriculum/{id}/level/{id}")
-//    public ResponseDTO updateLevel(@PathVariable int id ,@PathParam("levelName") String levelName) throws JsonProcessingException {
-//        return schoolAdminService.updateLevel(id,levelName);
-//}
+    @PutMapping("/level/{id}")
+    public ResponseDTO updateLevel(@PathVariable int id ,@PathParam("levelName") String levelName) throws JsonProcessingException {
+        return schoolAdminService.updateLevel(id,levelName);
+}
 
     @DeleteMapping("/level/{id}")
     public ResponseDTO deleteLevel(@PathVariable int id){
         return schoolAdminService.deleteLevel(id);}
 
+
+    /**
+     * LEARNING STAGE
+     * @param learningStagesDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
     @PostMapping("/learning-stage")
     public ResponseDTO createLearningStage(@RequestBody LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
         return schoolAdminService.createLearningStage(learningStagesDTO);
@@ -139,10 +146,16 @@ public class SchoolAdminController {
         return schoolAdminService.getLearningStagesByLevelId(id);
     }
 
+    @PutMapping("learning-stages/{id}")
+    public ResponseDTO updateLearningStage(@PathVariable int id,@PathParam("learningStage") String learningStage) throws JsonProcessingException {
+        return schoolAdminService.updateLearningStage(id,learningStage);
+    }
+
     @DeleteMapping("/learning-stage/{id}")
     public ResponseDTO deleteLearningStage(@PathVariable int id){
         return schoolAdminService.deleteLearningStage(id);
     }
+
 
     /**
      * SUBJECTS
@@ -158,11 +171,22 @@ public class SchoolAdminController {
     public ResponseDTO getSubjectsByLevelId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getSubjectsByLevelId(id);
     }
+    @PutMapping("/subjects/{id}")
+    public ResponseDTO updateSubject(@PathVariable int id,@PathParam("subject") String subject) throws JsonProcessingException {
+        return schoolAdminService.updateSubject(id,subject);
+    }
     @DeleteMapping("/subject/{id}")
     public ResponseDTO deleteSubject(@PathVariable int id){
         return schoolAdminService.deleteSubject(id);
     }
 
+
+    /**
+     * STREAMS
+     * @param streamDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
     @PostMapping("/stream")
     public ResponseDTO createStream(@RequestBody StreamDTO streamDTO) throws JsonProcessingException {
         return schoolAdminService.AddStream(streamDTO);
@@ -170,6 +194,10 @@ public class SchoolAdminController {
     @GetMapping("/school/{id}/Streams")
     public ResponseDTO getStreamsBySchoolId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.fetchStreamsBySchoolId(id);
+    }
+    @PutMapping("/streams/{id}")
+    public ResponseDTO updateStream(@PathVariable int id,@PathParam("stream") String stream) throws JsonProcessingException {
+        return schoolAdminService.updateStream(id,stream);
     }
     @DeleteMapping("/stream/{id}")
     public ResponseDTO deleteStream(@PathVariable int id){

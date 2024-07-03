@@ -244,19 +244,16 @@ public class SchoolAdminService {
         log.info("fetched all levels per curriculum {}",new ObjectMapper().writeValueAsString(levelsEntityList));
         return utilities.successResponse("Successfully fetched all curriculum levels",levelDTOList);
     }
+    public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        LevelsEntity levelsEntity = dataService.findByLevelId(id);
+        log.info("Fetched levels By levelId :{}", objectMapper.writeValueAsString(levelsEntity));
+        levelsEntity.setLevelName(levelName);
+        log.info("Updated level Details. About to save:{}", objectMapper.writeValueAsString(levelsEntity));
+        dataService.saveLevel(levelsEntity);
+        return utilities.successResponse("updated a level successfully",levelName);
 
-
-//    public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
-//        var objectMapper = new ObjectMapper();
-//        LevelsEntity levelsEntity = dataService.findByCurriculumIdAndLevelId(id,id);
-//        log.info("Fetched levels By levelId and curriculumId:{}", objectMapper.writeValueAsString(levelsEntity));
-//        levelsEntity.setLevelName(levelName);
-//        log.info("Updated level Details. About to save:{}", objectMapper.writeValueAsString(levelsEntity));
-//        dataService.saveLevel(levelsEntity);
-//        return utilities.successResponse("updated a level successfully",levelName);
-//
-//    }
-
+    }
 
     public ResponseDTO deleteLevel(int id) {
         LevelsEntity levelsEntity = dataService.findByLevelId(id);
@@ -294,6 +291,16 @@ public class SchoolAdminService {
     }
 
 
+    public ResponseDTO updateLearningStage(int id, String learningStage) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        LearningStageEntity learningStageEntity = dataService.findByLearningStageId(id);
+        learningStageEntity.setLearningStage(learningStage);
+        log.info("Updated learning stage. About to save:{}", objectMapper.writeValueAsString(learningStageEntity));
+        dataService.saveLearningStage(learningStageEntity);
+        return utilities.successResponse("Updated a learning stage",learningStage);
+
+    }
+
     public ResponseDTO deleteLearningStage(int id) {
         LearningStageEntity learningStage = dataService.findByLearningStageId(id);
         learningStage.setStatus(Status.DELETED);
@@ -301,6 +308,12 @@ public class SchoolAdminService {
         return utilities.successResponse("deleted a learning stage",null);
     }
 
+    /**
+     * SUBJECTS
+     * @param subjectDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
     public ResponseDTO CreateSubject(SubjectDTO subjectDTO) throws JsonProcessingException {
         SubjectEntity subject = modelMapper.map(subjectDTO, SubjectEntity.class);
         log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
@@ -321,12 +334,28 @@ return utilities.successResponse("fetched subjects",subjectDTOS);
     }
 
 
+    public ResponseDTO updateSubject(int id, String subject) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        SubjectEntity subjectEntity = dataService.findBySubjectId(id);
+        subjectEntity.setSubject(subject);
+        log.info("Updated subject. About to save:{}", objectMapper.writeValueAsString(subjectEntity));
+        dataService.saveSubject(subjectEntity);
+        return utilities.successResponse("Updated a subject",subject);
+    }
+
     public ResponseDTO deleteSubject(int id) {
         SubjectEntity subject = dataService.findBySubjectId(id);
         subject.setStatus(Status.DELETED);
         subject.getLevels().setStatus(Status.DELETED);
         return utilities.successResponse("deleted a subject",null);
     }
+
+    /**
+     * STREAMS
+     * @param streamDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO AddStream(StreamDTO streamDTO) throws JsonProcessingException {
         StreamsEntity streams = modelMapper.map(streamDTO,StreamsEntity.class);
@@ -349,6 +378,16 @@ return utilities.successResponse("fetched subjects",subjectDTOS);
         return utilities.successResponse("successfully fetched all streams",streamResDTO);
     }
 
+    public ResponseDTO updateStream(int id, String stream) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        StreamsEntity streams = dataService.findByStreamId(id);
+        streams.setStream(stream);
+        log.info("Updated a stream. About to save:{}", objectMapper.writeValueAsString(streams));
+        dataService.saveStream(streams);
+        return utilities.successResponse("Updated a stream",stream);
+
+    }
+
     public ResponseDTO deleteStream(int id) {
         StreamsEntity streams = dataService.findByStreamId(id);
         streams.getSchoolsEntity().setStatus(Status.DELETED);
@@ -357,6 +396,8 @@ return utilities.successResponse("fetched subjects",subjectDTOS);
         return utilities.successResponse("Deleted a stream",null);
 
     }
+
+
 }
 
 
