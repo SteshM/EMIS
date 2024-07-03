@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -55,6 +56,9 @@ public class SchoolsEntity {
     @ManyToOne
     @JoinColumn(name = "countyDioceseId")
     private CountyDioceseEntity countyDioceseEntity;
+
+    @OneToMany()
+    List<StreamsEntity>streamsEntityList;
 
     @ManyToOne
     @JoinColumn(name = "dioceseId")

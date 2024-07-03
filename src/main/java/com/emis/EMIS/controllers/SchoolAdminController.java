@@ -146,6 +146,13 @@ public class SchoolAdminController {
     public ResponseDTO deleteLearningStage(@PathVariable int id){
         return schoolAdminService.deleteLearningStage(id);
     }
+
+    /**
+     * SUBJECTS
+     * @param subjectDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
     @PostMapping("/subject")
     public ResponseDTO createSubject(@RequestBody SubjectDTO subjectDTO) throws JsonProcessingException {
         return schoolAdminService.CreateSubject(subjectDTO);
@@ -158,6 +165,8 @@ public class SchoolAdminController {
     public ResponseDTO deleteSubject(@PathVariable int id){
         return schoolAdminService.deleteSubject(id);
     }
+
+
 
 }
 
