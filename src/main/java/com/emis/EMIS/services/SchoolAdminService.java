@@ -3,9 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.requestDTOs.LearningStagesDTO;
-import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SubjectDTO;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -229,8 +227,9 @@ public class SchoolAdminService {
     public ResponseDTO addLevel(LevelDTO levelDTO) throws JsonProcessingException {
         LevelsEntity levelsEntity = modelMapper.map(levelDTO,LevelsEntity.class);
         log.info("About to save a level : {}",new ObjectMapper().writeValueAsString(levelsEntity));
-         dataService.saveLevel(levelsEntity);
-        return utilities.successResponse("saved a level",levelDTO);
+         var savedLevel = dataService.saveLevel(levelsEntity);
+         var levelResDTO = modelMapper.map(savedLevel, LevelResDTO.class);
+        return utilities.successResponse("saved a level",levelResDTO);
     }
 
 
@@ -277,8 +276,9 @@ public class SchoolAdminService {
     public ResponseDTO createLearningStage(LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
         LearningStageEntity learningStage = modelMapper.map(learningStagesDTO,LearningStageEntity.class);
         log.info("About to save a learning stage : {}",new ObjectMapper().writeValueAsString(learningStage));
-        dataService.saveLearningStage(learningStage);
-        return utilities.successResponse("Created a learning stage",learningStage);
+        var savedLearningStage =dataService.saveLearningStage(learningStage);
+        var learningStageResDTO = modelMapper.map(savedLearningStage, LearningStageResDTO.class);
+        return utilities.successResponse("Created a learning stage",learningStageResDTO);
     }
 
     public ResponseDTO getLearningStagesByLevelId(int id) throws JsonProcessingException {
@@ -304,8 +304,9 @@ public class SchoolAdminService {
     public ResponseDTO CreateSubject(SubjectDTO subjectDTO) throws JsonProcessingException {
         SubjectEntity subject = modelMapper.map(subjectDTO, SubjectEntity.class);
         log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
-        dataService.saveSubject(subject);
-        return utilities.successResponse("Created a subject",subjectDTO);
+         var savedSubject = dataService.saveSubject(subject);
+         var  subjectResDTO = modelMapper.map(savedSubject, SubjectResDTO.class);
+        return utilities.successResponse("Created a subject",subjectResDTO);
     }
 
     public ResponseDTO getSubjectsByLevelId(int id) throws JsonProcessingException {
@@ -325,6 +326,27 @@ return utilities.successResponse("fetched subjects",subjectDTOS);
         subject.setStatus(Status.DELETED);
         subject.getLevels().setStatus(Status.DELETED);
         return utilities.successResponse("deleted a subject",null);
+    }
+
+    public ResponseDTO AddStream(StreamDTO streamDTO) throws JsonProcessingException {
+        StreamsEntity streams = modelMapper.map(streamDTO,StreamsEntity.class);
+        log.info("About to save a  stream : {}",new ObjectMapper().writeValueAsString(streams));
+         var savedStream = dataService.saveStream(streams);
+         var streamResDTO = modelMapper.map(savedStream, StreamResDTO.class);
+        return utilities.successResponse("Saved a stream successfully",streamResDTO);
+
+    }
+
+    public ResponseDTO fetchStreamsBySchoolId(int id) throws JsonProcessingException {
+        List<StreamsEntity>streamsEntityList = dataService.fetchStreams();
+        List<StreamDTO>streamDTOList =streamsEntityList.stream()
+                .map(streams -> {
+                    return modelMapper.map(streams,StreamDTO.class);
+                })
+                .toList();
+        log.info("fetched all streams per school {}",new ObjectMapper().writeValueAsString(streamsEntityList));
+        var streamResDTO = modelMapper.map(streamsEntityList,StreamResDTO.class);
+        return utilities.successResponse("successfully fetched all streams",streamResDTO);
     }
 }
 

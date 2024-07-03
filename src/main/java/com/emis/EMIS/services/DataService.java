@@ -49,6 +49,7 @@ public class DataService {
     private final CountyRepo countyRepo;
     private final SubCountyRepo subCountyRepo;
     private final CurriculumRepo curriculumRepo;
+    private final StreamRepo streamRepo;
 
 
 
@@ -353,8 +354,8 @@ public class DataService {
   public DirectorsEntity findByDirectorId(int directorId){
         return directorsRepo.findByDirectorId(directorId);
   }
-  public void saveLevel(LevelsEntity levelsEntity){
-      levelsRepo.save(levelsEntity);
+  public LevelsEntity saveLevel(LevelsEntity levelsEntity){
+    return   levelsRepo.save(levelsEntity);
   }
 
   public List <LevelsEntity> fetchAllLevels() {
@@ -364,12 +365,9 @@ public class DataService {
         return levelsRepo.findByLevelId(levelId);
   }
 
-//    public LevelsEntity findByCurriculumIdAndLevelId(int curriculumId,int levelId){
-//        return levelsRepo.findByCurriculumIdAndLevelId(curriculumId,levelId);
-//  }
 
-    public void saveLearningStage(LearningStageEntity learningStage){
-        learningStagesRepo.save(learningStage);
+    public LearningStageEntity saveLearningStage(LearningStageEntity learningStage){
+        return learningStagesRepo.save(learningStage);
     }
 
     public List <LearningStageEntity> fetchLearningStages(){
@@ -380,14 +378,25 @@ public class DataService {
         return learningStagesRepo.findByLearningStageId(learningStageId);
     }
 
-    public void saveSubject(SubjectEntity subject){
-        subjectRepo.save(subject);
+    public SubjectEntity saveSubject(SubjectEntity subject){
+        return subjectRepo.save(subject);
     }
     public List <SubjectEntity> fetchSubjects(){
         return subjectRepo.findAll();
     }
     public SubjectEntity findBySubjectId(int subjectId){
         return subjectRepo.findBySubjectId(subjectId);
+    }
+
+    public StreamsEntity saveStream(StreamsEntity streams){
+      return streamRepo.save(streams);
+    }
+
+    public List<StreamsEntity> fetchStreams(){
+        return streamRepo.findAll();
+    }
+    public StreamsEntity findByStreamId(int streamId){
+        return streamRepo.findByStreamId(streamId);
     }
 
 

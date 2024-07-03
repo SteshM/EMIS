@@ -1,10 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.SchoolAdminService;
-import com.emis.EMIS.wrappers.requestDTOs.LearningStagesDTO;
-import com.emis.EMIS.wrappers.requestDTOs.LevelDTO;
-import com.emis.EMIS.wrappers.requestDTOs.SubjectDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UserDTO;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.StudentDTO;
@@ -166,6 +163,15 @@ public class SchoolAdminController {
         return schoolAdminService.deleteSubject(id);
     }
 
+    @PostMapping("/stream")
+    public ResponseDTO createStream(@RequestBody StreamDTO streamDTO) throws JsonProcessingException {
+        return schoolAdminService.AddStream(streamDTO);
+    }
+    @GetMapping("/school/{id}/Streams")
+    public ResponseDTO getStreamsBySchoolId(@PathVariable int id) throws JsonProcessingException {
+        return schoolAdminService.fetchStreamsBySchoolId(id);
+
+    }
 
 
 }
