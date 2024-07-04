@@ -66,8 +66,8 @@ public class EduVODAdminController {
     //Agents
 
     @GetMapping("/agents")
-    public ResponseDTO fetchAll(@RequestBody PageRequestDTO pageRequestDTO) throws JsonProcessingException {
-        return eduVODAdminService.fetchActiveAgents(pageRequestDTO);
+    public ResponseDTO fetchAll() throws JsonProcessingException {
+        return eduVODAdminService.fetchActiveAgents();
     }
 
   @GetMapping("/agent/{id}")
@@ -86,8 +86,8 @@ public class EduVODAdminController {
 
   //Partners
     @GetMapping("/partners")
-    public ResponseDTO viewActivePartners(@RequestBody PageRequestDTO pageRequestDTO) throws JsonProcessingException {
-        return eduVODAdminService.viewActivePartners(pageRequestDTO);
+    public ResponseDTO viewActivePartners() throws JsonProcessingException {
+        return eduVODAdminService.viewActivePartners();
     }
 
     @GetMapping("/partner/{id}")

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,6 +17,8 @@ public class LearningStageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int learningStageId;
     private String learningStage;
+    private int year;
+    private String stream;
     private Status status;
     private Date dateCreated  = new Date();
     private String createdBy;
@@ -25,4 +28,7 @@ public class LearningStageEntity {
     @ManyToOne
     @JoinColumn(name = "levelId")
     private LevelsEntity levelsEntity;
+
+    @OneToMany
+    List<StudentEntity>studentEntityList;
 }

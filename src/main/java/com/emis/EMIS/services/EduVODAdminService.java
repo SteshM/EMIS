@@ -30,12 +30,6 @@ public class EduVODAdminService {
     private final Utilities utilities;
 
     //Other-System-Admins
-
-    /**
-     * viewing all system admins
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
     public ResponseDTO viewSystemAdmins() throws JsonProcessingException {
         List<SystemAdminEntity>systemAdminEntityList = dataService.viewAll();
         List<SystemAdminsDTO>otherAdminsDTOList = systemAdminEntityList.stream()
@@ -48,13 +42,6 @@ public class EduVODAdminService {
         return utilities.successResponse("Fetched active admins",otherAdminsDTOList);
     }
 
-
-    /**
-     * fetching a single admin from db
-     * @param id the admin id
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
     public ResponseDTO singleAdmin(int id) throws JsonProcessingException {
         var systemAdmin = dataService.findByAdminId(id);
         var systemAdminsDTO =modelMapper.map(systemAdmin,SystemAdminsDTO.class);
@@ -62,14 +49,6 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched a single admin",systemAdminsDTO);
     }
 
-
-    /**
-     * fetching admin details from the db, updating them and saving
-     * @param id the amin id
-     * @param systemAdminsDTO response dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
     public ResponseDTO updateAdminDetails(int id, SystemAdminsDTO systemAdminsDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var systemAdmin = dataService.findByAdminId(id);
@@ -80,13 +59,6 @@ public class EduVODAdminService {
         return utilities.successResponse("updated admins details",systemAdminsDTO);
     }
 
-
-    /**
-     * soft deleting an admin record
-     * @param id admin id
-     * @return response dto anda null pointer
-     */
-
     public ResponseDTO deleteAdmin(int id) {
         var systemAdmin = dataService.findByAdminId(id);
         systemAdmin.setStatus(Status.DELETED);
@@ -95,12 +67,6 @@ public class EduVODAdminService {
         return utilities.successResponse("soft deleted an admin",null);
     }
 
-
-    /**
-     * fetching active school admins from the db
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
     //School-Admins
     public ResponseDTO fetchActiveSchoolAdmins() throws JsonProcessingException {
         List<SchoolAdminInfoEntity>schoolAdminInfoEntities = dataService.fetchActiveSchoolAdmins();
@@ -115,12 +81,6 @@ public class EduVODAdminService {
     }
 
 
-    /**
-     * fetching a single  school admin from the db
-     * @param id the school admin id
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
     public ResponseDTO fetchSchoolAdminById(int id) throws JsonProcessingException {
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
         log.info("Fetched school admin Details:{}", new ObjectMapper().writeValueAsString(schoolAdminInfo));
@@ -128,15 +88,6 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched a school admin",schoolAdminDTO);
 
     }
-
-
-    /**
-     * fetching a school admin details,updating and saving them
-     * @param id school admin id
-     * @param schoolAdminDTO the school admin dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
 
     public ResponseDTO updateSchoolAdminDetails(int id, SchoolAdminDTO schoolAdminDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -149,13 +100,6 @@ public class EduVODAdminService {
 
     }
 
-
-    /**
-     * soft deleting a school admin record
-     * @param id the schoolAdmin id
-     * @return response dto
-     */
-
     public ResponseDTO deleteSchoolAdmin(int id){
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
         schoolAdminInfo.setStatus(Status.DELETED);
@@ -167,18 +111,10 @@ public class EduVODAdminService {
 
     //Agents
 
-
-    /**
-     * fetching active agents from the db
-     * @param pageRequestDTO the page request dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
-
-    public ResponseDTO fetchActiveAgents(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
-        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
-        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
-        Page<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents(pageable);
+    public ResponseDTO fetchActiveAgents() throws JsonProcessingException {
+//        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
+//        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
+        List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
         log.info("Fetched agents from the db:{}",agentInfoEntityList);
         List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
                 .map(agentInfoEntity -> {
@@ -221,12 +157,6 @@ public class EduVODAdminService {
         return utilities.successResponse("Updated an agent",agentDTO);
     }
 
-
-    /**
-     * soft deleting an agent
-     * @param id the agent id
-     * @return response dto
-     */
     public ResponseDTO softDeleteAgent(int id) {
         var agentInfo = dataService.findByAgentId(id);
         agentInfo.setStatus(Status.DELETED);
@@ -244,10 +174,10 @@ public class EduVODAdminService {
      * @return response dto
      * @throws JsonProcessingException the exception
      */
-    public ResponseDTO viewActivePartners(PageRequestDTO pageRequestDTO) throws JsonProcessingException {
-        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
-        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
-        Page<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners(pageable);
+    public ResponseDTO viewActivePartners() throws JsonProcessingException {
+//        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
+//        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
+        List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();
         log.info("about to fetch active partners from te db : {}",partnerInfoEntityList);
         List<PartnerDTO>partnerDTOList = partnerInfoEntityList.stream()
                 .map(partnerInfoEntity ->{

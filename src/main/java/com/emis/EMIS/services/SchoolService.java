@@ -796,9 +796,28 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("deleted a director",null);
     }
 
-//    public ResponseDTO submitSchoolForApproval(SubmitSchoolDTO submitSchoolDTO) {
-//
-//    }
+    public ResponseDTO submitSchoolForApproval(SubmitSchoolDTO submitSchoolDTO) {
+        SchoolsEntity schoolsEntity = dataService.findBySchoolId(submitSchoolDTO.getSchoolId());
+        if(schoolsEntity == null){
+            return utilities.failedResponse(400, "School does not exist", null);
+        }
+        //add else if to check if there are any other checks, eg if the school has been soft deleted etc
+
+        //check if has menu codes or something like that
+        boolean hasMenuCodes = false;//ths is not constant
+        //code for checking menu codes
+
+        if(hasMenuCodes){
+            schoolsEntity.setStatus(Status.APPROVED);
+            //make other changes for school entity here and other saves
+            dataService.saveSchool(schoolsEntity);
+            return utilities.successResponse("School has been approved", schoolsEntity);
+        }else{
+            schoolsEntity.setStatus(Status.REJECTED);
+            dataService.saveSchool(schoolsEntity);
+            return utilities.failedResponse(408, "The school does not meet criteria", null);
+        }
+    }
 }
 
 

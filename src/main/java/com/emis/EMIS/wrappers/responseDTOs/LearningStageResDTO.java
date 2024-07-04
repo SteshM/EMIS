@@ -9,4 +9,6 @@ public class LearningStageResDTO {
     private int learningStageId;
     private int levelId;
     private String learningStage;
+    private int year;
+    private String stream;
 }

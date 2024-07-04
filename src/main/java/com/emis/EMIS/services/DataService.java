@@ -118,9 +118,8 @@ public class DataService {
     public List <AgentInfoEntity> fetchAgents(){
         return agentRepo.findAll();
     }
-    public Page<AgentInfoEntity> fetchActiveAgents(Pageable pageable){
-        return agentRepo.findByStatus(Status.ACTIVE, pageable);
-    }
+    public List<AgentInfoEntity> fetchActiveAgents(){
+    return agentRepo.findByStatus(Status.ACTIVE);    }
     public AgentInfoEntity findByAgentId(int agentId){
         return agentRepo.findByAgentId(agentId);
     }
@@ -131,8 +130,8 @@ public class DataService {
         return schoolRepo.findBySchoolId(schoolId);
     }
 
-    public Page<PartnerInfoEntity> fetchActivePartners(Pageable pageable) {
-        return partnerRepo.findByStatus(Status.ACTIVE,pageable);
+    public List<PartnerInfoEntity> fetchActivePartners() {
+        return partnerRepo.findByStatus(Status.ACTIVE);
     }
     public PartnerInfoEntity findByPartnerId(int partnerId){
         return partnerRepo.findByPartnerId(partnerId);

@@ -28,8 +28,6 @@ public class StreamsEntity {
     private Date dateModified;
     private String modifiedBy;
 
-    @OneToMany
-    List<StudentEntity> studentEntityList;
     @ManyToOne()
     SchoolsEntity schoolsEntity;
 

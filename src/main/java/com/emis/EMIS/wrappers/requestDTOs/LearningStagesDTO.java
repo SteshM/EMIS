@@ -8,4 +8,6 @@ import lombok.Setter;
 public class LearningStagesDTO {
     private int levelId;
     private String learningStage;
+    private int year;
+    private String stream;
 }
