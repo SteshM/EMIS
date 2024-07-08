@@ -226,6 +226,7 @@ public class SchoolAdminService {
 
     public ResponseDTO addLevel(LevelDTO levelDTO) throws JsonProcessingException {
         LevelsEntity levelsEntity = modelMapper.map(levelDTO,LevelsEntity.class);
+        levelsEntity.setCurriculum(dataService.findByCurriculumId(levelDTO.getCurriculumId()));
         log.info("About to save a level : {}",new ObjectMapper().writeValueAsString(levelsEntity));
          var savedLevel = dataService.saveLevel(levelsEntity);
          var levelResDTO = modelMapper.map(savedLevel, LevelResDTO.class);
@@ -234,16 +235,16 @@ public class SchoolAdminService {
 
 
     public ResponseDTO getLevelsByCurriculumId(int id) throws JsonProcessingException {
-        List<LevelsEntity>levelsEntityList =dataService.fetchAllLevels();
+        CurriculumEntity curriculum = dataService.findByCurriculumId(id);
+        List<LevelsEntity>levelsEntityList =dataService.findByCurriculum(curriculum);
         log.info("Fetched all levels from the db {}",levelsEntityList);
-        List<LevelDTO>levelDTOList = levelsEntityList.stream()
+        List<LevelResDTO>levelResDTOList = levelsEntityList.stream()
                 .map(levelsEntity -> {
-                    return modelMapper.map(levelsEntity, LevelDTO.class);
+                    return modelMapper.map(levelsEntity, LevelResDTO.class);
                 })
                 .toList();
         log.info("fetched all levels per curriculum {}",new ObjectMapper().writeValueAsString(levelsEntityList));
-        var levelResDTO = modelMapper.map(levelsEntityList, com.emis.EMIS.wrappers.responseDTOs.LevelResDTO.class);
-        return utilities.successResponse("Successfully fetched all curriculum levels",levelResDTO);
+        return utilities.successResponse("Successfully fetched all curriculum levels",levelResDTOList);
     }
     public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -280,16 +281,16 @@ public class SchoolAdminService {
     }
 
     public ResponseDTO getLearningStagesByLevelId(int id) throws JsonProcessingException {
-        List<LearningStageEntity>learningStageEntityList =dataService.fetchLearningStages();
+        LevelsEntity levels = dataService.findByLevelId(id);
+        List<LearningStageEntity>learningStageEntityList =levels.getLearningStageEntityList();
         log.info("Fetched all learning stages from the db {}",learningStageEntityList);
-        List<LearningStagesDTO>learningStagesDTOList = learningStageEntityList.stream()
+        List<LearningStageResDTO>learningStageResDTOList = learningStageEntityList.stream()
                 .map(learningStage -> {
-                    return modelMapper.map(learningStage,LearningStagesDTO.class);
+                    return modelMapper.map(learningStage,LearningStageResDTO.class);
                 })
                 .toList();
         log.info("fetched all learning stages per level {}",new ObjectMapper().writeValueAsString(learningStageEntityList));
-        var learningStageResDTO = modelMapper.map(learningStageEntityList, LearningStageResDTO.class);
-        return utilities.successResponse("Successfully fetched all learning stages",learningStageResDTO);
+        return utilities.successResponse("Successfully fetched all learning stages",learningStageResDTOList);
     }
 
 
@@ -326,14 +327,13 @@ public class SchoolAdminService {
 
     public ResponseDTO getSubjectsByLevelId(int id) throws JsonProcessingException {
         List<SubjectEntity>subjectEntityList = dataService.fetchSubjects();
-        List<SubjectDTO>subjectDTOS = subjectEntityList.stream()
+        List<SubjectResDTO>subjectResDTOS = subjectEntityList.stream()
                 .map(subject -> {
-                    return modelMapper.map(subject, SubjectDTO.class);
+                    return modelMapper.map(subject, SubjectResDTO.class);
                 })
                 .toList();
         log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(subjectEntityList));
-        var subjectResDTO = modelMapper.map(subjectEntityList, SubjectResDTO.class);
-return utilities.successResponse("fetched subjects",subjectResDTO);
+return utilities.successResponse("fetched subjects",subjectResDTOS);
     }
 
 
@@ -371,14 +371,13 @@ return utilities.successResponse("fetched subjects",subjectResDTO);
 
     public ResponseDTO fetchStreamsBySchoolId(int id) throws JsonProcessingException {
         List<StreamsEntity>streamsEntityList = dataService.fetchStreams();
-        List<StreamDTO>streamDTOList =streamsEntityList.stream()
+        List<StreamResDTO>streamResDTOList =streamsEntityList.stream()
                 .map(streams -> {
-                    return modelMapper.map(streams,StreamDTO.class);
+                    return modelMapper.map(streams,StreamResDTO.class);
                 })
                 .toList();
         log.info("fetched all streams per school {}",new ObjectMapper().writeValueAsString(streamsEntityList));
-        var streamResDTO = modelMapper.map(streamsEntityList,StreamResDTO.class);
-        return utilities.successResponse("successfully fetched all streams",streamResDTO);
+        return utilities.successResponse("successfully fetched all streams",streamResDTOList);
     }
 
     public ResponseDTO updateStream(int id, String stream) throws JsonProcessingException {

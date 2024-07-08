@@ -18,10 +18,10 @@ public class CategoriesEntity {
     private String category;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated ;
+    private Date dateCreated = new Date() ;
     private String createdBy;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateModified;
+    private Date dateModified = new Date();
     private String modifiedBy;
 }

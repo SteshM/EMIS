@@ -5,9 +5,6 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.repositories.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -202,8 +199,8 @@ public class DataService {
         return schoolGenderRepo.findBySchoolGenderId(schoolGenderId);
     }
 
-    public void saveCurriculum(CurriculumEntity curriculum){
-        curriculumRepo.save(curriculum);
+    public CurriculumEntity saveCurriculum(CurriculumEntity curriculum){
+        return curriculumRepo.save(curriculum);
     }
     public List<CurriculumEntity>fetchCurriculums(){
         return curriculumRepo.findAll();
@@ -362,6 +359,9 @@ public class DataService {
   }
   public LevelsEntity findByLevelId(int levelId){
         return levelsRepo.findByLevelId(levelId);
+  }
+  public List<LevelsEntity> findByCurriculum(CurriculumEntity curriculum){
+        return  levelsRepo.findByCurriculum(curriculum);
   }
 
 

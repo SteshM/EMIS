@@ -5,6 +5,7 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.FileUpload;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
+import com.emis.EMIS.wrappers.responseDTOs.CurriculumResDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -210,21 +211,21 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
     public ResponseDTO addCurriculum(CurriculumDTO curriculumDTO) throws JsonProcessingException {
         CurriculumEntity curriculum = modelMapper.map(curriculumDTO,CurriculumEntity.class);
         log.info("About to save a curriculum basic info:{}", new ObjectMapper().writeValueAsString(curriculum));
-        dataService.saveCurriculum(curriculum);
-        //not saving
-        return utilities.successResponse("added a curriculum",curriculumDTO);
+        var savedCurriculum = dataService.saveCurriculum(curriculum);
+        var curriculumResDTO = modelMapper.map(savedCurriculum, CurriculumResDTO.class);
+        return utilities.successResponse("added a curriculum",curriculumResDTO);
     }
 
     public ResponseDTO getCurriculums() throws JsonProcessingException {
         List<CurriculumEntity>curriculumEntityList = dataService.fetchCurriculums();
         log.info("About to fetch all curriculums from the db::{}",curriculumEntityList);
-        List<CurriculumDTO>curriculumDTOList = curriculumEntityList.stream()
+        List<CurriculumResDTO>curriculumResDTOList = curriculumEntityList.stream()
                 .map(curriculum -> {
-                    return modelMapper.map(curriculum,CurriculumDTO.class);
+                    return modelMapper.map(curriculum,CurriculumResDTO.class);
                 })
                 .toList();
         log.info("Fetched  all  curriculum Details:{}", new ObjectMapper().writeValueAsString(curriculumEntityList));
-        return utilities.successResponse("fetched all curriculums",curriculumDTOList);
+        return utilities.successResponse("fetched all curriculums",curriculumResDTOList);
     }
 
     public ResponseDTO updateCurriculum(int id, CurriculumDTO curriculumDTO) throws JsonProcessingException {
@@ -233,8 +234,8 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         log.info("Fetched a curriculum from the db:{}", objectMapper.writeValueAsString(curriculum));
         modelMapper.map(curriculum,curriculumDTO);
         log.info("Updated curriculum Details. About to save:{}", objectMapper.writeValueAsString(curriculum));
-        dataService.saveCurriculum(curriculum);
-        return utilities.successResponse("updated school type successfully",curriculumDTO);
+        var curriculumResDTO = dataService.saveCurriculum(curriculum);
+        return utilities.successResponse("updated school type successfully",curriculumResDTO);
     }
 
 
