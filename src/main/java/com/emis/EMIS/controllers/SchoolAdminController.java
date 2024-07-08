@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/schAdmin")
-public class SchoolAdminController {
+public class    SchoolAdminController {
 
     private final SchoolAdminService schoolAdminService;
 
@@ -29,6 +29,7 @@ public class SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
 
+    @PostMapping()
     @GetMapping("/students")
     public ResponseDTO viewStudents() throws JsonProcessingException {
         return schoolAdminService.viewStudents();
@@ -145,6 +146,11 @@ public class SchoolAdminController {
     public ResponseDTO getLearningStageByLevelId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.getLearningStagesByLevelId(id);
     }
+    @GetMapping("/learning-stages")
+    public ResponseDTO getLearningStages(){
+        return schoolAdminService.getLearningStages();
+    }
+
 
     @PutMapping("learning-stages/{id}")
     public ResponseDTO updateLearningStage(@PathVariable int id,@PathParam("learningStage") String learningStage) throws JsonProcessingException {
@@ -206,6 +212,7 @@ public class SchoolAdminController {
 
 
 }
+
 
 
 

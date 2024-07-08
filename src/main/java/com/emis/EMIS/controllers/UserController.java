@@ -49,7 +49,6 @@ public class UserController {
 
     @PostMapping("/all/register")
     public ResponseDTO register( @RequestBody UserDTO userDTO){
-
         log.info("Register request received from the customer::{}",userDTO);
         return userService.register(userDTO);
     }

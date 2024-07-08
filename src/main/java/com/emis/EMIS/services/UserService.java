@@ -127,7 +127,7 @@ public class UserService implements UserDetailsService {
                 guardian.setUserEntity(savedUser);
                 guardian.setStatus(Status.ACTIVE);
                 dataService.saveGuardian(guardian);
-                return utilities.successResponse("Created a teacher",null);
+                return utilities.successResponse("Created a guardian",null);
 
             }
 

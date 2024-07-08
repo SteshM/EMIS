@@ -2,15 +2,20 @@ package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
+import com.emis.EMIS.utils.CsvUtility;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,6 +32,22 @@ public class SchoolAdminService {
     public final ModelMapper modelMapper;
 
 //Students
+
+    public ResponseDTO registerStudentsCSV(MultipartFile file){
+        if(CsvUtility.hasCsvFormat(file)){
+            try{
+                ArrayList<StudentEntity> students= CsvUtility.csvToStudentList(file.getInputStream());
+                dataService.saveAllStudents(students);
+                return utilities.successResponse("successfully saved students",null);
+            }catch(Exception e){
+                return utilities.failedResponse(205,"could not save students",null);
+            }
+
+        }
+        return utilities.failedResponse(205,"Wrong file format;could not upload",null);
+    }
+
+
 
     /**
      * Method to view student details
@@ -178,12 +199,19 @@ public class SchoolAdminService {
         return utilities.successResponse("Fetched all guardians",guardianDTOList);
     }
 
-    /**
-     * Fetching a guardian from the db
-     * @param id the guardian id
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
+    public ResponseDTO registerGuardiansCSV(MultipartFile file){
+        if(CsvUtility.hasCsvFormat(file)){
+            try{
+                ArrayList<GuardianEntity> guardianEntities= CsvUtility.csvToGuardianEntity(file.getInputStream());
+                dataService.saveAlLGuardians(guardianEntities);
+                return utilities.successResponse("successfully saved guardians",null);
+            }catch(Exception e){
+                return utilities.failedResponse(205,"could not save guardians",null);
+            }
+
+        }
+        return utilities.failedResponse(205,"Wrong file format;could not upload",null);
+    }
 
     public ResponseDTO getGuardian(int id) throws JsonProcessingException {
         var guardian = dataService.findByGuardianId(id);
@@ -282,7 +310,7 @@ public class SchoolAdminService {
 
     public ResponseDTO getLearningStagesByLevelId(int id) throws JsonProcessingException {
         LevelsEntity levels = dataService.findByLevelId(id);
-        List<LearningStageEntity>learningStageEntityList =levels.getLearningStageEntityList();
+        List<LearningStageEntity>learningStageEntityList = levels.getLearningStageEntityList();
         log.info("Fetched all learning stages from the db {}",learningStageEntityList);
         List<LearningStageResDTO>learningStageResDTOList = learningStageEntityList.stream()
                 .map(learningStage -> {
@@ -291,6 +319,18 @@ public class SchoolAdminService {
                 .toList();
         log.info("fetched all learning stages per level {}",new ObjectMapper().writeValueAsString(learningStageEntityList));
         return utilities.successResponse("Successfully fetched all learning stages",learningStageResDTOList);
+    }
+
+    public ResponseDTO getLearningStages() {
+        List<LearningStageEntity> learningStageEntityList = dataService.fetchLearningStages();
+        List<LearningStageResDTO>learningStageResDTOList =learningStageEntityList.stream()
+                .map(learningStageEntity -> {
+                    return modelMapper.map(learningStageEntity, LearningStageResDTO.class);
+                })
+                .toList();
+        log.info("Fetched  learning stages from the db {}",learningStageEntityList);
+        return utilities.successResponse("fetched learning stages",learningStageResDTOList);
+
     }
 
 
@@ -318,7 +358,9 @@ public class SchoolAdminService {
      * @throws JsonProcessingException the exception
      */
     public ResponseDTO CreateSubject(SubjectDTO subjectDTO) throws JsonProcessingException {
+        LevelsEntity levelsEntity =dataService.findByLevelId(subjectDTO.getLevelId());
         SubjectEntity subject = modelMapper.map(subjectDTO, SubjectEntity.class);
+        subject.setLevels(levelsEntity);
         log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
          var savedSubject = dataService.saveSubject(subject);
          var  subjectResDTO = modelMapper.map(savedSubject, SubjectResDTO.class);
@@ -326,7 +368,8 @@ public class SchoolAdminService {
     }
 
     public ResponseDTO getSubjectsByLevelId(int id) throws JsonProcessingException {
-        List<SubjectEntity>subjectEntityList = dataService.fetchSubjects();
+        LevelsEntity levelsEntity = dataService.findByLevelId(id);
+        List<SubjectEntity>subjectEntityList = dataService.findByLevels(levelsEntity);
         List<SubjectResDTO>subjectResDTOS = subjectEntityList.stream()
                 .map(subject -> {
                     return modelMapper.map(subject, SubjectResDTO.class);
@@ -362,7 +405,10 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
 
     public ResponseDTO AddStream(StreamDTO streamDTO) throws JsonProcessingException {
         StreamsEntity streams = modelMapper.map(streamDTO,StreamsEntity.class);
+        SchoolsEntity schools = dataService.findBySchoolId(streamDTO.getSchoolId());
+        streams.setSchoolsEntity(schools);
         log.info("About to save a  stream : {}",new ObjectMapper().writeValueAsString(streams));
+         streams.setStatus(Status.ACTIVE);
          var savedStream = dataService.saveStream(streams);
          var streamResDTO = modelMapper.map(savedStream, StreamResDTO.class);
         return utilities.successResponse("Saved a stream successfully",streamResDTO);
@@ -370,7 +416,8 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
     }
 
     public ResponseDTO fetchStreamsBySchoolId(int id) throws JsonProcessingException {
-        List<StreamsEntity>streamsEntityList = dataService.fetchStreams();
+        SchoolsEntity schools = dataService.findBySchoolId(id);
+        List<StreamsEntity>streamsEntityList =schools.getStreamsEntityList();
         List<StreamResDTO>streamResDTOList =streamsEntityList.stream()
                 .map(streams -> {
                     return modelMapper.map(streams,StreamResDTO.class);

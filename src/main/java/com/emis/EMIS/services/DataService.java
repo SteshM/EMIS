@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -155,7 +156,9 @@ public class DataService {
 
     public void saveStudent(StudentEntity student){
         studentsRepo.save(student);
-
+    }
+    public List <StudentEntity> saveAllStudents(List<StudentEntity> studentEntityList){
+        return studentsRepo.saveAll(studentEntityList);
     }
 
     public void saveTeacher(TeacherEntity teacher) {
@@ -173,6 +176,9 @@ public class DataService {
     }
     public  List<GuardianEntity> fetchActiveGuardians(){
         return guardianRepo.findByStatus(Status.ACTIVE);
+    }
+    public List<GuardianEntity> saveAlLGuardians(List<GuardianEntity> guardianEntities){
+        return guardianRepo.saveAll(guardianEntities);
     }
     public GuardianEntity findByGuardianId(int guardianId){
         return guardianRepo.findByGuardianId(guardianId);
@@ -368,6 +374,9 @@ public class DataService {
     public LearningStageEntity saveLearningStage(LearningStageEntity learningStage){
         return learningStagesRepo.save(learningStage);
     }
+    public List<LearningStageEntity>findByLevelsEntity(LevelsEntity levels){
+        return learningStagesRepo.findByLevelsEntity(levels);
+    }
 
     public List <LearningStageEntity> fetchLearningStages(){
         return learningStagesRepo.findAll();
@@ -380,6 +389,9 @@ public class DataService {
     public SubjectEntity saveSubject(SubjectEntity subject){
         return subjectRepo.save(subject);
     }
+    public List<SubjectEntity> findByLevels(LevelsEntity levels){
+        return subjectRepo.findByLevels(levels);
+    }
     public List <SubjectEntity> fetchSubjects(){
         return subjectRepo.findAll();
     }
@@ -388,7 +400,12 @@ public class DataService {
     }
 
     public StreamsEntity saveStream(StreamsEntity streams){
+        streams.setDateCreated(new Date());
+        streams.setDateModified(new Date());
       return streamRepo.save(streams);
+    }
+    public List<StreamsEntity> findBySchoolsEntity(SchoolsEntity schools){
+        return streamRepo.findBySchoolsEntity(schools);
     }
 
     public List<StreamsEntity> fetchStreams(){

@@ -4,11 +4,14 @@ import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
 import java.util.List;
 
 @Entity
 @Setter
 @Getter
+@ToString
 @Table(name = "levels")
 public class LevelsEntity {
     @Id

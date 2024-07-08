@@ -12,6 +12,10 @@ public class RoleProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roleProfileId;
-    private int profileId;
-    private int roleId;
+    @ManyToOne
+    @JoinColumn(name = "profileId")
+    private ProfileEntity profileEntity;
+    @ManyToOne
+    @JoinColumn(name = "roleId")
+    private RolesEntity rolesEntity;
 }

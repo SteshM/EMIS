@@ -13,4 +13,6 @@ public class ProfileEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int profileId;
     private String profile;
+    private String remarks;
+
 }

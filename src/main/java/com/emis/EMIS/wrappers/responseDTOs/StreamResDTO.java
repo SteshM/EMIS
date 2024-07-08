@@ -7,6 +7,5 @@ import lombok.Setter;
 @Getter
 public class StreamResDTO {
     private int StreamId;
-    private int schoolId;
     private String stream;
 }

@@ -11,8 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SystemAdminsDTO {
-//    @NotEmpty(message = "System admin id is required!")
-//    private int id;
+   private int AdminId;
     private String firstName;
     private String middleName;
     private String lastName;
