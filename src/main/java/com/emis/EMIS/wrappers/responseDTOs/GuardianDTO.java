@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class GuardianDTO {
+    private int guardianId;
     private String firstName;
     private String middleName;
     private String lastName;

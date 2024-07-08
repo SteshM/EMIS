@@ -5,7 +5,9 @@ import com.emis.EMIS.models.SubCountyEntity;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.CountyDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SubCountyDTO;
+import com.emis.EMIS.wrappers.responseDTOs.CountyResDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.SubCountyResDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +35,9 @@ public class CountyService {
     public ResponseDTO addCounty(CountyDTO countyDTO) throws JsonProcessingException {
         CountyEntity countyEntity = modelMapper.map(countyDTO,CountyEntity.class);
         log.info("About to save a county ::{}",new ObjectMapper().writeValueAsString(countyEntity));
-        dataService.saveCounty(countyEntity);
-        return utilities.successResponse("Added a county",countyDTO);
+         var savedCounty = dataService.saveCounty(countyEntity);
+         var countyResDTO = modelMapper.map(savedCounty, CountyResDTO.class);
+        return utilities.successResponse("Added a county",countyResDTO);
     }
 
     public ResponseDTO updateCounty(CountyDTO countyDTO, int id) throws JsonProcessingException {
@@ -55,7 +58,8 @@ public class CountyService {
                 })
                 .toList();
         log.info("Fetched  all  counties Details:{}", new ObjectMapper().writeValueAsString(countyEntityList));
-        return utilities.successResponse("fetched all counties",countyEntityList);
+        var countyResDTO = modelMapper.map(countyEntityList, CountyResDTO.class);
+        return utilities.successResponse("fetched all counties",countyResDTO);
 
     }
 
@@ -92,7 +96,8 @@ public class CountyService {
                 })
                 .toList();
         log.info("Fetched  all  subCounties :{}", new ObjectMapper().writeValueAsString(subCountyEntityList));
-        return utilities.successResponse("Fetches all subCounties",subCountyDTOList);
+        var subCountyResDTO = modelMapper.map(subCountyEntityList, SubCountyResDTO.class);
+        return utilities.successResponse("Fetches all subCounties",subCountyResDTO);
     }
 
 

@@ -211,8 +211,8 @@ public class DataService {
     public CurriculumEntity findByCurriculumId(int curriculumId){
         return curriculumRepo.findByCurriculumId(curriculumId);
     }
-    public void saveCounty(CountyEntity countyEntity){
-        countyRepo.save(countyEntity);
+    public CountyEntity saveCounty(CountyEntity countyEntity){
+        return countyRepo.save(countyEntity);
     }
     public CountyEntity findByCountyId(int countyId){
         return countyRepo.findByCountyId(countyId);

@@ -10,6 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PartnerDTO {
+    private int partnerId;
     private String firstName;
     private String middleName;
     private String lastName;

@@ -242,7 +242,8 @@ public class SchoolAdminService {
                 })
                 .toList();
         log.info("fetched all levels per curriculum {}",new ObjectMapper().writeValueAsString(levelsEntityList));
-        return utilities.successResponse("Successfully fetched all curriculum levels",levelDTOList);
+        var levelResDTO = modelMapper.map(levelsEntityList, com.emis.EMIS.wrappers.responseDTOs.LevelResDTO.class);
+        return utilities.successResponse("Successfully fetched all curriculum levels",levelResDTO);
     }
     public ResponseDTO updateLevel(int id, String levelName) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -287,7 +288,8 @@ public class SchoolAdminService {
                 })
                 .toList();
         log.info("fetched all learning stages per level {}",new ObjectMapper().writeValueAsString(learningStageEntityList));
-        return utilities.successResponse("Successfully fetched all learning stages",learningStagesDTOList);
+        var learningStageResDTO = modelMapper.map(learningStageEntityList, LearningStageResDTO.class);
+        return utilities.successResponse("Successfully fetched all learning stages",learningStageResDTO);
     }
 
 
@@ -330,7 +332,8 @@ public class SchoolAdminService {
                 })
                 .toList();
         log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(subjectEntityList));
-return utilities.successResponse("fetched subjects",subjectDTOS);
+        var subjectResDTO = modelMapper.map(subjectEntityList, SubjectResDTO.class);
+return utilities.successResponse("fetched subjects",subjectResDTO);
     }
 
 

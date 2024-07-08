@@ -112,7 +112,7 @@ public class SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/level")
-    public ResponseDTO addLevel(@RequestBody LevelDTO levelDTO) throws JsonProcessingException {
+    public ResponseDTO addLevel(@Valid @RequestBody LevelDTO levelDTO) throws JsonProcessingException {
         return schoolAdminService.addLevel(levelDTO);
     }
 
@@ -137,7 +137,7 @@ public class SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/learning-stage")
-    public ResponseDTO createLearningStage(@RequestBody LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
+    public ResponseDTO createLearningStage(@Valid @RequestBody LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
         return schoolAdminService.createLearningStage(learningStagesDTO);
     }
 
@@ -164,7 +164,7 @@ public class SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/subject")
-    public ResponseDTO createSubject(@RequestBody SubjectDTO subjectDTO) throws JsonProcessingException {
+    public ResponseDTO createSubject(@Valid @RequestBody SubjectDTO subjectDTO) throws JsonProcessingException {
         return schoolAdminService.CreateSubject(subjectDTO);
     }
     @GetMapping("/level/{id}/subjects")
@@ -188,7 +188,7 @@ public class SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/stream")
-    public ResponseDTO createStream(@RequestBody StreamDTO streamDTO) throws JsonProcessingException {
+    public ResponseDTO createStream(@Valid @RequestBody StreamDTO streamDTO) throws JsonProcessingException {
         return schoolAdminService.AddStream(streamDTO);
     }
     @GetMapping("/school/{id}/Streams")

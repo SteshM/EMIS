@@ -5,6 +5,7 @@ import com.emis.EMIS.wrappers.requestDTOs.CountyDTO;
 import com.emis.EMIS.wrappers.requestDTOs.SubCountyDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class CountyController {
      */
 
     @PostMapping("/county")
-    public ResponseDTO addCounty(@RequestBody CountyDTO countyDTO) throws JsonProcessingException {
+    public ResponseDTO addCounty(@Valid @RequestBody  CountyDTO countyDTO) throws JsonProcessingException {
         return countyService.addCounty(countyDTO);
     }
     @PutMapping("/county/{id}")
@@ -43,7 +44,7 @@ public class CountyController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/county/{id}/sub-county")
-    public ResponseDTO addSubCounty(@RequestBody SubCountyDTO subCountyDTO) throws JsonProcessingException {
+    public ResponseDTO addSubCounty(@Valid @RequestBody SubCountyDTO subCountyDTO) throws JsonProcessingException {
         return  countyService.addSubCounty(subCountyDTO);
     }
     @PutMapping("/sub-county/{id}")

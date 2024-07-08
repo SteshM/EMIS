@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class SchoolAdminDTO {
+    private int adminId;
     private String firstName;
     private String middleName;
     private String lastName;
