@@ -7,6 +7,5 @@ import lombok.Setter;
 @Getter
 public class SubjectResDTO {
     private int subjectId;
-    private int levelId;
     private String subject;
 }

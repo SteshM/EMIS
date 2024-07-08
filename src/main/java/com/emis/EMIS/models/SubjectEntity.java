@@ -24,5 +24,9 @@ public class SubjectEntity {
     @JoinColumn(name = "levelId")
     private LevelsEntity levels;
 
+    @ManyToOne
+    @JoinColumn(name = "teacherId")
+    private TeacherEntity teacher;
+
 
 }

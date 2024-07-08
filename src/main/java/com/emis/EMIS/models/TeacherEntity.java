@@ -4,6 +4,8 @@ import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "teachers")
@@ -18,6 +20,9 @@ public class TeacherEntity {
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserEntity user;
+
+    @OneToMany
+    List<SubjectEntity> subject;
 
 
 }

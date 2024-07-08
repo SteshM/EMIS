@@ -416,5 +416,15 @@ public class DataService {
     }
 
 
+    public List<StudentEntity> findStudentsByGuardian(GuardianEntity guardian) {
+        return studentsRepo.findByGuardian(guardian);
+    }
 
+    public List<SubjectEntity> fetchSubjectsByTeacherId(TeacherEntity teacher) {
+        return subjectRepo.findByTeacher(teacher);
+    }
+
+    public List<LearningStageEntity> findLearningStagesByLevel(LevelsEntity levels) {
+        return learningStagesRepo.findByLevelsEntity(levels);
+    }
 }

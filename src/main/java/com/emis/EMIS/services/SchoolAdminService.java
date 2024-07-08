@@ -303,6 +303,8 @@ public class SchoolAdminService {
     public ResponseDTO createLearningStage(LearningStagesDTO learningStagesDTO) throws JsonProcessingException {
         LearningStageEntity learningStage = modelMapper.map(learningStagesDTO,LearningStageEntity.class);
         log.info("About to save a learning stage : {}",new ObjectMapper().writeValueAsString(learningStage));
+        LevelsEntity levelsEntity = dataService.findByLevelId(learningStagesDTO.getLevelId());
+        learningStage.setLevelsEntity(levelsEntity);
         var savedLearningStage =dataService.saveLearningStage(learningStage);
         var learningStageResDTO = modelMapper.map(savedLearningStage, LearningStageResDTO.class);
         return utilities.successResponse("Created a learning stage",learningStageResDTO);
@@ -310,7 +312,7 @@ public class SchoolAdminService {
 
     public ResponseDTO getLearningStagesByLevelId(int id) throws JsonProcessingException {
         LevelsEntity levels = dataService.findByLevelId(id);
-        List<LearningStageEntity>learningStageEntityList = levels.getLearningStageEntityList();
+        List<LearningStageEntity>learningStageEntityList = dataService.findByLevelsEntity(levels);
         log.info("Fetched all learning stages from the db {}",learningStageEntityList);
         List<LearningStageResDTO>learningStageResDTOList = learningStageEntityList.stream()
                 .map(learningStage -> {
@@ -447,6 +449,35 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
     }
 
 
+    public ResponseDTO assignGuardianToStudent(GuardianStudentDTO guardianStudentDTO) {
+        GuardianEntity guardian =dataService.findByGuardianId(guardianStudentDTO.getGuardianId());
+        StudentEntity student =dataService.findByStudentId(guardianStudentDTO.getStudentId());
+        student.setGuardian(guardian);
+        dataService.saveStudent(student);
+        return utilities.successResponse("saved a student's guardian",guardianStudentDTO);
+    }
+
+    public ResponseDTO getStudentsByGuardianId(int id) {
+        GuardianEntity guardian = dataService.findByGuardianId(id);
+        List<StudentEntity>studentEntityList = dataService.findStudentsByGuardian(guardian);
+        return utilities.successResponse("Fetched all student by guardian",studentEntityList);
+
+    }
+
+
+    public ResponseDTO assignSubjectsToTeacher(TeacherSubjectDTO teacherSubjectDTO) {
+        SubjectEntity subject = dataService.findBySubjectId(teacherSubjectDTO.getSubjectId());
+        TeacherEntity teacher = dataService.findByTeacherId(teacherSubjectDTO.getTeacherId());
+        subject.setTeacher(teacher);
+        dataService.saveSubject(subject);
+        return utilities.successResponse("saved a teacher",teacherSubjectDTO);
+    }
+
+    public ResponseDTO getSubjectsByTeacherId(int id) {
+        TeacherEntity teacher = dataService.findByTeacherId(id);
+        List<SubjectEntity>subjectEntityList=dataService.fetchSubjectsByTeacherId(teacher);
+       return utilities.successResponse("fetched all subjects by teacher id",subjectEntityList);
+    }
 }
 
 

@@ -210,6 +210,24 @@ public class    SchoolAdminController {
         return schoolAdminService.deleteStream(id);
     }
 
+    @PostMapping("/assign-guardian")
+    public ResponseDTO assignGuardianToStudent(@RequestBody GuardianStudentDTO guardianStudentDTO){
+        return schoolAdminService.assignGuardianToStudent(guardianStudentDTO);
+    }
+    @GetMapping("/guardian/{id}/students")
+    public ResponseDTO getStudentsByGuardianId(@PathVariable int id){
+        return schoolAdminService.getStudentsByGuardianId(id);
+    }
+
+    @PostMapping("/assign-subject")
+    public ResponseDTO assignSubjectsToTeacher(@RequestBody TeacherSubjectDTO teacherSubjectDTO){
+        return schoolAdminService.assignSubjectsToTeacher(teacherSubjectDTO);
+    }
+    @GetMapping("/teacher/{id}/subjects")
+    public ResponseDTO getTeacherSubjects(@PathVariable int id){
+        return schoolAdminService.getSubjectsByTeacherId(id);
+    }
+
 
 }
 
