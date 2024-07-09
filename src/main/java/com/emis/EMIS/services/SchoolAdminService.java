@@ -8,10 +8,10 @@ import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +33,12 @@ public class SchoolAdminService {
 
 //Students
 
+    /**
+     * STUDENTS
+     * @param file file
+     * @return response DTO
+     */
+
     public ResponseDTO registerStudentsCSV(MultipartFile file){
         if(CsvUtility.hasCsvFormat(file)){
             try{
@@ -47,14 +53,6 @@ public class SchoolAdminService {
         return utilities.failedResponse(205,"Wrong file format;could not upload",null);
     }
 
-
-
-    /**
-     * Method to view student details
-     * @return the responseDTO
-     * @throws JsonProcessingException the exception
-     */
-
     public ResponseDTO viewStudents() throws JsonProcessingException {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
         List<StudentDTO>studentDTOList = studentEntityList.stream()
@@ -67,13 +65,6 @@ public class SchoolAdminService {
 
     }
 
-    /**
-     *
-     * @param id the student id
-     * @return ResponseDTO
-     * @throws JsonProcessingException the exception
-     */
-
     public ResponseDTO fetchOne(int id) throws JsonProcessingException {
         var student = dataService.findByStudentId(id);
         var studentDTO  = modelMapper.map(student, StudentDTO.class);
@@ -81,13 +72,6 @@ public class SchoolAdminService {
         return utilities.successResponse("Successfully fetched a single record",studentDTO);
     }
 
-    /**
-     * A method to update a Student
-     * @param id the studentId
-     * @param studentDTO the Student dto
-     * @return ResponseDTO
-     * @throws JsonProcessingException the exception
-     */
 
     public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -100,12 +84,6 @@ public class SchoolAdminService {
 
     }
 
-    /**
-     * A method to delete a student
-     * @param id the studentId
-     * @return ResponseDTO
-     */
-
     public ResponseDTO deleteStudent(int id) {
         var student = dataService.findByStudentId(id);
         student.setStatus(Status.DELETED);
@@ -114,14 +92,40 @@ public class SchoolAdminService {
         return utilities.successResponse("deleted a student",null);
     }
 
+
     /**
-     * A method to view teachers
-     * @return ResponseDTO
-     * @throws JsonProcessingException the exception
+     * TEACHERS
+     * @param file file
+     * @return response dto
      */
 
+    public ResponseDTO registerTeacherCSV(MultipartFile file){
+        if(CsvUtility.hasCsvFormat(file)){
+            try{
+                ArrayList<TeacherEntity>teacherEntityArrayList =CsvUtility.csvToTeacherEntity(file.getInputStream());
+                List<TeacherEntity> failedUpload = new ArrayList<>();
+                for(TeacherEntity teacher: teacherEntityArrayList){
+                    if(teacher.getUser().getFirstName() == null){
+                        failedUpload.add(teacher);
+                    }else if(teacher.getUser().getMiddleName() == null){
+                        failedUpload.add(teacher);
+                    }
+                    //else if for every check
+                    else{
+                        //passed all null checks
+                        dataService.saveUser(teacher.getUser());
+                        dataService.saveTeacher(teacher);
+                    }
+                }
+                return utilities.successResponse("List of failed uploads",failedUpload);
+            }catch(Exception e){
+                return utilities.failedResponse(205,"could not save teachers",null);
+            }
 
-    //Teachers
+        }
+        return utilities.failedResponse(205,"Wrong file format;could not upload",null);
+    }
+
 
     public ResponseDTO viewTeachers() throws JsonProcessingException {
         List<TeacherEntity>teacherEntityList =  dataService.fetchActiveTeachers();
@@ -135,12 +139,6 @@ public class SchoolAdminService {
         return utilities.successResponse("fetched all active teachers",teacherDTOList);
     }
 
-    /**
-     * Created a method to fetch a single teacher
-     * @param id the teacher id
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
     public ResponseDTO fetchTeacher(int id) throws JsonProcessingException {
         var teacher = dataService.findByTeacherId(id);
         log.info("Fetched Teacher Details:{}", new ObjectMapper().writeValueAsString(teacher));
@@ -148,13 +146,6 @@ public class SchoolAdminService {
         return utilities.successResponse("fetched  a single teacher",teacherDTO);
     }
 
-    /**
-     * A method to update a teacher details
-     * @param id teacher id
-     * @param teacherDTO the teacher dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
 
     public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -167,11 +158,6 @@ public class SchoolAdminService {
 
     }
 
-    /**
-     * soft deleting a teachers record
-     * @param id the teacher id
-     * @return response dto
-     */
 
     public ResponseDTO deleteTeacher(int id) {
         var teacher = dataService.findByTeacherId(id);
@@ -182,7 +168,9 @@ public class SchoolAdminService {
 
     }
 
+
     /**
+     * GUARDIANS
      * A request to view all active guardians in the system
      * @return the response dto
      * @throws JsonProcessingException the exception
@@ -220,13 +208,6 @@ public class SchoolAdminService {
         return utilities.successResponse("Successfully fetched a guardian",guardianDTO);
     }
 
-    /**
-     * Fetching guardians details from the db , updating and saving them
-     * @param id the guardian id
-     * @param guardianDTO the guardian dto
-     * @return the response dto
-     * @throws JsonProcessingException the exception
-     */
 
     public ResponseDTO updateGuardian(int id, GuardianDTO guardianDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -239,11 +220,6 @@ public class SchoolAdminService {
 
     }
 
-    /**
-     * soft deleting a guardian's record
-     * @param id the guardian id
-     * @return the response dto
-     */
     public ResponseDTO delGuardian(int id) {
         var guardian = dataService.findByGuardianId(id);
         guardian.setStatus(Status.DELETED);
@@ -251,6 +227,13 @@ public class SchoolAdminService {
         dataService.saveGuardian(guardian);
         return utilities.successResponse("Successfully deleted guardian details",null);
     }
+
+    /**
+     * LEVELS
+     * @param levelDTO the request DTO
+     * @return response DTO
+     * @throws JsonProcessingException the exception
+     */
 
     public ResponseDTO addLevel(LevelDTO levelDTO) throws JsonProcessingException {
         LevelsEntity levelsEntity = modelMapper.map(levelDTO,LevelsEntity.class);
@@ -449,6 +432,11 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
     }
 
 
+    /**
+     * ASSIGNING GUARDIANS TO STUDENTS
+     * @param guardianStudentDTO the request dto
+     * @return response dto
+     */
     public ResponseDTO assignGuardianToStudent(GuardianStudentDTO guardianStudentDTO) {
         GuardianEntity guardian =dataService.findByGuardianId(guardianStudentDTO.getGuardianId());
         StudentEntity student =dataService.findByStudentId(guardianStudentDTO.getStudentId());
@@ -464,6 +452,11 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
 
     }
 
+    /**
+     * ASSIGNING TEACHERS SUBJECTS
+     * @param teacherSubjectDTO the request Dto
+     * @return response Dto
+     */
 
     public ResponseDTO assignSubjectsToTeacher(TeacherSubjectDTO teacherSubjectDTO) {
         SubjectEntity subject = dataService.findBySubjectId(teacherSubjectDTO.getSubjectId());

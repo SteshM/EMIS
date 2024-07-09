@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +49,7 @@ public class DataService {
     private final SubCountyRepo subCountyRepo;
     private final CurriculumRepo curriculumRepo;
     private final StreamRepo streamRepo;
+    private final AuditTrailRepo auditTrailRepo;
 
 
 
@@ -163,6 +165,10 @@ public class DataService {
 
     public void saveTeacher(TeacherEntity teacher) {
         teachersRepo.save(teacher);
+    }
+
+    public List<TeacherEntity> saveAllTeachers(ArrayList<TeacherEntity> teacherEntities) {
+       return teachersRepo.saveAll(teacherEntities);
     }
     public  List <TeacherEntity> fetchActiveTeachers(){
         return teachersRepo.findByStatus(Status.ACTIVE);
@@ -426,5 +432,11 @@ public class DataService {
 
     public List<LearningStageEntity> findLearningStagesByLevel(LevelsEntity levels) {
         return learningStagesRepo.findByLevelsEntity(levels);
+    }
+
+
+    public AuditTrailEntity saveAuditTrail(AuditTrailEntity auditTrail) {
+        return auditTrailRepo.save(auditTrail);
+
     }
 }

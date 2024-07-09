@@ -150,7 +150,7 @@ public class EduVODAdminService {
     public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var agentInfo = dataService.findByAgentId(id);
-        log.info("Fetching anDefaultSecurityFilterChain agent's details{}",objectMapper.writeValueAsString(agentInfo));
+        log.info("Fetching and defaultSecurityFilterChain agent's details{}",objectMapper.writeValueAsString(agentInfo));
         modelMapper.map(agentDTO,agentInfo);
         log.info("Updated agent Details. About to save:{}", objectMapper.writeValueAsString(agentInfo));
         dataService.saveAgent(agentInfo);
