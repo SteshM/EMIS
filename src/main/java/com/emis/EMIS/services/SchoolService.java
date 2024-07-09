@@ -7,6 +7,7 @@ import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.CurriculumResDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
+import com.emis.EMIS.wrappers.responseDTOs.SchoolsResDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -70,13 +71,13 @@ public class SchoolService {
     public ResponseDTO viewSchools() throws JsonProcessingException {
         List<SchoolsEntity>schoolsEntities = dataService.findAll();
         log.info("About to fetch schools {}",schoolsEntities);
-        List<SchoolDTO>schoolDTOList = schoolsEntities.stream()
+        List<SchoolsResDTO>schoolsResDTOS = schoolsEntities.stream()
                 .map(schools -> {
-                    return modelMapper.map(schools, SchoolDTO.class);
+                    return modelMapper.map(schools, SchoolsResDTO.class);
                 })
                 .toList();
         log.info("Fetched  all school Details:{}", new ObjectMapper().writeValueAsString(schoolsEntities));
-        return utilities.successResponse("Successfully fetched schools",schoolDTOList);
+        return utilities.successResponse("Successfully fetched schools",schoolsResDTOS);
 
     }
 

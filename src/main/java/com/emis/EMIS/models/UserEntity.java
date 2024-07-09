@@ -39,11 +39,11 @@ public class UserEntity {
     private  String password;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated ;
+    private Date dateCreated = new Date() ;
     private String createdBy;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateModified;
+    private Date dateModified ;
     private String modifiedBy;
     private Status status;
     private Date lastActivity = new Date();

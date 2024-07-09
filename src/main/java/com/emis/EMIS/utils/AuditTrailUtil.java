@@ -13,15 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Component
 @RequiredArgsConstructor
 public class AuditTrailUtil {
-    private final ModelMapper modelMapper;
     private final DataService dataService;
-    private final Utilities utilities;
 
-    public ResponseDTO createAuditTrail(@RequestBody AuditTrailDTO auditTrailDTO){
-       AuditTrailEntity auditTrail = modelMapper.map(auditTrailDTO,AuditTrailEntity.class);
-       var savedAuditTrail = dataService.saveAuditTrail(auditTrail);
-       var auditTrailResDTO = modelMapper.map(savedAuditTrail, AuditTrailResDTO.class);
-       return utilities.successResponse("Saved an audit trail",auditTrailResDTO);
+    public void createAuditTrail( String action,String actionDescription,boolean isSuccessful){
+       AuditTrailEntity auditTrail = AuditTrailEntity.builder()
+               .action(action)
+               .actionDescription(actionDescription)
+               .isSuccessful(isSuccessful)
+               .build();
+        dataService.saveAuditTrail(auditTrail);
 
     }
+
+
+
 }

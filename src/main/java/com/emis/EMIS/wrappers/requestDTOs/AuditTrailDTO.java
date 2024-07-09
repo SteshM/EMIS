@@ -5,15 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.Date;
 
 @Setter
 @Getter
 public class AuditTrailDTO {
     private String action;
     private String actionDescription;
-    private String createdBy;
-    private Instant deletedAt;
-    private String deletedBy;
-    private Status status;
+    private boolean isSuccessful;
 
 }

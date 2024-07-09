@@ -1,7 +1,10 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
+import com.emis.EMIS.exception.CustomExceptionHandler;
+import com.emis.EMIS.exception.SavingException;
 import com.emis.EMIS.models.*;
+import com.emis.EMIS.utils.AuditTrailUtil;
 import com.emis.EMIS.utils.CsvUtility;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
@@ -11,10 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +35,7 @@ public class SchoolAdminService {
     public final DataService dataService;
     public final Utilities utilities;
     public final ModelMapper modelMapper;
+    private final AuditTrailUtil auditTrailUtil;
 
 //Students
 
@@ -43,14 +49,37 @@ public class SchoolAdminService {
         if(CsvUtility.hasCsvFormat(file)){
             try{
                 ArrayList<StudentEntity> students= CsvUtility.csvToStudentList(file.getInputStream());
-                dataService.saveAllStudents(students);
-                return utilities.successResponse("successfully saved students",null);
+                List<StudentEntity> failedUpload = new ArrayList<>();
+                for (StudentEntity student : students){
+                    if (student.getUser().getFirstName() == null){
+                        failedUpload.add(student);
+                    }else if (student.getUser().getMiddleName() == null){
+                        failedUpload.add(student);
+                    }else if (student.getUser().getLastName() == null){
+                        failedUpload.add(student);
+                    }else if (student.getUser().getEmail() == null){
+                        failedUpload.add(student);
+                    }else if (student.getUser().getNationality() == null){
+                        failedUpload.add(student);
+                    }else if (student.getUser().getGender() == null){
+                        failedUpload.add(student);
+                    }else if (student.getUser().getDateOfBirth() == null){
+                        failedUpload.add(student);
+                    }else if (student.getRegistrationNo() == null){
+                        failedUpload.add(student);
+                    }else{
+                        dataService.saveUser(student.getUser());
+                        dataService.saveStudent(student);
+                    }
+
+                }
+                return utilities.successResponse("List of failed uploads",failedUpload);
             }catch(Exception e){
-                return utilities.failedResponse(205,"could not save students",null);
+                return utilities.failedResponse(400,"could not save students",null);
             }
 
         }
-        return utilities.failedResponse(205,"Wrong file format;could not upload",null);
+        return utilities.failedResponse(400,"Wrong file format;could not upload",null);
     }
 
     public ResponseDTO viewStudents() throws JsonProcessingException {
@@ -73,13 +102,21 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException {
+    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException, SavingException {
         var objectMapper = new ObjectMapper();
         var student = dataService.findByStudentId(id);
         log.info("Fetched a Student:{}", objectMapper.writeValueAsString(student));
         modelMapper.map(studentDTO, student);
         log.info("Updated Student Details. About to save:{}", objectMapper.writeValueAsString(student));
-        dataService.saveStudent(student);
+        try{
+            dataService.saveStudent(student);
+            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",true);
+        }catch (RuntimeException e){
+            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),false);
+
+            throw new SavingException(e.getLocalizedMessage());
+
+        }
         return utilities.successResponse("successfully updated student",studentDTO);
 
     }
@@ -109,21 +146,37 @@ public class SchoolAdminService {
                         failedUpload.add(teacher);
                     }else if(teacher.getUser().getMiddleName() == null){
                         failedUpload.add(teacher);
+                    } else if(teacher.getUser().getLastName()== null){
+                        failedUpload.add(teacher);
+                    } else if(teacher.getUser().getEmail() == null){
+                        failedUpload.add(teacher);
+                    } else if(teacher.getUser().getGender() == null){
+                        failedUpload.add(teacher);
+                    } else if(teacher.getUser().getPhoneNo() == null){
+                        failedUpload.add(teacher);
+                    } else if(teacher.getUser().getNationalId() == null){
+                        failedUpload.add(teacher);
+                    }else if(teacher.getUser().getNationality() == null){
+                        failedUpload.add(teacher);
+                    }else if(teacher.getUser().getDateOfBirth() == null){
+                        failedUpload.add(teacher);
+                    }else if(teacher.getTscNo() == null){
+                        failedUpload.add(teacher);
+                    }else if(teacher.getYearsOfExperience() == 0){
+                        failedUpload.add(teacher);
                     }
-                    //else if for every check
                     else{
-                        //passed all null checks
                         dataService.saveUser(teacher.getUser());
                         dataService.saveTeacher(teacher);
                     }
                 }
                 return utilities.successResponse("List of failed uploads",failedUpload);
             }catch(Exception e){
-                return utilities.failedResponse(205,"could not save teachers",null);
+                return utilities.failedResponse(400,"could not save teachers",null);
             }
 
         }
-        return utilities.failedResponse(205,"Wrong file format;could not upload",null);
+        return utilities.failedResponse(400,"Wrong file format;could not upload",null);
     }
 
 
@@ -191,14 +244,42 @@ public class SchoolAdminService {
         if(CsvUtility.hasCsvFormat(file)){
             try{
                 ArrayList<GuardianEntity> guardianEntities= CsvUtility.csvToGuardianEntity(file.getInputStream());
-                dataService.saveAlLGuardians(guardianEntities);
-                return utilities.successResponse("successfully saved guardians",null);
+                List<GuardianEntity> failedUpload = new ArrayList<>();
+                for (GuardianEntity guardian : guardianEntities){
+                    if (guardian.getUserEntity().getFirstName() == null) {
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getMiddleName() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getLastName() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getPhoneNo() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getDateOfBirth() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getGender() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getEmail() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getNationality() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getUserEntity().getNationalId() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getOccupation() == null){
+                        failedUpload.add(guardian);
+                    }else if (guardian.getEmergencyContact() == null){
+                        failedUpload.add(guardian);
+                    }else {
+                        dataService.saveUser(guardian.getUserEntity());
+                        dataService.saveGuardian(guardian);
+                    }
+                }
+                return utilities.successResponse("List of failed  uploads",failedUpload);
             }catch(Exception e){
-                return utilities.failedResponse(205,"could not save guardians",null);
+                return utilities.failedResponse(400,"could not save guardians",null);
             }
 
         }
-        return utilities.failedResponse(205,"Wrong file format;could not upload",null);
+        return utilities.failedResponse(400,"Wrong file format;could not upload",null);
     }
 
     public ResponseDTO getGuardian(int id) throws JsonProcessingException {
@@ -213,7 +294,6 @@ public class SchoolAdminService {
         var objectMapper = new ObjectMapper();
         var guardian = dataService.findByGuardianId(id);
         log.info("Fetched a guardian:{}", objectMapper.writeValueAsString(guardian));
-        modelMapper.map(guardianDTO,guardian);
         log.info("Updated guardian Details. About to save:{}", objectMapper.writeValueAsString(guardian));
         dataService.saveGuardian(guardian);
         return utilities.successResponse("Updated a guardian's details",guardianDTO);
@@ -463,7 +543,7 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
         TeacherEntity teacher = dataService.findByTeacherId(teacherSubjectDTO.getTeacherId());
         subject.setTeacher(teacher);
         dataService.saveSubject(subject);
-        return utilities.successResponse("saved a teacher",teacherSubjectDTO);
+        return utilities.successResponse("saved a subject",teacherSubjectDTO);
     }
 
     public ResponseDTO getSubjectsByTeacherId(int id) {

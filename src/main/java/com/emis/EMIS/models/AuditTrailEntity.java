@@ -3,6 +3,8 @@ package com.emis.EMIS.models;
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +13,7 @@ import java.time.Instant;
 @Setter
 @Getter
 @Entity
+@Builder
 @Table(name = "auditTrail")
 public class AuditTrailEntity {
     @Id
@@ -26,12 +29,13 @@ public class AuditTrailEntity {
     @Column(name = "created_by")
     private String createdBy;
 
-    @Column(name = "deleted_at")
-    private Instant deletedAt;
+    @Column(name = "performed_on")
+    private Instant performedOn;
 
     @Column(name = "deleted_by")
     private String deletedBy;
 
     @Column(name = "status")
-    private Status status;
+    private boolean isSuccessful;
+
 }

@@ -10,7 +10,7 @@ import lombok.Data;
 public class GuardianEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int guardianId;
+    private Long guardianId;
     private String relationship;
     private String occupation;
     private String emergencyContact;

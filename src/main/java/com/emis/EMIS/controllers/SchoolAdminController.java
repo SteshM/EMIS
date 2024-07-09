@@ -1,5 +1,7 @@
 package com.emis.EMIS.controllers;
 
+import com.emis.EMIS.exception.CustomExceptionHandler;
+import com.emis.EMIS.exception.SavingException;
 import com.emis.EMIS.services.SchoolAdminService;
 import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.GuardianDTO;
@@ -41,7 +43,7 @@ public class    SchoolAdminController {
     }
 
     @PutMapping("/update-student/{id}")
-    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO) throws JsonProcessingException {
+    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO) throws JsonProcessingException, SavingException {
         return schoolAdminService.updateStudent(id, studentDTO);
     }
 

@@ -43,11 +43,11 @@ public class SchoolDTO {
     @NotNull(message = "subCountyId cannot be null")
     private int subCountyId;
 
-    @NotNull(message = "Latitude is required")
-    private Double latitude;
-
-    @NotNull(message = "Longitude is required")
-    private Double longitude;
+//    @NotNull(message = "Latitude is required")
+//    private Double latitude;
+//
+//    @NotNull(message = "Longitude is required")
+//    private Double longitude;
 
     @NotNull(message = "diocese is required")
     private String diocese;

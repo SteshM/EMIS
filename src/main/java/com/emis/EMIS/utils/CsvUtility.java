@@ -83,7 +83,7 @@ public class CsvUtility {
                 teacher.getUser().setFirstName(csvRecord.get("First Name"));
                 teacher.getUser().setMiddleName(csvRecord.get("Middle Name"));
                 teacher.getUser().setLastName(csvRecord.get("Last Name"));
-                teacher.getUser().setDateOfBirth(csvRecord.get("Date Of birth"));
+                teacher.getUser().setDateOfBirth(csvRecord.get("Date Of Birth"));
                 teacher.getUser().setEmail(csvRecord.get("Email"));
                 teacher.getUser().setGender(csvRecord.get("Gender"));
                 teacher.getUser().setNationalId(csvRecord.get("National Id"));
