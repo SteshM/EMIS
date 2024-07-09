@@ -5,6 +5,7 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.FileUpload;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
+import com.emis.EMIS.wrappers.responseDTOs.CategoryResDTO;
 import com.emis.EMIS.wrappers.responseDTOs.CurriculumResDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SchoolsResDTO;
@@ -251,8 +252,9 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
     public ResponseDTO addCategory(CategoryDTO categoryDTO) throws JsonProcessingException {
         var categoriesEntity = modelMapper.map(categoryDTO, CategoriesEntity.class);
         log.info("About to save a category:{}", new ObjectMapper().writeValueAsString(categoriesEntity));
-        dataService.saveCategories(categoriesEntity);
-        return utilities.successResponse("Added a category",null);
+        var savedCategory = dataService.saveCategories(categoriesEntity);
+        var categoryResDTO = modelMapper.map(savedCategory, CategoryResDTO.class);
+        return utilities.successResponse("Added a category",categoryResDTO);
 
     }
 
@@ -269,14 +271,14 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
 
     public ResponseDTO getCategories() throws JsonProcessingException {
         List<CategoriesEntity>categoriesEntities = dataService.fetchAllCategories();
-        List<CategoryDTO>categoryDTOList =categoriesEntities.stream()
+        List<CategoryResDTO>categoryResDTOS =categoriesEntities.stream()
                 .map(categoriesEntity -> {
-                    return modelMapper.map(categoriesEntity, CategoryDTO.class);
+                    return modelMapper.map(categoriesEntity, CategoryResDTO.class);
                 })
                 .toList();
 
         log.info("Fetched  all  categories :{}", new ObjectMapper().writeValueAsString(categoriesEntities));
-return utilities.successResponse("fetched all categories",categoryDTOList);
+return utilities.successResponse("fetched all categories",categoryResDTOS);
     }
 
 

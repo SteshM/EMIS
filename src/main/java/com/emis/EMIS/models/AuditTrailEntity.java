@@ -34,6 +34,7 @@ public class AuditTrailEntity {
 
     @Column(name = "deleted_by")
     private String deletedBy;
+    private String username;
 
     @Column(name = "status")
     private boolean isSuccessful;

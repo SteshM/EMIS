@@ -239,8 +239,8 @@ public class DataService {
     public List<SubCountyEntity>fetchAllSubCounties(){
         return subCountyRepo.findAll();
     }
-    public void saveCategories(CategoriesEntity categoriesEntity){
-        categoryRepo.save(categoriesEntity);
+    public CategoriesEntity saveCategories(CategoriesEntity categoriesEntity){
+       return categoryRepo.save(categoriesEntity);
     }
     public CategoriesEntity findByCategoryId(int categoryId){
         return categoryRepo.findByCategoryId(categoryId);

@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -102,17 +103,18 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException, SavingException {
+    public ResponseDTO updateStudent(int id, StudentDTO studentDTO, Authentication authentication) throws JsonProcessingException, SavingException {
         var objectMapper = new ObjectMapper();
+        String username=authentication.getName();
         var student = dataService.findByStudentId(id);
         log.info("Fetched a Student:{}", objectMapper.writeValueAsString(student));
         modelMapper.map(studentDTO, student);
         log.info("Updated Student Details. About to save:{}", objectMapper.writeValueAsString(student));
         try{
             dataService.saveStudent(student);
-            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",true);
+            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",true,username);
         }catch (RuntimeException e){
-            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),false);
+            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),false,username);
 
             throw new SavingException(e.getLocalizedMessage());
 

@@ -14,6 +14,7 @@ import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -31,7 +32,7 @@ public class    SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
 
-    @PostMapping()
+
     @GetMapping("/students")
     public ResponseDTO viewStudents() throws JsonProcessingException {
         return schoolAdminService.viewStudents();
@@ -43,8 +44,8 @@ public class    SchoolAdminController {
     }
 
     @PutMapping("/update-student/{id}")
-    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO) throws JsonProcessingException, SavingException {
-        return schoolAdminService.updateStudent(id, studentDTO);
+    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO, Authentication authentication) throws JsonProcessingException, SavingException {
+        return schoolAdminService.updateStudent(id, studentDTO,authentication);
     }
 
     @DeleteMapping("/del-student/{id}")
