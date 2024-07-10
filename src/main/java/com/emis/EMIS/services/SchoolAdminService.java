@@ -1,7 +1,6 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.enums.Status;
-import com.emis.EMIS.exception.CustomExceptionHandler;
 import com.emis.EMIS.exception.SavingException;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.AuditTrailUtil;
@@ -34,6 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SchoolAdminService {
     public final DataService dataService;
+    public final CsvUtility csvUtility;
     public final Utilities utilities;
     public final ModelMapper modelMapper;
     private final AuditTrailUtil auditTrailUtil;
@@ -49,9 +49,10 @@ public class SchoolAdminService {
     public ResponseDTO registerStudentsCSV(MultipartFile file){
         if(CsvUtility.hasCsvFormat(file)){
             try{
-                ArrayList<StudentEntity> students= CsvUtility.csvToStudentList(file.getInputStream());
+                ArrayList<StudentEntity> students= csvUtility.csvToStudentList(file.getInputStream());
                 List<StudentEntity> failedUpload = new ArrayList<>();
                 for (StudentEntity student : students){
+                    log.info("student = {}", student.toString());
                     if (student.getUser().getFirstName() == null){
                         failedUpload.add(student);
                     }else if (student.getUser().getMiddleName() == null){
@@ -74,9 +75,9 @@ public class SchoolAdminService {
                     }
 
                 }
-                return utilities.successResponse("List of failed uploads",failedUpload);
+                return utilities.successResponse("Successfully uploaded students",null);
             }catch(Exception e){
-                return utilities.failedResponse(400,"could not save students",null);
+                return utilities.failedResponse(400, STR."could not save students\{e.getLocalizedMessage()}",null);
             }
 
         }
@@ -103,18 +104,18 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO updateStudent(int id, StudentDTO studentDTO, Authentication authentication) throws JsonProcessingException, SavingException {
+    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException, SavingException {
         var objectMapper = new ObjectMapper();
-        String username=authentication.getName();
+//        String username=authentication.getName();
         var student = dataService.findByStudentId(id);
         log.info("Fetched a Student:{}", objectMapper.writeValueAsString(student));
         modelMapper.map(studentDTO, student);
         log.info("Updated Student Details. About to save:{}", objectMapper.writeValueAsString(student));
         try{
             dataService.saveStudent(student);
-            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",true,username);
+            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",1);
         }catch (RuntimeException e){
-            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),false,username);
+            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),0);
 
             throw new SavingException(e.getLocalizedMessage());
 

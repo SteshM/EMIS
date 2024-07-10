@@ -3,10 +3,18 @@ package com.emis.EMIS.utils;
 import com.emis.EMIS.models.GuardianEntity;
 import com.emis.EMIS.models.StudentEntity;
 import com.emis.EMIS.models.TeacherEntity;
+import com.emis.EMIS.models.UserEntity;
+import com.emis.EMIS.repositories.UserRepo;
+import com.emis.EMIS.repositories.UserRoleRepo;
+import com.emis.EMIS.services.DataService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
@@ -14,32 +22,62 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
+@RequiredArgsConstructor
 @Component
+@Service
 public class CsvUtility {
-    public static ArrayList<StudentEntity> csvToStudentList(InputStream is) {
+    private  final DataService dataService;
+    private  final UserRepo userRepo;
+
+    private static final Logger log = LoggerFactory.getLogger(CsvUtility.class);
+
+
+
+    public  ArrayList<StudentEntity> csvToStudentList(InputStream is) {
+
+
         try (BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              @SuppressWarnings("deprecation")
              CSVParser csvParser = new CSVParser(bReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
             ArrayList<StudentEntity> studentEntitiesList = new ArrayList<>();
+
+            ArrayList<UserEntity> userEntities = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
                 StudentEntity student = new StudentEntity();
-                student.getUser().setFirstName(csvRecord.get("First Name"));
-                student.getUser().setMiddleName(csvRecord.get("Middle Name"));
-                student.getUser().setLastName(csvRecord.get("Last Name"));
-                student.getUser().setDateOfBirth(csvRecord.get("Date Of birth"));
-                student.getUser().setEmail(csvRecord.get("Email"));
-                student.getUser().setGender(csvRecord.get("Gender"));
-                student.getUser().setNationality(csvRecord.get("Nationality"));
+                UserEntity user = new UserEntity();
+
+                log.info("record email = {}",csvRecord.get("RegistrationNo"));
+                user.setFirstName(csvRecord.get("FirstName"));
                 student.setRegistrationNo(csvRecord.get("RegistrationNo"));
+                user.setMiddleName(csvRecord.get("MiddleName"));
+                user.setLastName(csvRecord.get("LastName"));
+                user.setDateOfBirth(csvRecord.get("DateOfBirth"));
+                user.setEmail(csvRecord.get("Email"));
+                user.setGender(csvRecord.get("Gender"));
+                user.setNationality(csvRecord.get("Nationality"));
+                student.setRegistrationNo(csvRecord.get("RegistrationNo"));
+                log.info("record RegistrationNo ={}",csvRecord.get("RegistrationNo"));
+                log.info("adding to list");
                 studentEntitiesList.add(student);
+                userEntities.add(user);
+                UserEntity savedUser=userRepo.save(user);
+                student.setUser(savedUser);
+                dataService.saveStudent(student);
+
+                log.info("list contains {} items",studentEntitiesList.size());
             }
+
+
+            log.info("list contains {} items",studentEntitiesList.size());
             return studentEntitiesList;
         } catch (IOException e) {
             throw new RuntimeException("CSV data  failed to parse: " + e.getMessage());
         }
+
     }
 
     public static ArrayList<GuardianEntity> csvToGuardianEntity(InputStream is) {

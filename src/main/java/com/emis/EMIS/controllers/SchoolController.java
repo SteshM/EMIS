@@ -111,6 +111,10 @@ public class SchoolController {
     public ResponseDTO updateCurriculum(@PathVariable int id,@RequestBody CurriculumDTO curriculumDTO) throws JsonProcessingException {
         return schoolService.updateCurriculum(id,curriculumDTO);
     }
+    @DeleteMapping("/del-curriculum/{id}")
+    public ResponseDTO deleteCurriculum(@PathVariable int id){
+        return schoolService.deleteCurriculum(id);
+    }
 
 
     /**

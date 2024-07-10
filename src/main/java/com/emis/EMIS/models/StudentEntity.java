@@ -2,12 +2,14 @@ package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "students")
 public class StudentEntity {
     @Id
@@ -26,6 +28,14 @@ public class StudentEntity {
     private GuardianEntity guardian;
 
 
-
-
+    @Override
+    public String toString() {
+        return "StudentEntity{" +
+                "studentId=" + studentId +
+                ", registrationNo='" + registrationNo + '\'' +
+                ", status=" + status +
+                ", user=" + user +
+                ", guardian=" + guardian +
+                '}';
+    }
 }

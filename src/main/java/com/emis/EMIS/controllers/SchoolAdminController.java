@@ -48,8 +48,8 @@ public class    SchoolAdminController {
     }
 
     @PutMapping("/update-student/{id}")
-    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO, Authentication authentication) throws JsonProcessingException, SavingException {
-        return schoolAdminService.updateStudent(id, studentDTO,authentication);
+    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO) throws JsonProcessingException, SavingException {
+        return schoolAdminService.updateStudent(id, studentDTO);
     }
 
     @DeleteMapping("/del-student/{id}")

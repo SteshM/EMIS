@@ -2,16 +2,22 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/CountyEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/CountyDioceseRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/RolesEntity.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/utils/AuditTrailUtil.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/SchoolAdminInfoEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/DioceseRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/CurriculumRepo.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/DesignationResDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/utils/JwtUtil.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/AuditTrailEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SchoolMenuCodeStatusRepo.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/SchoolsResDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/TeachersRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/utils/Exchanger.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/IdentityTypeDTO.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/exception/CustomExceptionHandler.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/CurriculumDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/LevelResDTO.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/SchoolContactResDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/controllers/EduVODAdminController.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/LearningStagesRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/DirectorsDocsRepo.java
@@ -19,6 +25,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/ProfileRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/AgentDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/SystemAdminsDTO.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/exception/SavingException.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/SchoolsEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/DesignationEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/MenuCodeStatusesDTO.java
@@ -47,8 +54,10 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/controllers/UserController.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/DocumentTypesRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/CountyDTO.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/CategoryResDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/DirectorsDocsEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/UserEntity.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/AuditTrailRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/DocumentsDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/SubCountyDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/configs/JwtSecurityConfig.java
@@ -67,6 +76,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/SchoolDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/EmisApplication.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/DocumentTypesDTO.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/AuditTrailResDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/controllers/SchoolAdminController.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/SubmitSchoolDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/SubjectResDTO.java
@@ -109,6 +119,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/SubjectDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/AgentInfoEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/RolesRepo.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/AuditTrailDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/configs/UserConfigs.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/UserDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/DirectorsRequestDTO.java

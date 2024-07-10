@@ -237,6 +237,13 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         var curriculumResDTO =modelMapper.map(updatedCurriculum,CurriculumResDTO.class);
         return utilities.successResponse("updated school type successfully",curriculumResDTO);
     }
+    public ResponseDTO deleteCurriculum(int id) {
+        CurriculumEntity curriculum = dataService.findByCurriculumId(id);
+        curriculum.setStatus(Status.DELETED);
+       dataService.saveCurriculum(curriculum);
+       return utilities.successResponse("Successfully deleted a curriculum",null);
+
+    }
 
 
     /**
@@ -820,6 +827,8 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             return utilities.failedResponse(408, "The school does not meet criteria", null);
         }
     }
+
+
 
 //    public ResponseDTO CreateSupportDocuments(String support, MultipartFile supportDocs) {
 //    }

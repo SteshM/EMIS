@@ -37,6 +37,6 @@ public class AuditTrailEntity {
     private String username;
 
     @Column(name = "status")
-    private boolean isSuccessful;
+    private int isSuccessful;
 
 }
