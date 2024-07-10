@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -32,7 +33,10 @@ public class    SchoolAdminController {
      * @throws JsonProcessingException the exception
      */
 
-
+    @PostMapping("/upload-students")
+    public ResponseDTO bulkUploadStudents(@RequestPart("csvFile")MultipartFile csvFile){
+        return schoolAdminService.registerStudentsCSV(csvFile);
+    }
     @GetMapping("/students")
     public ResponseDTO viewStudents() throws JsonProcessingException {
         return schoolAdminService.viewStudents();

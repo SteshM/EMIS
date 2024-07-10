@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class CategoryDTO {
+    private int schoolId;
     @NotBlank(message = "This field is required!")
     private String category;
 }

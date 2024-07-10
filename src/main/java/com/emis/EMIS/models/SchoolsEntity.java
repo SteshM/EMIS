@@ -71,8 +71,6 @@ public class SchoolsEntity {
     private String location;
     private String road;
     private String state;
-//    private double latitude;
-//    private double longitude;
 //    private int approvedBy = 0;
 //    private int rejectedBy = 0;
 //    private int submittedBy = 0;

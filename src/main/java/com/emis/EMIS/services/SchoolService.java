@@ -5,10 +5,7 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.FileUpload;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
-import com.emis.EMIS.wrappers.responseDTOs.CategoryResDTO;
-import com.emis.EMIS.wrappers.responseDTOs.CurriculumResDTO;
-import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.responseDTOs.SchoolsResDTO;
+import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -234,9 +231,10 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
         var objectMapper = new ObjectMapper();
         CurriculumEntity curriculum = dataService.findByCurriculumId(id);
         log.info("Fetched a curriculum from the db:{}", objectMapper.writeValueAsString(curriculum));
-        modelMapper.map(curriculum,curriculumDTO);
+        curriculum.setCurriculum(curriculumDTO.getCurriculum());
         log.info("Updated curriculum Details. About to save:{}", objectMapper.writeValueAsString(curriculum));
-        var curriculumResDTO = dataService.saveCurriculum(curriculum);
+        var updatedCurriculum = dataService.saveCurriculum(curriculum);
+        var curriculumResDTO =modelMapper.map(updatedCurriculum,CurriculumResDTO.class);
         return utilities.successResponse("updated school type successfully",curriculumResDTO);
     }
 
@@ -309,14 +307,14 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
 
     public ResponseDTO getDesignations() throws JsonProcessingException {
         List<DesignationEntity>designationEntityList = dataService.fetchDesignations();
-        List<DesignationDTO>designationDTOList = designationEntityList.stream()
+        List<DesignationResDTO>designationResDTOS = designationEntityList.stream()
                 .map(designationEntity -> {
-                    return modelMapper.map(designationEntity, DesignationDTO.class);
+                    return modelMapper.map(designationEntity, DesignationResDTO.class);
                 })
                 .toList();
         log.info("Fetched  all  designations :{}", new ObjectMapper().writeValueAsString(designationEntityList));
 
-return utilities.successResponse("Fetched all designations",designationDTOList);
+return utilities.successResponse("Fetched all designations",designationResDTOS);
     }
 
 
@@ -394,13 +392,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
         List<SchoolContacts>schoolContactsList = dataService.fetchSchoolContacts();
-        List<SchoolContactsDTO>schoolContactsDTOList = schoolContactsList.stream()
+        List<SchoolContactResDTO>schoolContactResDTOS = schoolContactsList.stream()
                 .map(schoolContacts -> {
-                    return modelMapper.map(schoolContacts,SchoolContactsDTO.class);
+                    return modelMapper.map(schoolContacts,SchoolContactResDTO.class);
                 })
                 .toList();
         log.info("Fetched  all  school contacts :{}", new ObjectMapper().writeValueAsString(schoolContactsList));
-        return utilities.successResponse("Fetched all school contacts",schoolContactsDTOList);
+        return utilities.successResponse("Fetched all school contacts",schoolContactResDTOS);
     }
 
     public ResponseDTO deleteSchoolContacts(int id) {
@@ -822,6 +820,9 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             return utilities.failedResponse(408, "The school does not meet criteria", null);
         }
     }
+
+//    public ResponseDTO CreateSupportDocuments(String support, MultipartFile supportDocs) {
+//    }
 }
 
 

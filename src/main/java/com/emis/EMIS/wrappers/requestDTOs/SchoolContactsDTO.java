@@ -14,8 +14,8 @@ import java.util.Date;
 public class SchoolContactsDTO {
     @NotNull(message = "designation is required!")
     private String designation;
-    @NotNull(message = "designationId is required!")
-    private String designationId;
+//    @NotNull(message = "designationId is required!")
+//    private String designationId;
     @NotNull(message = "emailAddress is required!")
     @Email
     @Column(unique = true)
@@ -26,8 +26,8 @@ public class SchoolContactsDTO {
     private String phoneNumber;
     @NotNull(message = "school is required!")
     private String school;
-    @NotNull(message = "schoolId is required!")
-    private String schoolId;
+//    @NotNull(message = "schoolId is required!")
+//    private String schoolId;
     @NotNull(message = "date created  is required!")
     private Date createdOn;
     @NotNull(message = "createdBy is required!")
