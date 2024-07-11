@@ -1,11 +1,13 @@
 com/emis/EMIS/models/DesignationEntity.class
 com/emis/EMIS/repositories/LearningStagesRepo.class
+com/emis/EMIS/repositories/StudentMarksRepo.class
 com/emis/EMIS/models/OTPEntity.class
 com/emis/EMIS/models/SchoolAdminInfoEntity.class
 com/emis/EMIS/wrappers/requestDTOs/MenuCodeStatusesDTO.class
 com/emis/EMIS/utils/AuditTrailUtil.class
 com/emis/EMIS/repositories/SubCountyRepo.class
 com/emis/EMIS/wrappers/requestDTOs/DirectorsRequestDTO.class
+com/emis/EMIS/models/AcademicProgressTrackerEntity.class
 com/emis/EMIS/wrappers/requestDTOs/CategoryDTO.class
 com/emis/EMIS/models/TeacherEntity.class
 com/emis/EMIS/repositories/IdentityTypeRepo.class
@@ -98,6 +100,7 @@ com/emis/EMIS/models/RoleProfileEntity.class
 com/emis/EMIS/wrappers/requestDTOs/LevelDTO.class
 com/emis/EMIS/wrappers/requestDTOs/SubCountyDTO.class
 com/emis/EMIS/models/DirectorsDocsEntity.class
+com/emis/EMIS/repositories/AcademicProgressTrackerRepo.class
 com/emis/EMIS/wrappers/responseDTOs/PartnerDTO$PartnerDTOBuilder.class
 com/emis/EMIS/wrappers/responseDTOs/SystemAdminsDTO.class
 com/emis/EMIS/wrappers/responseDTOs/SystemAdminsDTO$SystemAdminsDTOBuilder.class
@@ -172,6 +175,7 @@ com/emis/EMIS/wrappers/requestDTOs/ProfileDto.class
 com/emis/EMIS/models/UserRoleEntity.class
 com/emis/EMIS/repositories/UserRoleRepo.class
 com/emis/EMIS/services/EduVODAdminService.class
+com/emis/EMIS/models/StudentMarksEntity.class
 com/emis/EMIS/repositories/PartnerRepo.class
 com/emis/EMIS/models/StreamsEntity.class
 com/emis/EMIS/utils/ImageUploader.class

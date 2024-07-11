@@ -8,6 +8,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/CurriculumRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/DesignationResDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/utils/JwtUtil.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/StudentMarksEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/AuditTrailEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SchoolMenuCodeStatusRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/responseDTOs/SchoolsResDTO.java
@@ -92,6 +93,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/services/OTPService.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/DocumentTypes.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SchoolDocumentRepo.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/AcademicProgressTrackerRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SchoolGenderRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/enums/Status.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/DesignationRepo.java
@@ -106,6 +108,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/LoginDTO.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/PartnerRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/wrappers/requestDTOs/LearningStagesDTO.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/StudentMarksRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SupportingDocumentsRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/enums/Curriculum.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/UserRoleRepo.java
@@ -134,6 +137,7 @@
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/CountyDioceseEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/SchoolMenuCodeStatuses.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/security/CustomUserDetails.java
+/home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/AcademicProgressTrackerEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/repositories/SubjectRepo.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/LevelsEntity.java
 /home/steshm/Downloads/EMIS/src/main/java/com/emis/EMIS/models/CategoriesEntity.java

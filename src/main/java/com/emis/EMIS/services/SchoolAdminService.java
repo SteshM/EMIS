@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Stella
@@ -187,8 +188,9 @@ public class SchoolAdminService {
         List<TeacherEntity>teacherEntityList =  dataService.fetchActiveTeachers();
         List<TeacherDTO>teacherDTOList = teacherEntityList.stream()
                 .map(teacherEntity -> {
+                    Optional<String>schoolName =Optional.ofNullable(teacherEntity.getSchool().getSchoolName());
                   return TeacherDTO.builder()
-                            .schoolName(teacherEntity.getSchool().getSchoolName()== null?null:teacherEntity.getSchool().getSchoolName())
+                            .schoolName(schoolName.orElse(null))
                             .schoolId(teacherEntity.getSchool().getSchoolId()== 0?0:teacherEntity.getSchool().getSchoolId())
                             .firstName(teacherEntity.getUser().getFirstName())
                             .middleName(teacherEntity.getUser().getMiddleName())
