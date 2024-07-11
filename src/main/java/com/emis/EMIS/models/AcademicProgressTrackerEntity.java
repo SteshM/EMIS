@@ -16,6 +16,7 @@ public class AcademicProgressTrackerEntity {
     private int studentId;
     private int learningStageId;
     private int streamId;
+    private int term;
     private int year;
 
 
