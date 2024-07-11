@@ -70,6 +70,9 @@ public class UserDTO {
     @NotBlank(message = "tsc no cannot be blank!")
     private String tscNo;
 
+    @NotBlank(message = "schoolId cannot be blank!")
+    private int schoolId;
+
     @NotBlank(message = "Employment no is mandatory!")
     private String employmentNo;
 

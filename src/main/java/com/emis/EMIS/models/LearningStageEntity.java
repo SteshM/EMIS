@@ -18,7 +18,6 @@ public class LearningStageEntity {
     private int learningStageId;
     private String learningStage;
     private int year;
-    private String stream;
     private Status status;
     private Date dateCreated  = new Date();
     private String createdBy;

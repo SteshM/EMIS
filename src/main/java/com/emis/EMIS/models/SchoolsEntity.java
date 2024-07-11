@@ -45,24 +45,24 @@ public class SchoolsEntity {
     @JoinColumn(name = "curriculumId")
     private CurriculumEntity curriculum;
 
-    @ManyToOne
-    @JoinColumn(name = "countyId")
-    private CountyEntity countyEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "subCountyId")
-    private SubCountyEntity subCountyEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "countyDioceseId")
-    private CountyDioceseEntity countyDioceseEntity;
+//    @ManyToOne
+//    @JoinColumn(name = "countyId")
+//    private CountyEntity countyEntity;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "subCountyId")
+//    private SubCountyEntity subCountyEntity;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "countyDioceseId")
+//    private CountyDioceseEntity countyDioceseEntity;
 
     @OneToMany()
     List<StreamsEntity>streamsEntityList;
-
-    @ManyToOne
-    @JoinColumn(name = "dioceseId")
-    private DioceseEntity dioceseEntity;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "dioceseId")
+//    private DioceseEntity dioceseEntity;
     private String logoName;
     private String logoUrl;
     private String logoSize;

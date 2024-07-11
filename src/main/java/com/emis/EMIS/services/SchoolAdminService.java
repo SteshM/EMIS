@@ -187,8 +187,21 @@ public class SchoolAdminService {
         List<TeacherEntity>teacherEntityList =  dataService.fetchActiveTeachers();
         List<TeacherDTO>teacherDTOList = teacherEntityList.stream()
                 .map(teacherEntity -> {
-
-                    return modelMapper.map(teacherEntity, TeacherDTO.class);
+                  return TeacherDTO.builder()
+                            .schoolName(teacherEntity.getSchool().getSchoolName()== null?null:teacherEntity.getSchool().getSchoolName())
+                            .schoolId(teacherEntity.getSchool().getSchoolId()== 0?0:teacherEntity.getSchool().getSchoolId())
+                            .firstName(teacherEntity.getUser().getFirstName())
+                            .middleName(teacherEntity.getUser().getMiddleName())
+                            .lastName(teacherEntity.getUser().getLastName())
+                            .gender(teacherEntity.getUser().getGender())
+                            .dateOfBirth(teacherEntity.getUser().getDateOfBirth())
+                            .nationality(teacherEntity.getUser().getNationality())
+                            .nationalId(teacherEntity.getUser().getNationalId())
+                            .email(teacherEntity.getUser().getEmail())
+                            .phoneNo(teacherEntity.getUser().getPhoneNo())
+                            .tscNo(teacherEntity.getTscNo())
+                            .yearsOfExperience(teacherEntity.getYearsOfExperience())
+                            .build();
                 })
                 .toList();
         log.info("Fetched  all teachers Details:{}", new ObjectMapper().writeValueAsString(teacherEntityList));

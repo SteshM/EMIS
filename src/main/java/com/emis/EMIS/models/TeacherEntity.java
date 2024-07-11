@@ -17,6 +17,10 @@ public class TeacherEntity {
     private int yearsOfExperience;
     private Status status;
 
+    @OneToOne
+    @JoinColumn(name = "schoolId")
+    private SchoolsEntity school;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserEntity user;

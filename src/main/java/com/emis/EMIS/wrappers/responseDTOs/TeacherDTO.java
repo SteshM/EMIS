@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class TeacherDTO {
     private int teacherId;
+    private int schoolId;
+    private String schoolName;
     private String firstName;
     private String middleName;
     private String lastName;

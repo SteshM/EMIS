@@ -118,6 +118,7 @@ public class UserService implements UserDetailsService {
                 var teacher = modelMapper.map(userDTO, TeacherEntity.class);
                 teacher.setUser(savedUser);
                 teacher.setStatus(Status.ACTIVE);
+                teacher.setSchool(dataService.findBySchoolId(userDTO.getSchoolId()));
                 log.info("about to save a teacher :{}",teacher);
                 dataService.saveTeacher(teacher);
                 return utilities.successResponse("Created a teacher",null);
