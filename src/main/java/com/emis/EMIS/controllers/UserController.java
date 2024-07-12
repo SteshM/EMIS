@@ -22,6 +22,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/user")
+@CrossOrigin("*")
 public class UserController {
     private  final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;

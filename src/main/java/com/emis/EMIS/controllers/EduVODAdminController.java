@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/eduAdmin")
+@CrossOrigin("*")
 
 public class EduVODAdminController {
     private final EduVODAdminService eduVODAdminService;

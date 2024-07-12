@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/v1/agent")
+@CrossOrigin("*")
 public class SchoolController {
     private final SchoolService schoolService;
 

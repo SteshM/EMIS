@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/v1/schAdmin")
+@CrossOrigin("*")
 public class    SchoolAdminController {
 
     private final SchoolAdminService schoolAdminService;

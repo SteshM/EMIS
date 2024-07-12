@@ -17,8 +17,8 @@ public class SchoolsResDTO {
     private int schoolTypeId;
     private int schoolGenderId;
     private int curriculumId;
-    private int subCountyId;
-    private String diocese;
+    private String  County;
+    private String  subCounty;
     private String logo;
 
 
