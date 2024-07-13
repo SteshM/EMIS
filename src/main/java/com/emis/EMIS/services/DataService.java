@@ -50,6 +50,7 @@ public class DataService {
     private final CurriculumRepo curriculumRepo;
     private final StreamRepo streamRepo;
     private final AuditTrailRepo auditTrailRepo;
+    private final StudentMarksRepo studentMarksRepo;
 
 
 
@@ -435,8 +436,13 @@ public class DataService {
     }
 
 
-    public AuditTrailEntity saveAuditTrail(AuditTrailEntity auditTrail) {
-        return auditTrailRepo.save(auditTrail);
+    public void saveAuditTrail(AuditTrailEntity auditTrail) {
+        auditTrailRepo.save(auditTrail);
+
+    }
+
+    public void saveStudentMarks(StudentMarksEntity studentMarks) {
+        studentMarksRepo.save(studentMarks);
 
     }
 }

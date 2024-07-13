@@ -11,5 +11,5 @@ public class DocumentTypeCodesDTO {
     private String name;
     private String remarks;
     private boolean required;
-    private Integer recordsRequired;
+    private int recordsRequired;
 }

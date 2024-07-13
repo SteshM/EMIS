@@ -24,4 +24,8 @@ public class CategoriesEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateModified = new Date();
     private String modifiedBy;
+
+    @OneToOne
+    @JoinColumn(name = "schoolId")
+    private CategoriesEntity categoriesEntity;
 }

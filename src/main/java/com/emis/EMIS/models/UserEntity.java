@@ -47,7 +47,7 @@ public class UserEntity {
     private String modifiedBy;
     private Status status;
     private Date lastActivity = new Date();
-    private Date firstLogin;
+    private Date firstLogin = new Date();
     private Date lastLogin;
     private int failedLoginAttempts;
     private int profileId;

@@ -13,13 +13,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.Authentication;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -89,7 +86,16 @@ public class SchoolAdminService {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
         List<StudentDTO>studentDTOList = studentEntityList.stream()
                 .map(student -> {
-                    return modelMapper.map(student,StudentDTO.class);
+                    return StudentDTO.builder()
+                            .firstName(student.getUser().getFirstName())
+                            .middleName(student.getUser().getMiddleName())
+                            .lastName(student.getUser().getLastName())
+                            .gender(student.getUser().getGender())
+                            .dateOfBirth(student.getUser().getDateOfBirth())
+                            .nationality(student.getUser().getNationality())
+                            .email(student.getUser().getEmail())
+                            .registrationNo(student.getRegistrationNo())
+                            .build();
                 })
                 .toList();
         log.info("Fetched  all student Details:{}", new ObjectMapper().writeValueAsString(studentEntityList));
@@ -569,6 +575,16 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
         List<SubjectEntity>subjectEntityList=dataService.fetchSubjectsByTeacherId(teacher);
        return utilities.successResponse("fetched all subjects by teacher id",subjectEntityList);
     }
+
+    public ResponseDTO addMarks(MarksDTO marksDTO) {
+        StudentMarksEntity studentMarks = new StudentMarksEntity();
+        studentMarks.setStudent(dataService.findByStudentId(marksDTO.getStudentId()));
+        studentMarks.setSubject(dataService.findBySubjectId(marksDTO.getSubjectId()));
+        dataService.saveStudentMarks(studentMarks);
+        return utilities.successResponse("saved student marks",null);
+
+    }
+
 }
 
 

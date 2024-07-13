@@ -1,6 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.EduVODAdminService;
+import com.emis.EMIS.wrappers.requestDTOs.MarksDTO;
 import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
@@ -104,5 +105,6 @@ public class EduVODAdminController {
     public ResponseDTO delPartner(@PathVariable int id){
         return eduVODAdminService.deletePartner(id);
     }
+
 
 }

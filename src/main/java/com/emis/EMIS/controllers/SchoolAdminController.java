@@ -29,7 +29,6 @@ public class    SchoolAdminController {
 
     /**
      * STUDENTS
-     *
      * @return response dto
      * @throws JsonProcessingException the exception
      */
@@ -234,6 +233,10 @@ public class    SchoolAdminController {
     @GetMapping("/teacher/{id}/subjects")
     public ResponseDTO getTeacherSubjects(@PathVariable int id){
         return schoolAdminService.getSubjectsByTeacherId(id);
+    }
+    @PostMapping("/marks")
+    public ResponseDTO AddMarks(@RequestBody MarksDTO marksDTO){
+        return schoolAdminService.addMarks(marksDTO);
     }
 
 

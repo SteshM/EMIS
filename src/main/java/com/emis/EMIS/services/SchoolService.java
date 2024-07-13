@@ -125,10 +125,10 @@ public class SchoolService {
      * @throws JsonProcessingException the exception
      */
 
-    public ResponseDTO addSchoolType(String schoolTypeName) throws JsonProcessingException {
+    public ResponseDTO addSchoolType(String schoolTypeName){
        SchoolType schoolType = new SchoolType();
        schoolType.setName(schoolTypeName);
-        log.info("About to save a schoolType basic info:{}", new ObjectMapper().writeValueAsString(schoolType));
+        log.info("About to save a schoolType basic info:{}",schoolType);
        var savedSchoolTYpe = dataService.saveSchoolType(schoolType);
        var schoolTypeDTO =modelMapper.map(savedSchoolTYpe,SchoolTypeDTO.class);
         return utilities.successResponse("added a school type",schoolTypeDTO);
@@ -180,13 +180,13 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
     public ResponseDTO getAllSchoolGenders() throws JsonProcessingException {
         List<SchoolGender>schoolGenderList = dataService.fetchSchoolGenders();
         log.info("About to fetch all school genders from the db::{}",schoolGenderList);
-        List<SchoolGenderDTO>schoolGenderDTOList = schoolGenderList.stream()
+        List<SchoolGenderResDTO>schoolGenderResDTOS = schoolGenderList.stream()
                 .map(schoolGender -> {
-                    return modelMapper.map(schoolGender,SchoolGenderDTO.class);
+                    return modelMapper.map(schoolGender,SchoolGenderResDTO.class);
                 })
                 .toList();
         log.info("Fetched  all  school gender Details:{}", new ObjectMapper().writeValueAsString(schoolGenderList));
-        return utilities.successResponse("fetched all school genders",schoolGenderDTOList);
+        return utilities.successResponse("fetched all school genders",schoolGenderResDTOS);
     }
 
     public ResponseDTO updateSchoolGender(int id, SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
@@ -255,7 +255,9 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
 
 
     public ResponseDTO addCategory(CategoryDTO categoryDTO) throws JsonProcessingException {
-        var categoriesEntity = modelMapper.map(categoryDTO, CategoriesEntity.class);
+        var categoriesEntity = new CategoriesEntity();
+        categoriesEntity.setCategory(categoryDTO.getCategory());
+        dataService.findBySchoolId(categoryDTO.getSchoolId());
         log.info("About to save a category:{}", new ObjectMapper().writeValueAsString(categoriesEntity));
         var savedCategory = dataService.saveCategories(categoriesEntity);
         var categoryResDTO = modelMapper.map(savedCategory, CategoryResDTO.class);

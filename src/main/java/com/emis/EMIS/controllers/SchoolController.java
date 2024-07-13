@@ -60,7 +60,8 @@ public class SchoolController {
      */
 
     @PostMapping("/school-type")
-    public ResponseDTO addSchoolType(@PathParam("schoolType") String schoolType ) throws JsonProcessingException {
+    public ResponseDTO addSchoolType(@PathParam("schoolType") String schoolType ) {
+        log.info("About to save a schoolType basic info:{}",schoolType);
         return schoolService.addSchoolType(schoolType);
     }
     @GetMapping("/school-type")

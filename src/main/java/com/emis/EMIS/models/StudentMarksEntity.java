@@ -12,11 +12,15 @@ public class StudentMarksEntity {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY )
     private int marksId;
-    private Double mark;
+    private double mark;
 
     @OneToOne
     @JoinColumn(name = "subjectId")
     private SubjectEntity subject;
+
+    @OneToOne
+    @JoinColumn(name = "studentId")
+    private StudentEntity student ;
 
 
 }
