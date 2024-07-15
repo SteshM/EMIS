@@ -439,8 +439,8 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     public ResponseDTO updateMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO, int id) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var menuCodes = dataService.findByMenuCodeId(id);
+        log.info("menucodes :{}",documentTypeCodesDTO.toString());
         log.info("Fetched a menu code from the db:{}", objectMapper.writeValueAsString(menuCodes));
-        modelMapper.map(menuCodes,documentTypeCodesDTO);
         menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
         log.info("Updated menu codes . About to save:{}", objectMapper.writeValueAsString(menuCodes));
         dataService.saveMenuCodes(menuCodes);
@@ -477,7 +477,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var objectMapper = new ObjectMapper();
         DocumentTypes documentTypes = dataService.findByDocumentTypeId(id);
         log.info("Fetched a document type  from the db:{}", objectMapper.writeValueAsString(documentTypes));
-        modelMapper.map(documentTypes,documentTypesDTO);
+        documentTypes.setName(documentTypesDTO.getName());
         log.info("Updated document types . About to save:{}", objectMapper.writeValueAsString(documentTypes));
         dataService.saveDocumentTypes(documentTypes);
         return utilities.successResponse("updated document types  successfully",documentTypesDTO);
@@ -817,6 +817,14 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         if(schoolsEntity == null){
             return utilities.failedResponse(400, "School does not exist", null);
         }
+//        List<MenuCodes>menuCodesList =dataService.fetchAllMenuCodes();
+//        boolean allRequiredCompleted = menuCodesList.stream()
+//                .filter(MenuCodes ::isRequired)
+//                .allMatch(menuCodes -> {
+//
+//                });
+
+
         //add else if to check if there are any other checks, eg if the school has been soft deleted etc
 
         //check if has menu codes or something like that

@@ -11,4 +11,6 @@ public interface OTPRepo extends JpaRepository<OTPEntity, Integer> {
     @Query(nativeQuery = true, value = "select * FROM otp WHERE user_id = ?")
     OTPEntity findByUserId(int userId);
 
+
+
 }

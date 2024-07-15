@@ -242,15 +242,15 @@ public class SchoolController {
      * @throws JsonProcessingException the exception
      */
 
-    @PostMapping("/save/document-type")
+    @PostMapping("/document-type")
     public ResponseDTO saveDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
         return schoolService.saveDocumentType(documentTypesDTO);
     }
-    @PutMapping("/document-type/update/{id}")
+    @PutMapping("/document-type/{id}")
     public ResponseDTO updateDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateDocumentType(documentTypesDTO,id);}
 
-    @GetMapping("/document-types/all")
+    @GetMapping("/document-types")
     public ResponseDTO getAll() throws JsonProcessingException {
         return schoolService.getDocumentTypes();
     }

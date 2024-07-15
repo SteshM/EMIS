@@ -238,6 +238,10 @@ public class    SchoolAdminController {
     public ResponseDTO AddMarks(@RequestBody MarksDTO marksDTO){
         return schoolAdminService.addMarks(marksDTO);
     }
+    @GetMapping("/subject/{id}/student-marks")
+    public ResponseDTO getMarksBySubjectId(@PathVariable int id) throws JsonProcessingException {
+        return schoolAdminService.getMarks(id);
+    }
 
 
 }

@@ -45,17 +45,10 @@ public class SchoolsEntity {
     @JoinColumn(name = "curriculumId")
     private CurriculumEntity curriculum;
 
-//    @ManyToOne
-//    @JoinColumn(name = "countyId")
-//    private CountyEntity countyEntity;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "subCountyId")
-//    private SubCountyEntity subCountyEntity;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "countyDioceseId")
-//    private CountyDioceseEntity countyDioceseEntity;
+    @OneToMany
+    List<DocumentTypes>  documentTypes;
+
+
 
     @OneToMany()
     List<StreamsEntity>streamsEntityList;

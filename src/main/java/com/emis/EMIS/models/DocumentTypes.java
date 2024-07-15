@@ -17,7 +17,10 @@ public class DocumentTypes {
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "menu_codes_id")
+    @JoinColumn(name = "menuCodeId")
     private MenuCodes menuCodes;
+
+
+
 
 }

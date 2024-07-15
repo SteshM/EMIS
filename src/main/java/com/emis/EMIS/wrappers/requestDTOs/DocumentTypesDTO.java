@@ -11,10 +11,7 @@ public class DocumentTypesDTO {
     private String name;
     @NotNull(message = "Menu code id is required")
     private String menuCodeId;
-    @NotNull(message = "Remarks is required")
-    private String remarks;
     @NotNull(message = "schoolId is required")
     private String schoolId;
-    @NotNull(message = "this field is mandatory")
-    private Boolean required;
+
 }

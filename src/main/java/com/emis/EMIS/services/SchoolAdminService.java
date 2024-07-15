@@ -451,7 +451,9 @@ public class SchoolAdminService {
         LevelsEntity levelsEntity =dataService.findByLevelId(subjectDTO.getLevelId());
         SubjectEntity subject = new SubjectEntity();
         subject.setLevels(levelsEntity);
+        log.info("level : {}",levelsEntity.toString());
         subject.setSubject(subjectDTO.getSubject());
+        log.info(" set subject : {}",subject);
         log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
          var savedSubject = dataService.saveSubject(subject);
          var  subjectResDTO = modelMapper.map(savedSubject, SubjectResDTO.class);
@@ -586,6 +588,26 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
         return utilities.successResponse("saved student marks",null);
 
     }
+
+
+    public ResponseDTO getMarks(int id) throws JsonProcessingException {
+        SubjectEntity subject = dataService.findBySubjectId(id);
+        List<StudentMarksEntity>studentMarksEntityList = dataService.fetchMarksBySubjectId(subject);
+        List<MarksResDTO>marksResDTOS =studentMarksEntityList.stream()
+                .map(studentMarksEntity -> {
+                    return MarksResDTO.builder()
+                            .marks(studentMarksEntity.getMark())
+                            .studentId(studentMarksEntity.getStudent().getStudentId())
+                            .subjectId(studentMarksEntity.getSubject().getSubjectId())
+                            .build();
+                })
+                .toList();
+        log.info("fetched all Marks per subject {}",new ObjectMapper().writeValueAsString(studentMarksEntityList));
+return utilities.successResponse("successfully fetched all marks per subject",marksResDTOS);
+
+
+    }
+
 
 }
 

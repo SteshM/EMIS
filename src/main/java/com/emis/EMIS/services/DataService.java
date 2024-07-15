@@ -51,6 +51,7 @@ public class DataService {
     private final StreamRepo streamRepo;
     private final AuditTrailRepo auditTrailRepo;
     private final StudentMarksRepo studentMarksRepo;
+    private final AcademicProgressTrackerRepo academicProgressTrackerRepo;
 
 
 
@@ -446,4 +447,16 @@ public class DataService {
         studentMarksRepo.save(studentMarks);
 
     }
+
+    public void saveProgress(AcademicProgressTrackerEntity academicProgressTracker) {
+       academicProgressTrackerRepo.save(academicProgressTracker);
+    }
+
+    public List<StudentMarksEntity> fetchMarksBySubjectId(SubjectEntity subject) {
+        return studentMarksRepo.findBySubjectEntity(subject);
+    }
+//    public List<AcademicProgressTrackerEntity> findDistinctStudentId(){
+//        return academicProgressTrackerRepo.findDistinctStudentId();
+//    }
+
 }
