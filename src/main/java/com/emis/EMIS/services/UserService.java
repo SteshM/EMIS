@@ -108,9 +108,11 @@ public class UserService implements UserDetailsService {
 //Student
             }else if (profileId == 5){
                 var student = modelMapper.map(userDTO, StudentEntity.class);
-                savedUser.setStatus(Status.INACTIVE);
+                savedUser.setStatus(Status.ACTIVE);
+                log.info("status : {}",Status.INACTIVE);
                 student.setUser(savedUser);
-                student.setStatus(Status.INACTIVE);
+                student.setStatus(Status.ACTIVE);
+                log.info("about to save a student :{}",student);
                 dataService.saveStudent(student);
                 return utilities.successResponse("Created a student",null);
 //Teacher

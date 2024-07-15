@@ -84,6 +84,7 @@ public class SchoolAdminService {
 
     public ResponseDTO viewStudents() throws JsonProcessingException {
         List<StudentEntity>studentEntityList = dataService.viewAllStudents();
+        log.info("about to fetch students from the dn : {}",studentEntityList.size());
         List<StudentDTO>studentDTOList = studentEntityList.stream()
                 .map(student -> {
                     return StudentDTO.builder()
@@ -448,8 +449,9 @@ public class SchoolAdminService {
      */
     public ResponseDTO CreateSubject(SubjectDTO subjectDTO) throws JsonProcessingException {
         LevelsEntity levelsEntity =dataService.findByLevelId(subjectDTO.getLevelId());
-        SubjectEntity subject = modelMapper.map(subjectDTO, SubjectEntity.class);
+        SubjectEntity subject = new SubjectEntity();
         subject.setLevels(levelsEntity);
+        subject.setSubject(subjectDTO.getSubject());
         log.info("About to save a  subject : {}",new ObjectMapper().writeValueAsString(subject));
          var savedSubject = dataService.saveSubject(subject);
          var  subjectResDTO = modelMapper.map(savedSubject, SubjectResDTO.class);

@@ -17,8 +17,8 @@ public class MenuCodes {
     private String remarks;
     private boolean required = true;
     @Column(name = "records_required")
-    private Integer recordsRequired;
-    private Integer completionPercentage;
+    private int recordsRequired;
+    private int completionPercentage;
     private String createdBy;
     private String  updatedBy;
     private Status status;

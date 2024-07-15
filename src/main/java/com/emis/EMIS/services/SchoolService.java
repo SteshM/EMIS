@@ -426,10 +426,14 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
      */
 
     public ResponseDTO saveMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
-      var menuCodes = modelMapper.map(documentTypeCodesDTO,MenuCodes.class);
+        MenuCodes menuCodes = new MenuCodes();
+        menuCodes.setName(documentTypeCodesDTO.getName());
+        menuCodes.setRemarks(documentTypeCodesDTO.getRemarks());
+        menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
         log.info("About to save a menu code:{}", new ObjectMapper().writeValueAsString(menuCodes));
-        dataService.saveMenuCodes(menuCodes);
-        return utilities.successResponse("saved menu codes",null);
+         var savedMenuCodes = dataService.saveMenuCodes(menuCodes);
+         var documentTypeResDTO = modelMapper.map(menuCodes, DocumentTypeResDTO.class);
+        return utilities.successResponse("saved menu codes",documentTypeResDTO);
     }
 
     public ResponseDTO updateMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO, int id) throws JsonProcessingException {
@@ -437,6 +441,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var menuCodes = dataService.findByMenuCodeId(id);
         log.info("Fetched a menu code from the db:{}", objectMapper.writeValueAsString(menuCodes));
         modelMapper.map(menuCodes,documentTypeCodesDTO);
+        menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
         log.info("Updated menu codes . About to save:{}", objectMapper.writeValueAsString(menuCodes));
         dataService.saveMenuCodes(menuCodes);
         return utilities.successResponse("updated menu codes  successfully",documentTypeCodesDTO);
@@ -444,13 +449,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     public ResponseDTO getMenuCodes() throws JsonProcessingException {
         List<MenuCodes>menuCodesList = dataService.fetchAllMenuCodes();
-        List<DocumentTypeCodesDTO>documentTypeCodesDTOS = menuCodesList.stream()
+        List<DocumentTypeResDTO>documentTypeResDTOS = menuCodesList.stream()
                 .map(menuCodes -> {
-                    return modelMapper.map(menuCodes,DocumentTypeCodesDTO.class);
+                    return modelMapper.map(menuCodes,DocumentTypeResDTO.class);
                 })
                 .toList();
         log.info("Fetched  all  menu codes from the db :{}", new ObjectMapper().writeValueAsString(menuCodesList));
-        return utilities.successResponse("Fetched all menu codes",documentTypeCodesDTOS);
+        return utilities.successResponse("Fetched all menu codes",documentTypeResDTOS);
     }
 
 

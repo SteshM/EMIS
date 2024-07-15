@@ -222,15 +222,15 @@ public class SchoolController {
      * @throws JsonProcessingException the exception
      */
 
-    @PostMapping("/save/menu-code")
+    @PostMapping("/menu-code")
     public ResponseDTO saveMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
         return schoolService.saveMenuCode(documentTypeCodesDTO);
     }
-    @PutMapping("/menu-code/update/{id}")
+    @PutMapping("/menu-code/{id}")
     public ResponseDTO updateMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateMenuCode(documentTypeCodesDTO,id);}
 
-    @GetMapping("/menu-codes/all")
+    @GetMapping("/menu-codes")
     public ResponseDTO getAllMenuCodes() throws JsonProcessingException {
         return schoolService.getMenuCodes();
     }

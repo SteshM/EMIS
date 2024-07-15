@@ -9,5 +9,4 @@ public class LearningStageResDTO {
     private int learningStageId;
     private String learningStage;
     private int year;
-    private String stream;
 }

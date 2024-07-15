@@ -152,6 +152,7 @@ public class DataService {
     public StudentEntity findByStudentId(int studentId){
         return studentsRepo.findByStudentId(studentId);
     }
+
     public List<StudentEntity>viewAllStudents(){
         return studentsRepo.findByStatus(Status.ACTIVE);
     }
@@ -280,8 +281,8 @@ public class DataService {
         return schoolContactsRepo.findBySchoolContactId(schoolContactId);
     }
 
-    public void saveMenuCodes(MenuCodes menuCodes){
-        menuCodesRepo.save(menuCodes);
+    public MenuCodes saveMenuCodes(MenuCodes menuCodes){
+        return  menuCodesRepo.save(menuCodes);
 
     }
 

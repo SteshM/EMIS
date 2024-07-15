@@ -15,10 +15,10 @@ public class UserConfigs {
     private int otpLength;
     private int otpExpiryDurationInMinutes;
     private  int invalidStatus;
-    private int activeStatus;
-    private int inactiveStatus;
-    private int partnerPendingStatus;
-    private int deletedStatus;
+//    private int activeStatus;
+//    private int inactiveStatus;
+//    private int partnerPendingStatus;
+//    private int deletedStatus;
 
 
     private String CANCREATEADMIN;
