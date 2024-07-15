@@ -8,5 +8,5 @@ import lombok.Setter;
 public class MarksDTO {
     private int subjectId;
     private int studentId;
-    private double marks;
+    private double mark;
 }

@@ -243,6 +243,10 @@ public class    SchoolAdminController {
         return schoolAdminService.getMarks(id);
     }
 
+    @PutMapping("/marks/{id}")
+    public ResponseDTO updateStudentMarks(@PathVariable int id,@RequestBody MarksDTO marksDTO) throws JsonProcessingException {
+        return schoolAdminService.updateStudentMarks(id,marksDTO);
+    }
 
 }
 

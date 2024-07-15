@@ -609,6 +609,16 @@ return utilities.successResponse("successfully fetched all marks per subject",ma
     }
 
 
+    public ResponseDTO updateStudentMarks(int id,MarksDTO marksDTO) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        StudentMarksEntity studentMarks = dataService.findByMarksId(id);
+        studentMarks.setMark(marksDTO.getMark());
+        log.info("Updated student mark . About to save:{}", objectMapper.writeValueAsString(studentMarks));
+        var updatedStudentMarks = dataService.saveStudentMarks(studentMarks);
+        var markResDTO = modelMapper.map(updatedStudentMarks,MarksResDTO.class);
+        return utilities.successResponse("Successfully updated student marks",markResDTO);
+
+    }
 }
 
 

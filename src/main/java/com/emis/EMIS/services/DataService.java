@@ -443,8 +443,8 @@ public class DataService {
 
     }
 
-    public void saveStudentMarks(StudentMarksEntity studentMarks) {
-        studentMarksRepo.save(studentMarks);
+    public StudentMarksEntity saveStudentMarks(StudentMarksEntity studentMarks) {
+       return studentMarksRepo.save(studentMarks);
 
     }
 
@@ -454,6 +454,10 @@ public class DataService {
 
     public List<StudentMarksEntity> fetchMarksBySubjectId(SubjectEntity subject) {
         return studentMarksRepo.findBySubjectEntity(subject);
+    }
+
+    public StudentMarksEntity findByMarksId(int marksId) {
+        return studentMarksRepo.findByMarksId(marksId);
     }
 //    public List<AcademicProgressTrackerEntity> findDistinctStudentId(){
 //        return academicProgressTrackerRepo.findDistinctStudentId();

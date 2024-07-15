@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface StudentMarksRepo extends JpaRepository<StudentMarksEntity,Integer> {
     List<StudentMarksEntity> findBySubjectEntity(SubjectEntity subject);
+
+    StudentMarksEntity findByMarksId(int marksId);
 }
