@@ -87,7 +87,10 @@ public class SchoolAdminService {
         log.info("about to fetch students from the dn : {}",studentEntityList.size());
         List<StudentDTO>studentDTOList = studentEntityList.stream()
                 .map(student -> {
+                    Optional<String>schoolName =Optional.ofNullable(student.getSchools().getSchoolName());
+
                     return StudentDTO.builder()
+                            .schoolName(schoolName.orElse(null))
                             .firstName(student.getUser().getFirstName())
                             .middleName(student.getUser().getMiddleName())
                             .lastName(student.getUser().getLastName())
@@ -426,7 +429,7 @@ public class SchoolAdminService {
 
     public ResponseDTO updateLearningStage(int id, String learningStage) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
-        LearningStageEntity learningStageEntity = dataService.findByLearningStageId(id);
+        LearningStageEntity learningStageEntity = dataService.findByLearningStageId(id).orElseThrow(()-> new RuntimeException("LearningStageId not found"));
         learningStageEntity.setLearningStage(learningStage);
         log.info("Updated learning stage. About to save:{}", objectMapper.writeValueAsString(learningStageEntity));
         dataService.saveLearningStage(learningStageEntity);
@@ -435,7 +438,7 @@ public class SchoolAdminService {
     }
 
     public ResponseDTO deleteLearningStage(int id) {
-        LearningStageEntity learningStage = dataService.findByLearningStageId(id);
+        LearningStageEntity learningStage = dataService.findByLearningStageId(id).orElseThrow(()-> new RuntimeException("LearningStageId not found"));
         learningStage.setStatus(Status.DELETED);
         learningStage.getLevelsEntity().setStatus(Status.DELETED);
         return utilities.successResponse("deleted a learning stage",null);
@@ -604,7 +607,6 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
                 .toList();
         log.info("fetched all Marks per subject {}",new ObjectMapper().writeValueAsString(studentMarksEntityList));
 return utilities.successResponse("successfully fetched all marks per subject",marksResDTOS);
-
 
     }
 

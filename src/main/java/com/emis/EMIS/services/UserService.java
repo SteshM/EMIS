@@ -68,7 +68,8 @@ public class UserService implements UserDetailsService {
      * @param userDTO is the request dto
      * @return Response dto
      */
-    public ResponseDTO register(UserDTO userDTO) {
+    public ResponseDTO
+    register(UserDTO userDTO) {
 
         try {
             var userEntity = modelMapper.map(userDTO, UserEntity.class);
@@ -100,7 +101,7 @@ public class UserService implements UserDetailsService {
 //Partner
             }else if (profileId == 4){
                 var partnerInfo = modelMapper.map(userDTO, PartnerInfoEntity.class);
-                 savedUser.setStatus(Status.INACTIVE);
+                 savedUser.setStatus(Status.ACTIVE);
                  partnerInfo.setUserEntity(savedUser);
                 partnerInfo.setStatus(Status.ACTIVE);
                 dataService.savePartner(partnerInfo);
@@ -111,6 +112,7 @@ public class UserService implements UserDetailsService {
                 savedUser.setStatus(Status.ACTIVE);
                 log.info("status : {}",Status.INACTIVE);
                 student.setUser(savedUser);
+                student.setSchools(dataService.findBySchoolId(userDTO.getSchoolId()));
                 student.setStatus(Status.ACTIVE);
                 log.info("about to save a student :{}",student);
                 dataService.saveStudent(student);

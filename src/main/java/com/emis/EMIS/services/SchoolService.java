@@ -72,6 +72,7 @@ public class SchoolService {
         List<SchoolsResDTO>schoolsResDTOS = schoolsEntities.stream()
                 .map(schools -> {
                     return modelMapper.map(schools, SchoolsResDTO.class);
+
                 })
                 .toList();
         log.info("Fetched  all school Details:{}", new ObjectMapper().writeValueAsString(schoolsEntities));
@@ -467,7 +468,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
      */
 
     public ResponseDTO saveDocumentType(DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
-        var documentTypes = modelMapper.map(documentTypesDTO,DocumentTypes.class);
+        DocumentTypes documentTypes = new DocumentTypes();
+        documentTypes.setName(documentTypesDTO.getName());
+        documentTypes.setMenuCodes(dataService.findByMenuCodeId(documentTypesDTO.getMenuCodeId()));
+        documentTypes.setSchool(dataService.findBySchoolId(documentTypesDTO.getSchoolId()));
         log.info("About to save a document type:{}", new ObjectMapper().writeValueAsString(documentTypes));
         dataService.saveDocumentTypes(documentTypes);
         return utilities.successResponse("saved a document type",null);
@@ -488,7 +492,11 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         List<DocumentTypes>documentTypesList = dataService.fetchAllDocumentTypes();
         List<DocumentTypesDTO>documentTypesDTOList = documentTypesList.stream()
                 .map(documentTypes -> {
-                    return modelMapper.map(documentTypes,DocumentTypesDTO.class);
+                    DocumentTypesDTO documentTypesDTO = new DocumentTypesDTO();
+                    documentTypesDTO.setName(documentTypes.getName());
+                    documentTypesDTO.setSchoolId(documentTypes.getSchool().getSchoolId());
+                    documentTypesDTO.setMenuCodeId(documentTypes.getMenuCodes().getMenuCodeId());
+                    return documentTypesDTO;
                 })
                 .toList();
         log.info("Fetched  all document types from the db :{}", new ObjectMapper().writeValueAsString(documentTypesList));
@@ -817,36 +825,27 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         if(schoolsEntity == null){
             return utilities.failedResponse(400, "School does not exist", null);
         }
-//        List<MenuCodes>menuCodesList =dataService.fetchAllMenuCodes();
-//        boolean allRequiredCompleted = menuCodesList.stream()
-//                .filter(MenuCodes ::isRequired)
-//                .allMatch(menuCodes -> {
-//
-//                });
+        List<MenuCodes>menuCodesList =dataService.fetchAllMenuCodes();
+        boolean allRequiredCompleted = menuCodesList.stream()
+                .filter(MenuCodes ::isRequired)
+                .allMatch(menuCodes -> {
+                    SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menuCodes);
+                    if ( schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals("Completed")){
+                        return true;
+                    } return false;
 
-
-        //add else if to check if there are any other checks, eg if the school has been soft deleted etc
-
-        //check if has menu codes or something like that
-        boolean hasMenuCodes = false;//ths is not constant
-        //code for checking menu codes
-
-        if(hasMenuCodes){
-            schoolsEntity.setStatus(Status.APPROVED);
-            //make other changes for school entity here and other saves
+                });
+        if(allRequiredCompleted){
+            schoolsEntity.setStatus(Status.SUBMITTED);
             dataService.saveSchool(schoolsEntity);
-            return utilities.successResponse("School has been approved", schoolsEntity);
+            return utilities.successResponse("School has been approved",null);
         }else{
-            schoolsEntity.setStatus(Status.REJECTED);
+            schoolsEntity.setStatus(Status.PENDING);
             dataService.saveSchool(schoolsEntity);
             return utilities.failedResponse(408, "The school does not meet criteria", null);
         }
     }
 
-
-
-//    public ResponseDTO CreateSupportDocuments(String support, MultipartFile supportDocs) {
-//    }
 }
 
 

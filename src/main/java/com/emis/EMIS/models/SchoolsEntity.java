@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +26,8 @@ public class SchoolsEntity {
     private String postalAddress;
     private String postalCode;
     private Status status;
+    private String logo;
+
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated = new Date() ;
@@ -33,37 +38,32 @@ public class SchoolsEntity {
     private String modifiedBy;
 
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "schoolTypeId")
     private SchoolType schoolType;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "schoolGenderId")
     private SchoolGender schoolGender;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "curriculumId")
     private CurriculumEntity curriculum;
 
     @OneToMany
-    List<DocumentTypes>  documentTypes;
-
-
+    List<StudentEntity>studentEntityList;
 
     @OneToMany()
     List<StreamsEntity>streamsEntityList;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "dioceseId")
-//    private DioceseEntity dioceseEntity;
-    private String logoName;
-    private String logoUrl;
-    private String logoSize;
-    private String logoType;
-    private String logoKey;
-    private String location;
-    private String road;
-    private String state;
+
+//    private String logoName;
+//    private String logoUrl;
+//    private String logoSize;
+//    private String logoType;
+//    private String logoKey;
+//    private String location;
+//    private String road;
+//    private String state;
 //    private int approvedBy = 0;
 //    private int rejectedBy = 0;
 //    private int submittedBy = 0;

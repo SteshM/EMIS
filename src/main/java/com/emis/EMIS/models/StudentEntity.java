@@ -22,10 +22,17 @@ public class StudentEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+    @ManyToOne
+    @JoinColumn(name = "schoolId")
+    private SchoolsEntity schools;
+
 
     @ManyToOne
     @JoinColumn(name = "guardianId")
     private GuardianEntity guardian;
+
+
+
 
 
     @Override

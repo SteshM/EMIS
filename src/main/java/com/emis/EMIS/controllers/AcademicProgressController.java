@@ -20,9 +20,9 @@ private final AcademicProgressTrackerService academicProgressTrackerService;
 private final DataService dataService;
 private final Utilities utilities;
 
-//@GetMapping("/promote-term")
-//public ResponseDTO promoteStudentToNextTerm(@RequestBody AcademicTrackerDTO academicTrackerDTO){
-//    return academicProgressTrackerService.PromoteStudentsToNextTerm(academicTrackerDTO);
-//}
+@GetMapping("/promote-term")
+public ResponseDTO promoteStudentToNextTerm(){
+    return academicProgressTrackerService.PromoteStudents();
+}
 
 }

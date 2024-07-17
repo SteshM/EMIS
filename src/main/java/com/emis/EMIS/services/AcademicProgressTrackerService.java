@@ -20,28 +20,25 @@ public class AcademicProgressTrackerService {
     private final DataService dataService;
     private final Utilities utilities;
 
-//    public ResponseDTO PromoteStudentsToNextTerm(AcademicTrackerDTO academicTrackerDTO) {
-//        AcademicProgressTrackerEntity academicProgressTracker = new AcademicProgressTrackerEntity();
-//        for (AcademicProgressTrackerEntity academicProgressTrackerEntity : dataService.findDistinctStudentId()){
-//           int currentTerm = academicProgressTrackerEntity.getTerm();
-//           if (currentTerm > 3){
-//               academicProgressTrackerEntity.setLearningStageId(academicProgressTrackerEntity.getLearningStageId() +1);
-//           }else {
-//               academicProgressTrackerEntity.setTerm(currentTerm +1);
-//           }
-//           dataService.saveProgress(academicProgressTracker);
-//        }
-////        for (AcademicProgressTrackerEntity academicProgressTrackerEntity : dataService.findDistinctStudentId()){
-////            String currentLearningStage = STR."\{academicProgressTrackerEntity.getLearningStageId()}";
-////            List<LearningStageEntity> availableLearningStages = dataService.findLearningStagesByLevel(currentLearningStage);
-////            int currentIndex = availableLearningStages.indexOf(currentLearningStage);
-////            if (currentIndex != -1 && currentIndex < availableLearningStages.size() - 1){
-////                String nextLearningStage = String.valueOf((availableLearningStages.get(currentIndex + 1)));
-////                academicProgressTrackerEntity.setLearningStageId(Integer.parseInt(nextLearningStage));
-////
-////            }
-////            dataService.saveProgress(academicProgressTracker);
-////        }
-//        return utilities.successResponse("Promoted a student to a term",null);
-//    }
+    public ResponseDTO PromoteStudents() {
+        for (AcademicProgressTrackerEntity academicProgressTrackerEntity : dataService.findDistinctStudentId()){
+            AcademicProgressTrackerEntity academicProgressTracker = new AcademicProgressTrackerEntity();
+            int currentTerm = academicProgressTrackerEntity.getTerm();
+           if (currentTerm == 3){
+               LearningStageEntity learningStage = dataService.findByLearningStageId(academicProgressTrackerEntity.getLearningStageId())
+                       .orElseThrow(()->new RuntimeException("LearningStageId not found"));
+             LearningStageEntity modifiedLearningStage = dataService.findByLearningStageId(academicProgressTrackerEntity.getLearningStageId() +1)
+                       .orElse(learningStage);
+               academicProgressTracker.setLearningStageId(modifiedLearningStage.getLearningStageId());
+               int currentYear = academicProgressTrackerEntity.getYear();
+               academicProgressTracker.setYear(currentYear +1);
+           }else {
+               academicProgressTracker.setTerm(currentTerm +1);
+           }
+            academicProgressTracker.setStudentId(academicProgressTrackerEntity.getStudentId());
+            academicProgressTracker.setStreamId(academicProgressTrackerEntity.getStreamId());
+           dataService.saveProgress(academicProgressTracker);
+        }
+        return utilities.successResponse("Promoted students",null);
+    }
 }

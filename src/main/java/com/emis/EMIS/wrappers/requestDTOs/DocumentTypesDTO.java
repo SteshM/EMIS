@@ -10,8 +10,8 @@ public class DocumentTypesDTO {
     @NotNull(message = "Document type name is required")
     private String name;
     @NotNull(message = "Menu code id is required")
-    private String menuCodeId;
+    private int menuCodeId;
     @NotNull(message = "schoolId is required")
-    private String schoolId;
+    private int schoolId;
 
 }

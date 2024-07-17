@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class StudentDTO {
+    private String studentId;
+    private String schoolId;
+    private String schoolName;
     private String firstName;
     private String middleName;
     private String lastName;

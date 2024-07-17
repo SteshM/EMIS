@@ -21,6 +21,10 @@ public class DocumentTypes {
     private MenuCodes menuCodes;
 
 
+    @ManyToOne
+    @JoinColumn(name = "schoolId")
+    private SchoolsEntity school;
+
 
 
 }

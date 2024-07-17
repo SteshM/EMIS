@@ -52,6 +52,7 @@ public class DataService {
     private final AuditTrailRepo auditTrailRepo;
     private final StudentMarksRepo studentMarksRepo;
     private final AcademicProgressTrackerRepo academicProgressTrackerRepo;
+    private final SchoolMenuCodeStatusRepo schoolMenuCodeStatusRepo;
 
 
 
@@ -391,7 +392,7 @@ public class DataService {
         return learningStagesRepo.findAll();
     }
 
-    public LearningStageEntity findByLearningStageId(int learningStageId){
+    public Optional<LearningStageEntity> findByLearningStageId(int learningStageId){
         return learningStagesRepo.findByLearningStageId(learningStageId);
     }
 
@@ -453,14 +454,18 @@ public class DataService {
     }
 
     public List<StudentMarksEntity> fetchMarksBySubjectId(SubjectEntity subject) {
-        return studentMarksRepo.findBySubjectEntity(subject);
+        return studentMarksRepo.findBySubject(subject);
     }
 
     public StudentMarksEntity findByMarksId(int marksId) {
         return studentMarksRepo.findByMarksId(marksId);
     }
-//    public List<AcademicProgressTrackerEntity> findDistinctStudentId(){
-//        return academicProgressTrackerRepo.findDistinctStudentId();
-//    }
+    public List<AcademicProgressTrackerEntity> findDistinctStudentId(){
+        return academicProgressTrackerRepo.findDistinctStudentId();
+    }
+
+    public SchoolMenuCodeStatuses findBySchoolEntityAndMenuCodes(SchoolsEntity schoolEntity , MenuCodes menuCodes){
+        return schoolMenuCodeStatusRepo.findBySchoolsEntityAndMenuCodes(schoolEntity,menuCodes);
+    }
 
 }

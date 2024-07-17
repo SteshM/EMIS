@@ -396,9 +396,10 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
         return schoolService.deleteDirector(id);
  }
 
-// @PostMapping("/submit-school-data")
-//    public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
-//     return schoolService.submitSchoolForApproval(submitSchoolDTO);
-// }
+
+ @PostMapping("/submit-school-data")
+    public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
+     return schoolService.submitSchoolForApproval(submitSchoolDTO);
+ }
 
 }

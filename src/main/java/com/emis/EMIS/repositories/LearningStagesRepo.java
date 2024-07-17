@@ -5,9 +5,10 @@ import com.emis.EMIS.models.LevelsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface LearningStagesRepo extends JpaRepository<LearningStageEntity,Integer> {
-    LearningStageEntity findByLearningStageId(int learningStageId);
+   Optional <LearningStageEntity> findByLearningStageId(int learningStageId);
 
     List<LearningStageEntity> findByLevelsEntity(LevelsEntity levels);
 }
