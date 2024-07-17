@@ -401,9 +401,18 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
     public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
      return schoolService.submitSchoolForApproval(submitSchoolDTO);
  }
-@PostMapping("/submit/approve")
+@PostMapping("/approve")
     public ResponseDTO approveSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
      return schoolService.approveSchool(approveSchoolDTO);
 }
+//@PostMapping("/reject")
+//    public ResponseDTO rejectSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
+//     return schoolService.rejectSchool(approveSchoolDTO);
+//}
+//
+//@PostMapping("/raise-clarification")
+//    public ResponseDTO raiseClarification(@RequestBody ClarifyDTO clarifyDTO ){
+//     return schoolService.raiseClarification(clarifyDTO);
+//}
 
 }

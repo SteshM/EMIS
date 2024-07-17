@@ -127,7 +127,9 @@ public class SchoolAdminService {
             auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",1);
         }catch (RuntimeException e){
             auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),0);
-
+//status
+            //message
+            //data
             throw new SavingException(e.getLocalizedMessage());
 
         }
