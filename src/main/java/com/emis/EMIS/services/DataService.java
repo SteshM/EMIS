@@ -53,6 +53,7 @@ public class DataService {
     private final StudentMarksRepo studentMarksRepo;
     private final AcademicProgressTrackerRepo academicProgressTrackerRepo;
     private final SchoolMenuCodeStatusRepo schoolMenuCodeStatusRepo;
+    private final PartnerApprovalRepo partnerApprovalRepo;
 
 
 
@@ -96,8 +97,9 @@ public class DataService {
     public void savePartner(PartnerInfoEntity partnerInfo){
          partnerRepo.save(partnerInfo);
     }
-    public void saveSchool(SchoolsEntity schools){
-        schoolRepo.save(schools);
+    public SchoolsEntity saveSchool(SchoolsEntity schools){
+        return schoolRepo.save(schools);
+
     }
     public void saveSchoolAdmin(SchoolAdminInfoEntity schoolAdminInfo){
         schoolAdminRepo.save(schoolAdminInfo);
@@ -467,5 +469,18 @@ public class DataService {
     public SchoolMenuCodeStatuses findBySchoolEntityAndMenuCodes(SchoolsEntity schoolEntity , MenuCodes menuCodes){
         return schoolMenuCodeStatusRepo.findBySchoolsEntityAndMenuCodes(schoolEntity,menuCodes);
     }
+    public SchoolMenuCodeStatuses saveSchoolMenuCodeStatus(SchoolMenuCodeStatuses schoolMenuCodeStatuses){
+        return schoolMenuCodeStatusRepo.save(schoolMenuCodeStatuses);
+    }
 
+
+    public PartnerInfoEntity findByUserEntity(UserEntity userEntity) {
+        return partnerRepo.findByUserEntity(userEntity);
+    }
+
+
+    public void savePartnerApproval(PartnerApprovalEntity partnerApproval) {
+        partnerApprovalRepo.save(partnerApproval);
+
+    }
 }

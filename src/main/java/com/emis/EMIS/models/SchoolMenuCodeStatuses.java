@@ -1,5 +1,7 @@
 package com.emis.EMIS.models;
 
+import com.emis.EMIS.enums.RemarksClarificationStatus;
+import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,9 +25,9 @@ public class SchoolMenuCodeStatuses {
     @Lob
     @Column(name = "remarks", columnDefinition = "TEXT", nullable = false)
     private String remarks;
-    private String status;  //Pending,Rejected,Completed
+    private Status status;  //Pending,Rejected,Completed
     @Column(name = "remark_status")
-    private String remarkStatus ;
+    private RemarksClarificationStatus remarkStatus ;
 //            = RemarksClarificationStatus.CLOSED.name();  //OPEN,REVIEW,CLOSED
     private Integer completionPercentage;  //Pending,Rejected,Completed
 

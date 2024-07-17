@@ -1,6 +1,7 @@
 package com.emis.EMIS.services;
 
 import com.emis.EMIS.configs.UserConfigs;
+import com.emis.EMIS.models.SchoolsEntity;
 import com.emis.EMIS.models.UserEntity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -31,4 +32,10 @@ public class EmailService {
         javaMailSender.send(msg);
     }
 
+    public void sendEmail(SchoolsEntity schoolsEntity, String text) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(schoolsEntity.getEmailAddress());
+        msg.setText(text);
+        javaMailSender.send(msg);
+    }
 }

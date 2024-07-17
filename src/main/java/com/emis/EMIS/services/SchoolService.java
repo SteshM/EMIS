@@ -1,7 +1,8 @@
 package com.emis.EMIS.services;
-
+import com.emis.EMIS.enums.RemarksClarificationStatus;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
+import com.emis.EMIS.utils.AuthenticatedUser;
 import com.emis.EMIS.utils.FileUpload;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class SchoolService {
  private final DataService dataService;
  private final Utilities utilities;
  private final FileUpload fileUpload;
+ private final EmailService emailService;
 
 
     @Value("${logo.images.path}")
@@ -830,7 +834,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                 .filter(MenuCodes ::isRequired)
                 .allMatch(menuCodes -> {
                     SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menuCodes);
-                    if ( schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals("Completed")){
+                    if ( schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals(Status.COMPLETED)){
                         return true;
                     } return false;
 
@@ -844,9 +848,57 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             dataService.saveSchool(schoolsEntity);
             return utilities.failedResponse(408, "The school does not meet criteria", null);
         }
+
     }
 
-}
+    public ResponseDTO approveSchool(ApproveSchoolDTO approveSchoolDTO) {
+        SchoolsEntity schoolsEntity = dataService.findBySchoolId(approveSchoolDTO.getSchoolId());
+        if(schoolsEntity.getStatus().equals(Status.APPROVED.name())){
+            return utilities.failedResponse(400, "School has been approved", null);
+        }
+        PartnerInfoEntity partnerInfo = dataService.findByUserEntity(dataService.findByEmail(AuthenticatedUser.username()).get());
+
+        List<MenuCodes>menuCodesList =dataService.fetchAllMenuCodes();
+        boolean allRequiredCompleted = menuCodesList.stream()
+                .filter(MenuCodes ::isRequired)
+                .allMatch(menuCodes -> {
+                    SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity, menuCodes);
+                    if (schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals(Status.COMPLETED)) {
+                        return true;
+                    }
+                    return false;
+                });
+                    if (allRequiredCompleted) {
+                        schoolsEntity.setStatus(Status.APPROVED);
+                        SchoolsEntity savedschool =dataService.saveSchool(schoolsEntity);
+                    }
+                    menuCodesList.forEach(menuCode -> {
+                        Optional<SchoolMenuCodeStatuses> statusOpt = Optional.ofNullable(dataService.findBySchoolEntityAndMenuCodes(schoolsEntity, menuCode));
+                        statusOpt.ifPresent(status -> {
+                            status.setStatus(Status.COMPLETED);
+                            status.setApprovedBy(partnerInfo.getPartnerId());
+                            status.setRemarkStatus(RemarksClarificationStatus.CLOSED);
+                            status.setRemarks("Reviewed And Approved");
+                            dataService.saveSchoolMenuCodeStatus(status);
+
+                        });
+                    });
+
+                    PartnerApprovalEntity partnerApproval = PartnerApprovalEntity.builder()
+                        .partnerInfo(partnerInfo)
+                        .remarks("")
+                        .schoolsEntity(schoolsEntity)
+                        .status(schoolsEntity.getStatus())
+                        .build();
+                    dataService.savePartnerApproval(partnerApproval);
+                    emailService.sendEmail(schoolsEntity,"School approved");
+                    List<SystemAdminEntity>systemAdminEntities = dataService.viewAll();
+                    for(SystemAdminEntity systemAdmin: systemAdminEntities){
+                        emailService.send(systemAdmin.getUserEntity(), "School "+schoolsEntity.getSchoolName()+" approved");
+                    }
+                    return null;
+
+    }
 
 
-
+    }

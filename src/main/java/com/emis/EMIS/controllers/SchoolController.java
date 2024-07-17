@@ -401,5 +401,9 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
     public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
      return schoolService.submitSchoolForApproval(submitSchoolDTO);
  }
+@PostMapping("/submit/approve")
+    public ResponseDTO approveSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
+     return schoolService.approveSchool(approveSchoolDTO);
+}
 
 }
