@@ -483,4 +483,8 @@ public class DataService {
         partnerApprovalRepo.save(partnerApproval);
 
     }
+
+    public SchoolsEntity findBySchoolEntityAndStatus(SchoolsEntity schoolsEntity, Status status) {
+        return schoolRepo.findBySchoolEntityAndStatus(schoolsEntity,status);
+    }
 }
