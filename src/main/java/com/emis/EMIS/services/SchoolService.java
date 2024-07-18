@@ -75,8 +75,34 @@ public class SchoolService {
         log.info("About to fetch schools {}",schoolsEntities);
         List<SchoolsResDTO>schoolsResDTOS = schoolsEntities.stream()
                 .map(schools -> {
-                    return modelMapper.map(schools, SchoolsResDTO.class);
+//                    Optional<String>schoolGender =Optional.ofNullable(schools.getSchoolGender().getName());
+//                    Optional<String>curriculum =Optional.ofNullable(schools.getCurriculum().getCurriculum());
+//                    Optional<String>category =Optional.ofNullable(schools.getCategoriesEntity().getCategory());
+//                    Optional<String>schoolType =Optional.ofNullable(schools.getSchoolType().getName());
 
+
+                    return SchoolsResDTO.builder()
+                            .schoolId(schools.getSchoolId())
+                            .schoolName(schools.getSchoolName())
+//                            .schoolType(schoolType.orElse(null))
+//                            .schoolTypeId(schools.getSchoolType().getSchoolTypeId())
+//                            .schoolGenderId(schools.getSchoolGender().getSchoolGenderId())
+//                            .schoolGender(schoolGender.orElse(null))
+//                            .curriculum(curriculum.orElse(null))
+//                            .curriculumId(schools.getCurriculum().getCurriculumId())
+//                            .category(category.orElse(null))
+//                            .categoryId(schools.getCategoriesEntity().getCategoryId())
+                            .logo(schools.getLogo())
+                            .emailAddress(schools.getEmailAddress())
+                            .postalAddress(schools.getPostalAddress())
+                            .postalCode(schools.getPostalCode())
+                            .mobileNo(schools.getMobileNo())
+                            .moeRegistrationNo(schools.getMoeRegistrationNo())
+                            .latitude(schools.getLatitude())
+                            .longitude(schools.getLongitude())
+                            .subCounty(schools.getSubCounty())
+                            .county(schools.getCounty())
+                            .build();
                 })
                 .toList();
         log.info("Fetched  all school Details:{}", new ObjectMapper().writeValueAsString(schoolsEntities));
@@ -105,8 +131,9 @@ public class SchoolService {
         log.info("Fetched a school:{}", objectMapper.writeValueAsString(school));
         modelMapper.map(schoolDTO,school);
         log.info("Updated school Details. About to save:{}", objectMapper.writeValueAsString(school));
-        dataService.saveSchool(school);
-        return utilities.successResponse("Successfully updated school details",schoolDTO);
+        var savedSChool = dataService.saveSchool(school);
+        var schoolResDTO = modelMapper.map(savedSChool,SchoolsResDTO.class);
+        return utilities.successResponse("Successfully updated school details",schoolResDTO);
     }
 
     /**
@@ -960,68 +987,68 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 return null;
     }
 
-
-    public ResponseDTO raiseClarification(ClarifyDTO clarifyDTO) {
-        SchoolsEntity schoolsEntity = dataService.findBySchoolId(clarifyDTO.getSchoolId());
-        PartnerInfoEntity partnerInfo = dataService.findByUserEntity(dataService.findByEmail(AuthenticatedUser.username()).get());
-        List<MenuCodes> menuCodesList = dataService.fetchAllMenuCodes();
-        boolean allRequiredCompleted = menuCodesList.stream()
-                .filter(MenuCodes::isRequired)
-                .allMatch(menuCodes -> {
-                    SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity, menuCodes);
-                    if (schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals(Status.COMPLETED)) {
-                        return true;
-                    }
-                    return false;
-                });
-
-        SchoolsEntity findSchool = null;
-        SchoolsEntity school = null;
-        findSchool = dataService.findBySchoolId(clarifyDTO.getSchoolId());
-        if (findSchool == null) {
-            return utilities.failedResponse(00,"School provided does not exists",null);
-        }
-        school= dataService.findBySchoolId(findSchool.getSchoolId());
-//        school.getStatus(Status.APPROVED)
-        if (school !=null){
-            return utilities.failedResponse(00,"School cannot be rejected since its already approved",null);
-        }
-        if (school !=null){
-            //status rejected
-            return utilities.failedResponse(00,"School cannot be sent for clarification since its already rejected",null);
-        }
-        SchoolMenuCodeStatuses schoolMenuCodeOpen = dataService.findBySchoolEntityAndMenuCodes(findSchool.getSchoolId(),clarifyDTO.getMenuCodeId(),RemarksClarificationStatus.OPEN.name());
-        if (schoolMenuCodeOpen != null) {
-            return utilities.failedResponse(00,"Clarification on this menu code %s already raised",schoolMenuCodeOpen.getMenuCodes().getName());
-        }
-        findSchool.setStatus(Status.CLARIFICATION);
-//        findSchool.setClarificationRaisedBy(CommonFunctions.convertLongToInt(authenticatedUser.getId()));
-        SchoolsEntity save = dataService.saveSchool(findSchool);
-        // Update the specific menu code status
-        Optional<SchoolMenuCodeStatuses> statusOpt = dataService.findBySchoolEntityAndMenuCodes(findSchool.getSchoolId(),clarifyDTO.getMenuCodeId());
-        statusOpt.ifPresent(status -> {
-            status.setStatus(Status.CLARIFICATION);
-            status.setRemarkStatus(RemarksClarificationStatus.OPEN);
-//            status.setClarificationRaisedBy(CommonFunctions.convertLongToInt(authenticatedUser.getId()));
-            status.setRemarks(clarifyDTO.getRemarks());
-            dataService.saveSchoolMenuCodeStatus(status);
-        });
-
-                PartnerApprovalEntity partnerApproval = PartnerApprovalEntity.builder()
-                        .partnerInfo(partnerInfo)
-                        .remarks(clarifyDTO.getRemarks())
-                        .schoolsEntity(findSchool)
-                        .status(save.getStatus())
-                        .createdBy(AuthenticatedUser.username())
-                        .build();
-                dataService.savePartnerApproval(partnerApproval);
-                List<AgentInfoEntity> agentInfoEntityList = dataService.fetchActiveAgents();
-                for (AgentInfoEntity agentInfo : agentInfoEntityList) {
-                    emailService.send(agentInfo.getUserEntity(), "School " + schoolsEntity.getSchoolName() + "school_clarification_remark_concern,\n");
-                }
-
-        return null;
-    }
+//
+//    public ResponseDTO raiseClarification(ClarifyDTO clarifyDTO) {
+//        SchoolsEntity schoolsEntity = dataService.findBySchoolId(clarifyDTO.getSchoolId());
+//        PartnerInfoEntity partnerInfo = dataService.findByUserEntity(dataService.findByEmail(AuthenticatedUser.username()).get());
+//        List<MenuCodes> menuCodesList = dataService.fetchAllMenuCodes();
+//        boolean allRequiredCompleted = menuCodesList.stream()
+//                .filter(MenuCodes::isRequired)
+//                .allMatch(menuCodes -> {
+//                    SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity, menuCodes);
+//                    if (schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals(Status.COMPLETED)) {
+//                        return true;
+//                    }
+//                    return false;
+//                });
+//
+//        SchoolsEntity findSchool = null;
+//        SchoolsEntity school = null;
+//        findSchool = dataService.findBySchoolId(clarifyDTO.getSchoolId());
+//        if (findSchool == null) {
+//            return utilities.failedResponse(00,"School provided does not exists",null);
+//        }
+//        school= dataService.findBySchoolIdAndStatus(findSchool.getSchoolId(),Status.APPROVED);
+//        if (school !=null){
+//            return utilities.failedResponse(00,"School cannot be rejected since its already approved",null);
+//        }
+//        school= dataService.findBySchoolIdAndStatus(findSchool.getSchoolId(),Status.REJECTED);
+//        if (school !=null){
+//            return utilities.failedResponse(00,"School cannot be sent for clarification since its already rejected",null);
+//        }
+//        Optional<SchoolMenuCodeStatuses> schoolMenuCodeOpen = dataService.findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeIdAndRemarksClarificationStatus(findSchool.getSchoolId(),clarifyDTO.getMenuCodeId(),RemarksClarificationStatus.OPEN.name())
+//                ;
+//        if (schoolMenuCodeOpen != null) {
+//            return utilities.failedResponse(00,"Clarification on this menu code %s already raised",schoolMenuCodeOpen.get());
+//        }
+//        findSchool.setStatus(Status.CLARIFICATION);
+////        findSchool.setClarificationRaisedBy(CommonFunctions.convertLongToInt(authenticatedUser.getId()));
+//        SchoolsEntity save = dataService.saveSchool(findSchool);
+//        // Update the specific menu code status
+//        Optional<SchoolMenuCodeStatuses> statusOpt = dataService.findBySchoolsEntitySchoolIdAndMenuCodeId(findSchool.getSchoolId(),clarifyDTO.getMenuCodeId());
+//        statusOpt.ifPresent(status -> {
+//            status.setStatus(Status.CLARIFICATION);
+//            status.setRemarkStatus(RemarksClarificationStatus.OPEN);
+//            status.setClarificationRaisedBy(AuthenticatedUser.username());
+//            status.setRemarks(clarifyDTO.getRemarks());
+//            dataService.saveSchoolMenuCodeStatus(status);
+//        });
+//
+//                PartnerApprovalEntity partnerApproval = PartnerApprovalEntity.builder()
+//                        .partnerInfo(partnerInfo)
+//                        .remarks(clarifyDTO.getRemarks())
+//                        .schoolsEntity(findSchool)
+//                        .status(save.getStatus())
+//                        .createdBy(AuthenticatedUser.username())
+//                        .build();
+//                dataService.savePartnerApproval(partnerApproval);
+//                List<AgentInfoEntity> agentInfoEntityList = dataService.fetchActiveAgents();
+//                for (AgentInfoEntity agentInfo : agentInfoEntityList) {
+//                    emailService.send(agentInfo.getUserEntity(), "School " + schoolsEntity.getSchoolName() + "school_clarification_remark_concern,\n");
+//                }
+//
+//        return null;
+//    }
 
 
     public ResponseDTO replyOnClarification(ReplyOnClarificationDTO replyOnClarificationDTO) {
@@ -1034,16 +1061,15 @@ return null;
             return utilities.failedResponse(00, "School provided does not exists", null);
         }
 
-        school = dataService.findBySchoolEntityAndStatus(schoolsEntity,Status.APPROVED);
+        school = dataService.findBySchoolIdAndStatus(findSchool.getSchoolId(),Status.APPROVED);
         if (school != null) {
-            return utilities.failedResponse(00, "School cannot have its clarification raised since its already approved", null);
+            return utilities.failedResponse(00,"School cannot have its clarification raised since its already approved", null);
         }
         Optional<MenuCodes> menuCodeById = Optional.ofNullable(dataService.findByMenuCodeId(replyOnClarificationDTO.getMenuCodeId()));
         if (menuCodeById == null) {
             return utilities.failedResponse(00, "Menu code provided not exist", null);
         }
-        List<SchoolMenuCodeStatuses> allStatuses = dataService.findByAdminId(school.getSchoolId());
-
+        List<SchoolMenuCodeStatuses> allStatuses = dataService.findAllBySchoolsEntitySchoolId(school.getSchoolId());
         boolean allOpenedOrClosed = allStatuses.stream().allMatch(s ->
                 RemarksClarificationStatus.OPEN.equals(s.getRemarkStatus())
         );
@@ -1072,9 +1098,9 @@ return null;
 //                .createdBy(CommonFunctions.convertLongToInt(authenticatedUser.getId()))
                 .build();
         dataService.savePartnerApproval(approvalStatusBuild);
-        List<SchoolMenuCodeStatuses> finalStatusesBySchoolId = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,m);
+        Optional<SchoolMenuCodeStatuses> finalStatusesBySchoolId = dataService. findBySchoolsEntitySchoolIdAndMenuCodeId(replyOnClarificationDTO.getSchoolId(),replyOnClarificationDTO.getMenuCodeId());
         boolean finalCheck = finalStatusesBySchoolId.stream().allMatch(s ->
-                //RemarksClarificationStatus.REVIEW.name().equals(s.getRemarkStatus()) ||
+                RemarksClarificationStatus.REVIEW.equals(s.getRemarkStatus()) ||
                 RemarksClarificationStatus.CLOSED.equals(s.getRemarkStatus())
         );
         if (finalCheck) {
@@ -1085,7 +1111,7 @@ return null;
         dataService.saveSchool(findSchool);
         List<PartnerInfoEntity> partnerInfoEntityList = dataService.fetchActivePartners();
         for (PartnerInfoEntity partnerInfo1 : partnerInfoEntityList) {
-            emailService.send(partnerInfo1.getUserEntity(), "School " + schoolsEntity.getSchoolName() + "school_clarification_remark_concern,\n");
+            emailService.send(partnerInfo1.getUserEntity(), "School " + schoolsEntity.getSchoolName() + Status.school_clarification_remark_concern);
         }
         return null;
 
@@ -1094,5 +1120,78 @@ return null;
 
 
 
+    }
+
+    public ResponseDTO closeRepliedClarification(ClarifyDTO clarifyDTO) {
+        SchoolsEntity schoolsEntity = dataService.findBySchoolId(clarifyDTO.getSchoolId());
+        PartnerInfoEntity partnerInfo = dataService.findByUserEntity(dataService.findByEmail(AuthenticatedUser.username()).get());
+        SchoolsEntity findSchool = null;
+        SchoolsEntity school = null;
+        findSchool = dataService.findBySchoolId(clarifyDTO.getSchoolId());
+        if (findSchool == null) {
+            return utilities.failedResponse(00, "School provided does not exists", null);
+        }
+
+        school = dataService.findBySchoolIdAndStatus(findSchool.getSchoolId(),Status.APPROVED);
+        if (school != null) {
+            return utilities.failedResponse(00, "School cannot be sent for a clarification  since its already approved", null);
+        }
+        Optional<MenuCodes> menuCodeById = Optional.ofNullable(dataService.findByMenuCodeId(clarifyDTO.getMenuCodeId()));
+        if (menuCodeById == null) {
+            return utilities.failedResponse(00, "Menu code provided not exist", null);
+        }
+        List<SchoolMenuCodeStatuses> allStatuses =dataService.findAllBySchoolsEntitySchoolId(findSchool.getSchoolId());
+        boolean allOpenedOrClosed = allStatuses.stream().allMatch(s ->
+                        RemarksClarificationStatus.OPEN.equals(s.getRemarkStatus())
+                //||
+                //RemarksClarificationStatus.CLOSED.name().equals(s.getRemarkStatus())
+        );
+        if (allOpenedOrClosed) {
+            return utilities.failedResponse(00,"The status clarification for %s must be either on review or closed",menuCodeById.get().getName());
+        }
+
+        findSchool.setStatus(allOpenedOrClosed ? Status.CLARIFICATION: Status.APPROVED);
+//        findSchool.setClarificationClosedBy(AuthenticatedUser.username());
+        SchoolsEntity save = dataService.saveSchool(findSchool);
+
+        // Update the specific menu code status
+        Optional<SchoolMenuCodeStatuses> statusOpt =(dataService.findBySchoolsEntitySchoolIdAndMenuCodeId(clarifyDTO.getSchoolId(), clarifyDTO.getMenuCodeId()));
+        statusOpt.ifPresent(status -> {
+            status.setStatus(allOpenedOrClosed ? Status.CLARIFICATION: Status.COMPLETED);
+            status.setRemarkStatus(RemarksClarificationStatus.CLOSED);
+            status.setRemarks(clarifyDTO.getRemarks());
+//            status.setClarificationRepliedBy();
+            dataService.saveSchoolMenuCodeStatus(status);
+        });
+        PartnerApprovalEntity approvalStatusBuild = PartnerApprovalEntity.builder()
+                .partnerInfo(partnerInfo)
+                .schoolsEntity(findSchool)
+                .remarks(clarifyDTO.getRemarks())
+                .status(save.getStatus())
+                .createdBy(AuthenticatedUser.username())
+                .build();
+        dataService.savePartnerApproval(approvalStatusBuild);
+        List<SchoolMenuCodeStatuses> finalStatusesBySchoolId = dataService.findAllBySchoolsEntitySchoolId(findSchool.getSchoolId());
+        boolean finalCheck = finalStatusesBySchoolId.stream().allMatch(s ->
+                RemarksClarificationStatus.CLOSED.equals(s.getRemarkStatus()) ||
+                        RemarksClarificationStatus.CLOSED.equals(s.getRemarkStatus())
+        );
+        if (finalCheck) {
+            findSchool.setStatus(Status.APPROVED);
+        } else {
+            findSchool.setStatus(Status.CLARIFICATION);
+        }
+        dataService.saveSchool(findSchool);
+        List<PartnerInfoEntity> partnerInfoEntityList = dataService.fetchActivePartners();
+        for (PartnerInfoEntity partnerInfo1 : partnerInfoEntityList) {
+            emailService.send(partnerInfo1.getUserEntity(), "School " + schoolsEntity.getSchoolName() + Status.school_clarification_closed);
+        }
+        List<AgentInfoEntity> agentInfoEntityList = dataService.fetchActiveAgents();
+        for (AgentInfoEntity agentInfo : agentInfoEntityList) {
+            emailService.send(agentInfo.getUserEntity(), "School " + schoolsEntity.getSchoolName() + Status.school_clarification_closed);
+        }
+
+
+return null;
     }
 }

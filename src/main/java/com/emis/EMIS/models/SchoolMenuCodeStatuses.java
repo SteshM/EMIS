@@ -35,8 +35,8 @@ public class SchoolMenuCodeStatuses {
     private int approvedBy;
     private int rejectedBy;
     private int submittedBy;
-    private int clarificationRaisedBy;
-    private int clarificationRepliedBy;
-    private int clarificationClosedBy;
+    private String clarificationRaisedBy;
+    private String clarificationRepliedBy;
+    private String clarificationClosedBy;
 
 }

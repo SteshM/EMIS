@@ -484,7 +484,23 @@ public class DataService {
 
     }
 
-    public SchoolsEntity findBySchoolEntityAndStatus(SchoolsEntity schoolsEntity, Status status) {
-        return schoolRepo.findBySchoolEntityAndStatus(schoolsEntity,status);
+
+    public SchoolsEntity findBySchoolIdAndStatus(int schoolId, Status status) {
+        return schoolRepo.findBySchoolIdAndStatus(schoolId,status);
     }
+
+
+    public List<SchoolMenuCodeStatuses> findAllBySchoolsEntitySchoolId(int schoolId) {
+        return schoolMenuCodeStatusRepo.findAllBySchoolsEntitySchoolId(schoolId);
+    }
+
+//    public Optional<SchoolMenuCodeStatuses> findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeIdAndRemarksClarificationStatus(int schoolId, int menuCodeId, String open) {
+//        return schoolMenuCodeStatusRepo.findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeIdAndRemarksClarificationStatus(schoolId,menuCodeId,open);
+//    }
+
+    public Optional<SchoolMenuCodeStatuses> findBySchoolsEntitySchoolIdAndMenuCodeId(int schoolId, int menuCodeId) {
+        return  schoolMenuCodeStatusRepo. findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeId(schoolId,menuCodeId);
+    }
+
+
 }

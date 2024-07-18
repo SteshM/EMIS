@@ -1,13 +1,19 @@
 package com.emis.EMIS.wrappers.responseDTOs;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SchoolsResDTO {
     private int schoolId;
     private String schoolName;
+    private String schoolGender;
+    private String curriculum;
+    private String schoolType;
+    private String category;
     private String emailAddress;
     private String mobileNo;
     private String postalAddress;
@@ -17,9 +23,11 @@ public class SchoolsResDTO {
     private int schoolTypeId;
     private int schoolGenderId;
     private int curriculumId;
-    private String  County;
+    private String county;
     private String  subCounty;
     private String logo;
+    private Double longitude;
+    private Double latitude;
 
 
 

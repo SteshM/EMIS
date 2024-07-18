@@ -410,13 +410,17 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
      return schoolService.rejectSchool(approveSchoolDTO);
 }
 
-@PostMapping("/raise-clarification")
-    public ResponseDTO raiseClarification(@RequestBody ClarifyDTO clarifyDTO ){
-     return schoolService.raiseClarification(clarifyDTO);
-}
+//@PostMapping("/raise-clarification")
+//    public ResponseDTO raiseClarification(@RequestBody ClarifyDTO clarifyDTO ){
+//     return schoolService.raiseClarification(clarifyDTO);
+//}
 @PostMapping("/reply-clarification")
     public ResponseDTO replyOnClarification(@RequestBody ReplyOnClarificationDTO replyOnClarificationDTO){
      return schoolService.replyOnClarification(replyOnClarificationDTO);
+}
+@PostMapping("/Close-replied-clarification")
+    public ResponseDTO closeRepliedClarification(ClarifyDTO clarifyDTO){
+     return schoolService.closeRepliedClarification(clarifyDTO);
 }
 
 }

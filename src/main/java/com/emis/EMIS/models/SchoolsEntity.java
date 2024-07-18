@@ -21,12 +21,17 @@ public class SchoolsEntity {
     private int schoolId;
     private String schoolName;
     private String moeRegistrationNo;
-    private String MobileNo;
+    private String mobileNo;
     private String emailAddress;
     private String postalAddress;
     private String postalCode;
     private Status status;
     private String logo;
+    private String  county;
+    private String  subCounty;
+    private Double longitude;
+    private Double latitude;
+
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -50,20 +55,15 @@ public class SchoolsEntity {
     @JoinColumn(name = "curriculumId")
     private CurriculumEntity curriculum;
 
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private CategoriesEntity categoriesEntity;
+
     @OneToMany
     List<StudentEntity>studentEntityList;
 
     @OneToMany()
     List<StreamsEntity>streamsEntityList;
-
-//    private String logoName;
-//    private String logoUrl;
-//    private String logoSize;
-//    private String logoType;
-//    private String logoKey;
-//    private String location;
-//    private String road;
-//    private String state;
 //    private int approvedBy = 0;
 //    private int rejectedBy = 0;
 //    private int submittedBy = 0;
