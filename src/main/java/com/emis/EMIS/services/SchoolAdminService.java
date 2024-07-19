@@ -582,6 +582,7 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
     public ResponseDTO getSubjectsByTeacherId(int id) {
         TeacherEntity teacher = dataService.findByTeacherId(id);
         List<SubjectEntity>subjectEntityList=dataService.fetchSubjectsByTeacherId(teacher);
+
        return utilities.successResponse("fetched all subjects by teacher id",subjectEntityList);
     }
 
@@ -589,6 +590,7 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
         StudentMarksEntity studentMarks = new StudentMarksEntity();
         studentMarks.setStudent(dataService.findByStudentId(marksDTO.getStudentId()));
         studentMarks.setSubject(dataService.findBySubjectId(marksDTO.getSubjectId()));
+        studentMarks.setMark(marksDTO.getMark());
         dataService.saveStudentMarks(studentMarks);
         return utilities.successResponse("saved student marks",null);
 

@@ -18,7 +18,7 @@ public class DesignationEntity {
     private String designation;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated ;
+    private Date dateCreated = new Date();
     private String createdBy;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)

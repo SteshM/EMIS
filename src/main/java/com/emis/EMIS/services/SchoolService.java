@@ -46,6 +46,10 @@ public class SchoolService {
      */
     public ResponseDTO createBasicInfo(SchoolDTO schoolDTO) throws JsonProcessingException {
         var school = modelMapper.map(schoolDTO,SchoolsEntity.class);
+        school.setCategoriesEntity(dataService.findByCategoryId(schoolDTO.getCategoryId()));
+        school.setCurriculum(dataService.findByCurriculumId(schoolDTO.getCurriculumId()));
+        school.setSchoolType(dataService.findBySchoolTypeId(schoolDTO.getSchoolTypeId()));
+        school.setSchoolGender(dataService.findBySchoolGenderId(schoolDTO.getSchoolGenderId()));
         log.info("About to save a school's basic info:{}", new ObjectMapper().writeValueAsString(school));
         dataService.saveSchool(school);
         return utilities.successResponse("Created school",schoolDTO);
@@ -74,24 +78,22 @@ public class SchoolService {
         List<SchoolsEntity>schoolsEntities = dataService.findAll();
         log.info("About to fetch schools {}",schoolsEntities);
         List<SchoolsResDTO>schoolsResDTOS = schoolsEntities.stream()
+                //0?0:schoolsEntities.get().getSchoolId())
                 .map(schools -> {
-//                    Optional<String>schoolGender =Optional.ofNullable(schools.getSchoolGender().getName());
-//                    Optional<String>curriculum =Optional.ofNullable(schools.getCurriculum().getCurriculum());
-//                    Optional<String>category =Optional.ofNullable(schools.getCategoriesEntity().getCategory());
-//                    Optional<String>schoolType =Optional.ofNullable(schools.getSchoolType().getName());
-
-
+                    Optional<String>schoolGender =Optional.ofNullable(schools.getSchoolGender().getName());
+                    Optional<String>curriculum =Optional.ofNullable(schools.getCurriculum().getCurriculum());
+                    Optional<String>category =Optional.ofNullable(schools.getCategoriesEntity().getCategory());
+                    Optional<String>schoolType =Optional.ofNullable(schools.getSchoolType().getName());
                     return SchoolsResDTO.builder()
                             .schoolId(schools.getSchoolId())
                             .schoolName(schools.getSchoolName())
-//                            .schoolType(schoolType.orElse(null))
-//                            .schoolTypeId(schools.getSchoolType().getSchoolTypeId())
-//                            .schoolGenderId(schools.getSchoolGender().getSchoolGenderId())
-//                            .schoolGender(schoolGender.orElse(null))
-//                            .curriculum(curriculum.orElse(null))
-//                            .curriculumId(schools.getCurriculum().getCurriculumId())
-//                            .category(category.orElse(null))
-//                            .categoryId(schools.getCategoriesEntity().getCategoryId())
+                            .schoolType(schoolType.orElse(null))
+                            .schoolTypeId(schools.getSchoolType().getSchoolTypeId() == 0?0:schools.getSchoolType().getSchoolTypeId())
+                            .schoolGenderId(schools.getSchoolGender().getSchoolGenderId() == 0?0:schools.getSchoolGender().getSchoolGenderId())
+                            .schoolGender(schoolGender.orElse(null))
+                            .curriculum(curriculum.orElse(null))
+                            .category(category.orElse(null))
+                            .categoryId(schools.getCategoriesEntity().getCategoryId()== 0?0:schools.getCategoriesEntity().getCategoryId())
                             .logo(schools.getLogo())
                             .emailAddress(schools.getEmailAddress())
                             .postalAddress(schools.getPostalAddress())
@@ -289,7 +291,7 @@ return utilities.successResponse("fetched all school types",schoolTypeDTOList);
     public ResponseDTO addCategory(CategoryDTO categoryDTO) throws JsonProcessingException {
         var categoriesEntity = new CategoriesEntity();
         categoriesEntity.setCategory(categoryDTO.getCategory());
-        dataService.findBySchoolId(categoryDTO.getSchoolId());
+//        dataService.findBySchoolId(categoryDTO.getSchoolId());
         log.info("About to save a category:{}", new ObjectMapper().writeValueAsString(categoriesEntity));
         var savedCategory = dataService.saveCategories(categoriesEntity);
         var categoryResDTO = modelMapper.map(savedCategory, CategoryResDTO.class);
@@ -331,8 +333,9 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
     public ResponseDTO addDesignation(DesignationDTO designationDTO) throws JsonProcessingException {
         DesignationEntity designationEntity = modelMapper.map(designationDTO, DesignationEntity.class);
         log.info("About to save a designation:{}", new ObjectMapper().writeValueAsString(designationEntity));
-        dataService.saveDesignation(designationEntity);
-        return utilities.successResponse("Added designation",null);
+         var savedDesignation = dataService.saveDesignation(designationEntity);
+         var designationResDTO = modelMapper.map(savedDesignation,DesignationResDTO.class);
+        return utilities.successResponse("Added designation",designationResDTO);
 
     }
     public ResponseDTO updateDesignation(DesignationDTO designationDTO, int id) throws JsonProcessingException {
@@ -534,6 +537,25 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         return utilities.successResponse("Fetched all document types",documentTypesDTOList);
     }
 
+    public ResponseDTO getDocumentTypeByMenuCodeId(int id) throws JsonProcessingException {
+        MenuCodes menuCodes = dataService.findByMenuCodeId(id);
+        List<DocumentTypes>documentTypesList = dataService.findByMenuCodes(menuCodes);
+        List<DocumentTypeResDTO>documentTypeResDTOS = documentTypesList.stream()
+                .map(documentTypes -> {
+                    return DocumentTypeResDTO.builder()
+                            .menuCodeId(documentTypes.getMenuCodes().getMenuCodeId())
+                            .name(documentTypes.getName())
+                            .required(documentTypes.getMenuCodes().isRequired())
+                            .remarks(documentTypes.getMenuCodes().getRemarks())
+                            .recordsRequired(documentTypes.getDocumentTypeId())
+                            .build();
+                })
+                .toList();
+        log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(documentTypesList));
+        return utilities.successResponse("fetched doc types by menucodeId",documentTypeResDTOS);
+
+    }
+
 
     /**
      * IDENTITY TYPES
@@ -580,11 +602,21 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
      * @throws JsonProcessingException the exception
      */
 
-    public ResponseDTO CreateSupportDocuments(SupportDocDTO supportDocDTO) throws JsonProcessingException {
-        SupportingDocuments supportingDocuments = modelMapper.map(supportDocDTO,SupportingDocuments.class);
-        log.info("About to save supporting documents:{}", new ObjectMapper().writeValueAsString(supportingDocuments));
+    public ResponseDTO CreateSupportDocuments(String support, MultipartFile file) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        SupportDocDTO supportDocDTO= objectMapper.readValue(support, SupportDocDTO.class);
+        String fileName = fileUpload.uploadImage(docPath,file);
+        var documentType = dataService.findByDocumentTypeId(supportDocDTO.getDocumentTypeId());
+        var schoolsEntity = dataService.findBySchoolId(supportDocDTO.getSchoolId());
+        var menuCodes = dataService.findByMenuCodeId(supportDocDTO.getMenuCodeId());
+        SupportingDocuments supportingDocuments = new SupportingDocuments();
+        supportingDocuments.setDocumentTypes(documentType);
+        supportingDocuments.setSchoolsEntity(schoolsEntity);
+        supportingDocuments.setMenuCodes(menuCodes);
+        supportingDocuments.setDescription(supportingDocuments.getDescription());
         dataService.saveSupportDocs(supportingDocuments);
-        return utilities.successResponse("saved  supporting documents ",null);
+        return utilities.successResponse("created a school supporting document",supportingDocuments);
+
     }
 
 
@@ -1194,4 +1226,8 @@ return null;
 
 return null;
     }
+
+
+
+
 }

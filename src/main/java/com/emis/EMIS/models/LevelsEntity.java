@@ -1,6 +1,7 @@
 package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class LevelsEntity {
     private CurriculumEntity curriculum;
 
     @OneToMany
+    @JsonManagedReference
     List<LearningStageEntity>learningStageEntityList;
 
     @OneToMany()

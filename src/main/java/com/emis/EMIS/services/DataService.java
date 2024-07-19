@@ -254,8 +254,8 @@ public class DataService {
     public List<CategoriesEntity>fetchAllCategories(){
         return categoryRepo.findAll();
     }
-    public void saveDesignation(DesignationEntity designationEntity){
-        designationRepo.save(designationEntity);
+    public DesignationEntity saveDesignation(DesignationEntity designationEntity){
+        return designationRepo.save(designationEntity);
     }
     public DesignationEntity findByDesignationId(int designationId){
         return designationRepo.findByDesignationId(designationId);
@@ -503,4 +503,11 @@ public class DataService {
     }
 
 
+    public List<DocumentTypes> findByMenuCodes(MenuCodes menuCodes) {
+        return documentTypesRepo.findByMenuCodes(menuCodes);
+    }
+
+    public CategoriesEntity getReferenceById(int categoryId){
+        return categoryRepo.getReferenceById(categoryId);
+    }
 }

@@ -2,8 +2,7 @@ package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.ArrayList;
@@ -14,6 +13,9 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "schools")
 public class SchoolsEntity {
     @Id
@@ -64,6 +66,8 @@ public class SchoolsEntity {
 
     @OneToMany()
     List<StreamsEntity>streamsEntityList;
+
+
 //    private int approvedBy = 0;
 //    private int rejectedBy = 0;
 //    private int submittedBy = 0;

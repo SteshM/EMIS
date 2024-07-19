@@ -1,5 +1,6 @@
 package com.emis.EMIS.exception;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
@@ -11,13 +12,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.AccessDeniedException;
 import java.util.NoSuchElementException;
-
+@Slf4j
 @RestControllerAdvice
 public class CustomExceptionHandler extends Throwable {
 
         ProblemDetail errorDetails;
         @ExceptionHandler(Exception.class)
         public ProblemDetail errorHandler (Exception ex){
+            log.error("encode exception",ex);
             if(ex instanceof BadCredentialsException){
                 errorDetails = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), ex.getMessage());
                 errorDetails.setProperty("Reason","Authentication Failure");

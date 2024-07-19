@@ -1,10 +1,12 @@
 package com.emis.EMIS.wrappers.responseDTOs;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DocumentTypeResDTO {
     private int menuCodeId;
     private String name;

@@ -28,9 +28,9 @@ public class SchoolContactsDTO {
     private String school;
 //    @NotNull(message = "schoolId is required!")
 //    private String schoolId;
-    @NotNull(message = "date created  is required!")
-    private Date createdOn;
-    @NotNull(message = "createdBy is required!")
-    private String createdBy;
+//    @NotNull(message = "date created  is required!")
+//    private Date createdOn ;
+//    @NotNull(message = "createdBy is required!")
+//    private String createdBy;
 
 }

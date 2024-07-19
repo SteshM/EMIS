@@ -5,7 +5,6 @@ import com.emis.EMIS.models.LearningStageEntity;
 import com.emis.EMIS.models.LevelsEntity;
 import com.emis.EMIS.models.StudentEntity;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.requestDTOs.AcademicTrackerDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

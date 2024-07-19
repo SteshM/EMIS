@@ -21,7 +21,7 @@ public class StreamsEntity {
     private Status status;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreated ;
+    private Date dateCreated =new Date();
     private String createdBy;
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -29,6 +29,8 @@ public class StreamsEntity {
     private String modifiedBy;
 
     @ManyToOne()
-    SchoolsEntity schoolsEntity;
+    @JoinColumn(name = "schoolId")
+    private SchoolsEntity schoolsEntity;
+
 
 }

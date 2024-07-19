@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 @Getter
 public class DocumentsDTO {
-    @NotNull(message = "Id is required")
-    private int id;
+//    @NotNull(message = "Id is required")
+//    private int id;
     @NotNull(message = "schoolId is required")
     private int schoolId;
     @NotNull(message = "menuCodeId is required")
@@ -17,6 +17,6 @@ public class DocumentsDTO {
     private int supportDocId;
     @NotNull(message = "documentTypeId is required")
     private int documentTypeId;
-    @NotNull(message = "fileDocs is required")
-    private String fileDocs;
+//    @NotNull(message = "fileDocs is required")
+//    private String fileDocs;
 }

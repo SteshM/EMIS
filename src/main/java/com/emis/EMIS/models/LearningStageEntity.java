@@ -1,6 +1,7 @@
 package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class LearningStageEntity {
     private String modifiedBy;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "levelId")
     private LevelsEntity levelsEntity;
 

@@ -10,12 +10,12 @@ import java.util.Date;
 @Setter
 @Getter
 public class SupportDocDTO {
-    private Long schoolId;
-    private int size;
-    private int page;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date startDate;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private Date endDate;
-    private ArrayList<String> filters;
+//    private int id;
+//    private int supportId;
+    private String name;
+    private String description;
+    private int menuCodeId;
+    private int documentTypeId;
+    private int schoolId;
+    private String supportDoc;
 }

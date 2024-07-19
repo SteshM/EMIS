@@ -4,14 +4,29 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class SchoolDTO {
 
     @NotNull(message = "SchoolName is required")
     private String schoolName;
-
+//    @NotNull(message = "SchoolType is required")
+//    private String schoolType;
+//    @NotNull(message = "SchoolGender is required")
+//    private String schoolGender;
+//    @NotNull(message = "category is required")
+//    private String category;
+//    @NotNull(message = "curriculum is required")
+//    private String curriculum;
+//    @NotNull(message = "SchoolType is required")
     @Email
     @Column(unique = true)
     private String emailAddress;

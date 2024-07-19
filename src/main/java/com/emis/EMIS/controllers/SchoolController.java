@@ -185,7 +185,7 @@ public class SchoolController {
      * @throws JsonProcessingException the exception
      */
 
-    @PostMapping("/school-contact/add")
+    @PostMapping("/school-contact")
     public ResponseDTO addSchoolContacts(@RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         return schoolService.createSchoolContact(schoolContactsDTO);
     }
@@ -254,11 +254,11 @@ public class SchoolController {
     public ResponseDTO getAll() throws JsonProcessingException {
         return schoolService.getDocumentTypes();
     }
-////get by menu code id
-//    @GetMapping("/document-type/menu-code/{id}")
-//    public ResponseDTO getByMenuCodeId(@PathVariable int id){
-//        return schoolService.getDocumentTypeByMenuCodeId(id);
-//    }
+//get by menu code id
+    @GetMapping("/menu-code/{id}/document-type")
+    public ResponseDTO getByMenuCodeId(@PathVariable int id) throws JsonProcessingException {
+        return schoolService.getDocumentTypeByMenuCodeId(id);
+    }
 
     /**
      *
@@ -287,15 +287,14 @@ public class SchoolController {
 
     /**
      * SUPPORTING DOCUMENTS
-     * @param supportDocDTO request dto
      * @return response dto
      * @throws JsonProcessingException the exception
      */
 
 
     @PostMapping("/support-docs")
-    public ResponseDTO addSupportDocuments(@RequestBody SupportDocDTO supportDocDTO) throws JsonProcessingException {
-        return schoolService.CreateSupportDocuments(supportDocDTO);
+    public ResponseDTO addSupportDocuments(@RequestPart("support") String support,MultipartFile file) throws JsonProcessingException {
+        return schoolService.CreateSupportDocuments(support,file);
     }
 
     @GetMapping("/support-docs/{id}")

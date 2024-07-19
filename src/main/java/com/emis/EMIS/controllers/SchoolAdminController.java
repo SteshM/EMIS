@@ -204,7 +204,7 @@ public class    SchoolAdminController {
     public ResponseDTO createStream(@Valid @RequestBody StreamDTO streamDTO) throws JsonProcessingException {
         return schoolAdminService.AddStream(streamDTO);
     }
-    @GetMapping("/school/{id}/Streams")
+    @GetMapping("/school/{id}/streams")
     public ResponseDTO getStreamsBySchoolId(@PathVariable int id) throws JsonProcessingException {
         return schoolAdminService.fetchStreamsBySchoolId(id);
     }

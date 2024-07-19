@@ -17,10 +17,8 @@ import org.springframework.web.bind.annotation.*;
 public class AcademicProgressController {
 
 private final AcademicProgressTrackerService academicProgressTrackerService;
-private final DataService dataService;
-private final Utilities utilities;
 
-@GetMapping("/promote-term")
+@GetMapping("/promote-students")
 public ResponseDTO promoteStudentToNextTerm(){
     return academicProgressTrackerService.PromoteStudents();
 }

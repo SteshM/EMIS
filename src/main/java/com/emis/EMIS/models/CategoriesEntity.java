@@ -1,8 +1,8 @@
 package com.emis.EMIS.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -10,11 +10,15 @@ import java.util.Date;
 @Setter
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "categories")
 public class CategoriesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int categoryId;
+    @NonNull
+    private Integer categoryId;
     private String category;
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,5 +31,5 @@ public class CategoriesEntity {
 
     @OneToOne
     @JoinColumn(name = "schoolId")
-    private CategoriesEntity categoriesEntity;
+    private SchoolsEntity schoolsEntity;
 }
