@@ -15,9 +15,13 @@ public class AcademicProgressTrackerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int academicProgressTrackerId;
+    @Column(name = "school_id")
     private int schoolId;
+    @Column(name = "student_id")
     private int studentId;
+    @Column(name = "learning_stage")
     private int learningStageId;
+    @Column(name = "stream_id")
     private int streamId;
     private int term;
     private int year;

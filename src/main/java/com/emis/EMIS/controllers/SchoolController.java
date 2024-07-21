@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -293,7 +295,7 @@ public class SchoolController {
 
 
     @PostMapping("/support-docs")
-    public ResponseDTO addSupportDocuments(@RequestPart("support") String support,MultipartFile file) throws JsonProcessingException {
+    public ResponseDTO addSupportDocuments(@RequestPart("support") String support,@RequestPart("file") MultipartFile file) throws JsonProcessingException {
         return schoolService.CreateSupportDocuments(support,file);
     }
 
@@ -321,7 +323,7 @@ public class SchoolController {
      */
 
     @PostMapping("/school-doc")
-    public ResponseDTO createSchoolDocument(@RequestPart ("schoolDocumentData")String schoolDocumentData, @RequestPart ("fileDocs")MultipartFile fileDocs ) throws JsonProcessingException {
+    public ResponseDTO createSchoolDocument(@RequestPart ("schoolDocumentData")String schoolDocumentData, @RequestPart ("fileDocs") List<MultipartFile> fileDocs ) throws JsonProcessingException {
         return schoolService.createSchoolDocument(schoolDocumentData,fileDocs);
     }
     @PutMapping("/school-doc/{id}")

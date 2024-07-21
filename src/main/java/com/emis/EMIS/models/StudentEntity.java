@@ -6,6 +6,8 @@ import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.List;
+
 @Data
 @Entity
 @NoArgsConstructor
@@ -30,6 +32,9 @@ public class StudentEntity {
     @ManyToOne
     @JoinColumn(name = "guardianId")
     private GuardianEntity guardian;
+
+    @OneToMany
+    List<StudentMarksEntity>studentMarksEntityList;
 
 
 

@@ -78,22 +78,19 @@ public class SchoolService {
         List<SchoolsEntity>schoolsEntities = dataService.findAll();
         log.info("About to fetch schools {}",schoolsEntities);
         List<SchoolsResDTO>schoolsResDTOS = schoolsEntities.stream()
-                //0?0:schoolsEntities.get().getSchoolId())
                 .map(schools -> {
-                    Optional<String>schoolGender =Optional.ofNullable(schools.getSchoolGender().getName());
-                    Optional<String>curriculum =Optional.ofNullable(schools.getCurriculum().getCurriculum());
-                    Optional<String>category =Optional.ofNullable(schools.getCategoriesEntity().getCategory());
-                    Optional<String>schoolType =Optional.ofNullable(schools.getSchoolType().getName());
+
                     return SchoolsResDTO.builder()
                             .schoolId(schools.getSchoolId())
                             .schoolName(schools.getSchoolName())
-                            .schoolType(schoolType.orElse(null))
-                            .schoolTypeId(schools.getSchoolType().getSchoolTypeId() == 0?0:schools.getSchoolType().getSchoolTypeId())
-                            .schoolGenderId(schools.getSchoolGender().getSchoolGenderId() == 0?0:schools.getSchoolGender().getSchoolGenderId())
-                            .schoolGender(schoolGender.orElse(null))
-                            .curriculum(curriculum.orElse(null))
-                            .category(category.orElse(null))
-                            .categoryId(schools.getCategoriesEntity().getCategoryId()== 0?0:schools.getCategoriesEntity().getCategoryId())
+                            .schoolType(schools.getSchoolType()==null?"":schools.getSchoolType().getName())
+                            .schoolTypeId(schools.getSchoolType() == null?0:schools.getSchoolType().getSchoolTypeId())
+                            .schoolGenderId(schools.getSchoolGender() == null?0:schools.getSchoolGender().getSchoolGenderId())
+                            .schoolGender(schools.getSchoolGender() == null?"": schools.getSchoolGender().getName())
+                            .curriculum(schools.getCurriculum()==null?"":schools.getCurriculum().getCurriculum())
+                            .curriculumId(schools.getCurriculum()==null?0:schools.getCurriculum().getCurriculumId())
+                            .category(schools.getCategoriesEntity()==null?"":schools.getCategoriesEntity().getCategory())
+                            .categoryId(schools.getCategoriesEntity()==null?0:schools.getCategoriesEntity().getCategoryId())
                             .logo(schools.getLogo())
                             .emailAddress(schools.getEmailAddress())
                             .postalAddress(schools.getPostalAddress())
@@ -613,7 +610,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         supportingDocuments.setDocumentTypes(documentType);
         supportingDocuments.setSchoolsEntity(schoolsEntity);
         supportingDocuments.setMenuCodes(menuCodes);
-        supportingDocuments.setDescription(supportingDocuments.getDescription());
+        supportingDocuments.setDescription(supportDocDTO.getDescription());
+        log.info("{}",supportDocDTO.getSchoolId());
+        log.info("{}",supportDocDTO.getDescription());
+        log.info("{}",supportDocDTO.getDocumentTypeId());
         dataService.saveSupportDocs(supportingDocuments);
         return utilities.successResponse("created a school supporting document",supportingDocuments);
 
@@ -656,25 +656,31 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
      * @throws JsonProcessingException the exception
      */
 
-    public ResponseDTO createSchoolDocument(String schoolDocumentData, MultipartFile fileDocs) throws JsonProcessingException {
+    public ResponseDTO createSchoolDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
-        String fileName = fileUpload.uploadImage(docPath,fileDocs);
-         var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
-         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-         var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
-         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        SchoolDocuments schoolDocuments = new SchoolDocuments();
-        schoolDocuments.setDocumentTypes(documentType);
-        schoolDocuments.setSchoolsEntity(schoolsEntity);
-        schoolDocuments.setSupportingDocuments(supportingDocuments);
-        schoolDocuments.setMenuCodes(menuCodes);
-        schoolDocuments.setDocName(fileDocs.getName());
-        schoolDocuments.setDocUrl(fileName);
-        schoolDocuments.setDocSize(String.valueOf(fileDocs.getSize()));
-        schoolDocuments.setDocType(fileDocs.getContentType());
-        schoolDocuments.setDocKey(UUID.randomUUID().toString());
-        dataService.saveSchoolDocument(schoolDocuments);
+        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
+        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
+        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+        float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
+       for (MultipartFile multipartFile:fileDocs){
+           String fileName = fileUpload.uploadImage(docPath,multipartFile);
+           SchoolDocuments schoolDocuments = new SchoolDocuments();
+           schoolDocuments.setDocumentTypes(documentType);
+           schoolDocuments.setSchoolsEntity(schoolsEntity);
+           schoolDocuments.setSupportingDocuments(supportingDocuments);
+           schoolDocuments.setMenuCodes(menuCodes);
+           schoolDocuments.setDocName(multipartFile.getName());
+           schoolDocuments.setDocUrl(fileName);
+           schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
+           schoolDocuments.setDocType(multipartFile.getContentType());
+           schoolDocuments.setDocKey(UUID.randomUUID().toString());
+           dataService.saveSchoolDocument(schoolDocuments);
+       }
+       menuCodes.setCompletionPercentage(percentage);
+       dataService.saveMenuCodes(menuCodes);
+
         return utilities.successResponse("created a school document",documentsDTO);
     }
 

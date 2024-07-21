@@ -31,7 +31,7 @@ public class SubjectEntity {
 
     @OneToMany
     @JoinColumn(name = "marksId")
-    List<StudentMarksEntity>  studentMarks;
+    List<StudentMarksEntity> studentMarks;
 
 
 

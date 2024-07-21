@@ -3,10 +3,12 @@ package com.emis.EMIS.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @Entity
+@ToString
 @Table(name = "studentMarks")
 public class StudentMarksEntity {
     @Id
@@ -14,11 +16,11 @@ public class StudentMarksEntity {
     private int marksId;
     private double mark;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "subjectId")
     private SubjectEntity subject;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "studentId")
     private StudentEntity student ;
 
