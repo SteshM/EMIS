@@ -18,4 +18,6 @@ public interface SchoolMenuCodeStatusRepo  extends JpaRepository<SchoolMenuCodeS
    Optional<SchoolMenuCodeStatuses> findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeId(int schoolId, int menuCodeId);
 
    List<SchoolMenuCodeStatuses> findAllBySchoolsEntitySchoolId(int schoolId);
+
+    SchoolMenuCodeStatuses findBySchoolMenuCodeStatusId(int schoolMenuCodeStatusId);
 }

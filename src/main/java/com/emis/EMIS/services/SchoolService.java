@@ -606,15 +606,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var documentType = dataService.findByDocumentTypeId(supportDocDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(supportDocDTO.getSchoolId());
         var menuCodes = dataService.findByMenuCodeId(supportDocDTO.getMenuCodeId());
+        float percentage = Float.valueOf(file.getSize()/ menuCodes.getRecordsRequired()*100);
         SupportingDocuments supportingDocuments = new SupportingDocuments();
+        documentType.setName(support);
         supportingDocuments.setDocumentTypes(documentType);
         supportingDocuments.setSchoolsEntity(schoolsEntity);
         supportingDocuments.setMenuCodes(menuCodes);
+        supportingDocuments.setName(supportDocDTO.getName());
         supportingDocuments.setDescription(supportDocDTO.getDescription());
-        log.info("{}",supportDocDTO.getSchoolId());
-        log.info("{}",supportDocDTO.getDescription());
-        log.info("{}",supportDocDTO.getDocumentTypeId());
         dataService.saveSupportDocs(supportingDocuments);
+        dataService.saveMenuCodes(menuCodes);
         return utilities.successResponse("created a school supporting document",supportingDocuments);
 
     }
@@ -663,23 +664,75 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
         var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
-       for (MultipartFile multipartFile:fileDocs){
-           String fileName = fileUpload.uploadImage(docPath,multipartFile);
-           SchoolDocuments schoolDocuments = new SchoolDocuments();
-           schoolDocuments.setDocumentTypes(documentType);
-           schoolDocuments.setSchoolsEntity(schoolsEntity);
-           schoolDocuments.setSupportingDocuments(supportingDocuments);
-           schoolDocuments.setMenuCodes(menuCodes);
-           schoolDocuments.setDocName(multipartFile.getName());
-           schoolDocuments.setDocUrl(fileName);
-           schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
-           schoolDocuments.setDocType(multipartFile.getContentType());
-           schoolDocuments.setDocKey(UUID.randomUUID().toString());
-           dataService.saveSchoolDocument(schoolDocuments);
-       }
-       menuCodes.setCompletionPercentage(percentage);
-       dataService.saveMenuCodes(menuCodes);
+        SchoolMenuCodeStatuses schoolMenuCodeStatuses=dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId());
+        if (dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId()) == null){
+             var menucodes=dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+            if(menuCodes.getRecordsRequired()<= fileDocs.size()){
+                float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
+                schoolMenuCodeStatuses.setStatus(Status.PENDING);
+                schoolMenuCodeStatuses.setCompletionPercentage(percentage);
+                schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
+                schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired()-fileDocs.size());
+                dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
+                for (MultipartFile multipartFile:fileDocs){
+                    String fileName = fileUpload.uploadImage(docPath,multipartFile);
+                    SchoolDocuments schoolDocuments = new SchoolDocuments();
+                    schoolDocuments.setDocumentTypes(documentType);
+                    schoolDocuments.setSchoolsEntity(schoolsEntity);
+                    schoolDocuments.setSupportingDocuments(supportingDocuments);
+                    schoolDocuments.setMenuCodes(menuCodes);
+                    schoolDocuments.setDocName(multipartFile.getName());
+                    schoolDocuments.setDocUrl(fileName);
+                    schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
+                    schoolDocuments.setDocType(multipartFile.getContentType());
+                    schoolDocuments.setDocKey(UUID.randomUUID().toString());
+                    dataService.saveSchoolDocument(schoolDocuments);
+                }
+            } else if (menuCodes.getRecordsRequired() == fileDocs.size()){
+                float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
+                schoolMenuCodeStatuses.setStatus(Status.COMPLETED);
+                schoolMenuCodeStatuses.setCompletionPercentage(percentage);
+                schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
+                dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
+                for (MultipartFile multipartFile:fileDocs){
+                    String fileName = fileUpload.uploadImage(docPath,multipartFile);
+                    SchoolDocuments schoolDocuments = new SchoolDocuments();
+                    schoolDocuments.setDocumentTypes(documentType);
+                    schoolDocuments.setSchoolsEntity(schoolsEntity);
+                    schoolDocuments.setSupportingDocuments(supportingDocuments);
+                    schoolDocuments.setMenuCodes(menuCodes);
+                    schoolDocuments.setDocName(multipartFile.getName());
+                    schoolDocuments.setDocUrl(fileName);
+                    schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
+                    schoolDocuments.setDocType(multipartFile.getContentType());
+                    schoolDocuments.setDocKey(UUID.randomUUID().toString());
+                    dataService.saveSchoolDocument(schoolDocuments);
+                }
+
+            }
+
+
+        }else if (dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId())!=null){
+            schoolMenuCodeStatuses.getRemainingDocs();
+            schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired()-fileDocs.size());
+            dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
+            for (MultipartFile multipartFile:fileDocs){
+                String fileName = fileUpload.uploadImage(docPath,multipartFile);
+                SchoolDocuments schoolDocuments = new SchoolDocuments();
+                schoolDocuments.setDocumentTypes(documentType);
+                schoolDocuments.setSchoolsEntity(schoolsEntity);
+                schoolDocuments.setSupportingDocuments(supportingDocuments);
+                schoolDocuments.setMenuCodes(menuCodes);
+                schoolDocuments.setDocName(multipartFile.getName());
+                schoolDocuments.setDocUrl(fileName);
+                schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
+                schoolDocuments.setDocType(multipartFile.getContentType());
+                schoolDocuments.setDocKey(UUID.randomUUID().toString());
+                dataService.saveSchoolDocument(schoolDocuments);
+            }
+        }
+
+
 
         return utilities.successResponse("created a school document",documentsDTO);
     }
@@ -730,10 +783,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         newDocument.setSupportingDocuments(supportingDocuments);
         newDocument.setMenuCodes(menuCodes);
         newDocument.setSchoolsEntity(schoolsEntity);
-        newDocument.setDocName(fileDocs.getName());
+//        newDocument.setDocName(fileDocs.getName());
         newDocument.setDocUrl(fileName);
-        newDocument.setDocSize(String.valueOf(fileDocs.getSize()));
-        newDocument.setDocType(fileDocs.getContentType());
+//        newDocument.setDocSize(String.valueOf(fileDocs.getSize()));
+//        newDocument.setDocType(fileDocs.getContentType());
         newDocument.setDocKey(UUID.randomUUID().toString());
         dataService.saveNewDocument(newDocument);
         return utilities.successResponse("created a school finance document",documentsDTO);

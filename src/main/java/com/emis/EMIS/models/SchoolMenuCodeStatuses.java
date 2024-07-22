@@ -14,13 +14,19 @@ public class SchoolMenuCodeStatuses {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int schoolMenuCodeStatusId;
+    private int remainingDocs;
     @ManyToOne
     @JoinColumn(name = "schoolId")
-    private SchoolsEntity schoolsEntity;
+    private SchoolsEntity schoolsEntity;//        newDocument.setDocName(fileDocs.getName());
+
 
     @ManyToOne
     @JoinColumn(name = "menuCodeId")
     private MenuCodes menuCodes;
+
+    @ManyToOne
+    @JoinColumn(name = "documentTypeId")
+    private DocumentTypes documentTypes;
 
     @Lob
     @Column(name = "remarks", columnDefinition = "TEXT", nullable = false)
@@ -29,7 +35,7 @@ public class SchoolMenuCodeStatuses {
     @Column(name = "remark_status")
     private RemarksClarificationStatus remarkStatus ;
 //            = RemarksClarificationStatus.CLOSED.name();  //OPEN,REVIEW,CLOSED
-    private Integer completionPercentage;  //Pending,Rejected,Completed
+    private float completionPercentage;  //Pending,Rejected,Completed
 
     private int createdBy;
     private int approvedBy;

@@ -510,4 +510,9 @@ public class DataService {
     public CategoriesEntity getReferenceById(int categoryId){
         return categoryRepo.getReferenceById(categoryId);
     }
+
+    public SchoolMenuCodeStatuses findBySchoolMenuCodeStatusId(int schoolMenuCodeStatusId) {
+        return schoolMenuCodeStatusRepo.findBySchoolMenuCodeStatusId(schoolMenuCodeStatusId);
+
+    }
 }

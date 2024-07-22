@@ -14,6 +14,7 @@ import java.util.Date;
 public class AcademicProgressTrackerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "academic_progress_tracker_id")
     private int academicProgressTrackerId;
     @Column(name = "school_id")
     private int schoolId;

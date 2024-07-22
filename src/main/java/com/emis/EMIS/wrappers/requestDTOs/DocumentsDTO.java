@@ -17,6 +17,9 @@ public class DocumentsDTO {
     private int supportDocId;
     @NotNull(message = "documentTypeId is required")
     private int documentTypeId;
+    @NotNull(message = "schoolMenuCodeStatusId is required")
+    private int schoolMenuCodeStatusId;
+
 //    @NotNull(message = "fileDocs is required")
 //    private String fileDocs;
 }
