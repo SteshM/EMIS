@@ -264,6 +264,11 @@ public class    SchoolAdminController {
         return schoolAdminService.AllResources();
     }
 
+    @PostMapping("assign-students-learning-stages")
+    public ResponseDTO assignStudentsToLearningStages(@RequestBody StudentLearningStageDTO stageDTO){
+        return schoolAdminService.assignStudentLearningStages(stageDTO);
+    }
+
 }
 
 

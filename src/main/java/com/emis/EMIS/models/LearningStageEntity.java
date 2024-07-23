@@ -30,6 +30,7 @@ public class LearningStageEntity {
     @JoinColumn(name = "levelId")
     private LevelsEntity levelsEntity;
 
+
     @OneToMany
     List<StudentEntity>studentEntityList;
 }

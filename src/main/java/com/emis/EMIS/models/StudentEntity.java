@@ -3,8 +3,6 @@ package com.emis.EMIS.models;
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -27,6 +25,10 @@ public class StudentEntity {
     @ManyToOne
     @JoinColumn(name = "schoolId")
     private SchoolsEntity schools;
+
+    @ManyToOne
+    @JoinColumn(name = "learningStageId")
+    private LearningStageEntity learningStage;
 
 
     @ManyToOne

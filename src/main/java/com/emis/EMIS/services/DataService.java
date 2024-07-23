@@ -399,6 +399,10 @@ public class DataService {
         return learningStagesRepo.findByLearningStageId(learningStageId);
     }
 
+//    public LearningStageEntity findByLearningStageId2(int learningStageId){
+//        return learningStagesRepo.findByLearningStageId2(learningStageId);
+//    }
+
     public SubjectEntity saveSubject(SubjectEntity subject){
         return subjectRepo.save(subject);
     }

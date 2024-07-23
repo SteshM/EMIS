@@ -11,4 +11,5 @@ public interface LearningStagesRepo extends JpaRepository<LearningStageEntity,In
    Optional <LearningStageEntity> findByLearningStageId(int learningStageId);
 
     List<LearningStageEntity> findByLevelsEntity(LevelsEntity levels);
+
 }

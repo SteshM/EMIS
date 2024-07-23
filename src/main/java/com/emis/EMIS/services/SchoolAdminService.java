@@ -587,8 +587,7 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
                             .subject(subjectEntity.getSubject())
                             .build();
                      })
-                .toList()
-                ;
+                .toList();
         var result = TeacherSubjectResDTO.builder()
                 .teacherId(id)
                 .subjectTeacherDTOList(subjectTeacherDTOList)
@@ -658,6 +657,14 @@ return utilities.successResponse("successfully fetched all marks per subject",ma
                 })
                 .toList();
      return utilities.successResponse("fetched all resources fro the db",resDTOS);
+    }
+
+    public ResponseDTO assignStudentLearningStages(StudentLearningStageDTO stageDTO) {
+        StudentEntity student = dataService.findByStudentId(stageDTO.getStudentId());
+        Optional<LearningStageEntity> learningStage =dataService.findByLearningStageId(stageDTO.getLearningStageId());
+        student.setLearningStage(learningStage.get());
+        dataService.saveStudent(student);
+        return utilities.successResponse("assigned a student to learning stages",stageDTO);
     }
 }
 
