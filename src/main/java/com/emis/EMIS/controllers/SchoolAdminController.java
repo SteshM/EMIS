@@ -255,6 +255,11 @@ public class    SchoolAdminController {
         return schoolAdminService.updateStudentMarks(id,marksDTO);
     }
 
+    @PostMapping("/resource")
+    public ResponseDTO addResource(@RequestBody ResourceDTO resourceDTO) throws JsonProcessingException {
+        return schoolAdminService.createResource(resourceDTO);
+    }
+
 }
 
 

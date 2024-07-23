@@ -54,6 +54,7 @@ public class DataService {
     private final AcademicProgressTrackerRepo academicProgressTrackerRepo;
     private final SchoolMenuCodeStatusRepo schoolMenuCodeStatusRepo;
     private final PartnerApprovalRepo partnerApprovalRepo;
+    private final EducationalResourceRepo educationalResourceRepo;
 
 
 
@@ -514,5 +515,12 @@ public class DataService {
     public SchoolMenuCodeStatuses findBySchoolMenuCodeStatusId(int schoolMenuCodeStatusId) {
         return schoolMenuCodeStatusRepo.findBySchoolMenuCodeStatusId(schoolMenuCodeStatusId);
 
+    }
+
+    public void saveResource(EducationalResourceEntity educationalResource) {
+        educationalResourceRepo.save(educationalResource);
+    }
+    public List<EducationalResourceEntity>fetchAllResources(){
+        return educationalResourceRepo.findAll();
     }
 }

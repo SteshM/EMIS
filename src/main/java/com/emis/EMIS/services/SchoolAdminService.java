@@ -639,6 +639,13 @@ return utilities.successResponse("successfully fetched all marks per subject",ma
         return utilities.successResponse("Successfully updated student marks",markResDTO);
 
     }
+
+    public ResponseDTO createResource(ResourceDTO resourceDTO) throws JsonProcessingException {
+        var educationalResource = modelMapper.map(resourceDTO,EducationalResourceEntity.class);
+        log.info("about to save a resource to the db : {}",new ObjectMapper().writeValueAsString(educationalResource));
+        dataService.saveResource(educationalResource);
+        return utilities.successResponse("Successfully added a resource",null);
+    }
 }
 
 
