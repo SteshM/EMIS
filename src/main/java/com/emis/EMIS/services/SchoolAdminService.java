@@ -646,6 +646,18 @@ return utilities.successResponse("successfully fetched all marks per subject",ma
         dataService.saveResource(educationalResource);
         return utilities.successResponse("Successfully added a resource",null);
     }
+    public ResponseDTO AllResources(){
+        List<EducationalResourceEntity>educationalResourceEntityList = dataService.fetchAllResources();
+        List<ResourceResDTO>resDTOS = educationalResourceEntityList.stream()
+                .map(educationalResourceEntity -> {
+                    return ResourceResDTO.builder()
+                            .resourceId(educationalResourceEntity.getResourceId())
+                            .resource(educationalResourceEntity.getResource())
+                            .build();
+                })
+                .toList();
+     return utilities.successResponse("fetched all resources fro the db",resDTOS);
+    }
 }
 
 
