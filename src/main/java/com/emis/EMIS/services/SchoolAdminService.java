@@ -155,7 +155,7 @@ public class SchoolAdminService {
     public ResponseDTO registerTeacherCSV(MultipartFile file){
         if(CsvUtility.hasCsvFormat(file)){
             try{
-                ArrayList<TeacherEntity>teacherEntityArrayList =CsvUtility.csvToTeacherEntity(file.getInputStream());
+                ArrayList<TeacherEntity>teacherEntityArrayList =csvUtility.csvToTeacherEntity(file.getInputStream());
                 List<TeacherEntity> failedUpload = new ArrayList<>();
                 for(TeacherEntity teacher: teacherEntityArrayList){
                     if(teacher.getUser().getFirstName() == null){

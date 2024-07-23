@@ -109,15 +109,18 @@ public class CsvUtility {
         }
     }
 
-    public static ArrayList<TeacherEntity> csvToTeacherEntity(InputStream is) {
+    public  ArrayList<TeacherEntity> csvToTeacherEntity(InputStream is) {
         try (BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              @SuppressWarnings("deprecation")
              CSVParser csvParser = new CSVParser(bReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
             ArrayList<TeacherEntity> teacherEntities = new ArrayList<>();
+            ArrayList<UserEntity> userEntities = new ArrayList<>();
+
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
                 TeacherEntity teacher = new TeacherEntity();
+                UserEntity user = new UserEntity();
                 teacher.getUser().setFirstName(csvRecord.get("First Name"));
                 teacher.getUser().setMiddleName(csvRecord.get("Middle Name"));
                 teacher.getUser().setLastName(csvRecord.get("Last Name"));
@@ -130,6 +133,11 @@ public class CsvUtility {
                 teacher.setTscNo(csvRecord.get("Occupation"));
                 teacher.setYearsOfExperience(Integer.valueOf(csvRecord.get("years of experience")));
                 teacherEntities.add(teacher);
+                userEntities.add(user);
+                UserEntity savedUser = userRepo.save(user);
+                teacher.setUser(savedUser);
+                dataService.saveTeacher(teacher);
+
             }
             return teacherEntities;
         } catch (IOException e) {

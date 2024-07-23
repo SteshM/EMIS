@@ -64,6 +64,13 @@ public class    SchoolAdminController {
      * @return response dto
      * @throws JsonProcessingException the exception
      */
+
+
+
+    @PostMapping("/upload-teachers")
+    public ResponseDTO bulkUploadTeachers(@RequestPart("csvFile")MultipartFile csvFile){
+        return schoolAdminService.registerTeacherCSV(csvFile);
+    }
     @GetMapping("/teachers")
     public ResponseDTO viewActiveTeachers() throws JsonProcessingException {
         return schoolAdminService.viewTeachers();
