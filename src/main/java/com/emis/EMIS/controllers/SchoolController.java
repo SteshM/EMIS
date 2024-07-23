@@ -323,8 +323,8 @@ public class SchoolController {
      */
 
     @PostMapping("/school-doc")
-    public ResponseDTO createSchoolDocument(@RequestPart ("schoolDocumentData")String schoolDocumentData, @RequestPart ("fileDocs") List<MultipartFile> fileDocs ) throws JsonProcessingException {
-        return schoolService.createSchoolDocument(schoolDocumentData,fileDocs);
+    public ResponseDTO createSchoolDocument(@RequestPart ("documentData")String schoolDocumentData, @RequestPart ("fileDocs") List<MultipartFile> fileDocs ) throws JsonProcessingException {
+        return schoolService.createDocument(schoolDocumentData,fileDocs);
     }
     @PutMapping("/school-doc/{id}")
     public ResponseDTO updateSchoolDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs,@PathVariable int id) throws JsonProcessingException {

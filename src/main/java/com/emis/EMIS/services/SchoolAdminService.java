@@ -603,7 +603,7 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
         studentMarks.setStudent(dataService.findByStudentId(marksDTO.getStudentId()));
         studentMarks.setSubject(dataService.findBySubjectId(marksDTO.getSubjectId()));
         studentMarks.setMark(marksDTO.getMark());
-        log.info("about to save student marks {}",studentMarks.toString());
+        log.info("marks :{}",marksDTO.getMark());
         dataService.saveStudentMarks(studentMarks);
         return utilities.successResponse("saved student marks",null);
 
@@ -616,7 +616,8 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
         List<MarksResDTO>marksResDTOS =studentMarksEntityList.stream()
                 .map(studentMarksEntity -> {
                     return MarksResDTO.builder()
-                            .marks(studentMarksEntity.getMark())
+                            .marksId(studentMarksEntity.getMarksId())
+                            .mark(studentMarksEntity.getMark())
                             .studentId(studentMarksEntity.getStudent().getStudentId())
                             .subjectId(studentMarksEntity.getSubject().getSubjectId())
                             .build();

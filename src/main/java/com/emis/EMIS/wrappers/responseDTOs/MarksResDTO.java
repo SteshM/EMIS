@@ -9,7 +9,7 @@ import lombok.Setter;
 @Builder
 public class MarksResDTO {
     private int marksId;
-    private double marks;
+    private int mark;
     private int studentId;
     private int subjectId;
 

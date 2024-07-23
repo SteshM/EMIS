@@ -1,6 +1,7 @@
 package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -30,6 +31,7 @@ public class SubjectEntity {
     private TeacherEntity teacher;
 
     @OneToMany
+    @JsonManagedReference
     @JoinColumn(name = "marksId")
     List<StudentMarksEntity> studentMarks;
 

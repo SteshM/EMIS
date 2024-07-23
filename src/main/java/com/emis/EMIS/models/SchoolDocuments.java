@@ -32,9 +32,7 @@ public class SchoolDocuments {
     private SupportingDocuments supportingDocuments;
 
     private String docName;
-    private String docUrl;
-    private String docSize;
-    private String docType;
+
     private String docKey;
 
 }

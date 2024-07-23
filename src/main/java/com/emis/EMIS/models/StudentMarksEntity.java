@@ -1,5 +1,6 @@
 package com.emis.EMIS.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +15,10 @@ public class StudentMarksEntity {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY )
     private int marksId;
-    private double mark;
+    private int mark;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "subjectId")
     private SubjectEntity subject;
 

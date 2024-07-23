@@ -17,8 +17,7 @@ public class SchoolMenuCodeStatuses {
     private int remainingDocs;
     @ManyToOne
     @JoinColumn(name = "schoolId")
-    private SchoolsEntity schoolsEntity;//        newDocument.setDocName(fileDocs.getName());
-
+    private SchoolsEntity schoolsEntity;
 
     @ManyToOne
     @JoinColumn(name = "menuCodeId")
@@ -31,11 +30,13 @@ public class SchoolMenuCodeStatuses {
     @Lob
     @Column(name = "remarks", columnDefinition = "TEXT", nullable = false)
     private String remarks;
-    private Status status;  //Pending,Rejected,Completed
+    private Status status;
+    //Pending,Rejected,Completed
     @Column(name = "remark_status")
     private RemarksClarificationStatus remarkStatus ;
-//            = RemarksClarificationStatus.CLOSED.name();  //OPEN,REVIEW,CLOSED
-    private float completionPercentage;  //Pending,Rejected,Completed
+//   = RemarksClarificationStatus.CLOSED.name();  //OPEN,REVIEW,CLOSED
+    private float completionPercentage;
+    //Pending,Rejected,Completed
 
     private int createdBy;
     private int approvedBy;

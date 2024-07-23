@@ -13,8 +13,8 @@ public class DocumentsDTO {
     private int schoolId;
     @NotNull(message = "menuCodeId is required")
     private int menuCodeId;
-    @NotNull(message = "supportDocId is required")
-    private int supportDocId;
+//    @NotNull(message = "supportDocId is required")
+//    private int supportDocId;
     @NotNull(message = "documentTypeId is required")
     private int documentTypeId;
     @NotNull(message = "schoolMenuCodeStatusId is required")

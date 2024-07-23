@@ -500,7 +500,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
     public ResponseDTO saveDocumentType(DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
         DocumentTypes documentTypes = new DocumentTypes();
-        documentTypes.setName(documentTypesDTO.getName());
+        documentTypes.setDocName(documentTypesDTO.getName());
         documentTypes.setMenuCodes(dataService.findByMenuCodeId(documentTypesDTO.getMenuCodeId()));
         documentTypes.setSchool(dataService.findBySchoolId(documentTypesDTO.getSchoolId()));
         log.info("About to save a document type:{}", new ObjectMapper().writeValueAsString(documentTypes));
@@ -512,7 +512,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var objectMapper = new ObjectMapper();
         DocumentTypes documentTypes = dataService.findByDocumentTypeId(id);
         log.info("Fetched a document type  from the db:{}", objectMapper.writeValueAsString(documentTypes));
-        documentTypes.setName(documentTypesDTO.getName());
+        documentTypes.setDocName(documentTypesDTO.getName());
         log.info("Updated document types . About to save:{}", objectMapper.writeValueAsString(documentTypes));
         dataService.saveDocumentTypes(documentTypes);
         return utilities.successResponse("updated document types  successfully",documentTypesDTO);
@@ -524,7 +524,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         List<DocumentTypesDTO>documentTypesDTOList = documentTypesList.stream()
                 .map(documentTypes -> {
                     DocumentTypesDTO documentTypesDTO = new DocumentTypesDTO();
-                    documentTypesDTO.setName(documentTypes.getName());
+                    documentTypesDTO.setName(documentTypes.getDocName());
                     documentTypesDTO.setSchoolId(documentTypes.getSchool().getSchoolId());
                     documentTypesDTO.setMenuCodeId(documentTypes.getMenuCodes().getMenuCodeId());
                     return documentTypesDTO;
@@ -541,7 +541,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                 .map(documentTypes -> {
                     return DocumentTypeResDTO.builder()
                             .menuCodeId(documentTypes.getMenuCodes().getMenuCodeId())
-                            .name(documentTypes.getName())
+                            .name(documentTypes.getDocName())
                             .required(documentTypes.getMenuCodes().isRequired())
                             .remarks(documentTypes.getMenuCodes().getRemarks())
                             .recordsRequired(documentTypes.getDocumentTypeId())
@@ -608,7 +608,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var menuCodes = dataService.findByMenuCodeId(supportDocDTO.getMenuCodeId());
         float percentage = Float.valueOf(file.getSize()/ menuCodes.getRecordsRequired()*100);
         SupportingDocuments supportingDocuments = new SupportingDocuments();
-        documentType.setName(support);
+//        documentType.setName(support);
         supportingDocuments.setDocumentTypes(documentType);
         supportingDocuments.setSchoolsEntity(schoolsEntity);
         supportingDocuments.setMenuCodes(menuCodes);
@@ -657,12 +657,11 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
      * @throws JsonProcessingException the exception
      */
 
-    public ResponseDTO createSchoolDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
+    public ResponseDTO createDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
         var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
         SchoolMenuCodeStatuses schoolMenuCodeStatuses=dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId());
         if (dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId()) == null){
@@ -676,17 +675,14 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                 dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
                 for (MultipartFile multipartFile:fileDocs){
                     String fileName = fileUpload.uploadImage(docPath,multipartFile);
-                    SchoolDocuments schoolDocuments = new SchoolDocuments();
-                    schoolDocuments.setDocumentTypes(documentType);
-                    schoolDocuments.setSchoolsEntity(schoolsEntity);
-                    schoolDocuments.setSupportingDocuments(supportingDocuments);
-                    schoolDocuments.setMenuCodes(menuCodes);
-                    schoolDocuments.setDocName(multipartFile.getName());
-                    schoolDocuments.setDocUrl(fileName);
-                    schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
-                    schoolDocuments.setDocType(multipartFile.getContentType());
-                    schoolDocuments.setDocKey(UUID.randomUUID().toString());
-                    dataService.saveSchoolDocument(schoolDocuments);
+                    DocumentTypes documentTypes = new DocumentTypes();
+                    documentTypes.setSchool(schoolsEntity);
+                    documentTypes.setMenuCodes(menuCodes);
+                    documentTypes.setDocName(multipartFile.getName());
+                    documentTypes.setDocUrl(fileName);
+                    documentTypes.setDocSize(String.valueOf(multipartFile.getSize()));
+                    documentTypes.setDocType(multipartFile.getContentType());
+                    dataService.saveDocumentTypes(documentTypes);
                 }
             } else if (menuCodes.getRecordsRequired() == fileDocs.size()){
                 float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
@@ -698,19 +694,15 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                     String fileName = fileUpload.uploadImage(docPath,multipartFile);
                     SchoolDocuments schoolDocuments = new SchoolDocuments();
                     schoolDocuments.setDocumentTypes(documentType);
-                    schoolDocuments.setSchoolsEntity(schoolsEntity);
-                    schoolDocuments.setSupportingDocuments(supportingDocuments);
-                    schoolDocuments.setMenuCodes(menuCodes);
-                    schoolDocuments.setDocName(multipartFile.getName());
-                    schoolDocuments.setDocUrl(fileName);
-                    schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
-                    schoolDocuments.setDocType(multipartFile.getContentType());
-                    schoolDocuments.setDocKey(UUID.randomUUID().toString());
-                    dataService.saveSchoolDocument(schoolDocuments);
+                    documentType.setSchool(schoolsEntity);
+                    documentType.setMenuCodes(menuCodes);
+                    documentType.setDocName(multipartFile.getName());
+                    documentType.setDocUrl(fileName);
+                    documentType.setDocSize(String.valueOf(multipartFile.getSize()));
+                    documentType.setDocType(multipartFile.getContentType());
+                    dataService.saveDocumentTypes(documentType);
                 }
-
             }
-
 
         }else if (dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId())!=null){
             schoolMenuCodeStatuses.getRemainingDocs();
@@ -718,17 +710,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
             for (MultipartFile multipartFile:fileDocs){
                 String fileName = fileUpload.uploadImage(docPath,multipartFile);
-                SchoolDocuments schoolDocuments = new SchoolDocuments();
-                schoolDocuments.setDocumentTypes(documentType);
-                schoolDocuments.setSchoolsEntity(schoolsEntity);
-                schoolDocuments.setSupportingDocuments(supportingDocuments);
-                schoolDocuments.setMenuCodes(menuCodes);
-                schoolDocuments.setDocName(multipartFile.getName());
-                schoolDocuments.setDocUrl(fileName);
-                schoolDocuments.setDocSize(String.valueOf(multipartFile.getSize()));
-                schoolDocuments.setDocType(multipartFile.getContentType());
-                schoolDocuments.setDocKey(UUID.randomUUID().toString());
-                dataService.saveSchoolDocument(schoolDocuments);
+                documentType.setSchool(schoolsEntity);
+                documentType.setMenuCodes(menuCodes);
+                documentType.setDocName(multipartFile.getName());
+                documentType.setDocUrl(fileName);
+                documentType.setDocSize(String.valueOf(multipartFile.getSize()));
+                documentType.setDocType(multipartFile.getContentType());
+                dataService.saveDocumentTypes(documentType);
             }
         }
 
@@ -743,17 +731,13 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         String fileName = fileUpload.uploadImage(docPath,fileDocs);
         var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        schoolDocuments.setDocumentTypes(documentType);
-        schoolDocuments.setSchoolsEntity(schoolsEntity);
-        schoolDocuments.setSupportingDocuments(supportingDocuments);
-        schoolDocuments.setMenuCodes(menuCodes);
-        schoolDocuments.setDocName(fileDocs.getName());
-        schoolDocuments.setDocUrl(fileName);
-        schoolDocuments.setDocSize(String.valueOf(fileDocs.getSize()));
-        schoolDocuments.setDocType(fileDocs.getContentType());
-        schoolDocuments.setDocKey(UUID.randomUUID().toString());
+        documentType.setSchool(schoolsEntity);
+        documentType.setMenuCodes(menuCodes);
+        documentType.setDocName(fileDocs.getName());
+        documentType.setDocUrl(fileName);
+        documentType.setDocSize(String.valueOf(fileDocs.getSize()));
+        documentType.setDocType(fileDocs.getContentType());
         dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("updated a school document  successfully",documentsDTO);
     }
@@ -764,7 +748,6 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
        schoolDocuments.getDocumentTypes().setStatus(Status.DELETED);
        schoolDocuments.getSchoolsEntity().setStatus(Status.DELETED);
        schoolDocuments.getMenuCodes().setStatus(Status.DELETED);
-       schoolDocuments.getSupportingDocuments().setStatus(Status.DELETED);
        dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("deleted school documents",null);
 
@@ -777,14 +760,14 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         SchoolDocuments newDocument = new SchoolDocuments();
         var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
+//        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
         newDocument.setDocumentTypes(documentType);
-        newDocument.setSupportingDocuments(supportingDocuments);
+//        newDocument.setSupportingDocuments(supportingDocuments);
         newDocument.setMenuCodes(menuCodes);
         newDocument.setSchoolsEntity(schoolsEntity);
 //        newDocument.setDocName(fileDocs.getName());
-        newDocument.setDocUrl(fileName);
+//        newDocument.setDocUrl(fileName);
 //        newDocument.setDocSize(String.valueOf(fileDocs.getSize()));
 //        newDocument.setDocType(fileDocs.getContentType());
         newDocument.setDocKey(UUID.randomUUID().toString());
@@ -798,16 +781,16 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         String fileName = fileUpload.uploadImage(docPath,fileDocs);
         var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
+//        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
         schoolDocument.setDocumentTypes(documentType);
         schoolDocument.setSchoolsEntity(schoolsEntity);
-        schoolDocument.setSupportingDocuments(supportingDocuments);
+//        schoolDocument.setSupportingDocuments(supportingDocuments);
         schoolDocument.setMenuCodes(menuCodes);
         schoolDocument.setDocName(fileDocs.getName());
-        schoolDocument.setDocUrl(fileName);
-        schoolDocument.setDocSize(String.valueOf(fileDocs.getSize()));
-        schoolDocument.setDocType(fileDocs.getContentType());
+//        schoolDocument.setDocUrl(fileName);
+//        schoolDocument.setDocSize(String.valueOf(fileDocs.getSize()));
+//        schoolDocument.setDocType(fileDocs.getContentType());
         schoolDocument.setDocKey(UUID.randomUUID().toString());
         dataService.saveNewDocument(schoolDocument);
         return utilities.successResponse("updated a school finance document  successfully",documentsDTO);

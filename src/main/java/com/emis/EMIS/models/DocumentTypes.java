@@ -4,6 +4,9 @@ import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.util.Date;
 
 @Setter
 @Getter
@@ -13,8 +16,19 @@ public class DocumentTypes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int documentTypeId;
-    private String name;
+    private String docName;
+    private String docUrl;
+    private String docSize;
+    private String docType;
     private Status status;
+//    @Column(nullable = false, updatable = false)
+//    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateCreated = new Date() ;
+    private String createdBy;
+//    @UpdateTimestamp
+//    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateModified;
+    private String modifiedBy;
 
     @ManyToOne
     @JoinColumn(name = "menuCodeId")
