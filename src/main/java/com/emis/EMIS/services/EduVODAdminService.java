@@ -175,13 +175,27 @@ public class EduVODAdminService {
      * @throws JsonProcessingException the exception
      */
     public ResponseDTO viewActivePartners() throws JsonProcessingException {
-//        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
-//        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
         List<PartnerInfoEntity>partnerInfoEntityList = dataService.fetchActivePartners();
         log.info("about to fetch active partners from te db : {}",partnerInfoEntityList);
         List<PartnerDTO>partnerDTOList = partnerInfoEntityList.stream()
                 .map(partnerInfoEntity ->{
-                    return modelMapper.map(partnerInfoEntity,PartnerDTO.class);
+                    return PartnerDTO.builder()
+                            .partnerId(partnerInfoEntity.getPartnerId())
+                            .resourceId(partnerInfoEntity.getEducationalResource() == null?0:partnerInfoEntity.getEducationalResource().getResourceId())
+                            .resource(partnerInfoEntity.getEducationalResource() == null?"":partnerInfoEntity.getEducationalResource().getResource())
+                            .firstName(partnerInfoEntity.getUserEntity().getFirstName())
+                            .middleName(partnerInfoEntity.getUserEntity().getMiddleName())
+                            .lastName(partnerInfoEntity.getUserEntity().getLastName())
+                            .email(partnerInfoEntity.getUserEntity().getEmail())
+                            .nationalId(partnerInfoEntity.getUserEntity().getNationalId())
+                            .phoneNo(partnerInfoEntity.getUserEntity().getPhoneNo())
+                            .firmName(partnerInfoEntity.getFirmName())
+                            .emergencyContact(partnerInfoEntity.getEmergencyContact())
+                            .agreementStartDate(partnerInfoEntity.getAgreementStartDate())
+                            .agreementEndDate(partnerInfoEntity.getAgreementEndDate())
+                            .businessContact(partnerInfoEntity.getBusinessContact())
+                            .businessEmail(partnerInfoEntity.getBusinessEmail())
+                            .build();
                 })
                 .toList();
         log.info("Fetching all active partners' Details:{}", new ObjectMapper().writeValueAsString(partnerInfoEntityList));

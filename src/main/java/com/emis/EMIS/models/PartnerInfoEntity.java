@@ -28,7 +28,9 @@ public class PartnerInfoEntity {
     private String contractDetails;
     private Status status;
 
-
+    @ManyToOne
+    @JoinColumn(name = "resourceId")
+    private EducationalResourceEntity educationalResource;
 
     @ManyToOne
     @JoinColumn(name = "userId")

@@ -49,6 +49,9 @@ public class SchoolDTO {
     @NotNull(message = "schoolTypeId cannot be null")
     private int schoolTypeId;
 
+    @NotNull(message = "resourceId cannot be null")
+    private int resourceId;
+
     @NotNull(message = "schoolGenderId cannot be null")
     private int schoolGenderId;
 

@@ -50,6 +50,7 @@ public class SchoolService {
         school.setCurriculum(dataService.findByCurriculumId(schoolDTO.getCurriculumId()));
         school.setSchoolType(dataService.findBySchoolTypeId(schoolDTO.getSchoolTypeId()));
         school.setSchoolGender(dataService.findBySchoolGenderId(schoolDTO.getSchoolGenderId()));
+        school.setEducationalResource(dataService.findByResourceId(schoolDTO.getResourceId()));
         log.info("About to save a school's basic info:{}", new ObjectMapper().writeValueAsString(school));
         dataService.saveSchool(school);
         return utilities.successResponse("Created school",schoolDTO);
@@ -90,7 +91,8 @@ public class SchoolService {
                             .curriculum(schools.getCurriculum()==null?"":schools.getCurriculum().getCurriculum())
                             .curriculumId(schools.getCurriculum()==null?0:schools.getCurriculum().getCurriculumId())
                             .category(schools.getCategoriesEntity()==null?"":schools.getCategoriesEntity().getCategory())
-                            .categoryId(schools.getCategoriesEntity()==null?0:schools.getCategoriesEntity().getCategoryId())
+                            .resource(schools.getEducationalResource()==null?"":schools.getEducationalResource().getResource())
+                            .resourceId(schools.getEducationalResource()==null?0:schools.getEducationalResource().getResourceId())
                             .logo(schools.getLogo())
                             .emailAddress(schools.getEmailAddress())
                             .postalAddress(schools.getPostalAddress())

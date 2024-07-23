@@ -11,6 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class PartnerDTO {
     private int partnerId;
+    private int resourceId;
+    private String resource;
     private String firstName;
     private String middleName;
     private String lastName;

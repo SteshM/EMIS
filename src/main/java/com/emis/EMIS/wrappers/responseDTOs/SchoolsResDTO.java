@@ -12,6 +12,7 @@ public class SchoolsResDTO {
     private String schoolName;
     private String schoolGender;
     private String curriculum;
+    private String resource;
     private String schoolType;
     private String category;
     private String emailAddress;
@@ -20,6 +21,7 @@ public class SchoolsResDTO {
     private String postalCode;
     private String moeRegistrationNo;
     private int categoryId;
+    private int resourceId;
     private int schoolTypeId;
     private int schoolGenderId;
     private int curriculumId;

@@ -259,6 +259,10 @@ public class    SchoolAdminController {
     public ResponseDTO addResource(@RequestBody ResourceDTO resourceDTO) throws JsonProcessingException {
         return schoolAdminService.createResource(resourceDTO);
     }
+    @GetMapping("/resources")
+    public ResponseDTO fetchResources(){
+        return schoolAdminService.AllResources();
+    }
 
 }
 

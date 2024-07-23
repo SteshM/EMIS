@@ -523,4 +523,8 @@ public class DataService {
     public List<EducationalResourceEntity>fetchAllResources(){
         return educationalResourceRepo.findAll();
     }
+
+    public EducationalResourceEntity findByResourceId(int resourceId){
+        return educationalResourceRepo.findByResourceId(resourceId);
+    }
 }

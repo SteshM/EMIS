@@ -61,6 +61,10 @@ public class SchoolsEntity {
     @JoinColumn(name = "categoryId")
     private CategoriesEntity categoriesEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "resourceId")
+    private EducationalResourceEntity educationalResource;
+
     @OneToMany
     List<StudentEntity>studentEntityList;
 

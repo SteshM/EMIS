@@ -104,6 +104,7 @@ public class UserService implements UserDetailsService {
                  savedUser.setStatus(Status.ACTIVE);
                  partnerInfo.setUserEntity(savedUser);
                 partnerInfo.setStatus(Status.ACTIVE);
+                partnerInfo.setEducationalResource(dataService.findByResourceId(userDTO.getResourceId()));
                 dataService.savePartner(partnerInfo);
                 return utilities.successResponse("Created a partner",null);
 //Student
