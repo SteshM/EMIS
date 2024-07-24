@@ -3,6 +3,7 @@ package com.emis.EMIS.controllers;
 import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.requestDTOs.MarksDTO;
 import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
+import com.emis.EMIS.wrappers.requestDTOs.UpdateAdminDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -34,8 +35,8 @@ public class EduVODAdminController {
         return eduVODAdminService.singleAdmin(id);
     }
     @PutMapping("/admin/{id}")
-    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody SystemAdminsDTO systemAdminsDTO) throws JsonProcessingException {
-        return eduVODAdminService.updateAdminDetails(id,systemAdminsDTO);
+    public ResponseDTO updateAdminDetails(@PathVariable int id, @RequestBody UpdateAdminDTO updateAdminDTO) throws JsonProcessingException {
+        return eduVODAdminService.updateAdminDetails(id,updateAdminDTO);
     }
     @DeleteMapping("/del-admin/{id}")
     public ResponseDTO deleteAdmin(@PathVariable int id){

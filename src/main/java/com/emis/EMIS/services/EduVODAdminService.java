@@ -3,6 +3,7 @@ import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
+import com.emis.EMIS.wrappers.requestDTOs.UpdateAdminDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -49,14 +50,22 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched a single admin",systemAdminsDTO);
     }
 
-    public ResponseDTO updateAdminDetails(int id, SystemAdminsDTO systemAdminsDTO) throws JsonProcessingException {
+    public ResponseDTO updateAdminDetails(int id, UpdateAdminDTO updateAdminDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var systemAdmin = dataService.findByAdminId(id);
         log.info("Fetched an admin:{}", objectMapper.writeValueAsString(systemAdmin));
-        modelMapper.map(systemAdminsDTO,systemAdmin);
+        systemAdmin.getUserEntity().setFirstName(updateAdminDTO.getFirstName());
+        systemAdmin.getUserEntity().setMiddleName(updateAdminDTO.getMiddleName());
+        systemAdmin.getUserEntity().setLastName(updateAdminDTO.getLastName());
+        systemAdmin.getUserEntity().setEmail(updateAdminDTO.getEmail());
+        systemAdmin.getUserEntity().setPhoneNo(updateAdminDTO.getPhoneNo());
+        systemAdmin.getUserEntity().setNationalId(updateAdminDTO.getNationalId());
+        systemAdmin.setDepartment(updateAdminDTO.getDepartment());
+        systemAdmin.setEmploymentNo(updateAdminDTO.getEmploymentNo());
+        systemAdmin.setOfficePhoneNo(updateAdminDTO.getOfficePhoneNo());
         log.info("Updated admins Details. About to save:{}", objectMapper.writeValueAsString(systemAdmin));
         dataService.saveSystemAdmin(systemAdmin);
-        return utilities.successResponse("updated admins details",systemAdminsDTO);
+        return utilities.successResponse("updated admins details",updateAdminDTO);
     }
 
     public ResponseDTO deleteAdmin(int id) {
