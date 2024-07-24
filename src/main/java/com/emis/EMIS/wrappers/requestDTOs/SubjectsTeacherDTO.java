@@ -4,11 +4,14 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Setter
 @Getter
-public class TeacherSubjectDTO {
+public class SubjectsTeacherDTO {
     @NotNull(message = "teacherId is required")
     private int teacherId;
     @NotNull(message = "subjectId is required")
-    private int subjectId;
+    private List<Integer> subjectIds;
+
 }

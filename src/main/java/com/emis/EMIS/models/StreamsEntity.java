@@ -2,8 +2,7 @@ package com.emis.EMIS.models;
 
 import com.emis.EMIS.enums.Status;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -12,6 +11,9 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "streams")
 public class StreamsEntity {
     @Id
@@ -31,6 +33,9 @@ public class StreamsEntity {
     @ManyToOne()
     @JoinColumn(name = "schoolId")
     private SchoolsEntity schoolsEntity;
+
+    @OneToMany
+    List<LearningStageEntity>learningStageEntityList;
 
 
 }

@@ -30,6 +30,9 @@ public class LearningStageEntity {
     @JoinColumn(name = "levelId")
     private LevelsEntity levelsEntity;
 
+    @ManyToOne
+    @JoinColumn(name = "streamId")
+    private StreamsEntity streams;
 
     @OneToMany
     List<StudentEntity>studentEntityList;

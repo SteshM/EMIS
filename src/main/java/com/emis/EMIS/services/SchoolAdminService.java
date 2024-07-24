@@ -88,8 +88,9 @@ public class SchoolAdminService {
         List<StudentDTO>studentDTOList = studentEntityList.stream()
                 .map(student -> {
                     Optional<String>schoolName =Optional.ofNullable(student.getSchools().getSchoolName());
-
                     return StudentDTO.builder()
+                            .studentId(student.getStudentId())
+                            .schoolId(student.getSchools() == null?0: student.getSchools().getSchoolId())
                             .schoolName(schoolName.orElse(null))
                             .firstName(student.getUser().getFirstName())
                             .middleName(student.getUser().getMiddleName())
@@ -567,16 +568,19 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
 
     /**
      * ASSIGNING TEACHERS SUBJECTS
-     * @param teacherSubjectDTO the request Dto
      * @return response Dto
      */
 
-    public ResponseDTO assignSubjectsToTeacher(TeacherSubjectDTO teacherSubjectDTO) {
-        SubjectEntity subject = dataService.findBySubjectId(teacherSubjectDTO.getSubjectId());
-        TeacherEntity teacher = dataService.findByTeacherId(teacherSubjectDTO.getTeacherId());
-        subject.setTeacher(teacher);
-        dataService.saveSubject(subject);
-        return utilities.successResponse("saved a subject",teacherSubjectDTO);
+    public ResponseDTO assignSubjectsToTeacher(SubjectsTeacherDTO subjectsTeacherDTO) {
+        TeacherEntity teacher = dataService.findByTeacherId(subjectsTeacherDTO.getTeacherId());
+        List<SubjectEntity> subjectEntityList = new ArrayList<>();
+        subjectsTeacherDTO.getSubjectIds().forEach(subjectId->{
+            SubjectEntity subject = dataService.findBySubjectId(subjectId);
+            subject.setTeacher(teacher);
+            subjectEntityList.add(subject);
+        });
+        dataService.saveAllSubjects(subjectEntityList);
+        return utilities.successResponse("saved a subject",subjectsTeacherDTO);
     }
 
     public ResponseDTO getSubjectsByTeacherId(int id) {
@@ -666,6 +670,47 @@ return utilities.successResponse("successfully fetched all marks per subject",ma
         dataService.saveStudent(student);
         return utilities.successResponse("assigned a student to learning stages",stageDTO);
     }
+
+    public ResponseDTO fetchStudentsByLearningStage(int id) {
+        Optional<LearningStageEntity> learningStage = dataService.findByLearningStageId(id);
+        List<StudentEntity> students = dataService.fetchStudentsByLearningStageId(learningStage.get());
+        List <StudentLearningStageResDTO>stageResDTOS = students.stream()
+                .map(student->{
+                    return  StudentLearningStageResDTO.builder()
+                            .learningStageId(learningStage.get().getLearningStageId())
+                            .learningStage(learningStage.get().getLearningStage())
+                            .studentId(student.getStudentId())
+                            .registrationNo(student.getRegistrationNo())
+                            .build();
+                })
+                .toList();
+        return utilities.successResponse("Students in  learning stage",stageResDTOS);
+    }
+
+
+    public ResponseDTO assignStreams(StreamStageDTO streamStageDTO) {
+        StreamsEntity streams = dataService.findByStreamId(streamStageDTO.getStreamId());
+        Optional<LearningStageEntity>learningStage = dataService.findByLearningStageId(streamStageDTO.getLearningStageId());
+        learningStage.get().setStreams(streams);
+        dataService.saveLearningStage(learningStage.get());
+        return utilities.successResponse("Successfully assigned streams to learning stages",streamStageDTO);
+    }
+
+    public ResponseDTO fetchLearningStageByStream(int id) {
+        StreamsEntity streamsEntity = dataService.findByStreamId(id);
+        List<LearningStageEntity> learningStageEntityList = dataService.findLearningStagesByStream(streamsEntity);
+        List<StreamLearningStageDTO> streamLearningStageDTOList = learningStageEntityList.stream()
+                .map(learningStage -> {
+                    return StreamLearningStageDTO.builder()
+                            .learningStage(learningStage.getLearningStage())
+                            .stream(learningStage.getStreams().getStream())
+                            .build();
+                })
+                .toList();
+        return utilities.successResponse("Successfully fetched learning stages per stream",streamLearningStageDTOList);
+    }
+
+
 }
 
 

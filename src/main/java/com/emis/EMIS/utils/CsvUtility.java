@@ -1,12 +1,11 @@
 package com.emis.EMIS.utils;
 
-import com.emis.EMIS.models.GuardianEntity;
-import com.emis.EMIS.models.StudentEntity;
-import com.emis.EMIS.models.TeacherEntity;
-import com.emis.EMIS.models.UserEntity;
+import com.emis.EMIS.enums.Status;
+import com.emis.EMIS.models.*;
 import com.emis.EMIS.repositories.UserRepo;
 import com.emis.EMIS.repositories.UserRoleRepo;
 import com.emis.EMIS.services.DataService;
+import com.emis.EMIS.wrappers.requestDTOs.LearningStageStudentDTO;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -51,11 +50,13 @@ public class CsvUtility {
                 UserEntity user = new UserEntity();
 
                 log.info("record email = {}",csvRecord.get("RegistrationNo"));
-                user.setFirstName(csvRecord.get("FirstName"));
+                user.setFirstName(csvRecord.get("First Name"));
                 student.setRegistrationNo(csvRecord.get("RegistrationNo"));
-                user.setMiddleName(csvRecord.get("MiddleName"));
-                user.setLastName(csvRecord.get("LastName"));
-                user.setDateOfBirth(csvRecord.get("DateOfBirth"));
+                SchoolsEntity schoolsEntity = dataService.findBySchoolName(csvRecord.get("School Name"));
+                student.setSchools(schoolsEntity);
+                user.setMiddleName(csvRecord.get("Middle Name"));
+                user.setLastName(csvRecord.get("Last Name"));
+                user.setDateOfBirth(csvRecord.get("Date Of Birth"));
                 user.setEmail(csvRecord.get("Email"));
                 user.setGender(csvRecord.get("Gender"));
                 user.setNationality(csvRecord.get("Nationality"));
@@ -65,6 +66,8 @@ public class CsvUtility {
                 studentEntitiesList.add(student);
                 userEntities.add(user);
                 UserEntity savedUser=userRepo.save(user);
+                student.setStatus(Status.ACTIVE);
+                user.setStatus(Status.ACTIVE);
                 student.setUser(savedUser);
                 dataService.saveStudent(student);
 
@@ -135,11 +138,44 @@ public class CsvUtility {
                 teacherEntities.add(teacher);
                 userEntities.add(user);
                 UserEntity savedUser = userRepo.save(user);
+                teacher.setStatus(Status.ACTIVE);
+                user.setStatus(Status.ACTIVE);
                 teacher.setUser(savedUser);
                 dataService.saveTeacher(teacher);
 
             }
             return teacherEntities;
+        } catch (IOException e) {
+            throw new RuntimeException("CSV data  failed to parse: " + e.getMessage());
+        }
+    }
+
+    public  ArrayList<LearningStageStudentDTO> mapStudentToLearningStage(InputStream is) {
+        try (BufferedReader bReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+             @SuppressWarnings("deprecation")
+             CSVParser csvParser = new CSVParser(bReader,
+                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
+            ArrayList<LearningStageStudentDTO> learningStageStudentDTOS = new ArrayList<>();
+            ArrayList<StudentEntity> studentEntities = new ArrayList<>();
+            Iterable<CSVRecord> csvRecords = csvParser.getRecords();
+            for (CSVRecord csvRecord : csvRecords) {
+                LearningStageStudentDTO learningStageStudentDTO = new LearningStageStudentDTO();
+               learningStageStudentDTO.setLearningStage(csvRecord.get("Learning Stage"));
+               learningStageStudentDTO.setRegistrationNo(csvRecord.get("Registration Number"));
+               LearningStageEntity learningStage = dataService.findByLearningStage(learningStageStudentDTO.getLearningStage());
+               StudentEntity student = dataService.findByRegistrationNo(learningStageStudentDTO.getRegistrationNo());
+               if(learningStage == null || student == null){
+                   learningStageStudentDTOS.add(learningStageStudentDTO);
+               }else{
+                   student.setLearningStage(learningStage);
+                   student.setStatus(Status.ACTIVE);
+                   learningStage.setStatus(Status.ACTIVE);
+                   studentEntities.add(student);
+               }
+            }
+            dataService.saveAllStudents(studentEntities);
+            //returning the failed mappings
+            return learningStageStudentDTOS;
         } catch (IOException e) {
             throw new RuntimeException("CSV data  failed to parse: " + e.getMessage());
         }

@@ -234,15 +234,15 @@ public class    SchoolAdminController {
     }
 
     @PostMapping("/assign-subject")
-    public ResponseDTO assignSubjectsToTeacher(@RequestBody TeacherSubjectDTO teacherSubjectDTO){
-        return schoolAdminService.assignSubjectsToTeacher(teacherSubjectDTO);
+    public ResponseDTO assignSubjectsToTeacher(@Valid @RequestBody SubjectsTeacherDTO subjectsTeacherDTO){
+        return schoolAdminService.assignSubjectsToTeacher(subjectsTeacherDTO);
     }
     @GetMapping("/teacher/{id}/subjects")
     public ResponseDTO getTeacherSubjects(@PathVariable int id){
         return schoolAdminService.getSubjectsByTeacherId(id);
     }
     @PostMapping("/marks")
-    public ResponseDTO AddMarks(@RequestBody MarksDTO marksDTO){
+    public ResponseDTO AddMarks( @Valid @RequestBody MarksDTO marksDTO){
         return schoolAdminService.addMarks(marksDTO);
     }
     @GetMapping("/subject/{id}/student-marks")
@@ -256,7 +256,7 @@ public class    SchoolAdminController {
     }
 
     @PostMapping("/resource")
-    public ResponseDTO addResource(@RequestBody ResourceDTO resourceDTO) throws JsonProcessingException {
+    public ResponseDTO addResource(@Valid @RequestBody ResourceDTO resourceDTO) throws JsonProcessingException {
         return schoolAdminService.createResource(resourceDTO);
     }
     @GetMapping("/resources")
@@ -264,10 +264,29 @@ public class    SchoolAdminController {
         return schoolAdminService.AllResources();
     }
 
-    @PostMapping("assign-students-learning-stages")
+    @PostMapping("/assign-streams-learning-stages")
+    public ResponseDTO assignStreamToLearningStage(@RequestBody StreamStageDTO streamStageDTO){
+        return schoolAdminService.assignStreams(streamStageDTO);
+    }
+    @GetMapping("/stream/{id}/learning-stage")
+    public ResponseDTO fetchLearningStagesByStream(@PathVariable int id){
+        return schoolAdminService.fetchLearningStageByStream(id);
+    }
+
+    @PostMapping("/assign-students-learning-stages")
     public ResponseDTO assignStudentsToLearningStages(@RequestBody StudentLearningStageDTO stageDTO){
         return schoolAdminService.assignStudentLearningStages(stageDTO);
     }
+    @GetMapping("/learning-stage/{id}/students")
+    public ResponseDTO fetchStudentsByLearningStage(@PathVariable int id){
+        return schoolAdminService.fetchStudentsByLearningStage(id);
+    }
+
+
+
+
+
+
 
 }
 

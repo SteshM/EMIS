@@ -3,6 +3,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.repositories.*;
+import com.emis.EMIS.wrappers.requestDTOs.StudentLearningStageDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -399,10 +400,6 @@ public class DataService {
         return learningStagesRepo.findByLearningStageId(learningStageId);
     }
 
-//    public LearningStageEntity findByLearningStageId2(int learningStageId){
-//        return learningStagesRepo.findByLearningStageId2(learningStageId);
-//    }
-
     public SubjectEntity saveSubject(SubjectEntity subject){
         return subjectRepo.save(subject);
     }
@@ -499,9 +496,6 @@ public class DataService {
         return schoolMenuCodeStatusRepo.findAllBySchoolsEntitySchoolId(schoolId);
     }
 
-//    public Optional<SchoolMenuCodeStatuses> findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeIdAndRemarksClarificationStatus(int schoolId, int menuCodeId, String open) {
-//        return schoolMenuCodeStatusRepo.findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeIdAndRemarksClarificationStatus(schoolId,menuCodeId,open);
-//    }
 
     public Optional<SchoolMenuCodeStatuses> findBySchoolsEntitySchoolIdAndMenuCodeId(int schoolId, int menuCodeId) {
         return  schoolMenuCodeStatusRepo. findBySchoolsEntitySchoolIdAndMenuCodesMenuCodeId(schoolId,menuCodeId);
@@ -530,5 +524,33 @@ public class DataService {
 
     public EducationalResourceEntity findByResourceId(int resourceId){
         return educationalResourceRepo.findByResourceId(resourceId);
+    }
+
+//    public Optional<StudentLearningStageDTO> fetchStudentsByLearningStageId(LearningStageEntity learningStage){
+//        return studentsRepo.findByLearningStage(learningStage);
+//    }
+
+    public StudentEntity findByRegistrationNo(String registrationNo){
+        return studentsRepo.findByRegistrationNo(registrationNo);
+    }
+
+    public LearningStageEntity findByLearningStage(String learningStage) {
+        return learningStagesRepo.findByLearningStage(learningStage);
+    }
+
+    public List<StudentEntity> fetchStudentsByLearningStageId(LearningStageEntity learningStageEntity) {
+        return studentsRepo.findByLearningStage(learningStageEntity);
+    }
+
+    public List<LearningStageEntity> findLearningStagesByStream(StreamsEntity streamsEntity) {
+        return learningStagesRepo.findByStreams(streamsEntity);
+    }
+
+    public void saveAllSubjects(List<SubjectEntity> subjectEntityList) {
+        subjectRepo.saveAll(subjectEntityList);
+    }
+
+    public SchoolsEntity findBySchoolName(String schoolName) {
+        return schoolRepo.findBySchoolName(schoolName);
     }
 }

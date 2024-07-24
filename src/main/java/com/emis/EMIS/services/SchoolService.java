@@ -114,8 +114,30 @@ public class SchoolService {
     public ResponseDTO getSchool(int id) throws JsonProcessingException {
         var schools= dataService.findBySchoolId(id);
         log.info("Fetching a school's Details:{}", new ObjectMapper().writeValueAsString(schools));
-        var schoolDTO = modelMapper.map(schools, SchoolDTO.class);
-        return utilities.successResponse("Successfully fetched a school",schoolDTO);
+        var schoolResDTO = SchoolsResDTO.builder()
+                .schoolId(schools.getSchoolId())
+                .schoolName(schools.getSchoolName())
+                .schoolType(schools.getSchoolType()==null?"":schools.getSchoolType().getName())
+                .schoolTypeId(schools.getSchoolType() == null?0:schools.getSchoolType().getSchoolTypeId())
+                .schoolGenderId(schools.getSchoolGender() == null?0:schools.getSchoolGender().getSchoolGenderId())
+                .schoolGender(schools.getSchoolGender() == null?"": schools.getSchoolGender().getName())
+                .curriculum(schools.getCurriculum()==null?"":schools.getCurriculum().getCurriculum())
+                .curriculumId(schools.getCurriculum()==null?0:schools.getCurriculum().getCurriculumId())
+                .category(schools.getCategoriesEntity()==null?"":schools.getCategoriesEntity().getCategory())
+                .resource(schools.getEducationalResource()==null?"":schools.getEducationalResource().getResource())
+                .resourceId(schools.getEducationalResource()==null?0:schools.getEducationalResource().getResourceId())
+                .logo(schools.getLogo())
+                .emailAddress(schools.getEmailAddress())
+                .postalAddress(schools.getPostalAddress())
+                .postalCode(schools.getPostalCode())
+                .mobileNo(schools.getMobileNo())
+                .moeRegistrationNo(schools.getMoeRegistrationNo())
+                .latitude(schools.getLatitude())
+                .longitude(schools.getLongitude())
+                .subCounty(schools.getSubCounty())
+                .county(schools.getCounty())
+                .build();
+        return utilities.successResponse("Successfully fetched a school",schoolResDTO);
     }
 
 
@@ -662,7 +684,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     public ResponseDTO createDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
-        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
         SchoolMenuCodeStatuses schoolMenuCodeStatuses=dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId());
@@ -694,8 +716,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                 dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
                 for (MultipartFile multipartFile:fileDocs){
                     String fileName = fileUpload.uploadImage(docPath,multipartFile);
-                    SchoolDocuments schoolDocuments = new SchoolDocuments();
-                    schoolDocuments.setDocumentTypes(documentType);
+                    DocumentTypes documentType = new DocumentTypes();
                     documentType.setSchool(schoolsEntity);
                     documentType.setMenuCodes(menuCodes);
                     documentType.setDocName(multipartFile.getName());
@@ -711,6 +732,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired()-fileDocs.size());
             dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
             for (MultipartFile multipartFile:fileDocs){
+                DocumentTypes documentType = new DocumentTypes();
                 String fileName = fileUpload.uploadImage(docPath,multipartFile);
                 documentType.setSchool(schoolsEntity);
                 documentType.setMenuCodes(menuCodes);
@@ -731,15 +753,15 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var schoolDocuments = dataService.findBySchoolDocId(id);
         DocumentsDTO documentsDTO =modelMapper.map(schoolDocuments,DocumentsDTO.class);
         String fileName = fileUpload.uploadImage(docPath,fileDocs);
-        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        documentType.setSchool(schoolsEntity);
-        documentType.setMenuCodes(menuCodes);
-        documentType.setDocName(fileDocs.getName());
-        documentType.setDocUrl(fileName);
-        documentType.setDocSize(String.valueOf(fileDocs.getSize()));
-        documentType.setDocType(fileDocs.getContentType());
+////        documentType.setSchool(schoolsEntity);
+//        documentType.setMenuCodes(menuCodes);
+//        documentType.setDocName(fileDocs.getName());
+//        documentType.setDocUrl(fileName);
+//        documentType.setDocSize(String.valueOf(fileDocs.getSize()));
+//        documentType.setDocType(fileDocs.getContentType());
         dataService.saveSchoolDocument(schoolDocuments);
         return utilities.successResponse("updated a school document  successfully",documentsDTO);
     }
@@ -760,11 +782,11 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
         String fileName = fileUpload.uploadImage(docPath,fileDocs);
         SchoolDocuments newDocument = new SchoolDocuments();
-        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
 //        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        newDocument.setDocumentTypes(documentType);
+//        newDocument.setDocumentTypes(documentType);
 //        newDocument.setSupportingDocuments(supportingDocuments);
         newDocument.setMenuCodes(menuCodes);
         newDocument.setSchoolsEntity(schoolsEntity);
@@ -781,11 +803,11 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         var schoolDocument = dataService.findBySchoolDocId(id);
         DocumentsDTO documentsDTO =modelMapper.map(schoolDocument,DocumentsDTO.class);
         String fileName = fileUpload.uploadImage(docPath,fileDocs);
-        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
 //        var supportingDocuments = dataService.findBySupportDocId(documentsDTO.getSupportDocId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        schoolDocument.setDocumentTypes(documentType);
+//        schoolDocument.setDocumentTypes(documentType);
         schoolDocument.setSchoolsEntity(schoolsEntity);
 //        schoolDocument.setSupportingDocuments(supportingDocuments);
         schoolDocument.setMenuCodes(menuCodes);
@@ -1040,7 +1062,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
                     status.setStatus(statusOpt.get().getStatus());
                     status.setApprovedBy(partnerInfo.getPartnerId());
                     status.setRemarkStatus(RemarksClarificationStatus.CLOSED);
-                    status.setRemarks("School Rejected");
+                    status.setRemarks(approveSchoolDTO.getRemarks());
                     dataService.saveSchoolMenuCodeStatus(status);
 
                 });

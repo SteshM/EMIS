@@ -5,6 +5,7 @@ import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.Nullable;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,7 +63,7 @@ public class SchoolController {
      */
 
     @PostMapping("/school-type")
-    public ResponseDTO addSchoolType(@PathParam("schoolType") String schoolType ) {
+    public ResponseDTO addSchoolType(@Valid  @PathParam("schoolType") String schoolType ) {
         log.info("About to save a schoolType basic info:{}",schoolType);
         return schoolService.addSchoolType(schoolType);
     }
@@ -84,7 +85,7 @@ public class SchoolController {
      */
 
     @PostMapping("/school-gender")
-    public ResponseDTO addSchoolGender(@RequestBody SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
+    public ResponseDTO addSchoolGender( @Valid @RequestBody SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
         return schoolService.addSchoolGender(schoolGenderDTO);
     }
     @GetMapping("/school-gender")
@@ -104,7 +105,7 @@ public class SchoolController {
      */
 
     @PostMapping("/curriculum")
-    public ResponseDTO addCurriculum(@RequestBody CurriculumDTO curriculumDTO) throws JsonProcessingException {
+    public ResponseDTO addCurriculum(@Valid @RequestBody CurriculumDTO curriculumDTO) throws JsonProcessingException {
         return schoolService.addCurriculum(curriculumDTO);
     }
     @GetMapping("/curriculums")
@@ -128,7 +129,7 @@ public class SchoolController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/category")
-    public ResponseDTO addCategory(@RequestBody CategoryDTO categoryDTO) throws JsonProcessingException {
+    public ResponseDTO addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws JsonProcessingException {
         return  schoolService.addCategory(categoryDTO);
     }
     @PutMapping("/category/{id}")
@@ -148,7 +149,7 @@ public class SchoolController {
      */
 
     @PostMapping("/designation")
-    public ResponseDTO addDesignation(@RequestBody DesignationDTO designationDTO) throws JsonProcessingException {
+    public ResponseDTO addDesignation(@Valid @RequestBody DesignationDTO designationDTO) throws JsonProcessingException {
         return schoolService.addDesignation(designationDTO);
     }
     @PutMapping("/designation/{id}")
@@ -188,7 +189,7 @@ public class SchoolController {
      */
 
     @PostMapping("/school-contact")
-    public ResponseDTO addSchoolContacts(@RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
+    public ResponseDTO addSchoolContacts( @Valid @RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         return schoolService.createSchoolContact(schoolContactsDTO);
     }
     @PutMapping("/school-contact/{id}")
@@ -225,7 +226,7 @@ public class SchoolController {
      */
 
     @PostMapping("/menu-code")
-    public ResponseDTO saveMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
+    public ResponseDTO saveMenuCode(@Valid @RequestBody DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
         return schoolService.saveMenuCode(documentTypeCodesDTO);
     }
     @PutMapping("/menu-code/{id}")
@@ -245,7 +246,7 @@ public class SchoolController {
      */
 
     @PostMapping("/document-type")
-    public ResponseDTO saveDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
+    public ResponseDTO saveDocumentType(@Valid @RequestBody DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
         return schoolService.saveDocumentType(documentTypesDTO);
     }
     @PutMapping("/document-type/{id}")

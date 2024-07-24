@@ -9,4 +9,5 @@ public interface SchoolRepo extends JpaRepository<SchoolsEntity,Integer> {
     
     SchoolsEntity findBySchoolIdAndStatus(int schoolId, Status status);
 
+    SchoolsEntity findBySchoolName(String schoolName);
 }
