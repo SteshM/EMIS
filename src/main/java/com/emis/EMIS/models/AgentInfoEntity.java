@@ -22,7 +22,6 @@ public class AgentInfoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int agentId;
     private String agencyName;
-    private String agentType;
     private String emergencyContact;
     private Status status;
     @OneToOne

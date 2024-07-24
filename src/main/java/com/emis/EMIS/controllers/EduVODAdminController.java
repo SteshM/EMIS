@@ -4,6 +4,7 @@ import com.emis.EMIS.services.EduVODAdminService;
 import com.emis.EMIS.wrappers.requestDTOs.MarksDTO;
 import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UpdateAdminDTO;
+import com.emis.EMIS.wrappers.requestDTOs.UpdateAgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -78,7 +79,8 @@ public class EduVODAdminController {
         return eduVODAdminService.fetchByAgentId(id);
   }
   @PutMapping("/update-agent/{id}")
-    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody AgentDTO agentDTO) throws JsonProcessingException {return eduVODAdminService.updateAgentByAgentId(id,agentDTO);
+    public ResponseDTO updateAgent(@PathVariable int id , @RequestBody UpdateAgentDTO updateAgentDTO) throws JsonProcessingException
+  {return eduVODAdminService.updateAgentByAgentId(id,updateAgentDTO);
   }
   @DeleteMapping("/agent/{id}")
     public ResponseDTO softDelete(@PathVariable int id){

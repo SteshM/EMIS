@@ -4,6 +4,7 @@ import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
 import com.emis.EMIS.wrappers.requestDTOs.UpdateAdminDTO;
+import com.emis.EMIS.wrappers.requestDTOs.UpdateAgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -152,18 +153,24 @@ public class EduVODAdminService {
     /**
      * fetching an agent from te bd ,updating and saving the details
      * @param id the agent id
-     * @param agentDTO the agent dto
      * @return the response dto
      * @throws JsonProcessingException the exception
      */
-    public ResponseDTO updateAgentByAgentId(int id, AgentDTO agentDTO) throws JsonProcessingException {
+    public ResponseDTO updateAgentByAgentId(int id, UpdateAgentDTO updateAgentDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var agentInfo = dataService.findByAgentId(id);
-        log.info("Fetching and defaultSecurityFilterChain agent's details{}",objectMapper.writeValueAsString(agentInfo));
-        modelMapper.map(agentDTO,agentInfo);
+        log.info("Fetching agent's details from the db {}",objectMapper.writeValueAsString(agentInfo));
+        agentInfo.getUserEntity().setFirstName(updateAgentDTO.getFirstName());
+        agentInfo.getUserEntity().setMiddleName(updateAgentDTO.getMiddleName());
+        agentInfo.getUserEntity().setLastName(updateAgentDTO.getLastName());
+        agentInfo.getUserEntity().setEmail(updateAgentDTO.getEmail());
+        agentInfo.getUserEntity().setPhoneNo(updateAgentDTO.getPhoneNo());
+        agentInfo.getUserEntity().setNationalId(updateAgentDTO.getNationalId());
+        agentInfo.setEmergencyContact(updateAgentDTO.getEmergencyContact());
+        agentInfo.setAgencyName(updateAgentDTO.getAgencyName());
         log.info("Updated agent Details. About to save:{}", objectMapper.writeValueAsString(agentInfo));
         dataService.saveAgent(agentInfo);
-        return utilities.successResponse("Updated an agent",agentDTO);
+        return utilities.successResponse("Updated an agent",updateAgentDTO);
     }
 
     public ResponseDTO softDeleteAgent(int id) {
