@@ -1,10 +1,7 @@
 package com.emis.EMIS.controllers;
 
 import com.emis.EMIS.services.EduVODAdminService;
-import com.emis.EMIS.wrappers.requestDTOs.MarksDTO;
-import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UpdateAdminDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UpdateAgentDTO;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -57,8 +54,8 @@ public class EduVODAdminController {
         return eduVODAdminService.fetchSchoolAdminById(id);
     }
     @PutMapping("/school-admin/{id}")
-    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolAdminDTO schoolAdminDTO) throws JsonProcessingException {
-        return eduVODAdminService.updateSchoolAdminDetails(id,schoolAdminDTO);
+    public ResponseDTO updateSchool(@PathVariable int id, @RequestBody UpdateSchAdminDTO updateSchAdminDTO) throws JsonProcessingException {
+        return eduVODAdminService.updateSchoolAdminDetails(id,updateSchAdminDTO);
     }
     @DeleteMapping("/del-school-admin/{id}")
     public ResponseDTO deleteSchoolAdm(@PathVariable int id){
@@ -101,8 +98,8 @@ public class EduVODAdminController {
     }
 
     @PutMapping("/partner/{id}")
-    public ResponseDTO updatePartnerDetails(@PathVariable int id, @RequestBody PartnerDTO partnerDTO) throws JsonProcessingException {
-        return eduVODAdminService.updatePartnerDetails(id,partnerDTO);
+    public ResponseDTO updatePartnerDetails(@PathVariable int id, @RequestBody UpdatePartnerDTO updatePartnerDTO) throws JsonProcessingException {
+        return eduVODAdminService.updatePartnerDetails(id,updatePartnerDTO);
     }
     @DeleteMapping("/del-partner/{id}")
     public ResponseDTO delPartner(@PathVariable int id){

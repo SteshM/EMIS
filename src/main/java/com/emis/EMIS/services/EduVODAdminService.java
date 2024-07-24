@@ -2,9 +2,7 @@ package com.emis.EMIS.services;
 import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
-import com.emis.EMIS.wrappers.requestDTOs.PageRequestDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UpdateAdminDTO;
-import com.emis.EMIS.wrappers.requestDTOs.UpdateAgentDTO;
+import com.emis.EMIS.wrappers.requestDTOs.*;
 import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
 import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
 import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
@@ -99,14 +97,26 @@ public class EduVODAdminService {
 
     }
 
-    public ResponseDTO updateSchoolAdminDetails(int id, SchoolAdminDTO schoolAdminDTO) throws JsonProcessingException {
+    public ResponseDTO updateSchoolAdminDetails(int id, UpdateSchAdminDTO updateSchAdminDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var schoolAdminInfo = dataService.findBySchoolAdminId(id);
         log.info("about to fetch  an admin{}",objectMapper.writeValueAsString(schoolAdminInfo));
-        modelMapper.map(schoolAdminDTO,schoolAdminInfo);
+        schoolAdminInfo.getUserEntity().setFirstName(updateSchAdminDTO.getFirstName());
+        schoolAdminInfo.getUserEntity().setMiddleName(updateSchAdminDTO.getMiddleName());
+        schoolAdminInfo.getUserEntity().setLastName(updateSchAdminDTO.getLastName());
+        schoolAdminInfo.getUserEntity().setEmail(updateSchAdminDTO.getEmail());
+        schoolAdminInfo.getUserEntity().setPhoneNo(updateSchAdminDTO.getPhoneNo());
+        schoolAdminInfo.getUserEntity().setNationalId(updateSchAdminDTO.getNationalId());
+        schoolAdminInfo.getUserEntity().setNationality(updateSchAdminDTO.getNationality());
+        schoolAdminInfo.getUserEntity().setGender(updateSchAdminDTO.getGender());
+        schoolAdminInfo.getUserEntity().setDateOfBirth(updateSchAdminDTO.getDateOfBirth());
+        schoolAdminInfo.setAdminRole(updateSchAdminDTO.getAdminRole());
+        schoolAdminInfo.setDepartment(updateSchAdminDTO.getDepartment());
+        schoolAdminInfo.setTscNumber(updateSchAdminDTO.getTscNumber());
+        schoolAdminInfo.setOfficePhone(updateSchAdminDTO.getOfficePhone());
         log.info("Updated  school admins Details. About to save:{}", objectMapper.writeValueAsString(schoolAdminInfo));
         dataService.saveSchoolAdmin(schoolAdminInfo);
-        return utilities.successResponse("updated  school admin details",schoolAdminDTO);
+        return utilities.successResponse("updated  school admin details",updateSchAdminDTO);
 
     }
 
@@ -122,8 +132,6 @@ public class EduVODAdminService {
     //Agents
 
     public ResponseDTO fetchActiveAgents() throws JsonProcessingException {
-//        var sort = Sort.by(Sort.Direction.valueOf(pageRequestDTO.getDirection().toUpperCase()),pageRequestDTO.getOrderBy());
-//        var pageable = PageRequest.of(pageRequestDTO.getPageNo(),pageRequestDTO.getPageSize(), sort);
         List<AgentInfoEntity>agentInfoEntityList=dataService.fetchActiveAgents();
         log.info("Fetched agents from the db:{}",agentInfoEntityList);
         List<AgentDTO> agentDTOList = agentInfoEntityList.stream()
@@ -236,18 +244,29 @@ public class EduVODAdminService {
     /**
      * Fetching a partner's details from the db,updating and saving
      * @param id the partner id
-     * @param partnerDTO partner dto
      * @return response dto
      * @throws JsonProcessingException the exception
      */
-    public ResponseDTO updatePartnerDetails(int id, PartnerDTO partnerDTO) throws JsonProcessingException {
+    public ResponseDTO updatePartnerDetails(int id, UpdatePartnerDTO updatePartnerDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var partnerInfo = dataService.findByPartnerId(id);
         log.info("About to fetch a partner's details{}",objectMapper.writeValueAsString(partnerInfo));
-        modelMapper.map(partnerDTO,partnerInfo);
+        partnerInfo.getUserEntity().setFirstName(updatePartnerDTO.getFirstName());
+        partnerInfo.getUserEntity().setMiddleName(updatePartnerDTO.getMiddleName());
+        partnerInfo.getUserEntity().setLastName(updatePartnerDTO.getLastName());
+        partnerInfo.getUserEntity().setEmail(updatePartnerDTO.getEmail());
+        partnerInfo.getUserEntity().setPhoneNo(updatePartnerDTO.getPhoneNo());
+        partnerInfo.getUserEntity().setNationalId(updatePartnerDTO.getNationalId());
+        partnerInfo.getEducationalResource().setResource(updatePartnerDTO.getResource());
+        partnerInfo.setAgreementStartDate(updatePartnerDTO.getAgreementStartDate());
+        partnerInfo.setAgreementEndDate(updatePartnerDTO.getAgreementEndDate());
+        partnerInfo.setBusinessEmail(updatePartnerDTO.getBusinessEmail());
+        partnerInfo.setBusinessContact(updatePartnerDTO.getBusinessContact());
+        partnerInfo.setEmergencyContact(updatePartnerDTO.getEmergencyContact());
+        partnerInfo.setFirmName(updatePartnerDTO.getFirmName());
         log.info("Updated a Partner's Details. About to save:{}", objectMapper.writeValueAsString(partnerInfo));
         dataService.savePartner(partnerInfo);
-        return utilities.successResponse("Successfully updated a partners details",partnerDTO);
+        return utilities.successResponse("Successfully updated a partners details",updatePartnerDTO);
 
     }
 

@@ -25,7 +25,6 @@ public class PartnerInfoEntity {
     private String businessEmail;
     private Date agreementStartDate;
     private Date agreementEndDate;
-    private String contractDetails;
     private Status status;
 
     @ManyToOne
