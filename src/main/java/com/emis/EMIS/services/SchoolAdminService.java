@@ -116,12 +116,21 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO updateStudent(int id, StudentDTO studentDTO) throws JsonProcessingException, SavingException {
+    public ResponseDTO updateStudent(int id, UpdateStudentDTO updateStudentDTO) throws JsonProcessingException, SavingException {
         var objectMapper = new ObjectMapper();
 //        String username=authentication.getName();
         var student = dataService.findByStudentId(id);
         log.info("Fetched a Student:{}", objectMapper.writeValueAsString(student));
-        modelMapper.map(studentDTO, student);
+        student.getUser().setFirstName(updateStudentDTO.getFirstName());
+        student.getUser().setMiddleName(updateStudentDTO.getMiddleName());
+        student.getUser().setLastName(updateStudentDTO.getLastName());
+        student.getUser().setNationality(updateStudentDTO.getNationality());
+        student.getUser().setEmail(updateStudentDTO.getEmail());
+        student.getUser().setDateOfBirth(updateStudentDTO.getDateOfBirth());
+        student.getUser().setGender(updateStudentDTO.getGender());
+        student.getSchools().setSchoolName(updateStudentDTO.getSchoolName());
+        student.setRegistrationNo(updateStudentDTO.getRegistrationNo());
+
         log.info("Updated Student Details. About to save:{}", objectMapper.writeValueAsString(student));
         try{
             dataService.saveStudent(student);
@@ -134,7 +143,7 @@ public class SchoolAdminService {
             throw new SavingException(e.getLocalizedMessage());
 
         }
-        return utilities.successResponse("successfully updated student",studentDTO);
+        return utilities.successResponse("successfully updated student",updateStudentDTO);
 
     }
 
@@ -231,14 +240,26 @@ public class SchoolAdminService {
     }
 
 
-    public ResponseDTO updateTeacherDetails(int id, TeacherDTO teacherDTO) throws JsonProcessingException {
+    public ResponseDTO updateTeacherDetails(int id, UpdateTeacherDTO updateTeacherDTO) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         var teacher = dataService.findByTeacherId(id);
         log.info("Fetched Teacher:{}", objectMapper.writeValueAsString(teacher));
-        modelMapper.map(teacherDTO, teacher);
+        teacher.getUser().setFirstName(updateTeacherDTO.getFirstName());
+        teacher.getUser().setMiddleName(updateTeacherDTO.getMiddleName());
+        teacher.getUser().setLastName(updateTeacherDTO.getLastName());
+        teacher.getUser().setNationality(updateTeacherDTO.getNationality());
+        teacher.getUser().setEmail(updateTeacherDTO.getEmail());
+        teacher.getUser().setDateOfBirth(updateTeacherDTO.getDateOfBirth());
+        teacher.getUser().setGender(updateTeacherDTO.getGender());
+        teacher.getUser().setNationalId(updateTeacherDTO.getNationalId());
+        teacher.getUser().setPhoneNo(updateTeacherDTO.getPhoneNo());
+        teacher.getSchool().setSchoolName(updateTeacherDTO.getSchoolName());
+        teacher.setYearsOfExperience(updateTeacherDTO.getYearsOfExperience());
+        teacher.setTscNo(updateTeacherDTO.getTscNo());
+
         log.info("Updated Teacher Details. About to save:{}", objectMapper.writeValueAsString(teacher));
         dataService.saveTeacher(teacher);
-        return utilities.successResponse("Updated teacher's details successfully",teacherDTO);
+        return utilities.successResponse("Updated teacher's details successfully",updateTeacherDTO);
 
     }
 

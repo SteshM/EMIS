@@ -18,15 +18,6 @@ public class SchoolDTO {
 
     @NotNull(message = "SchoolName is required")
     private String schoolName;
-//    @NotNull(message = "SchoolType is required")
-//    private String schoolType;
-//    @NotNull(message = "SchoolGender is required")
-//    private String schoolGender;
-//    @NotNull(message = "category is required")
-//    private String category;
-//    @NotNull(message = "curriculum is required")
-//    private String curriculum;
-//    @NotNull(message = "SchoolType is required")
     @Email
     @Column(unique = true)
     private String emailAddress;
@@ -69,9 +60,6 @@ public class SchoolDTO {
 
     @NotNull(message = "Longitude is required")
     private Double longitude;
-
-//    @NotNull(message = "diocese is required")
-//    private String diocese;
 
     @NotNull(message = "logo is required")
     private String logo;

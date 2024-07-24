@@ -48,8 +48,8 @@ public class    SchoolAdminController {
     }
 
     @PutMapping("/update-student/{id}")
-    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody StudentDTO studentDTO) throws JsonProcessingException, SavingException {
-        return schoolAdminService.updateStudent(id, studentDTO);
+    public ResponseDTO updateStudentDetails(@PathVariable int id, @RequestBody UpdateStudentDTO updateStudentDTO) throws JsonProcessingException, SavingException {
+        return schoolAdminService.updateStudent(id, updateStudentDTO);
     }
 
     @DeleteMapping("/del-student/{id}")
@@ -82,9 +82,9 @@ public class    SchoolAdminController {
     }
 
     @PutMapping("/teacher/{id}")
-    public ResponseDTO updateTeacher(@PathVariable int id, @RequestBody TeacherDTO teacherDTO) throws JsonProcessingException {
-        log.info("Received a request to update Teacher Details. ID:{}. Payload:{}", id, new ObjectMapper().writeValueAsString(teacherDTO));
-        return schoolAdminService.updateTeacherDetails(id, teacherDTO);
+    public ResponseDTO updateTeacher(@PathVariable int id, @RequestBody UpdateTeacherDTO updateTeacherDTO) throws JsonProcessingException {
+        log.info("Received a request to update Teacher Details. ID:{}. Payload:{}", id, new ObjectMapper().writeValueAsString(updateTeacherDTO));
+        return schoolAdminService.updateTeacherDetails(id, updateTeacherDTO);
     }
 
     @DeleteMapping("/del-teacher/{id}")

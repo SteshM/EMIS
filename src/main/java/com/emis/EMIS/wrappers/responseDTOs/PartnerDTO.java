@@ -11,8 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class PartnerDTO {
     private int partnerId;
-    private int resourceId;
     private String resource;
+    private int resourceId;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -25,6 +25,5 @@ public class PartnerDTO {
     private String businessEmail;
     private Date agreementStartDate;
     private Date agreementEndDate;
-
 
 }
