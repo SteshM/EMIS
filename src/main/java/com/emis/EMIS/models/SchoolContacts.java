@@ -23,6 +23,10 @@ public class SchoolContacts {
     private DesignationEntity designationEntity;
 
     @ManyToOne
+    @JoinColumn(name = "menu_codes_id")
+    private MenuCodes menuCodes;
+
+    @ManyToOne
     private SchoolsEntity schoolsEntity ;
     private int createdBy;
     private int updatedBy;

@@ -28,7 +28,7 @@ public class SchoolMenuCodeStatuses {
     private DocumentTypes documentTypes;
 
     @Lob
-    @Column(name = "remarks", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "remarks", columnDefinition = "TEXT")
     private String remarks;
     private Status status;
     //Pending,Rejected,Completed

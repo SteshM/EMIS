@@ -553,4 +553,8 @@ public class DataService {
     public SchoolsEntity findBySchoolName(String schoolName) {
         return schoolRepo.findBySchoolName(schoolName);
     }
+
+    public List<UserEntity> findAllUsersWithProfiles() {
+        return userRepo.findAllUsersWithProfiles();
+    }
 }

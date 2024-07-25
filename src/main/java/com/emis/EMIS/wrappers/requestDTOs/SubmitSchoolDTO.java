@@ -13,18 +13,18 @@ public class SubmitSchoolDTO {
     @NotNull(message = "This field is required!")
     private int schoolId;
 
-    @NotNull(message = "This field is required!")
-    private String name;
-
-    @NotBlank(message = "This field is required!")
+//    @NotNull(message = "This field is required!")
+//    private String name;
+//
+//    @NotBlank(message = "This field is required!")
     private  String remarks;
 
-    @NotBlank(message = "This field is required!")
-    private Boolean systemRole;
+//    @NotBlank(message = "This field is required!")
+//    private Boolean systemRole;
 
-    @NotBlank(message = "This field is required!")
-    private Long profileId;
-
-    @NotBlank(message = "This field is required!")
-    private List<Long> roleList;
+//    @NotBlank(message = "This field is required!")
+//    private Long profileId;
+//
+//    @NotBlank(message = "This field is required!")
+//    private List<Long> roleList;
 }

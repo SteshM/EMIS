@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Stella
@@ -52,6 +53,27 @@ public class UserEntity {
     private int failedLoginAttempts;
     private int profileId;
     private String profilePic;
+
+    @OneToMany
+    private List<ProfileEntity> profiles;
+
+    @OneToMany
+    private List<AgentInfoEntity>agentInfoEntities;
+
+    @OneToMany
+    private List<PartnerInfoEntity>partnerInfoEntities;
+
+    @OneToMany
+    private List<SystemAdminEntity>systemAdminEntities;
+
+    @OneToMany
+    private List<SchoolAdminInfoEntity>schoolAdminInfoEntities;
+
+   @OneToMany
+    private List<StudentEntity>studentEntities;
+
+   @OneToMany
+    private List<TeacherEntity>teacherEntities;
 
 
 

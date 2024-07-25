@@ -9,8 +9,8 @@ import lombok.Setter;
 public class ApproveSchoolDTO {
     @NotNull(message = "schoolId cannot be null")
     private int schoolId;
-    @NotNull(message = "name cannot be null")
-    private String name;
-    @NotNull(message = "remarks cannot be null")
+//    @NotNull(message = "name cannot be null")
+//    private String name;
+//    @NotNull(message = "remarks cannot be null")
     private String remarks;
 }

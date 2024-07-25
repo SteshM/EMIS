@@ -351,6 +351,312 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
 
 
     /**
+     * SCHOOL CONTACTS
+     * @param schoolContactsDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+
+    public ResponseDTO createSchoolContact(SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
+        SchoolContacts schoolContacts = new SchoolContacts();
+        schoolContacts.setSchoolsEntity(dataService.findBySchoolId(schoolContactsDTO.getSchoolId()));
+        schoolContacts.setMenuCodes(dataService.findByMenuCodeId(schoolContactsDTO.getMenuCodeId()));
+        schoolContacts.setDesignationEntity(dataService.findByDesignationId(schoolContactsDTO.getDesignationId()));
+        schoolContacts.setName(schoolContactsDTO.getName());
+        schoolContacts.setEmailAddress(schoolContacts.getEmailAddress());
+        schoolContacts.setPhoneNumber(schoolContactsDTO.getPhoneNumber());
+        log.info("About to save a school contacts:{}", new ObjectMapper().writeValueAsString(schoolContacts));
+        dataService.saveSchoolContacts(schoolContacts);
+        return utilities.successResponse("saved school contacts",null);
+
+    }
+
+    public ResponseDTO updateSchoolContacts(SchoolContactsDTO schoolContactsDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var schoolContacts = dataService.findBySchoolContactsId(id);
+        log.info("Fetched school contacts from the db:{}", objectMapper.writeValueAsString(schoolContacts));
+        schoolContacts.setSchoolsEntity(dataService.findBySchoolId(schoolContactsDTO.getSchoolId()));
+        schoolContacts.setMenuCodes(dataService.findByMenuCodeId(schoolContactsDTO.getMenuCodeId()));
+        schoolContacts.setDesignationEntity(dataService.findByDesignationId(schoolContactsDTO.getDesignationId()));
+        schoolContacts.setName(schoolContactsDTO.getName());
+        schoolContacts.setEmailAddress(schoolContacts.getEmailAddress());
+        schoolContacts.setPhoneNumber(schoolContactsDTO.getPhoneNumber());
+        modelMapper.map(schoolContacts,schoolContactsDTO);
+        log.info("Updated school contacts  Details. About to save:{}", objectMapper.writeValueAsString(schoolContacts));
+        dataService.saveSchoolContacts(schoolContacts);
+        return utilities.successResponse("updated school contacts details successfully",schoolContactsDTO);
+    }
+
+
+    public ResponseDTO getSchoolContact(int id) throws JsonProcessingException {
+        var schoolContacts= dataService.findBySchoolContactsId(id);
+        log.info("Fetching a school's contact Details:{}", new ObjectMapper().writeValueAsString(schoolContacts));
+        var schoolContactsDTO = modelMapper.map(schoolContacts, SchoolContactsDTO.class);
+        return utilities.successResponse("Successfully fetched a partner",schoolContactsDTO);
+    }
+
+    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
+        List<SchoolContacts>schoolContactsList = dataService.fetchSchoolContacts();
+        List<SchoolContactResDTO>schoolContactResDTOS = schoolContactsList.stream()
+                .map(schoolContacts -> {
+                    return modelMapper.map(schoolContacts,SchoolContactResDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  school contacts :{}", new ObjectMapper().writeValueAsString(schoolContactsList));
+        return utilities.successResponse("Fetched all school contacts",schoolContactResDTOS);
+    }
+
+    public ResponseDTO deleteSchoolContacts(int id) {
+        var schoolContacts = dataService.findBySchoolContactsId(id);
+        schoolContacts.setStatus(Status.DELETED);
+        dataService.saveSchoolContacts(schoolContacts);
+        return utilities.successResponse("deleted school contacts",null);
+    }
+
+
+    /**
+     * MENU CODES
+     * @param documentTypeCodesDTO request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    public ResponseDTO saveMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
+        MenuCodes menuCodes = new MenuCodes();
+        menuCodes.setName(documentTypeCodesDTO.getName());
+        menuCodes.setRemarks(documentTypeCodesDTO.getRemarks());
+        menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
+        log.info("About to save a menu code:{}", new ObjectMapper().writeValueAsString(menuCodes));
+        var savedMenuCodes = dataService.saveMenuCodes(menuCodes);
+        var documentTypeResDTO = modelMapper.map(menuCodes, DocumentTypeResDTO.class);
+        return utilities.successResponse("saved menu codes",documentTypeResDTO);
+    }
+
+    public ResponseDTO updateMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        var menuCodes = dataService.findByMenuCodeId(id);
+        log.info("menucodes :{}",documentTypeCodesDTO.toString());
+        log.info("Fetched a menu code from the db:{}", objectMapper.writeValueAsString(menuCodes));
+        menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
+        log.info("Updated menu codes . About to save:{}", objectMapper.writeValueAsString(menuCodes));
+        dataService.saveMenuCodes(menuCodes);
+        return utilities.successResponse("updated menu codes  successfully",documentTypeCodesDTO);
+    }
+
+    public ResponseDTO getMenuCodes() throws JsonProcessingException {
+        List<MenuCodes>menuCodesList = dataService.fetchAllMenuCodes();
+        List<DocumentTypeResDTO>documentTypeResDTOS = menuCodesList.stream()
+                .map(menuCodes -> {
+                    return modelMapper.map(menuCodes,DocumentTypeResDTO.class);
+                })
+                .toList();
+        log.info("Fetched  all  menu codes from the db :{}", new ObjectMapper().writeValueAsString(menuCodesList));
+        return utilities.successResponse("Fetched all menu codes",documentTypeResDTOS);
+    }
+
+
+
+    /**
+     * DOCUMENT TYPES
+     * @param documentTypesDTO the request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    public ResponseDTO saveDocumentType(DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
+        DocumentTypes documentTypes = new DocumentTypes();
+        documentTypes.setDocName(documentTypesDTO.getName());
+        documentTypes.setMenuCodes(dataService.findByMenuCodeId(documentTypesDTO.getMenuCodeId()));
+        documentTypes.setSchool(dataService.findBySchoolId(documentTypesDTO.getSchoolId()));
+        log.info("About to save a document type:{}", new ObjectMapper().writeValueAsString(documentTypes));
+        dataService.saveDocumentTypes(documentTypes);
+        return utilities.successResponse("saved a document type",null);
+    }
+
+    public ResponseDTO updateDocumentType(DocumentTypesDTO documentTypesDTO, int id) throws JsonProcessingException {
+        var objectMapper = new ObjectMapper();
+        DocumentTypes documentTypes = dataService.findByDocumentTypeId(id);
+        log.info("Fetched a document type  from the db:{}", objectMapper.writeValueAsString(documentTypes));
+        documentTypes.setDocName(documentTypesDTO.getName());
+        log.info("Updated document types . About to save:{}", objectMapper.writeValueAsString(documentTypes));
+        dataService.saveDocumentTypes(documentTypes);
+        return utilities.successResponse("updated document types  successfully",documentTypesDTO);
+    }
+
+
+    public ResponseDTO getDocumentTypes() throws JsonProcessingException {
+        List<DocumentTypes>documentTypesList = dataService.fetchAllDocumentTypes();
+        List<DocumentTypesDTO>documentTypesDTOList = documentTypesList.stream()
+                .map(documentTypes -> {
+                    DocumentTypesDTO documentTypesDTO = new DocumentTypesDTO();
+                    documentTypesDTO.setName(documentTypes.getDocName());
+                    documentTypesDTO.setSchoolId(documentTypes.getSchool().getSchoolId());
+                    documentTypesDTO.setMenuCodeId(documentTypes.getMenuCodes().getMenuCodeId());
+                    return documentTypesDTO;
+                })
+                .toList();
+        log.info("Fetched  all document types from the db :{}", new ObjectMapper().writeValueAsString(documentTypesList));
+        return utilities.successResponse("Fetched all document types",documentTypesDTOList);
+    }
+
+    public ResponseDTO getDocumentTypeByMenuCodeId(int id) throws JsonProcessingException {
+        MenuCodes menuCodes = dataService.findByMenuCodeId(id);
+        List<DocumentTypes>documentTypesList = dataService.findByMenuCodes(menuCodes);
+        List<DocumentTypeResDTO>documentTypeResDTOS = documentTypesList.stream()
+                .map(documentTypes -> {
+                    return DocumentTypeResDTO.builder()
+                            .menuCodeId(documentTypes.getMenuCodes().getMenuCodeId())
+                            .name(documentTypes.getDocName())
+                            .required(documentTypes.getMenuCodes().isRequired())
+                            .remarks(documentTypes.getMenuCodes().getRemarks())
+                            .recordsRequired(documentTypes.getDocumentTypeId())
+                            .build();
+                })
+                .toList();
+        log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(documentTypesList));
+        return utilities.successResponse("fetched doc types by menucodeId",documentTypeResDTOS);
+
+    }
+
+    /**
+     *
+     * @param schoolDocumentData the param
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    public ResponseDTO createDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
+
+        var objectMapper = new ObjectMapper();
+        DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
+        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
+        log.info("about to fetch school by id {}",schoolsEntity.getSchoolId());
+        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+       try {
+           SchoolMenuCodeStatuses schoolMenuCodeStatuses=dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menuCodes);
+           if (schoolMenuCodeStatuses == null){
+               if (menuCodes.getRecordsRequired() < fileDocs.size()){
+                   return utilities.failedResponse(00,"You cannot upload more than required douments",null);
+               }
+                schoolMenuCodeStatuses = new SchoolMenuCodeStatuses();
+               if(menuCodes.getRecordsRequired() > fileDocs.size()){
+                   log.info("records required {}",menuCodes.getRecordsRequired());
+                   schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired()-fileDocs.size());
+                   float percentage = Float.valueOf(100 - (schoolMenuCodeStatuses.getRemainingDocs() / menuCodes.getRecordsRequired()*100));
+                   schoolMenuCodeStatuses.setStatus(Status.PENDING);
+                   schoolMenuCodeStatuses.setCompletionPercentage(percentage);
+                   log.info("percentage {}",percentage);
+               } else if(menuCodes.getRecordsRequired() == fileDocs.size()){
+                   schoolMenuCodeStatuses.setStatus(Status.COMPLETED);
+                   schoolMenuCodeStatuses.setCompletionPercentage(100);
+                   schoolMenuCodeStatuses.setMenuCodes(menuCodes);
+                   schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
+                   schoolMenuCodeStatuses.setRemainingDocs(0);
+                   log.info("About save schoolMenuCodeStatuses {}",schoolMenuCodeStatuses);
+               }
+                   schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
+                   schoolMenuCodeStatuses.setMenuCodes(menuCodes);
+                   log.info("about to save school menu code status {}",schoolMenuCodeStatuses);
+                   dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
+                   for (MultipartFile multipartFile:fileDocs){
+                       log.info("About to upload a document {}",fileDocs);
+                       String fileName = fileUpload.uploadImage(docPath,multipartFile);
+                       DocumentTypes documentTypes = new DocumentTypes();
+                       documentTypes.setSchool(schoolsEntity);
+                       documentTypes.setMenuCodes(menuCodes);
+                       documentTypes.setDocName(multipartFile.getName());
+                       documentTypes.setDocUrl(fileName);
+                       documentTypes.setDocSize(String.valueOf(multipartFile.getSize()));
+                       documentTypes.setDocType(multipartFile.getContentType());
+                       log.info("About to save document {}",documentTypes);
+                       dataService.saveDocumentTypes(documentTypes);
+                   }
+                   dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
+
+           }else if (schoolMenuCodeStatuses!=null){
+               if (schoolMenuCodeStatuses.getRemainingDocs() < fileDocs.size()){
+                   return utilities.failedResponse(00,"You cannot upload more than required douments",null);
+               }
+               schoolMenuCodeStatuses.setRemainingDocs(schoolMenuCodeStatuses.getRemainingDocs()- fileDocs.size());
+               float percentage = Float.valueOf(100 - (schoolMenuCodeStatuses.getRemainingDocs() / menuCodes.getRecordsRequired()*100));
+               schoolMenuCodeStatuses.setCompletionPercentage(percentage);
+               if (percentage == 100){
+                   schoolMenuCodeStatuses.setStatus(Status.COMPLETED);
+               }
+               dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
+               for (MultipartFile multipartFile:fileDocs){
+                   DocumentTypes documentType = new DocumentTypes();
+                   String fileName = fileUpload.uploadImage(docPath,multipartFile);
+                   documentType.setSchool(schoolsEntity);
+                   documentType.setMenuCodes(menuCodes);
+                   documentType.setDocName(multipartFile.getName());
+                   documentType.setDocUrl(fileName);
+                   documentType.setDocSize(String.valueOf(multipartFile.getSize()));
+                   documentType.setDocType(multipartFile.getContentType());
+                   log.info("About to save a document {}",documentType);
+                   dataService.saveDocumentTypes(documentType);
+               }
+           }
+
+       }catch (Exception e){
+          log.error("caught an exception",e);
+       }
+        return utilities.successResponse("created a school document",documentsDTO);
+
+    }
+
+    public ResponseDTO updateSchoolDocument(String schoolDocumentData, MultipartFile fileDocs,int id) throws JsonProcessingException {
+        var schoolDocuments = dataService.findBySchoolDocId(id);
+        DocumentsDTO documentsDTO =modelMapper.map(schoolDocuments,DocumentsDTO.class);
+        String fileName = fileUpload.uploadImage(docPath,fileDocs);
+//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
+        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
+        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
+////        documentType.setSchool(schoolsEntity);
+//        documentType.setMenuCodes(menuCodes);
+//        documentType.setDocName(fileDocs.getName());
+//        documentType.setDocUrl(fileName);
+//        documentType.setDocSize(String.valueOf(fileDocs.getSize()));
+//        documentType.setDocType(fileDocs.getContentType());
+        dataService.saveSchoolDocument(schoolDocuments);
+        return utilities.successResponse("updated a school document  successfully",documentsDTO);
+    }
+
+    public ResponseDTO deleteSchoolDocument(int id) {
+        var schoolDocuments =dataService.findBySchoolDocId(id);
+        schoolDocuments.setStatus(Status.DELETED);
+        schoolDocuments.getDocumentTypes().setStatus(Status.DELETED);
+        schoolDocuments.getSchoolsEntity().setStatus(Status.DELETED);
+        schoolDocuments.getMenuCodes().setStatus(Status.DELETED);
+        dataService.saveSchoolDocument(schoolDocuments);
+        return utilities.successResponse("deleted school documents",null);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
      * DESIGNATION
      * @param designationDTO the request dto
      * @return response dto
@@ -426,162 +732,6 @@ return utilities.successResponse("Fetched all designations",designationResDTOS);
 return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     }
 
-
-    /**
-     * SCHOOL CONTACTS
-     * @param schoolContactsDTO the request dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
-
-
-    public ResponseDTO createSchoolContact(SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
-        SchoolContacts schoolContacts = modelMapper.map(schoolContactsDTO,SchoolContacts.class);
-        log.info("About to save a school contacts:{}", new ObjectMapper().writeValueAsString(schoolContacts));
-        dataService.saveSchoolContacts(schoolContacts);
-        return utilities.successResponse("saved school contacts",null);
-
-    }
-
-    public ResponseDTO updateSchoolContacts(SchoolContactsDTO schoolContactsDTO, int id) throws JsonProcessingException {
-        var objectMapper = new ObjectMapper();
-        var schoolContacts = dataService.findBySchoolContactsId(id);
-        log.info("Fetched school contacts from the db:{}", objectMapper.writeValueAsString(schoolContacts));
-        modelMapper.map(schoolContacts,schoolContactsDTO);
-        log.info("Updated school contacts  Details. About to save:{}", objectMapper.writeValueAsString(schoolContacts));
-        dataService.saveSchoolContacts(schoolContacts);
-        return utilities.successResponse("updated school contacts details successfully",schoolContactsDTO);
-    }
-
-
-    public ResponseDTO getSchoolContact(int id) throws JsonProcessingException {
-        var schoolContacts= dataService.findBySchoolContactsId(id);
-        log.info("Fetching a school's contact Details:{}", new ObjectMapper().writeValueAsString(schoolContacts));
-        var schoolContactsDTO = modelMapper.map(schoolContacts, SchoolContactsDTO.class);
-        return utilities.successResponse("Successfully fetched a partner",schoolContactsDTO);
-    }
-
-    public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
-        List<SchoolContacts>schoolContactsList = dataService.fetchSchoolContacts();
-        List<SchoolContactResDTO>schoolContactResDTOS = schoolContactsList.stream()
-                .map(schoolContacts -> {
-                    return modelMapper.map(schoolContacts,SchoolContactResDTO.class);
-                })
-                .toList();
-        log.info("Fetched  all  school contacts :{}", new ObjectMapper().writeValueAsString(schoolContactsList));
-        return utilities.successResponse("Fetched all school contacts",schoolContactResDTOS);
-    }
-
-    public ResponseDTO deleteSchoolContacts(int id) {
-        var schoolContacts = dataService.findBySchoolContactsId(id);
-        schoolContacts.setStatus(Status.DELETED);
-        dataService.saveSchoolContacts(schoolContacts);
-        return utilities.successResponse("deleted school contacts",null);
-    }
-
-
-    /**
-     * MENU CODES
-     * @param documentTypeCodesDTO request dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
-
-    public ResponseDTO saveMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
-        MenuCodes menuCodes = new MenuCodes();
-        menuCodes.setName(documentTypeCodesDTO.getName());
-        menuCodes.setRemarks(documentTypeCodesDTO.getRemarks());
-        menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
-        log.info("About to save a menu code:{}", new ObjectMapper().writeValueAsString(menuCodes));
-         var savedMenuCodes = dataService.saveMenuCodes(menuCodes);
-         var documentTypeResDTO = modelMapper.map(menuCodes, DocumentTypeResDTO.class);
-        return utilities.successResponse("saved menu codes",documentTypeResDTO);
-    }
-
-    public ResponseDTO updateMenuCode(DocumentTypeCodesDTO documentTypeCodesDTO, int id) throws JsonProcessingException {
-        var objectMapper = new ObjectMapper();
-        var menuCodes = dataService.findByMenuCodeId(id);
-        log.info("menucodes :{}",documentTypeCodesDTO.toString());
-        log.info("Fetched a menu code from the db:{}", objectMapper.writeValueAsString(menuCodes));
-        menuCodes.setRecordsRequired(documentTypeCodesDTO.getRecordsRequired());
-        log.info("Updated menu codes . About to save:{}", objectMapper.writeValueAsString(menuCodes));
-        dataService.saveMenuCodes(menuCodes);
-        return utilities.successResponse("updated menu codes  successfully",documentTypeCodesDTO);
-    }
-
-    public ResponseDTO getMenuCodes() throws JsonProcessingException {
-        List<MenuCodes>menuCodesList = dataService.fetchAllMenuCodes();
-        List<DocumentTypeResDTO>documentTypeResDTOS = menuCodesList.stream()
-                .map(menuCodes -> {
-                    return modelMapper.map(menuCodes,DocumentTypeResDTO.class);
-                })
-                .toList();
-        log.info("Fetched  all  menu codes from the db :{}", new ObjectMapper().writeValueAsString(menuCodesList));
-        return utilities.successResponse("Fetched all menu codes",documentTypeResDTOS);
-    }
-
-
-    /**
-     * DOCUMENT TYPES
-     * @param documentTypesDTO the request dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
-
-    public ResponseDTO saveDocumentType(DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
-        DocumentTypes documentTypes = new DocumentTypes();
-        documentTypes.setDocName(documentTypesDTO.getName());
-        documentTypes.setMenuCodes(dataService.findByMenuCodeId(documentTypesDTO.getMenuCodeId()));
-        documentTypes.setSchool(dataService.findBySchoolId(documentTypesDTO.getSchoolId()));
-        log.info("About to save a document type:{}", new ObjectMapper().writeValueAsString(documentTypes));
-        dataService.saveDocumentTypes(documentTypes);
-        return utilities.successResponse("saved a document type",null);
-    }
-
-    public ResponseDTO updateDocumentType(DocumentTypesDTO documentTypesDTO, int id) throws JsonProcessingException {
-        var objectMapper = new ObjectMapper();
-        DocumentTypes documentTypes = dataService.findByDocumentTypeId(id);
-        log.info("Fetched a document type  from the db:{}", objectMapper.writeValueAsString(documentTypes));
-        documentTypes.setDocName(documentTypesDTO.getName());
-        log.info("Updated document types . About to save:{}", objectMapper.writeValueAsString(documentTypes));
-        dataService.saveDocumentTypes(documentTypes);
-        return utilities.successResponse("updated document types  successfully",documentTypesDTO);
-    }
-
-
-    public ResponseDTO getDocumentTypes() throws JsonProcessingException {
-        List<DocumentTypes>documentTypesList = dataService.fetchAllDocumentTypes();
-        List<DocumentTypesDTO>documentTypesDTOList = documentTypesList.stream()
-                .map(documentTypes -> {
-                    DocumentTypesDTO documentTypesDTO = new DocumentTypesDTO();
-                    documentTypesDTO.setName(documentTypes.getDocName());
-                    documentTypesDTO.setSchoolId(documentTypes.getSchool().getSchoolId());
-                    documentTypesDTO.setMenuCodeId(documentTypes.getMenuCodes().getMenuCodeId());
-                    return documentTypesDTO;
-                })
-                .toList();
-        log.info("Fetched  all document types from the db :{}", new ObjectMapper().writeValueAsString(documentTypesList));
-        return utilities.successResponse("Fetched all document types",documentTypesDTOList);
-    }
-
-    public ResponseDTO getDocumentTypeByMenuCodeId(int id) throws JsonProcessingException {
-        MenuCodes menuCodes = dataService.findByMenuCodeId(id);
-        List<DocumentTypes>documentTypesList = dataService.findByMenuCodes(menuCodes);
-        List<DocumentTypeResDTO>documentTypeResDTOS = documentTypesList.stream()
-                .map(documentTypes -> {
-                    return DocumentTypeResDTO.builder()
-                            .menuCodeId(documentTypes.getMenuCodes().getMenuCodeId())
-                            .name(documentTypes.getDocName())
-                            .required(documentTypes.getMenuCodes().isRequired())
-                            .remarks(documentTypes.getMenuCodes().getRemarks())
-                            .recordsRequired(documentTypes.getDocumentTypeId())
-                            .build();
-                })
-                .toList();
-        log.info("fetched all subjects per level {}",new ObjectMapper().writeValueAsString(documentTypesList));
-        return utilities.successResponse("fetched doc types by menucodeId",documentTypeResDTOS);
-
-    }
 
 
     /**
@@ -680,107 +830,6 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
 
 
 
-    /**
-     *
-     * @param schoolDocumentData the param
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
-
-    public ResponseDTO createDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
-        var objectMapper = new ObjectMapper();
-        DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
-        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-        SchoolMenuCodeStatuses schoolMenuCodeStatuses=dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId());
-        if (schoolMenuCodeStatuses == null){
-             var menucodes=dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-            if(menuCodes.getRecordsRequired()<= fileDocs.size()){
-                float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
-                schoolMenuCodeStatuses.setStatus(Status.PENDING);
-                schoolMenuCodeStatuses.setCompletionPercentage(percentage);
-                schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
-                schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired()-fileDocs.size());
-                dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
-                for (MultipartFile multipartFile:fileDocs){
-                    String fileName = fileUpload.uploadImage(docPath,multipartFile);
-                    DocumentTypes documentTypes = new DocumentTypes();
-                    documentTypes.setSchool(schoolsEntity);
-                    documentTypes.setMenuCodes(menuCodes);
-                    documentTypes.setDocName(multipartFile.getName());
-                    documentTypes.setDocUrl(fileName);
-                    documentTypes.setDocSize(String.valueOf(multipartFile.getSize()));
-                    documentTypes.setDocType(multipartFile.getContentType());
-                    dataService.saveDocumentTypes(documentTypes);
-                }
-            } else if (menuCodes.getRecordsRequired() == fileDocs.size()){
-                float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);
-                schoolMenuCodeStatuses.setStatus(Status.COMPLETED);
-                schoolMenuCodeStatuses.setCompletionPercentage(percentage);
-                schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
-                dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
-                for (MultipartFile multipartFile:fileDocs){
-                    String fileName = fileUpload.uploadImage(docPath,multipartFile);
-                    DocumentTypes documentType = new DocumentTypes();
-                    documentType.setSchool(schoolsEntity);
-                    documentType.setMenuCodes(menuCodes);
-                    documentType.setDocName(multipartFile.getName());
-                    documentType.setDocUrl(fileName);
-                    documentType.setDocSize(String.valueOf(multipartFile.getSize()));
-                    documentType.setDocType(multipartFile.getContentType());
-                    dataService.saveDocumentTypes(documentType);
-                }
-            }
-
-        }else if (dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId())!=null){
-            schoolMenuCodeStatuses.getRemainingDocs();
-            schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired()-fileDocs.size());
-            dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
-            for (MultipartFile multipartFile:fileDocs){
-                DocumentTypes documentType = new DocumentTypes();
-                String fileName = fileUpload.uploadImage(docPath,multipartFile);
-                documentType.setSchool(schoolsEntity);
-                documentType.setMenuCodes(menuCodes);
-                documentType.setDocName(multipartFile.getName());
-                documentType.setDocUrl(fileName);
-                documentType.setDocSize(String.valueOf(multipartFile.getSize()));
-                documentType.setDocType(multipartFile.getContentType());
-                dataService.saveDocumentTypes(documentType);
-            }
-        }
-
-
-
-        return utilities.successResponse("created a school document",documentsDTO);
-    }
-
-    public ResponseDTO updateSchoolDocument(String schoolDocumentData, MultipartFile fileDocs,int id) throws JsonProcessingException {
-        var schoolDocuments = dataService.findBySchoolDocId(id);
-        DocumentsDTO documentsDTO =modelMapper.map(schoolDocuments,DocumentsDTO.class);
-        String fileName = fileUpload.uploadImage(docPath,fileDocs);
-//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
-        var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
-        var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
-////        documentType.setSchool(schoolsEntity);
-//        documentType.setMenuCodes(menuCodes);
-//        documentType.setDocName(fileDocs.getName());
-//        documentType.setDocUrl(fileName);
-//        documentType.setDocSize(String.valueOf(fileDocs.getSize()));
-//        documentType.setDocType(fileDocs.getContentType());
-        dataService.saveSchoolDocument(schoolDocuments);
-        return utilities.successResponse("updated a school document  successfully",documentsDTO);
-    }
-
-    public ResponseDTO deleteSchoolDocument(int id) {
-       var schoolDocuments =dataService.findBySchoolDocId(id);
-       schoolDocuments.setStatus(Status.DELETED);
-       schoolDocuments.getDocumentTypes().setStatus(Status.DELETED);
-       schoolDocuments.getSchoolsEntity().setStatus(Status.DELETED);
-       schoolDocuments.getMenuCodes().setStatus(Status.DELETED);
-       dataService.saveSchoolDocument(schoolDocuments);
-        return utilities.successResponse("deleted school documents",null);
-
-    }
 
     public ResponseDTO createSchoolFinanceDocument(String schoolDocumentData, MultipartFile fileDocs) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
@@ -960,15 +1009,26 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
             return utilities.failedResponse(400, "School does not exist", null);
         }
         List<MenuCodes>menuCodesList =dataService.fetchAllMenuCodes();
-        boolean allRequiredCompleted = menuCodesList.stream()
-                .filter(MenuCodes ::isRequired)
-                .allMatch(menuCodes -> {
-                    SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menuCodes);
-                    if ( schoolMenuCodeStatuses != null && schoolMenuCodeStatuses.getStatus().equals(Status.COMPLETED)){
-                        return true;
-                    } return false;
+        boolean allRequiredCompleted = true;
+             for(MenuCodes menucodes:menuCodesList)
+            {
+                 if (menucodes.isRequired()){
+                     SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menucodes);
+                     if (schoolMenuCodeStatuses == null){
+                         allRequiredCompleted = false;
+                         break;
+                     }
+                     if (!schoolMenuCodeStatuses.getStatus().equals(Status.COMPLETED)){
+                         allRequiredCompleted = false;
+                         break;
+                     }
 
-                });
+
+                 }
+
+             }
+
+
         if(allRequiredCompleted){
             schoolsEntity.setStatus(Status.SUBMITTED);
             dataService.saveSchool(schoolsEntity);

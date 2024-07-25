@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @Entity
@@ -19,8 +21,10 @@ public class MenuCodes {
     @Column(name = "records_required")
     private int recordsRequired;
     private float completionPercentage;
+    private Date dateCreated = new Date() ;
     private String createdBy;
-    private String  updatedBy;
+    private Date dateModified = new Date();
+    private String modifiedBy;
     private Status status;
 
 }

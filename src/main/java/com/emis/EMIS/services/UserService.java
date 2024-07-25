@@ -204,40 +204,6 @@ public class UserService implements UserDetailsService {
 //
 //    }
 
-    /**
-     * This is a method to create profiles
-     * @param profileDto the request dto
-     * @return response dto
-     */
-
-    public ResponseDTO createProfile(ProfileDto profileDto){
-        var profile = modelMapper.map(profileDto, ProfileEntity.class);
-        if(dataService.findByProfile(profileDto.getProfile()) == null){
-            dataService.saveProfile(profile);
-            return utilities.successResponse("created profile", profile);
-        }
-        return utilities.failedResponse(400, "profile exists", null);
-    }
-
-    /**
-     * a method to fetch all profiles from the db
-     * @return response dto
-     */
-    public ResponseDTO fetchAll() {
-        List<ProfileEntity>profiles = dataService.fetchAll();
-        return utilities.successResponse("fetched all profiles",profiles);
-    }
-
-    /**
-     * A method to fetch a user by profile
-     * @param profile profile
-     * @return response dto
-     */
-
-    public ResponseDTO fetchByProfile(String profile) {
-        var profileEntity = dataService.findByProfile(profile);
-        return utilities.successResponse("fetched profile",profileEntity);
-    }
 
     private String email(){
         return SecurityContextHolder.getContext().getAuthentication().getName();

@@ -12,10 +12,10 @@ import java.util.Date;
 @Setter
 @Getter
 public class SchoolContactsDTO {
-    @NotNull(message = "designation is required!")
-    private String designation;
-//    @NotNull(message = "designationId is required!")
-//    private String designationId;
+//    @NotNull(message = "designation is required!")
+//    private String designation;
+    @NotNull(message = "designationId is required!")
+    private int designationId;
     @NotNull(message = "emailAddress is required!")
     @Email
     @Column(unique = true)
@@ -24,8 +24,10 @@ public class SchoolContactsDTO {
     private String name;
     @NotNull(message = "phoneNumber is required!")
     private String phoneNumber;
-    @NotNull(message = "school is required!")
-    private String school;
+    @NotNull(message = "schoolId is required!")
+    private int schoolId;
+    @NotNull(message = "schoolId is required!")
+    private int menuCodeId;
 //    @NotNull(message = "schoolId is required!")
 //    private String schoolId;
 //    @NotNull(message = "date created  is required!")

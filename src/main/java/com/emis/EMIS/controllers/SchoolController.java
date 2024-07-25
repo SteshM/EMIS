@@ -402,11 +402,11 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
  }
 
 
- @PostMapping("/submit-school-data")
+ @PostMapping("/submit-school")
     public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
      return schoolService.submitSchoolForApproval(submitSchoolDTO);
  }
-@PostMapping("/approve")
+@PostMapping("/approve-school")
     public ResponseDTO approveSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
      return schoolService.approveSchool(approveSchoolDTO);
 }

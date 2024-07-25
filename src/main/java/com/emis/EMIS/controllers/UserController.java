@@ -35,18 +35,6 @@ public class UserController {
         return "welcome";
     }
 
-    @PostMapping("/all/create-profile")
-    public ResponseDTO createProfile(@RequestBody ProfileDto profileDto){
-        return userService.createProfile(profileDto);
-    }
-    @GetMapping("/all/profiles")
-    public ResponseDTO fetchProfiles(){
-        return userService.fetchAll();
-    }
-    @GetMapping("/all/profile/{profile}")
-    public ResponseDTO fetchOne(String profile){
-        return userService.fetchByProfile(profile);
-    }
 
     @PostMapping("/all/register")
     public ResponseDTO register( @RequestBody UserDTO userDTO){
