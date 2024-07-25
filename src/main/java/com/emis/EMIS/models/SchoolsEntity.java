@@ -33,6 +33,7 @@ public class SchoolsEntity {
     private String  subCounty;
     private Double longitude;
     private Double latitude;
+    private String schoolAdminEmail;
 
 
     @Column(nullable = false, updatable = false)

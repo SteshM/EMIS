@@ -49,6 +49,9 @@ public class SchoolController {
     public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO) throws JsonProcessingException {
         return schoolService.updateSchool(id,schoolDTO);
     }
+//    @GetMapping("/per-agent")
+//    public ResponseDTO schoolPerAgent(@RequestBody SchoolPerAgentDTO schoolPerAgentDTO)
+
     @DeleteMapping("/school/{id}")
     public ResponseDTO deleteSchool(@PathVariable int id){
         return schoolService.deleteSchool(id);

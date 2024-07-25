@@ -64,4 +64,6 @@ public class SchoolDTO {
     @NotNull(message = "logo is required")
     private String logo;
 
+    private String schoolAdminEmail;
+
 }

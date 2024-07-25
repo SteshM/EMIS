@@ -644,6 +644,8 @@ return utilities.successResponse("fetched subjects",subjectResDTOS);
                             .mark(studentMarksEntity.getMark())
                             .studentId(studentMarksEntity.getStudent().getStudentId())
                             .subjectId(studentMarksEntity.getSubject().getSubjectId())
+                            .subject(studentMarksEntity.getSubject().getSubject())
+                            .term(studentMarksEntity.getTerm())
                             .build();
                 })
                 .toList();
@@ -657,10 +659,11 @@ return utilities.successResponse("successfully fetched all marks per subject",ma
         var objectMapper = new ObjectMapper();
         StudentMarksEntity studentMarks = dataService.findByMarksId(id);
         studentMarks.setMark(marksDTO.getMark());
+        studentMarks.setTerm(marksDTO.getTerm());
+        studentMarks.getSubject().setSubjectId(marksDTO.getSubjectId());
         log.info("Updated student mark . About to save:{}", objectMapper.writeValueAsString(studentMarks));
-        var updatedStudentMarks = dataService.saveStudentMarks(studentMarks);
-        var markResDTO = modelMapper.map(updatedStudentMarks,MarksResDTO.class);
-        return utilities.successResponse("Successfully updated student marks",markResDTO);
+        dataService.saveStudentMarks(studentMarks);
+        return utilities.successResponse("Successfully updated student marks",marksDTO);
 
     }
 

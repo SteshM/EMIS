@@ -52,8 +52,14 @@ public class SchoolService {
         school.setSchoolGender(dataService.findBySchoolGenderId(schoolDTO.getSchoolGenderId()));
         school.setEducationalResource(dataService.findByResourceId(schoolDTO.getResourceId()));
         log.info("About to save a school's basic info:{}", new ObjectMapper().writeValueAsString(school));
-        dataService.saveSchool(school);
-        return utilities.successResponse("Created school",schoolDTO);
+        if (schoolDTO.getSchoolAdminEmail()!=null){
+            school.setSchoolAdminEmail(schoolDTO.getSchoolAdminEmail());
+            dataService.saveSchool(school);
+            return utilities.successResponse("Promote School to EmisSchools",schoolDTO);
+        }else{
+            dataService.saveSchool(school);
+            return utilities.successResponse("Created school",schoolDTO);
+        }
     }
 
     public ResponseDTO createBasicInfoWithFile(String schoolFormData, MultipartFile logo) throws JsonProcessingException {
@@ -684,11 +690,10 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
     public ResponseDTO createDocument(String schoolDocumentData, List<MultipartFile> fileDocs) throws JsonProcessingException {
         var objectMapper = new ObjectMapper();
         DocumentsDTO documentsDTO= objectMapper.readValue(schoolDocumentData, DocumentsDTO.class);
-//        var documentType = dataService.findByDocumentTypeId(documentsDTO.getDocumentTypeId());
         var schoolsEntity = dataService.findBySchoolId(documentsDTO.getSchoolId());
         var menuCodes = dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
         SchoolMenuCodeStatuses schoolMenuCodeStatuses=dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId());
-        if (dataService.findBySchoolMenuCodeStatusId(documentsDTO.getSchoolMenuCodeStatusId()) == null){
+        if (schoolMenuCodeStatuses == null){
              var menucodes=dataService.findByMenuCodeId(documentsDTO.getMenuCodeId());
             if(menuCodes.getRecordsRequired()<= fileDocs.size()){
                 float percentage = Float.valueOf(fileDocs.size()/ menuCodes.getRecordsRequired()*100);

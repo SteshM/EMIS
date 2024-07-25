@@ -9,4 +9,7 @@ public class MarksDTO {
     private int subjectId;
     private int studentId;
     private int mark;
+    private int term;
+
+
 }

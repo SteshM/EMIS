@@ -16,6 +16,7 @@ public class StudentMarksEntity {
     @GeneratedValue(strategy =GenerationType.IDENTITY )
     private int marksId;
     private int mark;
+    private int term;
 
     @ManyToOne
     @JsonBackReference
