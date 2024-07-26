@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,7 @@ public class SchoolController {
      */
 
     @PostMapping("/school")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_SCHOOL')")
     public ResponseDTO enrolSchool(@RequestPart String schoolFormData , @Nullable @RequestPart MultipartFile logo) throws JsonProcessingException {
         log.info("uploading a school form data :: {}",schoolFormData);
         if (logo == null){
@@ -37,15 +39,18 @@ public class SchoolController {
         return schoolService.createBasicInfoWithFile(schoolFormData,logo);
     }
     @GetMapping("/schools")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_SCHOOL')")
     public ResponseDTO fetchSchools() throws JsonProcessingException {
         log.info("About to fetch school details");
         return schoolService.viewSchools();
     }
     @GetMapping("/school/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_SCHOOL')")
     public ResponseDTO getSchool(@PathVariable int id) throws JsonProcessingException {
         return schoolService.getSchool(id);
     }
     @PutMapping("/school/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_SCHOOL')")
     public ResponseDTO updateSchool(@PathVariable int id, @RequestBody SchoolDTO schoolDTO) throws JsonProcessingException {
         return schoolService.updateSchool(id,schoolDTO);
     }
@@ -53,6 +58,7 @@ public class SchoolController {
 //    public ResponseDTO schoolPerAgent(@RequestBody SchoolPerAgentDTO schoolPerAgentDTO)
 
     @DeleteMapping("/school/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('SOFT_DELETE_SCHOOL')")
     public ResponseDTO deleteSchool(@PathVariable int id){
         return schoolService.deleteSchool(id);
     }
@@ -66,15 +72,18 @@ public class SchoolController {
      */
 
     @PostMapping("/school-type")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_SCHOOL_TYPE')")
     public ResponseDTO addSchoolType(@Valid  @PathParam("schoolType") String schoolType ) {
         log.info("About to save a schoolType basic info:{}",schoolType);
         return schoolService.addSchoolType(schoolType);
     }
     @GetMapping("/school-type")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_SCHOOL_TYPES')")
     public ResponseDTO getAllSchoolTypes() throws JsonProcessingException {
         return schoolService.getAllSchoolTypes();
     }
     @PutMapping("/school-type/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_SCHOOL_TYPE')")
     public ResponseDTO updateSchoolType(@PathVariable int id,@RequestBody SchoolTypeDTO schoolTypeDTO) throws JsonProcessingException {
         return schoolService.updateSchoolType(id,schoolTypeDTO);
     }
@@ -88,14 +97,17 @@ public class SchoolController {
      */
 
     @PostMapping("/school-gender")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_SCHOOL_GENDER')")
     public ResponseDTO addSchoolGender( @Valid @RequestBody SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
         return schoolService.addSchoolGender(schoolGenderDTO);
     }
     @GetMapping("/school-gender")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_SCHOOL_GENDERS')")
     public ResponseDTO getAllSchoolGenders() throws JsonProcessingException {
         return schoolService.getAllSchoolGenders();
     }
     @PutMapping("/school-gender/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_SCHOOL_GENDER')")
     public ResponseDTO updateSchoolGender(@PathVariable int id,@RequestBody SchoolGenderDTO schoolGenderDTO) throws JsonProcessingException {
         return schoolService.updateSchoolGender(id,schoolGenderDTO);
     }
@@ -108,18 +120,22 @@ public class SchoolController {
      */
 
     @PostMapping("/curriculum")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_CURRICULUM')")
     public ResponseDTO addCurriculum(@Valid @RequestBody CurriculumDTO curriculumDTO) throws JsonProcessingException {
         return schoolService.addCurriculum(curriculumDTO);
     }
     @GetMapping("/curriculums")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_CURRICULUMS')")
     public ResponseDTO getAllCurriculums() throws JsonProcessingException {
         return schoolService.getCurriculums();
     }
     @PutMapping("/curriculum/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_CURRICULUM')")
     public ResponseDTO updateCurriculum(@PathVariable int id,@RequestBody CurriculumDTO curriculumDTO) throws JsonProcessingException {
         return schoolService.updateCurriculum(id,curriculumDTO);
     }
     @DeleteMapping("/del-curriculum/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('SOFT DELETE_CURRICULUM')")
     public ResponseDTO deleteCurriculum(@PathVariable int id){
         return schoolService.deleteCurriculum(id);
     }
@@ -132,14 +148,17 @@ public class SchoolController {
      * @throws JsonProcessingException the exception
      */
     @PostMapping("/category")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_CATEGORY')")
     public ResponseDTO addCategory(@Valid @RequestBody CategoryDTO categoryDTO) throws JsonProcessingException {
         return  schoolService.addCategory(categoryDTO);
     }
     @PutMapping("/category/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_CATEGORY')")
     public ResponseDTO updateCategory(@RequestBody CategoryDTO categoryDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateCategory(categoryDTO,id);}
 
     @GetMapping("/category")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_CATEGORY')")
     public ResponseDTO getCategories() throws JsonProcessingException {
         return schoolService.getCategories();
     }
@@ -152,14 +171,17 @@ public class SchoolController {
      */
 
     @PostMapping("/designation")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_DESIGNATION')")
     public ResponseDTO addDesignation(@Valid @RequestBody DesignationDTO designationDTO) throws JsonProcessingException {
         return schoolService.addDesignation(designationDTO);
     }
     @PutMapping("/designation/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_DESIGNATION')")
     public ResponseDTO updateDesignation(@RequestBody DesignationDTO designationDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateDesignation(designationDTO,id);}
 
     @GetMapping("/designation")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_DESIGNATION')")
     public ResponseDTO getDesignations() throws JsonProcessingException {
         return schoolService.getDesignations();
     }
@@ -192,20 +214,24 @@ public class SchoolController {
      */
 
     @PostMapping("/school-contact")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_SCHOOL_CONTACTS')")
     public ResponseDTO addSchoolContacts( @Valid @RequestBody SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         return schoolService.createSchoolContact(schoolContactsDTO);
     }
     @PutMapping("/school-contact/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_SCHOOL_CONTACTS')")
     public ResponseDTO updateSchoolContact(@RequestBody SchoolContactsDTO schoolContactsDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateSchoolContacts(schoolContactsDTO,id);
     }
 
     @GetMapping("/school-contact/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_SCHOOL_CONTACT')")
     public ResponseDTO getSchoolContact(@PathVariable int id) throws JsonProcessingException {
     return schoolService.getSchoolContact(id);
     }
 
     @GetMapping("/school-contacts")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW SCHOOL_CONTACTS')")
     public ResponseDTO viewSchoolContacts() throws JsonProcessingException {
         return schoolService.viewSchoolContacts();
     }
@@ -216,6 +242,7 @@ public class SchoolController {
 //    }
 //
     @DeleteMapping("/delete-school-contacts/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('DELETE_SCHOOL_CONTACTS')")
     public ResponseDTO deleteSchoolContacts(@PathVariable int id){
         return schoolService.deleteSchoolContacts(id);
     }
@@ -229,17 +256,126 @@ public class SchoolController {
      */
 
     @PostMapping("/menu-code")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_MENU_CODES')")
     public ResponseDTO saveMenuCode(@Valid @RequestBody DocumentTypeCodesDTO documentTypeCodesDTO) throws JsonProcessingException {
         return schoolService.saveMenuCode(documentTypeCodesDTO);
     }
     @PutMapping("/menu-code/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('UPDATE_MENU_CODES')")
     public ResponseDTO updateMenuCode(@RequestBody DocumentTypeCodesDTO documentTypeCodesDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateMenuCode(documentTypeCodesDTO,id);}
 
     @GetMapping("/menu-codes")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_MENU_CODES')")
     public ResponseDTO getAllMenuCodes() throws JsonProcessingException {
         return schoolService.getMenuCodes();
     }
+    @GetMapping("/menu-code/{id}/document-type")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_DOCS_BY_MENU_CODES')")
+    public ResponseDTO getByMenuCodeId(@PathVariable int id) throws JsonProcessingException {
+        return schoolService.getDocumentTypeByMenuCodeId(id);
+    }
+
+    /**
+     * SCHOOL DOCUMENTS
+     * @param schoolDocumentData school document data
+     * @param
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+
+    @PostMapping("/school-doc")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_SCHOOL_DOC')")
+    public ResponseDTO createSchoolDocument(@RequestPart ("documentData")String schoolDocumentData, @RequestPart ("fileDocs") List<MultipartFile> fileDocs ) throws JsonProcessingException {
+        return schoolService.createDocument(schoolDocumentData,fileDocs);
+    }
+    @PutMapping("/school-doc/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_SCHOOL_DOC')")
+    public ResponseDTO updateSchoolDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateSchoolDocument(schoolDocumentData,fileDocs,id);
+    }
+    @DeleteMapping("/school-doc/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('DELETE_SCHOOL_DOC')")
+    public ResponseDTO deleteSchoolDocument(@PathVariable int id){
+        return schoolService.deleteSchoolDocument(id);
+    }
+
+
+    /**
+     * DIRECTORS
+     * @param directorsRequestDTO  request dto
+     * @return response dto
+     * @throws JsonProcessingException the exception
+     */
+    @PostMapping("/create-director")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_DIRECTOR')")
+    public ResponseDTO createDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO) throws JsonProcessingException {
+        return schoolService.createDirector(directorsRequestDTO);
+    }
+
+    @GetMapping("/directors")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_DIRECTOR')")
+    public ResponseDTO getAllDirectors() throws JsonProcessingException {
+        return schoolService.getAllDirectors();
+    }
+    @GetMapping("/single-director/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('VIEW_DIRECTOR')")
+    public ResponseDTO getOneDirector(@PathVariable int id) throws JsonProcessingException {
+        return schoolService.getDirector(id);
+    }
+    @PutMapping("/director/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('EDIT_DIRECTOR')")
+    public ResponseDTO updateDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO,@PathVariable int id) throws JsonProcessingException {
+        return schoolService.updateDirector(directorsRequestDTO,id);
+    }
+
+    @DeleteMapping("/del-director/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('SOFT DELETE_DIRECTOR')")
+    public ResponseDTO deleteDirector(@PathVariable int id){
+        return schoolService.deleteDirector(id);
+    }
+
+
+
+    @PostMapping("/submit-school")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('SUBMIT_SCHOOLS')")
+    public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
+        return schoolService.submitSchoolForApproval(submitSchoolDTO);
+    }
+    @PostMapping("/approve/school")
+    @PreAuthorize("hasAnyRole(Partner) and hasAnyAuthority('APPROVE_SCHOOLS')")
+    public ResponseDTO approveSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
+        return schoolService.approveSchool(approveSchoolDTO);
+    }
+    @PostMapping("/reject")
+    @PreAuthorize("hasAnyRole(Partner) and hasAnyAuthority('REJECT_SCHOOLS')")
+    public ResponseDTO rejectSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
+        return schoolService.rejectSchool(approveSchoolDTO);
+    }
+
+    //@PostMapping("/raise-clarification")
+//    @PreAuthorize("hasAnyRole(Partner) and hasAnyAuthority('RAISE_CLARIFICATION')")
+
+//    public ResponseDTO raiseClarification(@RequestBody ClarifyDTO clarifyDTO ){
+//     return schoolService.raiseClarification(clarifyDTO);
+//}
+    @PostMapping("/reply-clarification")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('REPLY_ON_CLARIFICATION')")
+    public ResponseDTO replyOnClarification(@RequestBody ReplyOnClarificationDTO replyOnClarificationDTO){
+        return schoolService.replyOnClarification(replyOnClarificationDTO);
+    }
+    @PostMapping("/Close-replied-clarification")
+    @PreAuthorize("hasAnyRole(Partner) and hasAnyAuthority('CLOSE_REPLIED_CLARIFICATION')")
+    public ResponseDTO closeRepliedClarification(ClarifyDTO clarifyDTO){
+        return schoolService.closeRepliedClarification(clarifyDTO);
+    }
+
+
+
+
+
+
+
 
     /**
      * DOCUMENT TYPES
@@ -249,10 +385,13 @@ public class SchoolController {
      */
 
     @PostMapping("/document-type")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_DOCUMENT_TYPES')")
+
     public ResponseDTO saveDocumentType(@Valid @RequestBody DocumentTypesDTO documentTypesDTO) throws JsonProcessingException {
         return schoolService.saveDocumentType(documentTypesDTO);
     }
     @PutMapping("/document-type/{id}")
+    @PreAuthorize("hasAnyRole(Agent) and hasAnyAuthority('CREATE_MENU_CODES)")
     public ResponseDTO updateDocumentType(@RequestBody DocumentTypesDTO documentTypesDTO,@PathVariable int id) throws JsonProcessingException {
         return schoolService.updateDocumentType(documentTypesDTO,id);}
 
@@ -260,11 +399,8 @@ public class SchoolController {
     public ResponseDTO getAll() throws JsonProcessingException {
         return schoolService.getDocumentTypes();
     }
-//get by menu code id
-    @GetMapping("/menu-code/{id}/document-type")
-    public ResponseDTO getByMenuCodeId(@PathVariable int id) throws JsonProcessingException {
-        return schoolService.getDocumentTypeByMenuCodeId(id);
-    }
+
+
 
     /**
      *
@@ -318,26 +454,7 @@ public class SchoolController {
         return schoolService.deleteSupportDocs(id);
     }
 
-    /**
-     * SCHOOL DOCUMENTS
-     * @param schoolDocumentData school document data
-     * @param
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
 
-    @PostMapping("/school-doc")
-    public ResponseDTO createSchoolDocument(@RequestPart ("documentData")String schoolDocumentData, @RequestPart ("fileDocs") List<MultipartFile> fileDocs ) throws JsonProcessingException {
-        return schoolService.createDocument(schoolDocumentData,fileDocs);
-    }
-    @PutMapping("/school-doc/{id}")
-    public ResponseDTO updateSchoolDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs,@PathVariable int id) throws JsonProcessingException {
-        return schoolService.updateSchoolDocument(schoolDocumentData,fileDocs,id);
-    }
-    @DeleteMapping("/school-doc/{id}")
-    public ResponseDTO deleteSchoolDocument(@PathVariable int id){
-        return schoolService.deleteSchoolDocument(id);
-    }
 
     @PostMapping("/school-finance-doc")
     public ResponseDTO createSchoolFinanceDocument(@RequestPart("schoolDocumentData") String schoolDocumentData, @RequestPart("fileDocs") MultipartFile fileDocs ) throws JsonProcessingException {
@@ -372,60 +489,5 @@ return schoolService.createDirectorDocument(directors,identityDoc,pinCertificate
  }
 
 
-    /**
-     * DIRECTORS
-     * @param directorsRequestDTO the request dto
-     * @return response dto
-     * @throws JsonProcessingException the exception
-     */
- @PostMapping("/create-director")
-    public ResponseDTO createDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO) throws JsonProcessingException {
-        return schoolService.createDirector(directorsRequestDTO);
- }
-
- @GetMapping("/directors")
-    public ResponseDTO getAllDirectors() throws JsonProcessingException {
-        return schoolService.getAllDirectors();
- }
- @GetMapping("/single-director/{id}")
-    public ResponseDTO getOneDirector(@PathVariable int id) throws JsonProcessingException {
-        return schoolService.getDirector(id);
- }
- @PutMapping("/director/{id}")
-    public ResponseDTO updateDirector(@RequestBody DirectorsRequestDTO directorsRequestDTO,@PathVariable int id) throws JsonProcessingException {
-        return schoolService.updateDirector(directorsRequestDTO,id);
- }
-
- @DeleteMapping("/del-director/{id}")
-    public ResponseDTO deleteDirector(@PathVariable int id){
-        return schoolService.deleteDirector(id);
- }
-
-
- @PostMapping("/submit-school")
-    public ResponseDTO submitSchoolDataForApproval(@RequestBody SubmitSchoolDTO submitSchoolDTO){
-     return schoolService.submitSchoolForApproval(submitSchoolDTO);
- }
-@PostMapping("/approve-school")
-    public ResponseDTO approveSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
-     return schoolService.approveSchool(approveSchoolDTO);
-}
-@PostMapping("/reject")
-    public ResponseDTO rejectSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
-     return schoolService.rejectSchool(approveSchoolDTO);
-}
-
-//@PostMapping("/raise-clarification")
-//    public ResponseDTO raiseClarification(@RequestBody ClarifyDTO clarifyDTO ){
-//     return schoolService.raiseClarification(clarifyDTO);
-//}
-@PostMapping("/reply-clarification")
-    public ResponseDTO replyOnClarification(@RequestBody ReplyOnClarificationDTO replyOnClarificationDTO){
-     return schoolService.replyOnClarification(replyOnClarificationDTO);
-}
-@PostMapping("/Close-replied-clarification")
-    public ResponseDTO closeRepliedClarification(ClarifyDTO clarifyDTO){
-     return schoolService.closeRepliedClarification(clarifyDTO);
-}
 
 }

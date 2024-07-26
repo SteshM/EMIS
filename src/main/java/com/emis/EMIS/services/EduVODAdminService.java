@@ -3,11 +3,7 @@ import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
-import com.emis.EMIS.wrappers.responseDTOs.AgentDTO;
-import com.emis.EMIS.wrappers.responseDTOs.ResponseDTO;
-import com.emis.EMIS.wrappers.responseDTOs.SystemAdminsDTO;
-import com.emis.EMIS.wrappers.responseDTOs.PartnerDTO;
-import com.emis.EMIS.wrappers.responseDTOs.SchoolAdminDTO;
+import com.emis.EMIS.wrappers.responseDTOs.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -282,6 +278,26 @@ public class EduVODAdminService {
         dataService.savePartner(partnerInfo);
         return utilities.successResponse("deleted a partner",null);
 
+    }
+
+    public ResponseDTO createResource(ResourceDTO resourceDTO) throws JsonProcessingException {
+        var educationalResource = modelMapper.map(resourceDTO,EducationalResourceEntity.class);
+        log.info("about to save a resource to the db : {}",new ObjectMapper().writeValueAsString(educationalResource));
+        dataService.saveResource(educationalResource);
+        return utilities.successResponse("Successfully added a resource",null);
+    }
+
+    public ResponseDTO AllResources(){
+        List<EducationalResourceEntity>educationalResourceEntityList = dataService.fetchAllResources();
+        List<ResourceResDTO>resDTOS = educationalResourceEntityList.stream()
+                .map(educationalResourceEntity -> {
+                    return ResourceResDTO.builder()
+                            .resourceId(educationalResourceEntity.getResourceId())
+                            .resource(educationalResourceEntity.getResource())
+                            .build();
+                })
+                .toList();
+        return utilities.successResponse("fetched all resources fro the db",resDTOS);
     }
 
 }

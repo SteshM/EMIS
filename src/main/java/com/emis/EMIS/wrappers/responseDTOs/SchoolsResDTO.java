@@ -30,6 +30,7 @@ public class SchoolsResDTO {
     private String logo;
     private Double longitude;
     private Double latitude;
+    private String schoolAdminEmail;
 
 
 

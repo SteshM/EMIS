@@ -89,6 +89,7 @@ public class SchoolService {
 
                     return SchoolsResDTO.builder()
                             .schoolId(schools.getSchoolId())
+                            .schoolAdminEmail(schools.getSchoolAdminEmail())
                             .schoolName(schools.getSchoolName())
                             .schoolType(schools.getSchoolType()==null?"":schools.getSchoolType().getName())
                             .schoolTypeId(schools.getSchoolType() == null?0:schools.getSchoolType().getSchoolTypeId())
@@ -391,6 +392,11 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
 
     public ResponseDTO getSchoolContact(int id) throws JsonProcessingException {
         var schoolContacts= dataService.findBySchoolContactsId(id);
+        schoolContacts.getSchoolsEntity().getSchoolName();
+        schoolContacts.getDesignationEntity().getDesignation();
+        schoolContacts.getName();
+        schoolContacts.getEmailAddress();
+        schoolContacts.getPhoneNumber();
         log.info("Fetching a school's contact Details:{}", new ObjectMapper().writeValueAsString(schoolContacts));
         var schoolContactsDTO = modelMapper.map(schoolContacts, SchoolContactsDTO.class);
         return utilities.successResponse("Successfully fetched a partner",schoolContactsDTO);
@@ -401,6 +407,7 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
         List<SchoolContactResDTO>schoolContactResDTOS = schoolContactsList.stream()
                 .map(schoolContacts -> {
                     return modelMapper.map(schoolContacts,SchoolContactResDTO.class);
+
                 })
                 .toList();
         log.info("Fetched  all  school contacts :{}", new ObjectMapper().writeValueAsString(schoolContactsList));

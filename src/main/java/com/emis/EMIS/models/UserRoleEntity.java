@@ -14,4 +14,5 @@ public class UserRoleEntity {
     private int id;
     private int userId;
     private int roleId;
+
 }
