@@ -7,10 +7,8 @@ import lombok.Data;
 
 @Data
 public class AddAuthDto {
-    @NotNull(message = "email cannot be null")
-    @Email
-    @Column (unique = true)
-    private String email;
+    @NotNull(message = "profileId cannot be null")
+    private int profileId;
     @NotNull(message = "roleId cannot be null")
     private int roleId;
 }

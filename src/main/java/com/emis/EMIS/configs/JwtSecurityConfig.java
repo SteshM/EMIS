@@ -65,7 +65,7 @@ public class JwtSecurityConfig {
                         .requestMatchers("/v1/sdm/**").hasAuthority(userConfigs.getCANCREATEADMIN())
 //                        .requestMatchers("/v1/eduAdmin/**").hasAuthority("EDUVODADMIN")
                         .requestMatchers("/v1/admsdm/**").hasAnyAuthority("EDUVODADMIN","SUPERADMIN")
-                        .requestMatchers("/v1/ag/**").hasAuthority("AGENT")
+                        .requestMatchers("/v1/ag/**").hasAuthority("basic role")
                         .requestMatchers("/v1/pn/**").hasAuthority("PARTNER")
                         .anyRequest().permitAll()
                 )

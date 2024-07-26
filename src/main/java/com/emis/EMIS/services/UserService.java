@@ -189,21 +189,6 @@ public class UserService implements UserDetailsService {
     }
 
 
-//    public ResponseDTO addAuthority(AddAuthDto addAuthDto) {
-//        UserEntity userEntity = dataService.findByEmail(addAuthDto.getEmail()).get();
-//        if (userEntity != null) {
-//            Collection<RolesEntity> roles = userEntity.getRoles();
-//            RolesEntity role = dataService.findRoleById(addAuthDto.getRoleId());
-//            roles.add(role);
-//            userEntity.setRoles(roles);
-//            dataService.saveUser(userEntity);
-//            return utilities.successResponse("Successfully added authority", null);
-//
-//    }
-//        return utilities.failedResponse(400,"cant add authority",null);
-//
-//    }
-
 
     private String email(){
         return SecurityContextHolder.getContext().getAuthentication().getName();
@@ -225,4 +210,21 @@ public class UserService implements UserDetailsService {
         var user1 = dataService.saveUser(user);
         return utilities.successResponse("updated", user1);
     }
+
+//
+//        public ResponseDTO addAuthority(AddAuthDto addAuthDto) {
+//        ProfileEntity profile = dataService.findByProfileId2(addAuthDto.getProfileId());
+//          if (profile  != null) {
+//              RolesEntity role = dataService.findRoleById(addAuthDto.getRoleId());
+//              Collection<RolesEntity> roles = profile.getRoles();
+//            roles.add(role);
+//            profile.setRoles(roles);
+//            dataService.saveProfile(profile);
+//            return utilities.successResponse("Successfully added authority", null);
+//
+//    }
+//        return utilities.failedResponse(400,"cant add authority",null);
+//
+//    }
+
 }

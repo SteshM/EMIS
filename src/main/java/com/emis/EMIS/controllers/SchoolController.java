@@ -279,7 +279,6 @@ public class SchoolController {
     /**
      * SCHOOL DOCUMENTS
      * @param schoolDocumentData school document data
-     * @param
      * @return response dto
      * @throws JsonProcessingException the exception
      */
@@ -349,7 +348,7 @@ public class SchoolController {
     }
     @PostMapping("/reject")
     @PreAuthorize("hasAnyRole(Partner) and hasAnyAuthority('REJECT_SCHOOLS')")
-    public ResponseDTO rejectSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO){
+    public ResponseDTO rejectSchool(@RequestBody ApproveSchoolDTO approveSchoolDTO ){
         return schoolService.rejectSchool(approveSchoolDTO);
     }
 

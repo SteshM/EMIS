@@ -557,4 +557,8 @@ public class DataService {
     public List<UserEntity> findAllUsersWithProfiles() {
         return userRepo.findAllUsersWithProfiles();
     }
+
+    public ProfileEntity findByProfileId2(int profileId){
+       return profileRepo.findByProfileId(profileId);
+    }
 }

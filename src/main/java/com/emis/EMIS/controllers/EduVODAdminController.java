@@ -141,6 +141,10 @@ public class EduVODAdminController {
     public ResponseDTO fetchResources(){
         return eduVODAdminService.AllResources();
     }
+    @PutMapping("/resource/{id}")
+    public ResponseDTO editResource(@PathVariable int id,@RequestBody ResourceDTO resourceDTO){
+        return eduVODAdminService.editResource(id,resourceDTO);
+    }
 
 
 

@@ -300,4 +300,11 @@ public class EduVODAdminService {
         return utilities.successResponse("fetched all resources fro the db",resDTOS);
     }
 
+    public ResponseDTO editResource(int id,ResourceDTO resourceDTO){
+        EducationalResourceEntity educationalResource = dataService.findByResourceId(id);
+        educationalResource.setResource(resourceDTO.getResource());
+        dataService.saveResource(educationalResource);
+        return utilities.successResponse("updated resource",resourceDTO);
+    }
+
 }

@@ -52,16 +52,12 @@ public class EmisApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		RolesEntity role = RolesEntity.builder()
-				.role("basic role")
+				.role("super role")
 				.roleId(1)
 				.build();
-		RolesEntity role2 = RolesEntity.builder()
-						.role("super role")
-				.roleId(2)
-								.build();
+
 
 		rolesRepo.save(role);
-		rolesRepo.save(role2);
 
 	}
 }

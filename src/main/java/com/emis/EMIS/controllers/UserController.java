@@ -84,15 +84,16 @@ public class UserController {
     public ResponseDTO forgotPassword(@PathVariable String email){
         return otpService.forgotPassword(email);
     }
-//
-//    @PostMapping("/v1/admsdm/add-authority")
-//    public ResponseDTO addAuthority(@RequestBody AddAuthDto addAuthDto){
-//        return userService.addAuthority(addAuthDto);
-//    }
+
 
     @PostMapping("/update-profile")
     public ResponseDTO updateProfile(@RequestPart("file") MultipartFile file){
         return userService.updateProfilePic(file);
     }
+
+//    @PostMapping("/add-authority")
+//    public ResponseDTO addAuthority(@RequestBody AddAuthDto addAuthDto){
+//        return userService.addAuthority(addAuthDto);
+//    }
 }
 

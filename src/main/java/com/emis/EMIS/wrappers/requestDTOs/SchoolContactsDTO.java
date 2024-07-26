@@ -26,8 +26,8 @@ public class SchoolContactsDTO {
     private String phoneNumber;
     @NotNull(message = "schoolId is required!")
     private int schoolId;
-    @NotNull(message = "schoolId is required!")
-    private int menuCodeId;
+//    @NotNull(message = "schoolId is required!")
+//    private int menuCodeId;
 //    @NotNull(message = "schoolId is required!")
 //    private String schoolId;
 //    @NotNull(message = "date created  is required!")

@@ -4,6 +4,7 @@ import com.emis.EMIS.enums.Status;
 import com.emis.EMIS.exception.SavingException;
 import com.emis.EMIS.models.*;
 import com.emis.EMIS.utils.AuditTrailUtil;
+import com.emis.EMIS.utils.AuthenticatedUser;
 import com.emis.EMIS.utils.CsvUtility;
 import com.emis.EMIS.utils.Utilities;
 import com.emis.EMIS.wrappers.requestDTOs.*;
@@ -118,7 +119,7 @@ public class SchoolAdminService {
 
     public ResponseDTO updateStudent(int id, UpdateStudentDTO updateStudentDTO) throws JsonProcessingException, SavingException {
         var objectMapper = new ObjectMapper();
-//        String username=authentication.getName();
+        String username= AuthenticatedUser.username();
         var student = dataService.findByStudentId(id);
         log.info("Fetched a Student:{}", objectMapper.writeValueAsString(student));
         student.getUser().setFirstName(updateStudentDTO.getFirstName());
@@ -134,12 +135,10 @@ public class SchoolAdminService {
         log.info("Updated Student Details. About to save:{}", objectMapper.writeValueAsString(student));
         try{
             dataService.saveStudent(student);
-            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",1);
+            auditTrailUtil.createAuditTrail("Updating student details","Fetched students from the db,updated and saved",1,username);
+
         }catch (RuntimeException e){
-            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),0);
-//status
-            //message
-            //data
+            auditTrailUtil.createAuditTrail("Updating student details",e.getLocalizedMessage(),0,username);
             throw new SavingException(e.getLocalizedMessage());
 
         }

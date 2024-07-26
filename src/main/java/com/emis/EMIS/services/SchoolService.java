@@ -13,6 +13,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -86,7 +90,8 @@ public class SchoolService {
         log.info("About to fetch schools {}",schoolsEntities);
         List<SchoolsResDTO>schoolsResDTOS = schoolsEntities.stream()
                 .map(schools -> {
-
+//                    log.info("fetch resource : {}",schools.getEducationalResource().getResource());
+//                    log.info("fetch resourceId: {}",schools.getEducationalResource().getResourceId());
                     return SchoolsResDTO.builder()
                             .schoolId(schools.getSchoolId())
                             .schoolAdminEmail(schools.getSchoolAdminEmail())
@@ -361,14 +366,40 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
 
     public ResponseDTO createSchoolContact(SchoolContactsDTO schoolContactsDTO) throws JsonProcessingException {
         SchoolContacts schoolContacts = new SchoolContacts();
-        schoolContacts.setSchoolsEntity(dataService.findBySchoolId(schoolContactsDTO.getSchoolId()));
-        schoolContacts.setMenuCodes(dataService.findByMenuCodeId(schoolContactsDTO.getMenuCodeId()));
-        schoolContacts.setDesignationEntity(dataService.findByDesignationId(schoolContactsDTO.getDesignationId()));
+        //by default we know that the menucode is id 4
+        MenuCodes menuCodes = dataService.findByMenuCodeId(4);
+        SchoolsEntity schoolsEntity = dataService.findBySchoolId(schoolContactsDTO.getSchoolId());
+        SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menuCodes);
+        if(schoolMenuCodeStatuses != null){
+            if(schoolMenuCodeStatuses.getRemainingDocs()<=0){
+
+                return utilities.failedResponse(00,"Contacts already saved", null);
+            }
+        }else{
+            //if schoolMenuCodeStatuses == null
+            schoolMenuCodeStatuses = new SchoolMenuCodeStatuses();
+            schoolMenuCodeStatuses.setSchoolsEntity(schoolsEntity);
+            schoolMenuCodeStatuses.setMenuCodes(menuCodes);
+            schoolMenuCodeStatuses.setRemainingDocs(menuCodes.getRecordsRequired());
+        }
+
+        DesignationEntity designationEntity = dataService.findByDesignationId(schoolContactsDTO.getDesignationId());
+        schoolContacts.setSchoolsEntity(schoolsEntity);
+        schoolContacts.setMenuCodes(menuCodes);
+        schoolContacts.setDesignationEntity(designationEntity);
         schoolContacts.setName(schoolContactsDTO.getName());
         schoolContacts.setEmailAddress(schoolContacts.getEmailAddress());
         schoolContacts.setPhoneNumber(schoolContactsDTO.getPhoneNumber());
         log.info("About to save a school contacts:{}", new ObjectMapper().writeValueAsString(schoolContacts));
         dataService.saveSchoolContacts(schoolContacts);
+        schoolMenuCodeStatuses.setRemainingDocs(schoolMenuCodeStatuses.getRemainingDocs() - 1);
+        float percentage = Float.valueOf(100-(schoolMenuCodeStatuses.getRemainingDocs()/menuCodes.getRecordsRequired()*100));
+        schoolMenuCodeStatuses.setCompletionPercentage(percentage);
+        if (schoolMenuCodeStatuses.getRemainingDocs() == 0){
+            schoolMenuCodeStatuses.setStatus(Status.COMPLETED);
+        }
+        schoolMenuCodeStatuses.setStatus(Status.PENDING);
+        dataService.saveSchoolMenuCodeStatus(schoolMenuCodeStatuses);
         return utilities.successResponse("saved school contacts",null);
 
     }
@@ -378,14 +409,13 @@ return utilities.successResponse("fetched all categories",categoryResDTOS);
         var schoolContacts = dataService.findBySchoolContactsId(id);
         log.info("Fetched school contacts from the db:{}", objectMapper.writeValueAsString(schoolContacts));
         schoolContacts.setSchoolsEntity(dataService.findBySchoolId(schoolContactsDTO.getSchoolId()));
-        schoolContacts.setMenuCodes(dataService.findByMenuCodeId(schoolContactsDTO.getMenuCodeId()));
+        schoolContacts.setMenuCodes(dataService.findByMenuCodeId(4));
         schoolContacts.setDesignationEntity(dataService.findByDesignationId(schoolContactsDTO.getDesignationId()));
         schoolContacts.setName(schoolContactsDTO.getName());
         schoolContacts.setEmailAddress(schoolContacts.getEmailAddress());
         schoolContacts.setPhoneNumber(schoolContactsDTO.getPhoneNumber());
         modelMapper.map(schoolContacts,schoolContactsDTO);
         log.info("Updated school contacts  Details. About to save:{}", objectMapper.writeValueAsString(schoolContacts));
-        dataService.saveSchoolContacts(schoolContacts);
         return utilities.successResponse("updated school contacts details successfully",schoolContactsDTO);
     }
 
@@ -1020,6 +1050,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
              for(MenuCodes menucodes:menuCodesList)
             {
                  if (menucodes.isRequired()){
+                     log.info("menucodes : {}",menucodes.isRequired());
                      SchoolMenuCodeStatuses schoolMenuCodeStatuses = dataService.findBySchoolEntityAndMenuCodes(schoolsEntity,menucodes);
                      if (schoolMenuCodeStatuses == null){
                          allRequiredCompleted = false;
@@ -1039,7 +1070,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         if(allRequiredCompleted){
             schoolsEntity.setStatus(Status.SUBMITTED);
             dataService.saveSchool(schoolsEntity);
-            return utilities.successResponse("School has been approved",null);
+            return utilities.successResponse("School has been submitted successfully",null);
         }else{
             schoolsEntity.setStatus(Status.PENDING);
             dataService.saveSchool(schoolsEntity);
@@ -1053,6 +1084,7 @@ return utilities.successResponse("Fetched all dioceses",dioceseDTOList);
         if(schoolsEntity.getStatus().equals(Status.APPROVED.name())){
             return utilities.failedResponse(400, "School has been approved", null);
         }
+        log.info("authenticated user {}",SecurityContextHolder.getContext().getAuthentication().getName());
         PartnerInfoEntity partnerInfo = dataService.findByUserEntity(dataService.findByEmail(AuthenticatedUser.username()).get());
 
         List<MenuCodes>menuCodesList =dataService.fetchAllMenuCodes();
